@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Onboarding
 // import Login from '../screens/onboarding/Login/LoginScreen';
 
-import PrivateRoute from './PrivateRoute';
+// import PrivateRoute from './PrivateRoute';
 
 const Routes = () => (
 	<BrowserRouter>
