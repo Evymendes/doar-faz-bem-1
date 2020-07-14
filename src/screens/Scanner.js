@@ -50,6 +50,7 @@ const ScanMarker = styled.div`
 const MarkerDesc = styled.p`
 	color: #fff;
 	font-size: 1rem;
+	${'' /* font-weight: 600; */}
 `;
 
 function Scanner() {
