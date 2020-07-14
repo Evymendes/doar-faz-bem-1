@@ -3,14 +3,15 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Onboarding
-// import Login from '../screens/onboarding/Login/LoginScreen';
+import TestScreens from '../screens/testScreens';
 
-// import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './PrivateRoute';
+
 
 const Routes = () => (
 	<BrowserRouter>
 		<Switch>
-			{/* <Route exact path='/' component={Login} /> */}
+			<Route exact path='/' component={TestScreens} />
 			{/* <PrivateRoute path='/documents' component={DocumentsScreen} /> */}
 		</Switch>
 	</BrowserRouter>
