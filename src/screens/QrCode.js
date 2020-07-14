@@ -12,7 +12,7 @@ const Container = styled.div`
 	/* height: 30%; */
 `;
 
-class TestScreens extends Component {
+class QrCode extends Component {
 	state = {
 		result: 'No result',
 	}
@@ -46,4 +46,4 @@ class TestScreens extends Component {
 	}
 }
 
-export default TestScreens;
+export default QrCode;
