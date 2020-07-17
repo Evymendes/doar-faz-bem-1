@@ -1,14 +1,13 @@
+// Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import QrReader from 'react-qr-reader';
 // import { Cameras, Scanner } from "react-instascan";
-
-import QrReader from 'react-qr-reader'
-
-//Import
 
 // Styles
 const Container = styled.div`
 	width: 20vw;
+	font-family: Overpass, Regular;
 	/* height: 30%; */
 `;
 
