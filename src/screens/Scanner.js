@@ -10,7 +10,7 @@ import { validateIsbn } from '../services/barcode';
 import Header from '../components/Header';
 
 // Images
-import MarkerIcon from '../assets/aa.png';
+import MarkerIcon from '../assets/markerIcon.svg';
 
 // Styles
 const Video = styled.div`
@@ -40,7 +40,7 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-family: Overpass, Regular;
+	font-family: 'Overpass', Regular;
 `;
 
 const ScanMarker = styled.div`
@@ -125,40 +125,50 @@ const InputBarCode = styled.input`
 `;
 
 const ButtonBarCode = styled.button`
-	margin-bottom: ${(props) => (props.addInfo && '1rem')};
+	margin-bottom: ${(props) => (props.addInfo && '2rem')};
 	width: 20rem;
 	height: 3.5rem;
 	text-align: center;
 	color: #fff;
 	font-size: 1rem;
 	font-weight: bold;
-	text-transform: uppercase;
+	text-transform: ${(props) => (props.addInfo ? 'null' : 'uppercase')};
 	text-decoration: none;
 	border: none;
 	border-radius: 50px;
 	box-shadow: 2px 2px 2px #888888;
 	background: ${(props) => (props.addInfo ? '#D8998A' : '#49E5D6')};
 	cursor: pointer;
-`;
-
-const ContainerModal = styled.div`
-	width: 25%;
-	height: 25%;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	background: #0000ff;
+	font-family: 'Overpass', Regular;
 `;
 
 const ContentModal = styled.div`
 	flex: 1;
+	height: 100vh;
 	background: #fff;
 `;
 
+const ModalDetails = styled.div`
+	${'' /* height: 75vh; */}
+	margin-top: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+`;
+
+const TextModalDetails = styled.h2`
+	margin-bottom: ${(props) => (props.title && '1rem')};
+	font-size: ${(props) => (props.title ? '1.5rem' : '1.2rem')};
+	font-weight: 800;
+	font-family: 'Overpass', Bold;
+`;
+
 const ContainerIbsnCode = styled.div`
-	margin-bottom: 4rem;
+	margin-bottom: 5rem;
 	padding: 3rem;
-	border: 2px solid #49E5D6;
+	border: 3px solid #49E5D6;
+	border-radius: 10px;
 `;
 
 const ErrorMessage = styled.span`
@@ -284,13 +294,13 @@ class Scanner extends Component {
 
   	if (validateIsbn(isbn)) {
   		this.setState({
-  			modalOpenDetails: true,
+  			modalOpenDetails: !this.state.modalOpenDetails,
   			isbnCode: isbn,
   		});
 
-  		alert(`ISBN válido ${isbn}`);
+  		// alert(`ISBN válido ${isbn}`);
   	} else if (scannerAttemps >= 5) {
-  		alert('Não foi possível ler o código. Tente novamente');
+  		alert('Não foi possível ler o código. Digite-o');
   	}
 
   	scannerAttemps++;
@@ -312,12 +322,15 @@ class Scanner extends Component {
 
 	renderModalDetails = () => (
 		<ContentModal>
-			<p>Informação Extraída</p>
-			<ContainerIbsnCode>
-				<p>{this.state.isbnCode}</p>
-			</ContainerIbsnCode>
-			<ButtonBarCode addInfo>Adicionar Mais Informações</ButtonBarCode>
-			<ButtonBarCode>concluir</ButtonBarCode>
+			<Header openModal={this.state.modalOpenDetails} />
+			<ModalDetails>
+				<TextModalDetails title>Informação Extraída:</TextModalDetails>
+				<ContainerIbsnCode>
+					<TextModalDetails>{this.state.isbnCode}</TextModalDetails>
+				</ContainerIbsnCode>
+				<ButtonBarCode addInfo>Adicionar Mais Informações</ButtonBarCode>
+				<ButtonBarCode onClick={() => this.setState({ modalOpenDetails: false })}>Cancelar</ButtonBarCode>
+			</ModalDetails>
 		</ContentModal>
 	);
 
@@ -342,7 +355,7 @@ class Scanner extends Component {
 						onClick={this.handleOpenBarCodeModal}
 					/>
 				</ModalDetailsHeader> */}
-				<Header barCodeModal={this.handleOpenBarCodeModal} />
+				<Header openModal={this.handleOpenBarCodeModal} />
 				<WrapperModalDetails>
 					<InputBarCode
 						type='text'
@@ -369,7 +382,7 @@ class Scanner extends Component {
 						<img
 							src={MarkerIcon}
 							alt="logo"
-							width="260"
+							width="320"
 							height="260"
 						/>
 					</ScanMarker>

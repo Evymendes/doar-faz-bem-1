@@ -13,7 +13,7 @@ const Container = styled.div`
 	padding: 1rem;
 
 	img {
-		width: 1.5rem;
+		width: 1.2rem;
 		cursor: pointer;
 	}
 `;
@@ -37,7 +37,7 @@ class Header extends Component {
 				<img
 					src={CloseIcon}
 					alt='Fechar'
-					onClick={this.props.barCodeModal}
+					onClick={this.props.openModal}
 				/>
 			</Container>
 		);
