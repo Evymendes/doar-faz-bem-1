@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 // Libs
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
@@ -290,7 +291,6 @@ class Scanner extends Component {
 					error: '*Código inválido.',
 				});
 			}
-
 		}
 	}
 
@@ -316,8 +316,8 @@ class Scanner extends Component {
   		alert('Não foi possível ler o código. Digite-o!');
   	}
 
-		Quagga.onDetected(this.onDetected);
-	}
+  	Quagga.onDetected(this.onDetected);
+  }
 
 	renderModalLoading = () => (
 		<ContainerModalBoilerPlate
@@ -340,7 +340,7 @@ class Scanner extends Component {
 				<ContainerIbsnCode>
 					<TextModalDetails>{this.state.isbnCode}</TextModalDetails>
 				</ContainerIbsnCode>
-				<Button addInfo>Adicionar Mais Informações</Button>
+				<Button addInfo>Adicionar mais Informações</Button>
 				<Button onClick={() => this.setState({ modalOpenDetails: false })}>Cancelar</Button>
 			</ContentModalDetails>
 		</ModalDetails>

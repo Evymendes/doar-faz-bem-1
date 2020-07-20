@@ -1,9 +1,9 @@
 // Libs
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 // Components
-// import ImageLogo from '../../../components/ImageLogo';
+// import Logo from '../asssets/';
 import CloseIcon from '../assets/fechar.svg';
 
 // Styles
@@ -18,30 +18,23 @@ const Container = styled.div`
 	}
 `;
 
-class Header extends Component {
-	state = {
-	}
-
-	render() {
-		return (
-			<Container>
-				<div
-					style={{
-						width: '4rem',
-						height: '4rem',
-						borderRadius: '50%',
-						background: '#000',
-						boxShadow: '5px 5px 6px #888888',
-					}}
-				/>
-				<img
-					src={CloseIcon}
-					alt='Fechar'
-					onClick={this.props.openModal}
-				/>
-			</Container>
-		);
-	}
-}
+const Header = (props) => (
+	<Container>
+		<div
+			style={{
+				width: '4rem',
+				height: '4rem',
+				borderRadius: '50%',
+				background: '#000',
+				boxShadow: '5px 5px 6px #888888',
+			}}
+		/>
+		<img
+			src={CloseIcon}
+			alt='Fechar'
+			onClick={props.openModal}
+		/>
+	</Container>
+);
 
 export default Header;

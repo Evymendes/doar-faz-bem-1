@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 // Libs
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
@@ -64,60 +64,53 @@ const Button = styled(NavLink)`
 	cursor: pointer;
 `;
 
-class Login extends Component {
-	state = {
-	}
-
-	render() {
-		return (
-			<Container>
-				<ContainerHeader>
-					<Header>
-						<div
-							style={{
-								width: '9.5rem',
-								height: '9rem',
-								borderRadius: '50%',
-								background: '#fff',
-								boxShadow: '5px 5px 10px #888888',
-							}}
-						/>
-					</Header>
-				</ContainerHeader>
-				<Content>
-					<Button
-						exact to="/scanner"
-						// activeClassName="login_header-button"
-						style={{
-							background: '#49E5D6',
-							color: '#fff',
-						}}
-					>
-						Escanear Codigo de Barras
-					</Button>
-					<Button
-						exact to="/qrcode"
-						style={{
-							background: '#D8998A',
-							color: '#fff',
-						}}
-					>
-						Escanear QR Code
-					</Button>
-					<Button
-						exact to="/"
-						style={{
-							background: '#EDEDED',
-							color: '#000',
-							cursor: 'not-allowed',
-						}}
-					>
-						Adicionar Medicamento
-					</Button>
-				</Content>
-			</Container>
-		);
-	}
-}
+const Login = () => (
+	<Container>
+		<ContainerHeader>
+			<Header>
+				<div
+					style={{
+						width: '9.5rem',
+						height: '9rem',
+						borderRadius: '50%',
+						background: '#fff',
+						boxShadow: '5px 5px 10px #888888',
+					}}
+				/>
+			</Header>
+		</ContainerHeader>
+		<Content>
+			<Button
+				exact to="/scanner"
+				// activeClassName="login_header-button"
+				style={{
+					background: '#49E5D6',
+					color: '#fff',
+				}}
+			>
+				Escanear Codigo de Barras
+			</Button>
+			<Button
+				exact to="/qrcode"
+				style={{
+					background: '#D8998A',
+					color: '#fff',
+				}}
+			>
+				Escanear QR Code
+			</Button>
+			<Button
+				exact to="/"
+				style={{
+					background: '#EDEDED',
+					color: '#000',
+					cursor: 'not-allowed',
+				}}
+			>
+				Adicionar Medicamento
+			</Button>
+		</Content>
+	</Container>
+);
 
 export default Login;
