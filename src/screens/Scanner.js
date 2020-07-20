@@ -2,6 +2,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import Quagga from 'quagga';
 
 // Services
@@ -12,6 +13,7 @@ import Header from '../components/Header';
 
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
+import BackIcon from '../assets/back.svg';
 
 // Styles
 const Video = styled.div`
@@ -27,6 +29,16 @@ const Video = styled.div`
 
 	canvas {
 		display: none;
+	}
+`;
+
+const ButtonBack = styled(NavLink)`
+	margin-top: 1rem;
+	position: fixed;
+	z-index: 1;
+
+	img {
+		width: 2.3rem;
 	}
 `;
 
@@ -372,6 +384,9 @@ class Scanner extends Component {
 	render() {
 		return (
 			<>
+				<ButtonBack exact to="/">
+					<img src={BackIcon} alt="Voltar" />
+				</ButtonBack>
 				<Video id="video" />
 				<Container>
 					<ScanMarker>
