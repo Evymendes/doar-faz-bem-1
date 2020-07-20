@@ -97,7 +97,6 @@ class Login extends Component {
 					</Button>
 					<Button
 						exact to="/qrcode"
-						// activeClassName="login_header-button"
 						style={{
 							background: '#D8998A',
 							color: '#fff',
@@ -107,7 +106,6 @@ class Login extends Component {
 					</Button>
 					<Button
 						exact to="/"
-						// activeClassName="login_header-button"
 						style={{
 							background: '#EDEDED',
 							color: '#000',
