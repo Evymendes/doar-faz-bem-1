@@ -1,25 +1,26 @@
 {
   "files": {
     "main.css": "/doar-faz-bem/static/css/main.ec7993d7.chunk.css",
-    "main.js": "/doar-faz-bem/static/js/main.584bb080.chunk.js",
-    "main.js.map": "/doar-faz-bem/static/js/main.584bb080.chunk.js.map",
+    "main.js": "/doar-faz-bem/static/js/main.1da7610a.chunk.js",
+    "main.js.map": "/doar-faz-bem/static/js/main.1da7610a.chunk.js.map",
     "runtime-main.js": "/doar-faz-bem/static/js/runtime-main.9080439c.js",
     "runtime-main.js.map": "/doar-faz-bem/static/js/runtime-main.9080439c.js.map",
-    "static/js/2.3655e5c1.chunk.js": "/doar-faz-bem/static/js/2.3655e5c1.chunk.js",
-    "static/js/2.3655e5c1.chunk.js.map": "/doar-faz-bem/static/js/2.3655e5c1.chunk.js.map",
+    "static/js/2.4c5b57a4.chunk.js": "/doar-faz-bem/static/js/2.4c5b57a4.chunk.js",
+    "static/js/2.4c5b57a4.chunk.js.map": "/doar-faz-bem/static/js/2.4c5b57a4.chunk.js.map",
     "index.html": "/doar-faz-bem/index.html",
-    "precache-manifest.8e4db42d7a13938c72e0e8540856de59.js": "/doar-faz-bem/precache-manifest.8e4db42d7a13938c72e0e8540856de59.js",
+    "precache-manifest.2454fb9219481d710941306804502f84.js": "/doar-faz-bem/precache-manifest.2454fb9219481d710941306804502f84.js",
     "service-worker.js": "/doar-faz-bem/service-worker.js",
     "static/css/main.ec7993d7.chunk.css.map": "/doar-faz-bem/static/css/main.ec7993d7.chunk.css.map",
-    "static/js/2.3655e5c1.chunk.js.LICENSE.txt": "/doar-faz-bem/static/js/2.3655e5c1.chunk.js.LICENSE.txt",
+    "static/js/2.4c5b57a4.chunk.js.LICENSE.txt": "/doar-faz-bem/static/js/2.4c5b57a4.chunk.js.LICENSE.txt",
+    "static/media/back.svg": "/doar-faz-bem/static/media/back.0349c6b3.svg",
     "static/media/fechar.svg": "/doar-faz-bem/static/media/fechar.3332ace6.svg",
     "static/media/headerbg.jpeg": "/doar-faz-bem/static/media/headerbg.5c0e8879.jpeg",
     "static/media/markerIcon.svg": "/doar-faz-bem/static/media/markerIcon.2f17b18c.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.9080439c.js",
-    "static/js/2.3655e5c1.chunk.js",
+    "static/js/2.4c5b57a4.chunk.js",
     "static/css/main.ec7993d7.chunk.css",
-    "static/js/main.584bb080.chunk.js"
+    "static/js/main.1da7610a.chunk.js"
   ]
 }
