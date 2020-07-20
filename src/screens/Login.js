@@ -50,7 +50,7 @@ const Content = styled.div`
 `;
 
 const Button = styled(NavLink)`
-	margin-bottom: 2.5rem;
+	margin-bottom: 2rem;
 	width: 20rem;
 	height: 3.5rem;
 	display: flex;

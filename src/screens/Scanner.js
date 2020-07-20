@@ -33,7 +33,10 @@ const Video = styled.div`
 `;
 
 const ButtonBack = styled(NavLink)`
-	margin-top: 1rem;
+	position: fixed;
+	left: 0;
+	top: 0;
+	margin-top: .8rem;
 	position: fixed;
 	z-index: 1;
 
@@ -97,6 +100,7 @@ const ButtonDigitBarCode = styled.button`
 `;
 
 const ContainerModalBoilerPlate = styled.div`
+	z-index: 1;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -384,10 +388,10 @@ class Scanner extends Component {
 	render() {
 		return (
 			<>
+				<Video id="video" />
 				<ButtonBack exact to="/">
 					<img src={BackIcon} alt="Voltar" />
 				</ButtonBack>
-				<Video id="video" />
 				<Container>
 					<ScanMarker>
 						<img
