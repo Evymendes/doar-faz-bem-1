@@ -283,10 +283,14 @@ class Scanner extends Component {
 			// meu codigo valido 7898927111014
 
 			if (validateIsbn(isbn)) {
-				console.log('codigo correto chegou');
+				this.handleOpenModalLoading();
+				console.log('codigo correto chegou // abrir modal de mais infos');
+			} else {
+				this.setState({
+					error: '*Código inválido.',
+				});
 			}
 
-			this.handleOpenModalLoading();
 		}
 	}
 
