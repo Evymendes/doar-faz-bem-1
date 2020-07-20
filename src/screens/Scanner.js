@@ -83,7 +83,7 @@ const ButtonDigitBarCode = styled.button`
 	background: #49E5D6;
 `;
 
-const ContainerModalDetails = styled.div`
+const ContainerModalBoilerPlate = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -96,13 +96,13 @@ const ContainerModalDetails = styled.div`
 	align-items: center;
 `;
 
-const ContentModalDetails = styled.div`
+const ContentModalBarCode = styled.div`
 	width: 100%;
 	height: 100vh;
 	background: #fff;
 `;
 
-const WrapperModalDetails = styled.div`
+const WrapperModalBarCode = styled.div`
 	height: 80vh;
 	display: flex;
 	justify-content: center;
@@ -124,14 +124,15 @@ const InputBarCode = styled.input`
 	background: #EDEDED;
 `;
 
-const ButtonBarCode = styled.button`
+const Button = styled.button`
 	margin-bottom: ${(props) => (props.addInfo && '2rem')};
 	width: 20rem;
 	height: 3.5rem;
 	text-align: center;
 	color: #fff;
 	font-size: 1rem;
-	font-weight: bold;
+	font-family: 'Overpass', Bold;
+	font-weight: 800;
 	text-transform: ${(props) => (props.addInfo ? 'null' : 'uppercase')};
 	text-decoration: none;
 	border: none;
@@ -139,17 +140,15 @@ const ButtonBarCode = styled.button`
 	box-shadow: 2px 2px 2px #888888;
 	background: ${(props) => (props.addInfo ? '#D8998A' : '#49E5D6')};
 	cursor: pointer;
-	font-family: 'Overpass', Regular;
 `;
 
-const ContentModal = styled.div`
+const ModalDetails = styled.div`
 	flex: 1;
 	height: 100vh;
 	background: #fff;
 `;
 
-const ModalDetails = styled.div`
-	${'' /* height: 75vh; */}
+const ContentModalDetails = styled.div`
 	margin-top: 3rem;
 	display: flex;
 	justify-content: center;
@@ -175,8 +174,8 @@ const ErrorMessage = styled.span`
 	margin-top: 1rem;
   color: red;
   font-size: .8rem;
-  font-family: "Overpass", Bold;
   font-weight: 600;
+  font-family: "Overpass", Bold;
 `;
 
 const animation = keyframes`
@@ -192,8 +191,8 @@ const TextLoading = styled.h2`
 	margin-bottom: 1rem;
 	color: #fff;
 	font-size: 1.5rem;
-	font-family: "Overpass", Regular;
   font-weight: 600;
+	font-family: "Overpass", Regular;
 `;
 
 const Loading = styled.span`
@@ -280,12 +279,24 @@ class Scanner extends Component {
 				error: null,
 			});
 
+			const isbn = this.state.valueCode;
+			// meu codigo valido 7898927111014
+
+			if (validateIsbn(isbn)) {
+				console.log('codigo correto chegou');
+			}
+
 			this.handleOpenModalLoading();
 		}
 	}
 
+	handleModalOpenDetails = () => {
+		this.setState({
+			modalOpenDetails: !this.state.modalOpenDetails,
+		});
+	}
+
   onDetected = (result) => {
-  	let scannerAttemps = 0;
   	Quagga.offDetected(this.onDetected);
 
   	console.log('result', result);
@@ -294,21 +305,18 @@ class Scanner extends Component {
 
   	if (validateIsbn(isbn)) {
   		this.setState({
-  			modalOpenDetails: !this.state.modalOpenDetails,
+  			modalOpenDetails: true,
   			isbnCode: isbn,
   		});
-
-  		// alert(`ISBN válido ${isbn}`);
-  	} else if (scannerAttemps >= 5) {
-  		alert('Não foi possível ler o código. Digite-o');
+  	} else if (result.length >= 5) {
+  		alert('Não foi possível ler o código. Digite-o!');
   	}
 
-  	scannerAttemps++;
-  	Quagga.onDetected(this.onDetected);
+		Quagga.onDetected(this.onDetected);
 	}
 
 	renderModalLoading = () => (
-		<ContainerModalDetails
+		<ContainerModalBoilerPlate
 			display={this.state.modalOpenLoading}
 			style={{
 				backgroundColor: '#49E5D6',
@@ -317,60 +325,44 @@ class Scanner extends Component {
 		>
 			<TextLoading>Carregando...</TextLoading>
 			<Loading />
-		</ContainerModalDetails>
+		</ContainerModalBoilerPlate>
 	)
 
 	renderModalDetails = () => (
-		<ContentModal>
-			<Header openModal={this.state.modalOpenDetails} />
-			<ModalDetails>
+		<ModalDetails>
+			<Header openModal={this.handleModalOpenDetails} />
+			<ContentModalDetails>
 				<TextModalDetails title>Informação Extraída:</TextModalDetails>
 				<ContainerIbsnCode>
 					<TextModalDetails>{this.state.isbnCode}</TextModalDetails>
 				</ContainerIbsnCode>
-				<ButtonBarCode addInfo>Adicionar Mais Informações</ButtonBarCode>
-				<ButtonBarCode onClick={() => this.setState({ modalOpenDetails: false })}>Cancelar</ButtonBarCode>
-			</ModalDetails>
-		</ContentModal>
+				<Button addInfo>Adicionar Mais Informações</Button>
+				<Button onClick={() => this.setState({ modalOpenDetails: false })}>Cancelar</Button>
+			</ContentModalDetails>
+		</ModalDetails>
 	);
 
 	renderModalBarCode = () => (
-		<ContainerModalDetails
+		<ContainerModalBoilerPlate
 			display={this.state.modalOpenBarCode}
 		>
-			<ContentModalDetails>
-				{/* <ModalDetailsHeader>
-					<div
-						style={{
-							width: '4rem',
-							height: '4rem',
-							borderRadius: '50%',
-							background: '#000',
-							boxShadow: '5px 5px 6px #888888',
-						}}
-					/>
-					<img
-						src={CloseIcon}
-						alt='Fechar'
-						onClick={this.handleOpenBarCodeModal}
-					/>
-				</ModalDetailsHeader> */}
+			<ContentModalBarCode>
 				<Header openModal={this.handleOpenBarCodeModal} />
-				<WrapperModalDetails>
+				<WrapperModalBarCode>
 					<InputBarCode
-						type='text'
+						type='number'
 						placeholder='Digite o codigo de barras...'
 						onChange={this.handleInputBarCode}
 					/>
-					<ButtonBarCode onClick={this.handleButtonBarCode}>concluir</ButtonBarCode>
+					<Button onClick={this.handleButtonBarCode}>concluir</Button>
 					{this.state.error && (
 						<ErrorMessage>
 							{this.state.error}
 						</ErrorMessage>
 					)}
-				</WrapperModalDetails>
-			</ContentModalDetails>
-		</ContainerModalDetails>
+				</WrapperModalBarCode>
+			</ContentModalBarCode>
+		</ContainerModalBoilerPlate>
 	)
 
 	render() {
@@ -381,18 +373,22 @@ class Scanner extends Component {
 					<ScanMarker>
 						<img
 							src={MarkerIcon}
-							alt="logo"
+							alt="marker space"
 							width="320"
 							height="260"
 						/>
 					</ScanMarker>
 					<ContainerDigitBarCode>
-						<ButtonDigitBarCode onClick={this.handleOpenBarCodeModal}>Digitar Codigo de Barras</ButtonDigitBarCode>
+						<ButtonDigitBarCode
+							onClick={this.handleOpenBarCodeModal}
+						>
+							Se preferir, digite o código de barras
+						</ButtonDigitBarCode>
 					</ContainerDigitBarCode>
 				</Container>
-				<ContainerModalDetails display={this.state.modalOpenDetails}>
+				<ContainerModalBoilerPlate display={this.state.modalOpenDetails}>
 					{this.state.modalOpenDetails && this.renderModalDetails()}
-				</ContainerModalDetails>
+				</ContainerModalBoilerPlate>
 				{this.state.modalOpenBarCode && this.renderModalBarCode()}
 				{this.state.modalOpenLoading && this.renderModalLoading()}
 			</>
