@@ -88,7 +88,7 @@ const Login = () => (
 					color: '#fff',
 				}}
 			>
-				Escanear Codigo de Barras
+				Escanear Código de Barras
 			</Button>
 			<Button
 				exact to="/qrcode"

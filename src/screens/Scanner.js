@@ -256,16 +256,16 @@ class Scanner extends Component {
   					'2of5_reader', 'code_93_reader',
   				],
   			},
-  		}, (err) => {
-  			if (err) {
-  				console.log(err);
+  		}, (error) => {
+  			if (error) {
+  				console.log(error);
   				alert('Erro ao tentar abrir a câmera do dispositivo.');
   				return;
   			}
   			Quagga.start();
   		});
   		Quagga.onDetected(this.onDetected);
-  	}
+		}
 	}
 
 	handleOpenBarCodeModal = () => {
@@ -278,14 +278,6 @@ class Scanner extends Component {
 		this.setState({
 			modalOpenLoading: true,
 		});
-
-		// if (this.state.modalOpenLoading) {
-		// 	this.setState({
-		// 		modalOpenLoading: false,
-		// 		isRedirect: true,
-		// 		redirect: '/addmoreinfo',
-		// 	});
-		// }
 	}
 
 	handleInputBarCode = (event) => {
@@ -294,7 +286,7 @@ class Scanner extends Component {
 		});
 	}
 
-	handleButtonBarCode = async () => {
+	handleButtonBarCode = () => {
 		if (this.state.valueCode.length === 0) {
 			this.setState({
 				error: '*Insira o código de barras.',
@@ -308,17 +300,15 @@ class Scanner extends Component {
 			// meu codigo valido 7898927111014
 
 			if (validateIsbn(isbn)) {
-
+				// loading
 				this.handleOpenModalLoading();
 
-				// console.log('modalOpenLoading', this.state.modalOpenLoading)
-
-				// this.setState({
-				// 	modalOpenLoading: false,
-				// 	isRedirect: true,
-				// 	redirect: '/addmoreinfo',
-				// });
-				// console.log('codigo correto chegou // abrir modal de mais infos');
+				// more info modal
+				this.setState({
+					modalOpenLoading: false,
+					isRedirect: true,
+					redirect: '/addmoreinfo',
+				});
 			} else {
 				this.setState({
 					error: '*Código inválido.',
@@ -345,9 +335,10 @@ class Scanner extends Component {
   			modalOpenDetails: true,
   			isbnCode: isbn,
   		});
-  	} else if (result.length >= 5) {
-  		alert('Não foi possível ler o código. Digite-o!');
   	}
+  	// else if (result.length >= 5) {
+  	// 	alert('Não foi possível ler o código. Digite-o!');
+  	// }
 
   	Quagga.onDetected(this.onDetected);
   }
@@ -373,8 +364,17 @@ class Scanner extends Component {
 				<ContainerIbsnCode>
 					<TextModalDetails>{this.state.isbnCode}</TextModalDetails>
 				</ContainerIbsnCode>
-				<Button addInfo>Adicionar mais Informações</Button>
-				<Button onClick={() => this.setState({ modalOpenDetails: false })}>Cancelar</Button>
+				<Button
+					addInfo
+					onClick={() => this.setState({ isRedirect: true, redirect: '/addmoreinfo' })}
+				>
+					Adicionar mais Informações
+				</Button>
+				<Button
+					onClick={() => this.setState({ modalOpenDetails: false })}
+				>
+					Cancelar
+				</Button>
 			</ContentModalDetails>
 		</ModalDetails>
 	);
@@ -403,6 +403,10 @@ class Scanner extends Component {
 	)
 
 	render() {
+		const {
+			modalOpenDetails, modalOpenBarCode, modalOpenLoading, isRedirect, redirect,
+		} = this.state;
+
 		return (
 			<>
 				<Video id="video" />
@@ -426,12 +430,12 @@ class Scanner extends Component {
 						</ButtonDigitBarCode>
 					</ContainerDigitBarCode>
 				</Container>
-				<ContainerModalBoilerPlate display={this.state.modalOpenDetails}>
-					{this.state.modalOpenDetails && this.renderModalDetails()}
+				<ContainerModalBoilerPlate display={modalOpenDetails}>
+					{modalOpenDetails && this.renderModalDetails()}
 				</ContainerModalBoilerPlate>
-				{this.state.modalOpenBarCode && this.renderModalBarCode()}
-				{this.state.modalOpenLoading && this.renderModalLoading()}
-				{/* {this.state.isRedirect && !this.state.modalOpenLoading && <Redirect to={this.state.redirect} />} */}
+				{modalOpenBarCode && this.renderModalBarCode()}
+				{modalOpenLoading && this.renderModalLoading()}
+				{isRedirect && <Redirect to={redirect} />}
 			</>
 		);
 	}
