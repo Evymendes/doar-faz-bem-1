@@ -2,7 +2,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import Quagga from 'quagga';
 
 // Services
@@ -278,6 +278,14 @@ class Scanner extends Component {
 		this.setState({
 			modalOpenLoading: true,
 		});
+
+		// if (this.state.modalOpenLoading) {
+		// 	this.setState({
+		// 		modalOpenLoading: false,
+		// 		isRedirect: true,
+		// 		redirect: '/addmoreinfo',
+		// 	});
+		// }
 	}
 
 	handleInputBarCode = (event) => {
@@ -286,7 +294,7 @@ class Scanner extends Component {
 		});
 	}
 
-	handleButtonBarCode = () => {
+	handleButtonBarCode = async () => {
 		if (this.state.valueCode.length === 0) {
 			this.setState({
 				error: '*Insira o código de barras.',
@@ -300,8 +308,17 @@ class Scanner extends Component {
 			// meu codigo valido 7898927111014
 
 			if (validateIsbn(isbn)) {
+
 				this.handleOpenModalLoading();
-				console.log('codigo correto chegou // abrir modal de mais infos');
+
+				// console.log('modalOpenLoading', this.state.modalOpenLoading)
+
+				// this.setState({
+				// 	modalOpenLoading: false,
+				// 	isRedirect: true,
+				// 	redirect: '/addmoreinfo',
+				// });
+				// console.log('codigo correto chegou // abrir modal de mais infos');
 			} else {
 				this.setState({
 					error: '*Código inválido.',
@@ -414,6 +431,7 @@ class Scanner extends Component {
 				</ContainerModalBoilerPlate>
 				{this.state.modalOpenBarCode && this.renderModalBarCode()}
 				{this.state.modalOpenLoading && this.renderModalLoading()}
+				{/* {this.state.isRedirect && !this.state.modalOpenLoading && <Redirect to={this.state.redirect} />} */}
 			</>
 		);
 	}

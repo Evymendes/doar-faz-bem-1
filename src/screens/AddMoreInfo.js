@@ -4,20 +4,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
-//Components
+// Components
 import Header from '../components/Header';
 
 // Styles
 const Container = styled.div`
 	width: 100%;
 	height: 100vh;
-	font-family: Overpass, Regular;
+	font-family: 'Overpass', Regular;
 	background: #38D5D5;
 `;
 
 const Form = styled.form`
 	position: relative;
-	padding-top: 3rem;
+	padding-top: 5rem;
 	margin: 0 auto;
 	width: 85%;
 	height: calc(100vh - 96px);
@@ -46,7 +46,6 @@ const Label = styled.label`
 
 	&:before {
 		color: green;
-
 	}
 `;
 
@@ -64,7 +63,6 @@ const Input = styled.input`
 		placeholder: green;
 	}
 `;
-
 
 const Footer = styled.div`
 	width: 20%;
@@ -121,7 +119,7 @@ class Login extends Component {
 		// this.setState({
 
 		// })
-		console.log('ola')
+		console.log('ola');
 		this.inputName.focus();
 	}
 
@@ -133,9 +131,9 @@ class Login extends Component {
 				<Header openModal={this.handleBackScanner} />
 				<Form>
 					<FormContent>
-					<Label for="input__name" onClick={this.handleLabelName}>
+						<Label for="input__name" onClick={this.handleLabelName}>
 						Nome:
-					</Label>
+						</Label>
 						<Input ref={(node) => this.inputName = node}
 							placeholder='olaaaaaaa'
 						/>
@@ -143,12 +141,12 @@ class Login extends Component {
 					<FormContent>
 						<Label>	Data de Validade:	</Label>
 						<Input placeholder='olaaaaaaa' />
-						</FormContent>
-						<FormContent>
+					</FormContent>
+					<FormContent>
 						<Label>Código: </Label>
 						<Input placeholder='olaaaaaaa' />
-						</FormContent>
-						<FormContent>
+					</FormContent>
+					<FormContent>
 						<Label> Categoria: </Label>
 						<Input placeholder='olaaaaaaa' />
 					</FormContent>
