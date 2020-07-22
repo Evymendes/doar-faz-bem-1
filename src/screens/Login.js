@@ -193,7 +193,6 @@ const Login = props => {
 			</Content>
 		</Container>
 	);
-}
-
+};
 
 export default Login;
