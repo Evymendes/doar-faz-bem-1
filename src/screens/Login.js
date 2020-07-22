@@ -1,11 +1,8 @@
-/* eslint-disable class-methods-use-this */
 // Libs
-import React from 'react';
+import React, { useState } from "react";
 import styled, { keyframes } from 'styled-components';
-import { NavLink } from 'react-router-dom';
 
 // Images
-// import Logo from '../assets/aa.png';
 import Background from '../assets/headerbg.jpeg';
 
 // Styles
@@ -37,6 +34,12 @@ const fadeIn = keyframes`
   }
   100% {
 		opacity: 1;
+  }
+`
+const pressAnimation = keyframes`
+  100% {
+		transform: translateY(2px);
+    box-shadow: none;
   }
 `
 
@@ -82,7 +85,7 @@ const Header = styled.div`
   animation-play-state: running;
 `;
 
-const Content = styled.div`
+const Content = styled.section`
 	padding-top: 1rem;
 	height: 60vh;
 	background: #fff;
@@ -110,7 +113,7 @@ const Logo = styled.div`
   animation-play-state: running;
 `;
 
-const Button = styled(NavLink)`
+const Button = styled.button`
 	margin-bottom: 2rem;
 	width: 100%;
 	max-width: 20rem;
@@ -124,50 +127,72 @@ const Button = styled(NavLink)`
 	border-radius: 50px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
+	animation: ${props => props.pressed ? pressAnimation : ''} 0.5s ease forwards;
 `;
 
-const Login = () => (
-	<Container>
-		<ContainerHeader>
-			<Header>
-				<Logo/>
-			</Header>
-		</ContainerHeader>
-		<Content>
-			<Button
-				exact to="/scanner"
-				style={{
-					background: '#49E5D6',
-					color: '#fff',
-				}}
-			>
-				Escanear Código de Barras
-			</Button>
-			<Button
-				exact to="/qrcode"
-				// exact to="/addMoreInfo"
 
-				style={{
-					background: '#D8998A',
-					color: '#fff',
-				}}
-			>
-				Escanear QR Code
-			</Button>
-			<Button
-				exact to="/"
-				style={{
-					background: '#EDEDED',
-					color: '#000',
-					cursor: 'not-allowed',
-					color: '#9E9E9E',
-					opacity: '0.5',
-				}}
-			>
-				Adicionar Medicamento
-			</Button>
-		</Content>
-	</Container>
-);
+const Login = props => {
+	const [pressed, setPressed] = useState(false);
+	const [currentButton, chooseCurrentButton] = useState(false);
+
+	const handleClick = (link) => {
+		setPressed(pressed => !pressed)
+		chooseCurrentButton(link)
+
+		if (!pressed) {
+			setTimeout(() => {
+				props.history.push({
+					pathname: link,
+				});
+			}, 1000);
+		}
+	};
+
+	return (
+		<Container>
+			<ContainerHeader>
+				<Header>
+					<Logo/>
+				</Header>
+			</ContainerHeader>
+			<Content>
+				<Button
+					pressed={pressed && currentButton === '/scanner'}
+					onClick={() => handleClick('/scanner')}
+					style={{
+						background: '#49E5D6',
+						color: '#fff',
+					}}
+				>
+					Escanear Código de Barras
+				</Button>
+				<Button
+					pressed={pressed && currentButton === '/qrcode'}
+					onClick={() => handleClick('/qrcode')}
+					style={{
+						background: '#D8998A',
+						color: '#fff',
+					}}
+				>
+					Escanear QR Code
+				</Button>
+				<Button
+					pressed={pressed && currentButton === 'none'}
+					onClick={() => handleClick(props.history, '/')}
+					disabled
+					style={{
+						background: '#EDEDED',
+						color: '#000',
+						cursor: 'not-allowed',
+						color: '#9E9E9E',
+						opacity: '0.5',
+					}}
+				>
+					Adicionar Medicamento
+				</Button>
+			</Content>
+		</Container>
+	);
+};
 
 export default Login;

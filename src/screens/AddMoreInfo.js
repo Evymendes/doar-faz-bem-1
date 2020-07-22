@@ -84,7 +84,6 @@ const Button = styled.button`
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-	outline: none;
 
 	@media(max-width: 320px) {
 		width: 8rem;
