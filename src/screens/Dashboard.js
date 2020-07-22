@@ -201,6 +201,12 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
+const ContainerDelModal = styled.div`
+	width: 90%;
+	height: 10rem;
+	background: #c7c7;
+`;
+
 const data = [
 	{
 		col1: 'remedio1', col2: '7898927111014', col3: '10/01/2021', col4: 'categoria1',
@@ -238,23 +244,20 @@ const columns = [
 	},
 ];
 
-const handleOptionChange = (row, setOpenMedDetails, openMedDetails, setItemMedDetails, itemMedDetails) => {
+const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMedDetails) => {
 
-	// setOpenMedDetails(!openMedDetails);
+	setItemMedDetails(rowId);
+	setOpenMedDetails(!openMedDetails);
 
-	setItemMedDetails(row.id);
+	if (openMedDetails) {
+		setItemMedDetails(null);
+	}
+};
 
-	console.log('openMedDetails', openMedDetails)
+const handleOpenDeleteModal = (itemMedDetails, openDelModal, setOpenDelModal) => {
+	console.log('del item', itemMedDetails);
 
-	console.log('itemMedDetails', itemMedDetails)
-
-
-	// if (row.id === itemMedDetails) {
-	// 	setOpenMedDetails(!openMedDetails);
-	// }
-
-
-	console.log('row', row)
+	setOpenDelModal(!openDelModal);
 };
 
 const Table = ({
@@ -339,8 +342,7 @@ const Table = ({
 							}
 							<ButtonMoreMob
 								src={itemMedDetails === row.id ? SelectMinusIcon : SelectMoreIcon}
-								// onClick={() => setOpenMedDetails(!openMedDetails)}
-								onClick={() => handleOptionChange(row, setItemMedDetails, itemMedDetails, setOpenMedDetails, openMedDetails)}
+								onClick={() => handleOptionChange(row.id, openMedDetails, setOpenMedDetails, setItemMedDetails)}
 							/>
 						</Tr>
 					);
@@ -353,8 +355,8 @@ const Table = ({
 function Dashboard() {
 	const [showCloseButton] = useState(true);
 	const [openMedDetails, setOpenMedDetails] = useState(false);
-
 	const [itemMedDetails, setItemMedDetails] = useState(null);
+	const [openDelModal, setOpenDelModal] = useState(false);
 
 	return (
 		<Container>
@@ -376,13 +378,19 @@ function Dashboard() {
 							<img src={EditIcon} alt="Editar" />
 							<p>Editar</p>
 						</ButtonMedDetails>
-						<ButtonMedDetails>
+						<ButtonMedDetails onClick={() => handleOpenDeleteModal(itemMedDetails, openDelModal, setOpenDelModal)}>
 							<img src={TrashIcon} alt="Editar" />
 							<p>Excluir</p>
 						</ButtonMedDetails>
 					</>
 				)}
 			</ContainerButton>
+			{openDelModal && (
+				<ContainerDelModal>
+					<p>meu deus do ceu</p>
+					<p>me ajuda</p>
+				</ContainerDelModal>
+			)}
 		</Container>
 	);
 }
