@@ -5,7 +5,7 @@ import QrReader from 'react-qr-reader';
 import { NavLink, Redirect } from 'react-router-dom';
 
 //Assets
-import MarkerIcon from '../assets/markerIcon.svg';
+import MarkerIcon from '../assets/markerIconQr.svg';
 import BackIcon from '../assets/back.svg';
 
 // Styles
@@ -51,6 +51,10 @@ const ScanMarker = styled.span`
 	left: 0;
 	right: 0;
 	bottom: 0;
+
+	img {
+		width: 14rem;
+	}
 `;
 
 const Footer = styled.div`
@@ -93,6 +97,7 @@ const Button = styled.button`
 
 	@media(max-width: 320px) {
 		width: 19rem;
+		font-size: .9rem;
 	}
 `;
 
@@ -138,12 +143,12 @@ class QrCode extends Component {
 						onError={this.handleError}
 						onScan={this.handleScan}
 					/>
-					{/* <ScanMarker>
+					<ScanMarker>
 						<img
 							src={MarkerIcon}
 							alt="marker space"
 						/>
-					</ScanMarker> */}
+					</ScanMarker>
 				</Video>
 				{/* <p>{this.state.result}</p> */}
 				<Footer>

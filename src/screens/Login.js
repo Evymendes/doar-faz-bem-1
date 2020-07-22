@@ -91,7 +91,9 @@ const Login = () => (
 				Escanear Codigo de Barras
 			</Button>
 			<Button
-				exact to="/qrcode"
+				// exact to="/qrcode"
+				exact to="/addMoreInfo"
+
 				style={{
 					background: '#D8998A',
 					color: '#fff',

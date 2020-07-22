@@ -7,64 +7,57 @@ import { Redirect } from 'react-router-dom';
 //Components
 import Header from '../components/Header';
 
-// Styles
+//
 const Container = styled.div`
 	width: 100%;
 	height: 100vh;
-	font-family: Overpass, Regular;
 	background: #38D5D5;
 `;
 
 const Form = styled.form`
 	position: relative;
-	padding-top: 3rem;
 	margin: 0 auto;
 	width: 85%;
 	height: calc(100vh - 96px);
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
 `;
 
 const FormContent = styled.div`
-	margin-bottom: 1.5rem;
-	padding: 0.7rem 0.7rem;
-	font-weight: bold;
-	text-decoration: none;
-	border: none;
-	border-radius: 4px;
-	box-shadow: 2px 2px 2px #888888;
-	background: #FFF;
-	overflow: hidden;
+  margin-bottom: ${(props) => (props.isError ? '0.5rem' : '1.5rem')};
 `;
 
 const Label = styled.label`
-	font: 700 .9rem 'Overpass', serif;
+	font: 700 1rem 'Overpass', serif;
 	width: 90%;
-	color: #38D5D5;
-	background: #FFF;
-	display: block;
-  position: absolute;
-  pointer-events: none;
-
-	&:before {
-		color: green;
-
-	}
+	color: #FFF;
 `;
 
 const Input = styled.input`
-	border: none;
-	outline: none;
-  font-size: 1rem;
-
-	background: none;
-  border-width: 0;
-  display: block;
+	padding: 0.7rem 0.7rem;
   width: 100%;
-	&:focus
-	label {
-		placeholder: green;
+	color: #989494;
+	font: 700 1rem 'Overpass', serif;
+	text-decoration: none;
+	background: #FFF;
+	outline: none;
+  border: ${(props) => (props.isError ? '2px solid red' : 'none')};
+	border-radius: 4px;
+	box-shadow: 2px 2px 2px #888888;
+
+	::placeholder {
+		color: #989494;
 	}
 `;
 
+const ErrorMessage = styled.p`
+	margin-top: .3rem;
+  color: red;
+	font: 400 .9rem 'Overpass', serif;
+	display: flex;
+	justify-content: flex-end;
+`;
 
 const Footer = styled.div`
 	width: 20%;
@@ -73,32 +66,24 @@ const Footer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-
-	@media(max-width: 648px) {
-		position: absolute;
-		left: 0;
-	 	right: 0;
-    bottom: 4rem;
-	}
 `;
 
 const Button = styled.button`
 	width: 9.2rem;
 	height: 3rem;
+	color: #fff;
+	font: 700 1rem 'Overpass', serif;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 50px;
+	box-shadow: ${(props) => (props.cancel ? 'none' : '2px 2px 2px #888888')};
+	background: ${(props) => (props.cancel ? 'transparent' : '#49E5D6')};
+	border: ${(props) => (props.cancel ? '1px solid #FFF' : 'none')};
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #fff;
-	font-size: 1rem;
-	font-weight: bold;
-	font-family: Overpass, Regular;
-	text-decoration: none;
-	border-radius: 50px;
-	box-shadow: ${(props) => (props.cancel ? 'none' : '2px 2px 2px #888888')};
 	cursor: pointer;
-	background: ${(props) => (props.cancel ? 'transparent' : '#49E5D6')};
-	border: ${(props) => (props.cancel ? '1px solid #FFF' : 'none')};
-	text-transform: uppercase;
+	outline: none;
 
 	@media(max-width: 320px) {
 		width: 8rem;
@@ -107,7 +92,16 @@ const Button = styled.button`
 
 class Login extends Component {
 	state = {
-
+		isRedirect: undefined,
+		redirect: undefined,
+		name: '',
+		expirationDate: undefined,
+		code: '',
+		category: '',
+		isErrorName: undefined,
+		isErrorExpirationDate: undefined,
+		isErrorCode: undefined,
+		isErrorCategory: undefined,
 	}
 
 	handleBackScanner = () => {
@@ -117,44 +111,185 @@ class Login extends Component {
 		});
 	}
 
-	handleLabelName = () => {
-		// this.setState({
+	handleChange = (field, ev) => {
 
-		// })
-		console.log('ola')
-		this.inputName.focus();
+		if (field === 'name') {
+			this.setState({
+				isErrorName: ev.target.value.length < 1,
+			});
+		}
+
+		if (field === 'expirationDate') {
+			this.setState({
+				isErrorExpirationDate: ev.target.value.length < 1,
+			});
+		}
+
+		if (field === 'code') {
+			this.setState({
+				isErrorCode: ev.target.value.length < 1,
+			});
+		}
+
+		if (field === 'category') {
+			this.setState({
+				isErrorCategory: ev.target.value.length < 1,
+			});
+		}
+
+		this.setState({
+			[field]: ev.target.value,
+		});
+	};
+
+	validationScreen = () => {
+		const { name, expirationDate, code, category } = this.state;
+
+		if (!name) {
+			this.setState({
+				isErrorName: true,
+			});
+		} else {
+			this.setState({
+				isErrorName: false,
+			});
+		}
+
+		if (!expirationDate) {
+			this.setState({
+				isErrorExpirationDate: true,
+			});
+		} else {
+			this.setState({
+				isErrorExpirationDate: false,
+			});
+		}
+
+		if (!code) {
+			this.setState({
+				isErrorCode: true,
+			});
+		} else {
+			this.setState({
+				isErrorCode: false,
+			});
+		}
+
+		if (!category) {
+			this.setState({
+				isErrorCategory: true,
+			});
+		} else {
+			this.setState({
+				isErrorCategory: false,
+			});
+		}
+	}
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+
+		this.validationScreen();
+
+
+
 	}
 
 	render() {
-		const { isRedirect, redirect } = this.state;
+		const {
+			isRedirect,
+			redirect,
+			name,
+			expirationDate,
+			code,
+			category,
+			isErrorName,
+			isErrorExpirationDate,
+			isErrorCode,
+			isErrorCategory,
+		} = this.state;
+		const errorMessage = '*Campo obrigatório.';
 
 		return (
 			<Container>
 				<Header openModal={this.handleBackScanner} />
-				<Form>
-					<FormContent>
-					<Label for="input__name" onClick={this.handleLabelName}>
-						Nome:
-					</Label>
-						<Input ref={(node) => this.inputName = node}
-							placeholder='olaaaaaaa'
+				<Form onSubmit={this.handleSubmit}>
+					{/* <FormContent>
+						<Input
+							id="input__name"
+							placeholder='Digite seu nome'
 						/>
-					</FormContent>
-					<FormContent>
-						<Label>	Data de Validade:	</Label>
-						<Input placeholder='olaaaaaaa' />
+						<Label for="input__name" onClick={this.handleLabelName}>
+							Nome:
+						</Label>
+					</FormContent> */}
+					<div>
+						<FormContent isError={isErrorName}>
+							<Label onClick={this.handleLabelName}>
+								Nome:
+							</Label>
+							<Input
+								type="text"
+								value={name}
+								onChange={(ev) => this.handleChange('name', ev)}
+								placeholder='Digite aqui...'
+								isError={isErrorName}
+							/>
+							{isErrorName && (
+								<ErrorMessage>
+									{errorMessage}
+								</ErrorMessage>
+							)}
 						</FormContent>
-						<FormContent>
-						<Label>Código: </Label>
-						<Input placeholder='olaaaaaaa' />
+						<FormContent isError={isErrorName}>
+							<Label>	Data de Validade:	</Label>
+							<Input
+								type="date"
+								value={expirationDate}
+								onChange={(ev) => this.handleChange('expirationDate', ev)}
+								placeholder='Digite aqui...'
+								isError={isErrorExpirationDate}
+							/>
+							{isErrorExpirationDate && (
+								<ErrorMessage>
+									{errorMessage}
+								</ErrorMessage>
+							)}
 						</FormContent>
-						<FormContent>
-						<Label> Categoria: </Label>
-						<Input placeholder='olaaaaaaa' />
-					</FormContent>
+						<FormContent isError={isErrorName}>
+							<Label>Código: </Label>
+							<Input
+								type="text"
+								value={code}
+								onChange={(ev) => this.handleChange('code', ev)}
+								placeholder='Digite aqui...'
+								isError={isErrorCode}
+							/>
+							{isErrorCode && (
+								<ErrorMessage>
+									{errorMessage}
+								</ErrorMessage>
+							)}
+						</FormContent>
+						<FormContent isError={isErrorName}>
+							<Label> Categoria: </Label>
+							<Input
+								type="text"
+								value={category}
+								onChange={(ev) => this.handleChange('category', ev)}
+								placeholder='Digite aqui...'
+								isError={isErrorCategory}
+							/>
+							{isErrorCategory && (
+								<ErrorMessage>
+									{errorMessage}
+								</ErrorMessage>
+							)}
+						</FormContent>
+					</div>
 					<Footer>
 						<Button cancel onClick={this.handleBackScanner}>cancelar</Button>
-						<Button onClick={this.handleOpenScannerScreen}>confirmar</Button>
+						<Button>confirmar</Button>
 					</Footer>
 				</Form>
 				{isRedirect && <Redirect to={redirect} />}
