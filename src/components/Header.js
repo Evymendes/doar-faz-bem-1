@@ -20,6 +20,7 @@ const Container = styled.div`
 
 const Header = (props) => (
 	<Container>
+		{console.log('props.withoutClose', props.withoutClose)}
 		<div
 			style={{
 				width: '4rem',
@@ -29,11 +30,13 @@ const Header = (props) => (
 				boxShadow: '5px 5px 6px #888888',
 			}}
 		/>
-		<img
-			src={CloseIcon}
-			alt='Fechar'
-			onClick={props.openModal}
-		/>
+		{props.withoutClose ? null
+			: <img
+				src={CloseIcon}
+				alt='Fechar'
+				onClick={props.openModal}
+			/>
+		}
 	</Container>
 );
 

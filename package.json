@@ -1,8 +1,8 @@
 {
   "name": "doar-faz-bem",
   "version": "0.1.0",
-	"private": true,
-	"homepage": "http://www.vainaweb.com.br/doar-faz-bem/",
+  "private": true,
+  "homepage": "http://www.vainaweb.com.br/doar-faz-bem/",
   "dependencies": {
     "axios": "^0.19.2",
     "cra-template": "1.0.3",
@@ -17,13 +17,14 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-table": "^7.3.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled": "^1.0.0",
     "styled-components": "^5.1.1"
   },
   "scripts": {
-		"deploy": "yarn build && ./node_modules/.bin/gh-pages -d build",
+    "deploy": "yarn build && ./node_modules/.bin/gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
