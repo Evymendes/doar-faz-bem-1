@@ -20,7 +20,6 @@ const Container = styled.div`
 
 const Header = (props) => (
 	<Container>
-		{console.log('props.withoutClose', props.withoutClose)}
 		<div
 			style={{
 				width: '4rem',

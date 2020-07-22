@@ -7,7 +7,10 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 
 // Images
-import SelectMore from '../assets/plus.svg';
+import SelectMoreIcon from '../assets/plus.svg';
+import SelectMinusIcon from '../assets/minus.svg';
+import EditIcon from '../assets/edit.svg';
+import TrashIcon from '../assets/trash.svg';
 
 // Styles
 const Container = styled.div`
@@ -147,6 +150,57 @@ const ButtonMoreMob = styled.img`
 	}
 `;
 
+const ContainerButton = styled.div`
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: ${(props) => (props.medDetails ? '#D8998A' : '#fff')};
+`;
+
+const ButtonAddMed = styled.button`
+	width: 20rem;
+	height: 3.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+	text-decoration: none;
+	border: none;
+	border-radius: 50px;
+	background-color: #D8998A;
+	box-shadow: 2px 2px 2px #888888;
+	cursor: pointer;
+`;
+
+const ButtonMedDetails = styled.button`
+	width: 50%;
+	height: 5rem;
+	border: none;
+	border-right: ${(props) => (props.detail ? '1.5px solid rgba(196, 196, 196, 0.3)' : 'none')};
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: transparent;
+
+	img {
+		margin-right: .5rem;
+	}
+
+	p {
+		color: #404040;
+		font-size: 0.95rem;
+		font-family: "Overpass", Medium;
+		font-weight: 600;
+	}
+`;
+
 const data = [
 	{
 		col1: 'remedio1', col2: '7898927111014', col3: '10/01/2021', col4: 'categoria1',
@@ -184,7 +238,28 @@ const columns = [
 	},
 ];
 
-const Table = ({ columns, data }) => {
+const handleOptionChange = (row, setOpenMedDetails, openMedDetails, setItemMedDetails, itemMedDetails) => {
+
+	// setOpenMedDetails(!openMedDetails);
+
+	setItemMedDetails(row.id);
+
+	console.log('openMedDetails', openMedDetails)
+
+	console.log('itemMedDetails', itemMedDetails)
+
+
+	// if (row.id === itemMedDetails) {
+	// 	setOpenMedDetails(!openMedDetails);
+	// }
+
+
+	console.log('row', row)
+};
+
+const Table = ({
+	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails,
+}) => {
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -221,6 +296,7 @@ const Table = ({ columns, data }) => {
 			<tbody {...getTableBodyProps()}>
 				{rows.map((row, index) => {
 					prepareRow(row);
+
 					return (
 						<Tr
 							{...row.getRowProps()}
@@ -261,7 +337,11 @@ const Table = ({ columns, data }) => {
 									</TableList>)}
 								</>
 							}
-							<ButtonMoreMob src={SelectMore} />
+							<ButtonMoreMob
+								src={itemMedDetails === row.id ? SelectMinusIcon : SelectMoreIcon}
+								// onClick={() => setOpenMedDetails(!openMedDetails)}
+								onClick={() => handleOptionChange(row, setItemMedDetails, itemMedDetails, setOpenMedDetails, openMedDetails)}
+							/>
 						</Tr>
 					);
 				})}
@@ -272,11 +352,37 @@ const Table = ({ columns, data }) => {
 
 function Dashboard() {
 	const [showCloseButton] = useState(true);
+	const [openMedDetails, setOpenMedDetails] = useState(false);
+
+	const [itemMedDetails, setItemMedDetails] = useState(null);
 
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Table columns={columns} data={data} />
+			<Table
+				columns={columns}
+				data={data}
+				openMedDetails={openMedDetails}
+				setOpenMedDetails={setOpenMedDetails}
+				itemMedDetails={itemMedDetails}
+				setItemMedDetails={setItemMedDetails}
+			/>
+			<ContainerButton medDetails={openMedDetails}>
+				{!openMedDetails ? (
+					<ButtonAddMed>Adicionar Medicamento</ButtonAddMed>
+				) : (
+					<>
+						<ButtonMedDetails detail>
+							<img src={EditIcon} alt="Editar" />
+							<p>Editar</p>
+						</ButtonMedDetails>
+						<ButtonMedDetails>
+							<img src={TrashIcon} alt="Editar" />
+							<p>Excluir</p>
+						</ButtonMedDetails>
+					</>
+				)}
+			</ContainerButton>
 		</Container>
 	);
 }
