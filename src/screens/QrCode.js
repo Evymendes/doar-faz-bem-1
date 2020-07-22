@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import QrReader from 'react-qr-reader';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 //Assets
 import MarkerIcon from '../assets/markerIconQr.svg';
@@ -103,25 +103,23 @@ const Button = styled.button`
 
 class QrCode extends Component {
 	state = {
-		result: 'No result',
-		isRedirect: undefined,
-		redirect: '',
+		result: '',
 	}
 
 	handleScan = (data) => {
 		if (data) {
-			this.setState({
-				result: data,
-				isRedirect: true,
-				redirect: '/addMoreInfo',
+			this.props.history.push({
+				pathname: '/extractedInf',
+				state: {
+					result: data,
+				},
 			});
 		}
 	}
 
 	handleOpenScannerScreen = () => {
-		this.setState({
-			isRedirect: true,
-			redirect: '/scanner',
+		this.props.history.push({
+			pathname: '/scanner',
 		});
 	}
 
@@ -130,8 +128,6 @@ class QrCode extends Component {
 	}
 
 	render() {
-		const { isRedirect, redirect } = this.state;
-
 		return (
 			<Container>
 				<ButtonBack exact to="/">
@@ -150,11 +146,9 @@ class QrCode extends Component {
 						/>
 					</ScanMarker>
 				</Video>
-				{/* <p>{this.state.result}</p> */}
 				<Footer>
 					<Button onClick={this.handleOpenScannerScreen}>Se preferir, escaneie o código de barras</Button>
 				</Footer>
-				{isRedirect && <Redirect to={redirect} />}
 			</Container>
 		);
 	}

@@ -4,8 +4,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
-//Components
+// Components
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 
 //
 const Container = styled.div`
@@ -94,6 +95,7 @@ class Login extends Component {
 	state = {
 		isRedirect: undefined,
 		redirect: undefined,
+		isLoading: undefined,
 		name: '',
 		expirationDate: undefined,
 		code: '',
@@ -188,17 +190,29 @@ class Login extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		const {
+			isErrorName,
+			isErrorExpirationDate,
+			isErrorCode,
+			isErrorCategory,
+		} = this.state;
 
 		this.validationScreen();
 
-
-
+		if (
+			isErrorName === false
+			&& isErrorExpirationDate === false
+			&& isErrorCode === false
+			&& isErrorCategory === false
+		) {
+			this.setState({
+				isLoading: true,
+			});
+		}
 	}
 
-	render() {
+	renderForm = () => {
 		const {
-			isRedirect,
-			redirect,
 			name,
 			expirationDate,
 			code,
@@ -209,6 +223,81 @@ class Login extends Component {
 			isErrorCategory,
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
+
+		return (
+			<>
+				<FormContent isError={isErrorName}>
+					<Label onClick={this.handleLabelName}>
+						Nome:
+				</Label>
+					<Input
+						type="text"
+						value={name}
+						onChange={(ev) => this.handleChange('name', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorName}
+					/>
+					{isErrorName && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
+				<FormContent isError={isErrorName}>
+					<Label>	Data de Validade:	</Label>
+					<Input
+						type="date"
+						value={expirationDate}
+						onChange={(ev) => this.handleChange('expirationDate', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorExpirationDate}
+					/>
+					{isErrorExpirationDate && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
+				<FormContent isError={isErrorName}>
+					<Label>Código: </Label>
+					<Input
+						type="text"
+						value={code}
+						onChange={(ev) => this.handleChange('code', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorCode}
+					/>
+					{isErrorCode && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
+				<FormContent isError={isErrorName}>
+					<Label> Categoria: </Label>
+					<Input
+						type="text"
+						value={category}
+						onChange={(ev) => this.handleChange('category', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorCategory}
+					/>
+					{isErrorCategory && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
+			</>
+		);
+	}
+
+	render() {
+		const {
+			isRedirect,
+			redirect,
+			isLoading,
+		} = this.state;
 
 		return (
 			<Container>
@@ -224,74 +313,14 @@ class Login extends Component {
 						</Label>
 					</FormContent> */}
 					<div>
-						<FormContent isError={isErrorName}>
-							<Label onClick={this.handleLabelName}>
-								Nome:
-							</Label>
-							<Input
-								type="text"
-								value={name}
-								onChange={(ev) => this.handleChange('name', ev)}
-								placeholder='Digite aqui...'
-								isError={isErrorName}
-							/>
-							{isErrorName && (
-								<ErrorMessage>
-									{errorMessage}
-								</ErrorMessage>
-							)}
-						</FormContent>
-						<FormContent isError={isErrorName}>
-							<Label>	Data de Validade:	</Label>
-							<Input
-								type="date"
-								value={expirationDate}
-								onChange={(ev) => this.handleChange('expirationDate', ev)}
-								placeholder='Digite aqui...'
-								isError={isErrorExpirationDate}
-							/>
-							{isErrorExpirationDate && (
-								<ErrorMessage>
-									{errorMessage}
-								</ErrorMessage>
-							)}
-						</FormContent>
-						<FormContent isError={isErrorName}>
-							<Label>Código: </Label>
-							<Input
-								type="text"
-								value={code}
-								onChange={(ev) => this.handleChange('code', ev)}
-								placeholder='Digite aqui...'
-								isError={isErrorCode}
-							/>
-							{isErrorCode && (
-								<ErrorMessage>
-									{errorMessage}
-								</ErrorMessage>
-							)}
-						</FormContent>
-						<FormContent isError={isErrorName}>
-							<Label> Categoria: </Label>
-							<Input
-								type="text"
-								value={category}
-								onChange={(ev) => this.handleChange('category', ev)}
-								placeholder='Digite aqui...'
-								isError={isErrorCategory}
-							/>
-							{isErrorCategory && (
-								<ErrorMessage>
-									{errorMessage}
-								</ErrorMessage>
-							)}
-						</FormContent>
+						{this.renderForm()}
 					</div>
 					<Footer>
 						<Button cancel onClick={this.handleBackScanner}>cancelar</Button>
 						<Button>confirmar</Button>
 					</Footer>
 				</Form>
+				{isLoading && <Loading />}
 				{isRedirect && <Redirect to={redirect} />}
 			</Container>
 		);
