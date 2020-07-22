@@ -11,6 +11,7 @@ import SelectMoreIcon from '../assets/plus.svg';
 import SelectMinusIcon from '../assets/minus.svg';
 import EditIcon from '../assets/edit.svg';
 import TrashIcon from '../assets/trash.svg';
+import CloseIcon from '../assets/fechar.svg';
 
 // Styles
 const Container = styled.div`
@@ -201,10 +202,22 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
+const Overlay = styled.div`
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(196, 196, 196, 0.3);
+`;
+
 const ContainerDelModal = styled.div`
 	width: 90%;
-	height: 10rem;
-	background: #c7c7;
+	height: 15rem;
+	background: #fff;
 `;
 
 const data = [
@@ -379,17 +392,23 @@ function Dashboard() {
 							<p>Editar</p>
 						</ButtonMedDetails>
 						<ButtonMedDetails onClick={() => handleOpenDeleteModal(itemMedDetails, openDelModal, setOpenDelModal)}>
-							<img src={TrashIcon} alt="Editar" />
+							<img src={TrashIcon} alt="Excluir" />
 							<p>Excluir</p>
 						</ButtonMedDetails>
 					</>
 				)}
 			</ContainerButton>
 			{openDelModal && (
-				<ContainerDelModal>
-					<p>meu deus do ceu</p>
-					<p>me ajuda</p>
-				</ContainerDelModal>
+				<Overlay>
+					<ContainerDelModal>
+						<span>
+							<p>Excluir Medicamento</p>
+							<img src={CloseIcon} alt="Fechar" />
+						</span>
+						<p>Após ser excluido, um modelo não pode ser recuperado.</p>
+						<p>Você deseja excluir o Medicamento *****?</p>
+					</ContainerDelModal>
+				</Overlay>
 			)}
 		</Container>
 	);
