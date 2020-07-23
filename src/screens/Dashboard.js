@@ -38,9 +38,29 @@ const Container = styled.div`
 
 	@media(min-width: 1024px) {
 		overflow-y: scroll;
-		${''}
 		max-height: calc(100% - 89.8px);
 	}
+`;
+
+const ContainerSearch = styled.div`
+	width: 100%;
+	background: red;
+`;
+
+const InputSearch = styled.input`
+	width: 20rem;
+	height: 3.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+	text-decoration: none;
+	border: none;
+	border-radius: 50px;
+	background-color: #D8998A;
+	box-shadow: 2px 2px 2px #888888;
 `;
 
 const ContainerTable = styled.table`
@@ -313,18 +333,27 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 };
 
 const handleDeleteMed = (selectedId, list, setList) => {
+
+	// console.log('lista filtrada', list);
+
 	const filtering = list.filter((medicament) => medicament.id !== selectedId);
 
+	console.log('filtrado', filtering);
 	setList(filtering);
-	// const a = setList(list.filter((medicament) =>  console.log('medicament.id', medicament.id)));
-	console.log('filter', filtering);
-	console.log('list', list);
-	console.log('itemMedDetails', selectedId);
-	console.log('setList', setList);
+
+	// console.log('selectedId', selectedId);
 };
 
+const Search = () => {
+	return (
+		<ContainerSearch>
+			<InputSearch />
+		</ContainerSearch>
+	)
+}
+
 const Table = ({
-	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, setList,
+	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, list, setList,
 }) => {
 	const {
 		getTableProps,
@@ -338,6 +367,8 @@ const Table = ({
 	});
 
 	setList(rows);
+
+	console.log('list com filtrooo', list);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -428,6 +459,7 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
+			<Search />
 			<Table
 				columns={columns}
 				data={data}
@@ -435,6 +467,7 @@ function Dashboard() {
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
 				setItemMedDetails={setItemMedDetails}
+				list={list}
 				setList={setList}
 			/>
 			<ContainerButton medDetails={openMedDetails}>

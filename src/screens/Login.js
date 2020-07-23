@@ -121,6 +121,7 @@ const Button = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 1rem;
 	font-weight: bold;
 	text-decoration: none;
 	border: none;
@@ -165,7 +166,7 @@ const Login = (props) => {
 				>
 					Escanear Código de Barras
 				</Button>
-				<Button
+				{/* <Button
 					pressed={pressed && currentButton === '/qrcode'}
 					onClick={() => handleClick('/qrcode')}
 					style={{
@@ -174,7 +175,7 @@ const Login = (props) => {
 					}}
 				>
 					Escanear QR Code
-				</Button>
+				</Button> */}
 				<Button
 					pressed={pressed && currentButton === 'none'}
 					onClick={() => handleClick(props.history, '/')}
