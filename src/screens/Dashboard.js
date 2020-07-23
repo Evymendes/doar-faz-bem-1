@@ -12,6 +12,7 @@ import SelectMinusIcon from '../assets/minus.svg';
 import EditIcon from '../assets/edit.svg';
 import TrashIcon from '../assets/trash.svg';
 import CloseIcon from '../assets/fechar.svg';
+import searchIcon from '../assets/search.svg';
 
 // Styles
 const Container = styled.div`
@@ -43,24 +44,31 @@ const Container = styled.div`
 `;
 
 const ContainerSearch = styled.div`
+	padding-top: 1rem;
 	width: 100%;
-	background: red;
-`;
-
-const InputSearch = styled.input`
-	width: 20rem;
-	height: 3.5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #fff;
-	font-size: 1rem;
-	font-weight: bold;
-	text-decoration: none;
+`;
+
+const ContainerInputSearch = styled.div`
+	padding-left: 1.5rem;
+	display: flex;
+	width: 20rem;
+	height: 3.5rem;
 	border: none;
 	border-radius: 50px;
-	background-color: #D8998A;
-	box-shadow: 2px 2px 2px #888888;
+	background-color: #EDEDED;
+`;
+
+const InputSearch = styled.input`
+	width: 85%;
+	color: #404040;
+	font-size: .90rem;
+	font-weight: bold;
+	background: transparent;
+	border: none;
+	outline: none;
 `;
 
 const ContainerTable = styled.table`
@@ -344,13 +352,17 @@ const handleDeleteMed = (selectedId, list, setList) => {
 	// console.log('selectedId', selectedId);
 };
 
-const Search = () => {
-	return (
-		<ContainerSearch>
-			<InputSearch />
-		</ContainerSearch>
-	)
-}
+const Search = () => (
+	<ContainerSearch>
+		<ContainerInputSearch>
+			<InputSearch
+				// onChange={}
+				placeholder="Digite aqui para pesquisar..."
+			/>
+			<img src={searchIcon} alt="Lupa" />
+		</ContainerInputSearch>
+	</ContainerSearch>
+);
 
 const Table = ({
 	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, list, setList,

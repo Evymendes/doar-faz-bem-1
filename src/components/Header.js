@@ -26,7 +26,7 @@ const Header = (props) => (
 				height: '4rem',
 				borderRadius: '50%',
 				background: '#000',
-				boxShadow: '5px 5px 6px #888888',
+				// boxShadow: '5px 5px 6px #888888',
 			}}
 		/>
 		{props.withoutClose ? null
