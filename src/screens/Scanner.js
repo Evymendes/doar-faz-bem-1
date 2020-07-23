@@ -13,7 +13,7 @@ import Header from '../components/Header';
 
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
-import BackIcon from '../assets/back.svg';
+import BackIcon from '../assets/backWhite.svg';
 
 // Styles
 const Video = styled.div`

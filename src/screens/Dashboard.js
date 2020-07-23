@@ -216,8 +216,54 @@ const Overlay = styled.div`
 
 const ContainerDelModal = styled.div`
 	width: 90%;
-	height: 15rem;
+	border-radius: 6px;
 	background: #fff;
+	font-family: "Overpass", Regular;
+`;
+
+const DelModalHeader = styled.span`
+	padding: 1rem;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+
+	p {
+		color: #D8998A;
+		font-size: 1.2rem;
+		font-weight: 600;
+	}
+
+	img {
+		width: 1rem;
+	}
+`;
+
+const DelModalText = styled.p`
+	padding: .8rem;
+	flex-wrap: wrap;
+
+	span {
+		font-weight: 600;
+	}
+`;
+
+const ContainerDelModalButtons = styled.div`
+	padding: 0.5rem 0 1rem 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+`;
+
+const DelModalButton = styled.button`
+	width: 8.5rem;
+	height: 3rem;
+	text-transform: uppercase;
+	color: ${(props) => ((props.cancel) ? '#D8998A' : '#fff')};
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 50px;
+	border:  ${(props) => (props.cancel ? '2px solid #D8998A' : 'none')};
+	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
 `;
 
 const data = [
@@ -258,7 +304,6 @@ const columns = [
 ];
 
 const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMedDetails) => {
-
 	setItemMedDetails(rowId);
 	setOpenMedDetails(!openMedDetails);
 
@@ -267,14 +312,19 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 	}
 };
 
-const handleOpenDeleteModal = (itemMedDetails, openDelModal, setOpenDelModal) => {
-	console.log('del item', itemMedDetails);
+const handleDeleteMed = (selectedId, list, setList) => {
+	const filtering = list.filter((medicament) => medicament.id !== selectedId);
 
-	setOpenDelModal(!openDelModal);
+	setList(filtering);
+	// const a = setList(list.filter((medicament) =>  console.log('medicament.id', medicament.id)));
+	console.log('filter', filtering);
+	console.log('list', list);
+	console.log('itemMedDetails', selectedId);
+	console.log('setList', setList);
 };
 
 const Table = ({
-	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails,
+	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, setList,
 }) => {
 	const {
 		getTableProps,
@@ -286,6 +336,8 @@ const Table = ({
 		columns,
 		data,
 	});
+
+	setList(rows);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -371,6 +423,8 @@ function Dashboard() {
 	const [itemMedDetails, setItemMedDetails] = useState(null);
 	const [openDelModal, setOpenDelModal] = useState(false);
 
+	const [list, setList] = useState(null);
+
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
@@ -381,6 +435,7 @@ function Dashboard() {
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
 				setItemMedDetails={setItemMedDetails}
+				setList={setList}
 			/>
 			<ContainerButton medDetails={openMedDetails}>
 				{!openMedDetails ? (
@@ -391,7 +446,7 @@ function Dashboard() {
 							<img src={EditIcon} alt="Editar" />
 							<p>Editar</p>
 						</ButtonMedDetails>
-						<ButtonMedDetails onClick={() => handleOpenDeleteModal(itemMedDetails, openDelModal, setOpenDelModal)}>
+						<ButtonMedDetails onClick={() => setOpenDelModal(!openDelModal)}>
 							<img src={TrashIcon} alt="Excluir" />
 							<p>Excluir</p>
 						</ButtonMedDetails>
@@ -401,12 +456,29 @@ function Dashboard() {
 			{openDelModal && (
 				<Overlay>
 					<ContainerDelModal>
-						<span>
+						<DelModalHeader>
 							<p>Excluir Medicamento</p>
-							<img src={CloseIcon} alt="Fechar" />
-						</span>
-						<p>Após ser excluido, um modelo não pode ser recuperado.</p>
-						<p>Você deseja excluir o Medicamento *****?</p>
+							<img
+								src={CloseIcon}
+								alt="Fechar"
+								onClick={() => setOpenDelModal(!openDelModal)}
+							/>
+						</DelModalHeader>
+						<DelModalText>Após ser excluido, um modelo não pode ser recuperado.</DelModalText>
+						<DelModalText>Você deseja excluir o { }
+							<span>
+								Medicamento *****
+							</span>?
+						</DelModalText>
+						<ContainerDelModalButtons>
+							<DelModalButton
+								cancel
+								onClick={() => setOpenDelModal(!openDelModal)}
+							>
+								cancelar
+							</DelModalButton>
+							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails, list, setList)}>confirmar</DelModalButton>
+						</ContainerDelModalButtons>
 					</ContainerDelModal>
 				</Overlay>
 			)}
