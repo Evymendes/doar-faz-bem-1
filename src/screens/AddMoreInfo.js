@@ -8,7 +8,10 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
-//
+// Services
+import { createMedicament } from '../services/api';
+
+// Styles
 const Container = styled.div`
 	width: 100%;
 	height: 100vh;
@@ -105,6 +108,35 @@ class Login extends Component {
 		isErrorCategory: undefined,
 	}
 
+	createMed = async () => {
+		const {
+			name, expirationDate, code, category,
+		} = this.state;
+
+		const date = new Date(expirationDate);
+
+		const data = {
+			EAN_1: code,
+			PRODUTO: name,
+			SUBSTANCIA: 'subs',
+			APRESENTACAO: 'aprensentaaaaa',
+			LABORATORIO: 'labor',
+			TIPO: category,
+			QUANTIDADE: '10',
+			EMBALAGEM_ABERTA: true,
+			// DATA_EXPIRACAO: expirationDate,
+			DATA_EXPIRACAO: { __type: 'Date', iso: date },
+		};
+
+		try {
+			const response = await createMedicament(data);
+
+			console.log('response', response);
+		} catch (error) {
+			console.log('error', error.response);
+		}
+	}
+
 	handleBackScanner = () => {
 		this.setState({
 			isRedirect: true,
@@ -113,7 +145,6 @@ class Login extends Component {
 	}
 
 	handleChange = (field, ev) => {
-
 		if (field === 'name') {
 			this.setState({
 				isErrorName: ev.target.value.length < 1,
@@ -144,7 +175,9 @@ class Login extends Component {
 	};
 
 	validationScreen = () => {
-		const { name, expirationDate, code, category } = this.state;
+		const {
+			name, expirationDate, code, category,
+		} = this.state;
 
 		if (!name) {
 			this.setState({
@@ -207,6 +240,8 @@ class Login extends Component {
 			this.setState({
 				isLoading: true,
 			});
+
+			this.createMed();
 		}
 	}
 
@@ -228,7 +263,7 @@ class Login extends Component {
 				<FormContent isError={isErrorName}>
 					<Label onClick={this.handleLabelName}>
 						Nome:
-				</Label>
+					</Label>
 					<Input
 						type="text"
 						value={name}

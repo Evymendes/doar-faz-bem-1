@@ -24,7 +24,7 @@ export const getById = (isbn) => axios({
 	},
 });
 
-export const createMedicament = () => axios({
+export const createMedicament = (data) => axios({
 	url: `${API_URL}/classes/medicamento`,
 	method: 'post',
 	headers: {
@@ -32,5 +32,15 @@ export const createMedicament = () => axios({
 		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
 		'Content-Type': 'application/json',
 	},
-	data: {},
+	data,
+});
+
+export const getAllMedicaments = () => axios({
+	url: `${API_URL}/classes/medicamento`,
+	method: 'get',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
 });

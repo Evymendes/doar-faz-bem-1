@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTable } from 'react-table';
 import styled from 'styled-components';
-import Parse from 'parse';
 
 // Components
 import Header from '../components/Header';
@@ -16,7 +15,7 @@ import CloseIcon from '../assets/fechar.svg';
 import searchIcon from '../assets/search.svg';
 
 // Services
-import { getAll, getById } from '../services/api';
+import { getAll, getById, getAllMedicaments } from '../services/api';
 
 // Styles
 const Container = styled.div`
@@ -344,14 +343,14 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 	}
 };
 
-const handleDeleteMed = (selectedId, list, setList, teste, setTeste) => {
+const handleDeleteMed = (selectedId, medicamentsList, setMedicamentsList, teste, setTeste) => {
 
-	// console.log('lista filtrada', list);
+	// console.log('lista filtrada', medicamentsList);
 
-	const filtering = list.filter((medicament) => medicament.id !== selectedId);
+	const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
 
 	// console.log('filtrado', filtering);
-	setList(filtering);
+	setMedicamentsList(filtering);
 	// console.log('selectedId', selectedId);
 };
 
@@ -368,7 +367,7 @@ const Search = () => (
 );
 
 const Table = ({
-	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, list, setList,
+	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, medicamentsList, setMedicamentsList,
 }) => {
 	const {
 		getTableProps,
@@ -381,9 +380,9 @@ const Table = ({
 		data,
 	});
 
-	setList(rows);
+	// setMedicamentsList(rows);
 
-	// console.log('list com filtrooo', list);
+	// console.log('medicamentsList com filtrooo', medicamentsList);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -469,12 +468,36 @@ function Dashboard() {
 	const [itemMedDetails, setItemMedDetails] = useState(null);
 	const [openDelModal, setOpenDelModal] = useState(false);
 
-	const [list, setList] = useState(null);
+	const [medicamentsList, setMedicamentsList] = useState({ list: [] });
 
 	useEffect(() => {
-		// const getAllData = async () => {
+		const getAllData = async () => {
+			try {
+				const response = await getAllMedicaments();
+
+				// console.log('response', response);
+
+				// console.log('medicamentsList antes', medicamentsList);
+
+				const data = response.data.results;
+
+				console.log('response.data.results', response.data.results)
+
+				setMedicamentsList(data);
+
+				console.log('medicamentsList', medicamentsList);
+			} catch (error) {
+				console.log('error', error.response);
+			}
+		};
+		getAllData();
+
+		// const getIsbnById = async () => {
+
+		// 	const isbn = '789892050054';
+
 		// 	try {
-		// 		const response = await getAll();
+		// 		const response = await getById(isbn);
 
 		// 		console.log('response', response);
 		// 	} catch (error) {
@@ -482,22 +505,8 @@ function Dashboard() {
 		// 	}
 		// };
 
-		const getIsbnById = async () => {
+		// getIsbnById();
 
-			const isbn = '789892050054';
-
-			try {
-				const response = await getById(isbn);
-
-				console.log('response', response);
-			} catch (error) {
-				console.log('error', error.response);
-			}
-		};
-
-		getIsbnById();
-
-		// getAllData();
 	}, []);
 
 	return (
@@ -511,8 +520,8 @@ function Dashboard() {
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
 				setItemMedDetails={setItemMedDetails}
-				list={list}
-				setList={setList}
+				medicamentsList={medicamentsList}
+				setMedicamentsList={setMedicamentsList}
 			/>
 			<ContainerButton medDetails={openMedDetails}>
 				{!openMedDetails ? (
@@ -554,7 +563,7 @@ function Dashboard() {
 							>
 								cancelar
 							</DelModalButton>
-							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails, list, setList)}>confirmar</DelModalButton>
+							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails, medicamentsList, setMedicamentsList)}>confirmar</DelModalButton>
 						</ContainerDelModalButtons>
 					</ContainerDelModal>
 				</Overlay>
