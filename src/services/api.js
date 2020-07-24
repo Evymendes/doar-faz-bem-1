@@ -1,14 +1,36 @@
 import axios from 'axios';
 
 export const API_URL = process.env.REACT_APP_API_URL;
-// export const token = localStorage.getItem('token');
 
-// Onboarding
-// export const createUserAccount = (user, base64credentials) => axios({
-// 	url: `${API_URL}/users`,
-// 	method: 'post',
-// 	headers: {
-// 		Authorization: `Basic ${base64credentials}`,
-// 	},
-// 	data: user,
-// });
+// Get All From Anvisa
+export const getAll = () => axios({
+	url: `${API_URL}/classes/anvisa`,
+	method: 'get',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
+});
+
+// Get By Id From Anvisa
+export const getById = (isbn) => axios({
+	url: `${API_URL}/classes/anvisa?where={"EAN_1": ${isbn}}`,
+	method: 'get',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
+});
+
+export const createMedicament = () => axios({
+	url: `${API_URL}/classes/medicamento`,
+	method: 'post',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
+	data: {},
+});

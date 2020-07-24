@@ -1,7 +1,8 @@
 // Libs
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTable } from 'react-table';
 import styled from 'styled-components';
+import Parse from 'parse';
 
 // Components
 import Header from '../components/Header';
@@ -13,6 +14,9 @@ import EditIcon from '../assets/edit.svg';
 import TrashIcon from '../assets/trash.svg';
 import CloseIcon from '../assets/fechar.svg';
 import searchIcon from '../assets/search.svg';
+
+// Services
+import { getAll, getById } from '../services/api';
 
 // Styles
 const Container = styled.div`
@@ -340,15 +344,14 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 	}
 };
 
-const handleDeleteMed = (selectedId, list, setList) => {
+const handleDeleteMed = (selectedId, list, setList, teste, setTeste) => {
 
 	// console.log('lista filtrada', list);
 
 	const filtering = list.filter((medicament) => medicament.id !== selectedId);
 
-	console.log('filtrado', filtering);
+	// console.log('filtrado', filtering);
 	setList(filtering);
-
 	// console.log('selectedId', selectedId);
 };
 
@@ -380,7 +383,7 @@ const Table = ({
 
 	setList(rows);
 
-	console.log('list com filtrooo', list);
+	// console.log('list com filtrooo', list);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -467,6 +470,35 @@ function Dashboard() {
 	const [openDelModal, setOpenDelModal] = useState(false);
 
 	const [list, setList] = useState(null);
+
+	useEffect(() => {
+		// const getAllData = async () => {
+		// 	try {
+		// 		const response = await getAll();
+
+		// 		console.log('response', response);
+		// 	} catch (error) {
+		// 		console.log('error', error.response);
+		// 	}
+		// };
+
+		const getIsbnById = async () => {
+
+			const isbn = '789892050054';
+
+			try {
+				const response = await getById(isbn);
+
+				console.log('response', response);
+			} catch (error) {
+				console.log('error', error.response);
+			}
+		};
+
+		getIsbnById();
+
+		// getAllData();
+	}, []);
 
 	return (
 		<Container>
