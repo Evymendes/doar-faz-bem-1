@@ -168,7 +168,7 @@ const Login = props => {
 				</Button>
 				<Button
 					pressed={pressed && currentButton === '/qrcode'}
-					onClick={() => handleClick('/qrcode')}
+					onClick={() => handleClick('/AddMoreInfo')}
 					style={{
 						background: '#D8998A',
 						color: '#fff',

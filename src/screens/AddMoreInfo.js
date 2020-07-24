@@ -11,17 +11,15 @@ import Loading from '../components/Loading';
 //
 const Container = styled.div`
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	background: #38D5D5;
 `;
 
 const Form = styled.form`
-	position: relative;
 	margin: 0 auto;
-	width: 85%;
-	height: calc(100vh - 96px);
+	padding-top: 2rem;
+	width: 86%;
 	display: flex;
-	justify-content: space-around;
 	flex-direction: column;
 `;
 
@@ -61,12 +59,9 @@ const ErrorMessage = styled.p`
 `;
 
 const Footer = styled.div`
-	width: 20%;
-	height: 5rem;
+	margin: 2rem 0;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	width: 100%;
 `;
 
 const Button = styled.button`
@@ -106,12 +101,7 @@ class Login extends Component {
 	}
 
 	handleBackScanner = () => {
-		// this.setState({
-		// 	isRedirect: true,
-		// 	redirect: '/qrcode',
-		// });
 		this.props.history.goBack();
-
 	}
 
 	handleChange = (field, ev) => {
@@ -214,19 +204,40 @@ class Login extends Component {
 
 	renderForm = () => {
 		const {
+			barCode,
 			name,
 			expirationDate,
-			code,
 			category,
+			substance,
+			laboratory,
+			openProduct,
+			quantity,
+			description,
+			isErrorBarCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCode,
-			isErrorCategory,
+			isErrorOpenProduct,
+			isErrorQuantity
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
 
 		return (
 			<>
+				<FormContent isError={isErrorBarCode}>
+					<Label> Código de barras: </Label>
+					<Input
+						type="text"
+						value={barCode}
+						onChange={(ev) => this.handleChange('barCode', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorBarCode}
+					/>
+					{isErrorBarCode && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
 				<FormContent isError={isErrorName}>
 					<Label onClick={this.handleLabelName}>
 						Nome:
@@ -259,35 +270,84 @@ class Login extends Component {
 						</ErrorMessage>
 					)}
 				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label>Código: </Label>
-					<Input
-						type="text"
-						value={code}
-						onChange={(ev) => this.handleChange('code', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorCode}
-					/>
-					{isErrorCode && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label> Categoria: </Label>
+				<FormContent>
+					<Label>Categoria: </Label>
 					<Input
 						type="text"
 						value={category}
 						onChange={(ev) => this.handleChange('category', ev)}
 						placeholder='Digite aqui...'
-						isError={isErrorCategory}
 					/>
-					{isErrorCategory && (
+				</FormContent>
+				<FormContent>
+					<Label> Substância: </Label>
+					<Input
+						type="text"
+						value={substance}
+						onChange={(ev) => this.handleChange('substance', ev)}
+						placeholder='Digite aqui...'
+					/>
+				</FormContent>
+
+
+
+
+
+
+				{/* Código, Produto,  Data de Validade, Categoria, Substância, Laboratório, Produto aberto? Quantidade, Descrição */}
+
+
+				{/* Code, Product, Expiration Date, Category, Substance, Laboratory, Open product? Quantity, Description */}
+
+
+
+				<FormContent>
+					<Label> Laboratório: </Label>
+					<Input
+						type="text"
+						value={laboratory}
+						onChange={(ev) => this.handleChange('laboratory', ev)}
+						placeholder='Digite aqui...'
+					/>
+				</FormContent>
+				<FormContent isError={isErrorOpenProduct}>
+					<Label> Produto aberto? </Label>
+					<Input
+						type="text"
+						value={openProduct}
+						onChange={(ev) => this.handleChange('openProduct', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorOpenProduct}
+					/>
+					{isErrorOpenProduct && (
 						<ErrorMessage>
 							{errorMessage}
 						</ErrorMessage>
 					)}
+				</FormContent>
+				<FormContent isError={isErrorQuantity}>
+					<Label> Quantidade: </Label>
+					<Input
+						type="text"
+						value={quantity}
+						onChange={(ev) => this.handleChange('quantity', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorQuantity}
+					/>
+					{isErrorQuantity && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
+				</FormContent>
+				<FormContent>
+					<Label> Descrição: </Label>
+					<Input
+						type="text"
+						value={description}
+						onChange={(ev) => this.handleChange('description', ev)}
+						placeholder='Digite aqui...'
+					/>
 				</FormContent>
 			</>
 		);
