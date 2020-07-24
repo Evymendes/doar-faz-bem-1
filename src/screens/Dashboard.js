@@ -297,41 +297,61 @@ const DelModalButton = styled.button`
 	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
 `;
 
-const data = [
-	{
-		col1: 'remedio1', col2: '7898927111014', col3: '10/01/2021', col4: 'categoria1',
-	},
-	{
-		col1: 'remedio2', col2: '7898927323014', col3: '11/02/2021', col4: 'categoria2',
-	},
-	{
-		col1: 'remedio3', col2: '7893237111022', col3: '12/03/2021', col4: 'categoria3',
-	},
-	{
-		col1: 'remedio4', col2: '7898927111323', col3: '13/04/2021', col4: 'categoria4',
-	},
-	{
-		col1: 'remedio5', col2: '7898927324564', col3: '14/05/2021', col4: 'categoria5',
-	},
-];
+// const data = [
+// 	{
+// 		col1: 'remedio1', col2: '7898927111014', col3: '10/01/2021', col4: 'categoria1',
+// 	},
+// 	{
+// 		col1: 'remedio2', col2: '7898927323014', col3: '11/02/2021', col4: 'categoria2',
+// 	},
+// 	{
+// 		col1: 'remedio3', col2: '7893237111022', col3: '12/03/2021', col4: 'categoria3',
+// 	},
+// 	{
+// 		col1: 'remedio4', col2: '7898927111323', col3: '13/04/2021', col4: 'categoria4',
+// 	},
+// 	{
+// 		col1: 'remedio5', col2: '7898927324564', col3: '14/05/2021', col4: 'categoria5',
+// 	},
+// ];
 
 const columns = [
 	{
-		Header: 'Medicamento',
-		accessor: 'col1',
-	},
-	{
 		Header: 'Código',
-		accessor: 'col2',
+		accessor: 'EAN_1',
 	},
 	{
-		Header: 'Data de Validade',
-		accessor: 'col3',
+		Header: 'Medicamento',
+		accessor: 'PRODUTO',
 	},
 	{
-		Header: 'Categoria',
-		accessor: 'col4',
+		Header: 'Substância',
+		accessor: 'SUBSTANCIA',
 	},
+	{
+		Header: 'Descrição',
+		accessor: 'APRESENTACAO',
+	},
+	{
+		Header: 'Laboratório',
+		accessor: 'LABORATORIO',
+	},
+	{
+		Header: 'Tipo',
+		accessor: 'TIPO',
+	},
+	{
+		Header: 'Quantidade',
+		accessor: 'QUANTIDADE',
+	},
+	{
+		Header: 'Embalagem Aberta?',
+		accessor: 'EMBALAGEM_ABERTA',
+	},
+	// {
+	// 	Header: 'Data de Validade',
+	// 	accessor: 'DATA_EXPIRACAO',
+	// },
 ];
 
 const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMedDetails) => {
@@ -343,15 +363,12 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 	}
 };
 
-const handleDeleteMed = (selectedId, medicamentsList, setMedicamentsList, teste, setTeste) => {
-
+const handleDeleteMed = (selectedId, medicamentsList, setMedicamentsList, _teste, _setTeste) => {
 	// console.log('lista filtrada', medicamentsList);
 
 	const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
 
-	// console.log('filtrado', filtering);
 	setMedicamentsList(filtering);
-	// console.log('selectedId', selectedId);
 };
 
 const Search = () => (
@@ -381,8 +398,6 @@ const Table = ({
 	});
 
 	// setMedicamentsList(rows);
-
-	// console.log('medicamentsList com filtrooo', medicamentsList);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -416,30 +431,31 @@ const Table = ({
 							key={index}
 							style={{ margin: index === rows.length - 1 && '0 0 8rem 0' }}
 						>
+							{console.log('row', row)}
 							{widthMob
-								? (
-									<>
-										<ContainerTableTitleMob>
-											<TableTitleMob>Medicamento</TableTitleMob>
-											<TableList>remedio1</TableList>
-										</ContainerTableTitleMob>
+								? <>
+									{row.cells.map((item) => (
+										<>
+											<ContainerTableTitleMob>
+												<TableTitleMob>Código</TableTitleMob>
+												<TableList>{item.row.values.EAN_1}</TableList>
+											</ContainerTableTitleMob>
+											<ContainerTableTitleMob>
+												<TableTitleMob>Medicamento</TableTitleMob>
+												<TableList>{item.row.values.PRODUTO}</TableList>
+											</ContainerTableTitleMob>
+											<ContainerTableTitleMob>
+												<TableTitleMob>Data de Validade</TableTitleMob>
+												<TableList>10/01/2021</TableList>
+											</ContainerTableTitleMob>
 
-										<ContainerTableTitleMob>
-											<TableTitleMob>Código</TableTitleMob>
-											<TableList>7898927111014</TableList>
-										</ContainerTableTitleMob>
-
-										<ContainerTableTitleMob>
-											<TableTitleMob>Data de Validade</TableTitleMob>
-											<TableList>10/01/2021</TableList>
-										</ContainerTableTitleMob>
-
-										<ContainerTableTitleMob>
-											<TableTitleMob>Categoria</TableTitleMob>
-											<TableList>catego</TableList>
-										</ContainerTableTitleMob>
-									</>
-								)
+											<ContainerTableTitleMob>
+												<TableTitleMob>Tipo</TableTitleMob>
+												<TableList>{item.row.values.TIPO}</TableList>
+											</ContainerTableTitleMob>
+										</>
+									))}
+								</>
 								: <>
 									{row.cells.map((cell, index) => <TableList
 										{...cell.getCellProps()}
@@ -468,45 +484,22 @@ function Dashboard() {
 	const [itemMedDetails, setItemMedDetails] = useState(null);
 	const [openDelModal, setOpenDelModal] = useState(false);
 
-	const [medicamentsList, setMedicamentsList] = useState({ list: [] });
+	const [medicamentsList, setMedicamentsList] = useState(null);
+
+	const [medList, setMedList] = useState([]);
+	console.log('medList', medList);
 
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
 				const response = await getAllMedicaments();
 
-				// console.log('response', response);
-
-				// console.log('medicamentsList antes', medicamentsList);
-
-				const data = response.data.results;
-
-				console.log('response.data.results', response.data.results)
-
-				setMedicamentsList(data);
-
-				console.log('medicamentsList', medicamentsList);
+				setMedList(response.data.results);
 			} catch (error) {
 				console.log('error', error.response);
 			}
 		};
 		getAllData();
-
-		// const getIsbnById = async () => {
-
-		// 	const isbn = '789892050054';
-
-		// 	try {
-		// 		const response = await getById(isbn);
-
-		// 		console.log('response', response);
-		// 	} catch (error) {
-		// 		console.log('error', error.response);
-		// 	}
-		// };
-
-		// getIsbnById();
-
 	}, []);
 
 	return (
@@ -515,7 +508,7 @@ function Dashboard() {
 			<Search />
 			<Table
 				columns={columns}
-				data={data}
+				data={medList}
 				openMedDetails={openMedDetails}
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
