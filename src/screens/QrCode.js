@@ -7,6 +7,8 @@ import { NavLink } from 'react-router-dom';
 //Assets
 import MarkerIcon from '../assets/markerIconQr.svg';
 import BackIcon from '../assets/back.svg';
+import Loading from '../components/Loading';
+
 
 // Styles
 const Container = styled.div`
@@ -118,9 +120,19 @@ class QrCode extends Component {
 	}
 
 	handleOpenScannerScreen = () => {
-		this.props.history.push({
-			pathname: '/scanner',
+		this.setState({
+			isLoading: true,
 		});
+
+		setTimeout(() => {
+			this.props.history.push({
+				pathname: '/scanner',
+			});
+			this.setState({
+				isLoading: false,
+			});
+		}, 1000);
+
 	}
 
 	handleError = (err) => {
@@ -128,6 +140,8 @@ class QrCode extends Component {
 	}
 
 	render() {
+		const { isLoading } = this.state;
+
 		return (
 			<Container>
 				<ButtonBack exact to="/">
@@ -149,6 +163,7 @@ class QrCode extends Component {
 				<Footer>
 					<Button onClick={this.handleOpenScannerScreen}>Se preferir, escaneie o código de barras</Button>
 				</Footer>
+				{isLoading && <Loading />}
 			</Container>
 		);
 	}

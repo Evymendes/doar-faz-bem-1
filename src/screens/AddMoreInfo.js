@@ -106,10 +106,12 @@ class Login extends Component {
 	}
 
 	handleBackScanner = () => {
-		this.setState({
-			isRedirect: true,
-			redirect: '/qrcode',
-		});
+		// this.setState({
+		// 	isRedirect: true,
+		// 	redirect: '/qrcode',
+		// });
+		this.props.history.goBack();
+
 	}
 
 	handleChange = (field, ev) => {
@@ -228,7 +230,7 @@ class Login extends Component {
 				<FormContent isError={isErrorName}>
 					<Label onClick={this.handleLabelName}>
 						Nome:
-				</Label>
+					</Label>
 					<Input
 						type="text"
 						value={name}

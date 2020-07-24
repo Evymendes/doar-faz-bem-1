@@ -27,6 +27,11 @@ const ContainerIbsnCode = styled.div`
 	padding: 3rem;
 	border: 3px solid #49E5D6;
 	border-radius: 10px;
+
+	@media(max-width: 320px) {
+		padding: 3rem 0;
+		width: 18rem;
+	}
 `;
 
 const TextModalDetails = styled.h2`
@@ -34,6 +39,7 @@ const TextModalDetails = styled.h2`
 	font-size: ${(props) => (props.title ? '1.5rem' : '1.2rem')};
 	font-weight: 800;
 	font-family: 'Overpass', Bold;
+	text-align: center;
 `;
 
 const Button = styled.button`
@@ -52,6 +58,10 @@ const Button = styled.button`
 	box-shadow: 2px 2px 2px #888888;
 	background: ${(props) => (props.addInfo ? '#D8998A' : '#49E5D6')};
 	cursor: pointer;
+
+	@media(max-width: 320px) {
+		width: 18rem;
+	}
 `;
 
 class ExtractedInf extends Component {
