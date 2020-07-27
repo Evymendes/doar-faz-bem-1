@@ -435,8 +435,6 @@ class Scanner extends Component {
 			modalOpenDetails, modalOpenBarCode, modalOpenLoading, isRedirect, redirect,
 		} = this.state;
 
-		console.log('modalOpenDetails', modalOpenDetails)
-
 		return (
 			<>
 				<Video id="video" />

@@ -369,8 +369,6 @@ class Login extends Component {
 			medicament,
 		} = this.state;
 
-		console.log('medicament', medicament)
-
 		return (
 			<Container>
 				<Header openModal={this.handleBackScanner} />
