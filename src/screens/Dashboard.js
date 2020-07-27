@@ -1,9 +1,10 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useFilters, useGlobalFilter } from 'react-table';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
@@ -303,20 +304,23 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	}
 };
 
-const Search = () => (
+const Search = (search, setSearch) => (
 	<ContainerSearch>
 		<ContainerInputSearch>
 			<InputSearch
-				// onChange={}
+				type="text"
+				value={search}
+				onChange={(e) => setSearch(e.target.value)}
 				placeholder="Digite aqui para pesquisar..."
 			/>
 			<img src={searchIcon} alt="Lupa" />
 		</ContainerInputSearch>
+{		console.log('search', search)}
 	</ContainerSearch>
 );
 
 const Table = ({
-	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails, isFetching
+	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
 	const {
 		getTableProps,
@@ -326,7 +330,7 @@ const Table = ({
 		prepareRow,
 	} = useTable({
 		columns,
-		data,
+		data
 	});
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
@@ -418,6 +422,10 @@ function Dashboard() {
 
 	const [isFetching, setIsFetching] = useState(null);
 
+	const [search, setSearch] = useState('');
+
+	const [isRedirect, setIsRedirect] = useState(null);
+
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
@@ -438,7 +446,7 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Search />
+			<Search search={search} setSearch={setSearch} />
 			{isFetching ? <Loading
 				backgroundColor='transparent'
 				textColor='#D8998A'
@@ -456,7 +464,7 @@ function Dashboard() {
 			)}
 			<ContainerButton medDetails={isOpenedMedDetails}>
 				{!isOpenedMedDetails ? (
-					<ButtonAddMed>Adicionar Medicamento</ButtonAddMed>
+					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
 				) : (
 					<>
 						<ButtonMedDetails detail>
@@ -477,12 +485,7 @@ function Dashboard() {
 					medicament={medicament.original}
 				/>
 			)}
-			{/* {isFetching
-				&& <Loading
-					backgroundColor='transparent'
-					textColor='#D8998A'
-					loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
-				/>} */}
+			{isRedirect && <Redirect to={'/addmoreinfo'} />}
 		</Container>
 	);
 }
