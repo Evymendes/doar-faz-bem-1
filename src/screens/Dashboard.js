@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTable } from 'react-table';
 import styled from 'styled-components';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
@@ -15,7 +17,7 @@ import CloseIcon from '../assets/fechar.svg';
 import searchIcon from '../assets/search.svg';
 
 // Services
-import { getAll, getById, getAllMedicaments } from '../services/api';
+import { getAllMedicaments } from '../services/api';
 
 // Styles
 const Container = styled.div`
@@ -297,61 +299,51 @@ const DelModalButton = styled.button`
 	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
 `;
 
-// const data = [
-// 	{
-// 		col1: 'remedio1', col2: '7898927111014', col3: '10/01/2021', col4: 'categoria1',
-// 	},
-// 	{
-// 		col1: 'remedio2', col2: '7898927323014', col3: '11/02/2021', col4: 'categoria2',
-// 	},
-// 	{
-// 		col1: 'remedio3', col2: '7893237111022', col3: '12/03/2021', col4: 'categoria3',
-// 	},
-// 	{
-// 		col1: 'remedio4', col2: '7898927111323', col3: '13/04/2021', col4: 'categoria4',
-// 	},
-// 	{
-// 		col1: 'remedio5', col2: '7898927324564', col3: '14/05/2021', col4: 'categoria5',
-// 	},
-// ];
+const formatDate = (date) => {
+	return moment(date).locale('pt-br').format('DD/MM/YYYY');
+};
 
 const columns = [
+	{
+		Header: 'Medicamento',
+		accessor: 'PRODUTO',
+	},
 	{
 		Header: 'Código',
 		accessor: 'EAN_1',
 	},
 	{
-		Header: 'Medicamento',
-		accessor: 'PRODUTO',
+		Header: 'Data de Validade',
+		accessor: d => formatDate(d.DATA_EXPIRACAO.iso),
+	},
+	{
+		Header: 'Categoria',
+		accessor: 'TIPO',
 	},
 	{
 		Header: 'Substância',
 		accessor: 'SUBSTANCIA',
 	},
 	{
-		Header: 'Descrição',
-		accessor: 'APRESENTACAO',
-	},
-	{
 		Header: 'Laboratório',
 		accessor: 'LABORATORIO',
 	},
 	{
-		Header: 'Tipo',
-		accessor: 'TIPO',
+		Header: 'Embalagem Aberta?',
+		accessor: d => d.EMBALAGEM_ABERTA ? 'Sim' : 'Não',
 	},
 	{
 		Header: 'Quantidade',
 		accessor: 'QUANTIDADE',
 	},
 	{
-		Header: 'Embalagem Aberta?',
-		accessor: 'EMBALAGEM_ABERTA',
+		Header: 'Cadastrado Em',
+		accessor: d => formatDate(d.createdAt),
 	},
-	// {
-	// 	Header: 'Data de Validade',
-	// 	accessor: 'DATA_EXPIRACAO',
-	// },
+	{
+		Header: 'Descrição',
+		accessor: 'APRESENTACAO',
+	},
 ];
 
 const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMedDetails) => {
@@ -363,12 +355,13 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 	}
 };
 
-const handleDeleteMed = (selectedId, medicamentsList, setMedicamentsList, _teste, _setTeste) => {
-	// console.log('lista filtrada', medicamentsList);
+const handleDeleteMed = (selectedId) => {
 
-	const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
+	console.log('selectedId', selectedId);
 
-	setMedicamentsList(filtering);
+	// const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
+
+	// setMedicamentsList(filtering);
 };
 
 const Search = () => (
@@ -384,7 +377,7 @@ const Search = () => (
 );
 
 const Table = ({
-	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails, medicamentsList, setMedicamentsList,
+	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails,
 }) => {
 	const {
 		getTableProps,
@@ -396,8 +389,6 @@ const Table = ({
 		columns,
 		data,
 	});
-
-	// setMedicamentsList(rows);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -431,30 +422,25 @@ const Table = ({
 							key={index}
 							style={{ margin: index === rows.length - 1 && '0 0 8rem 0' }}
 						>
-							{console.log('row', row)}
 							{widthMob
 								? <>
-									{row.cells.map((item) => (
-										<>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Código</TableTitleMob>
-												<TableList>{item.row.values.EAN_1}</TableList>
-											</ContainerTableTitleMob>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Medicamento</TableTitleMob>
-												<TableList>{item.row.values.PRODUTO}</TableList>
-											</ContainerTableTitleMob>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Data de Validade</TableTitleMob>
-												<TableList>10/01/2021</TableList>
-											</ContainerTableTitleMob>
+									<ContainerTableTitleMob>
+										<TableTitleMob>Medicamento</TableTitleMob>
+										<TableList>{row.values.PRODUTO}</TableList>
+									</ContainerTableTitleMob>
+									<ContainerTableTitleMob>
+										<TableTitleMob>Código</TableTitleMob>
+										<TableList>{row.values.EAN_1}</TableList>
+									</ContainerTableTitleMob>
+									<ContainerTableTitleMob>
+										<TableTitleMob>Data de Validade</TableTitleMob>
+										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
+									</ContainerTableTitleMob>
 
-											<ContainerTableTitleMob>
-												<TableTitleMob>Tipo</TableTitleMob>
-												<TableList>{item.row.values.TIPO}</TableList>
-											</ContainerTableTitleMob>
-										</>
-									))}
+									<ContainerTableTitleMob>
+										<TableTitleMob>Categoria</TableTitleMob>
+										<TableList>{row.values.TIPO}</TableList>
+									</ContainerTableTitleMob>
 								</>
 								: <>
 									{row.cells.map((cell, index) => <TableList
@@ -484,10 +470,7 @@ function Dashboard() {
 	const [itemMedDetails, setItemMedDetails] = useState(null);
 	const [openDelModal, setOpenDelModal] = useState(false);
 
-	const [medicamentsList, setMedicamentsList] = useState(null);
-
 	const [medList, setMedList] = useState([]);
-	console.log('medList', medList);
 
 	useEffect(() => {
 		const getAllData = async () => {
@@ -513,8 +496,6 @@ function Dashboard() {
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
 				setItemMedDetails={setItemMedDetails}
-				medicamentsList={medicamentsList}
-				setMedicamentsList={setMedicamentsList}
 			/>
 			<ContainerButton medDetails={openMedDetails}>
 				{!openMedDetails ? (
@@ -556,7 +537,7 @@ function Dashboard() {
 							>
 								cancelar
 							</DelModalButton>
-							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails, medicamentsList, setMedicamentsList)}>confirmar</DelModalButton>
+							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails)}>confirmar</DelModalButton>
 						</ContainerDelModalButtons>
 					</ContainerDelModal>
 				</Overlay>
