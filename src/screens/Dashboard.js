@@ -261,8 +261,12 @@ const columns = [
 		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
-		Header: 'Categoria',
+		Header: 'Tipo',
 		accessor: 'TIPO',
+	},
+	{
+		Header: 'Categoria',
+		accessor: 'CATEGORIA',
 	},
 	{
 		Header: 'Substância',
@@ -371,10 +375,13 @@ const Table = ({
 										<TableTitleMob>Data de Validade</TableTitleMob>
 										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
 									</ContainerTableTitleMob>
-
+									<ContainerTableTitleMob>
+										<TableTitleMob>Tipo</TableTitleMob>
+										<TableList>{row.values.TIPO}</TableList>
+									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
 										<TableTitleMob>Categoria</TableTitleMob>
-										<TableList>{row.values.TIPO}</TableList>
+										<TableList>{row.values.CATEGORIA}</TableList>
 									</ContainerTableTitleMob>
 								</>
 								: <>
