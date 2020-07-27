@@ -9,10 +9,10 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { getById } from '../services/api';
 
-//Assets
+// Assets
 import ChevronDown from '../assets/chevron-down.svg';
 
-//Styled
+// Styles
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -360,7 +360,7 @@ class Login extends Component {
 					<MultSelect>
 						<p>Clique para selecionar</p>
 						<img src={ChevronDown} alt="DropDown" />
-					</MultSelect >
+					</MultSelect>
 
 					{/* <Input
 						type="text"

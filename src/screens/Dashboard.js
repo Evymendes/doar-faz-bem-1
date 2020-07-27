@@ -316,7 +316,7 @@ const Search = () => (
 );
 
 const Table = ({
-	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
+	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails, isFetching
 }) => {
 	const {
 		getTableProps,
@@ -436,14 +436,21 @@ function Dashboard() {
 		<Container>
 			<Header withoutClose={showCloseButton} />
 			<Search />
-			<Table
-				columns={columns}
-				data={medList}
-				isOpenedMedDetails={isOpenedMedDetails}
-				setOpenMedDetails={setOpenMedDetails}
-				medicament={medicament}
-				setItemMedDetails={setItemMedDetails}
-			/>
+			{isFetching ? <Loading
+				backgroundColor='transparent'
+				textColor='#D8998A'
+				loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
+			/> : (
+				<Table
+					columns={columns}
+					data={medList}
+					isOpenedMedDetails={isOpenedMedDetails}
+					setOpenMedDetails={setOpenMedDetails}
+					medicament={medicament}
+					setItemMedDetails={setItemMedDetails}
+					isFetching={isFetching}
+				/>
+			)}
 			<ContainerButton medDetails={isOpenedMedDetails}>
 				{!isOpenedMedDetails ? (
 					<ButtonAddMed>Adicionar Medicamento</ButtonAddMed>
