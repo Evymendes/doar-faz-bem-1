@@ -257,7 +257,7 @@ const columns = [
 		accessor: 'EAN_1',
 	},
 	{
-		Header: 'Data de Validade',
+		Header: 'Validade',
 		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
@@ -372,7 +372,7 @@ const Table = ({
 										<TableList>{row.values.EAN_1}</TableList>
 									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
-										<TableTitleMob>Data de Validade</TableTitleMob>
+										<TableTitleMob>Validade</TableTitleMob>
 										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
 									</ContainerTableTitleMob>
 									{/* <ContainerTableTitleMob>
