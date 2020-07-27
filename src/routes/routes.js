@@ -7,7 +7,8 @@ import Login from '../screens/Login';
 import Scanner from '../screens/Scanner';
 import QrCode from '../screens/QrCode';
 import AddMoreInfo from '../screens/AddMoreInfo';
-import ExtractedInf from '../components/ExtractedInf';
+import Dashboard from '../screens/Dashboard';
+// import ExtractedInf from '../components/ExtractedInf';
 // import PrivateRoute from './PrivateRoute';
 
 const Routes = () => (
@@ -18,7 +19,8 @@ const Routes = () => (
 			<Route path='/scanner' component={Scanner} />
 			<Route path='/qrcode' component={QrCode} />
 			<Route path='/addmoreinfo' component={AddMoreInfo} />
-			<Route path='/extractedInf' component={ExtractedInf} />
+			<Route path='/dashboard' component={Dashboard} />
+			{/* <Route path='/extractedInf' component={ExtractedInf} /> */}
 
 			{/* <PrivateRoute path='/documents' component={DocumentsScreen} /> */}
 		</Switch>

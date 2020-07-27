@@ -7,8 +7,9 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
+import { getById } from '../services/api';
 
-//
+//Styled
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -98,14 +99,34 @@ class Login extends Component {
 		isErrorExpirationDate: undefined,
 		isErrorCode: undefined,
 		isErrorCategory: undefined,
+		medicament: {},
 	}
+
+	componentDidMount() {
+		this.fetchingData();
+	}
+
+	fetchingData = async () => {
+		const { result } = this.props.location.state;
+		// const okk = "7894916341769"
+		try {
+			const response = await getById(result);
+			const data = response.data.results[0];
+
+			this.setState({
+				medicament: data,
+			});
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response', error.response);
+		}
+	};
 
 	handleBackScanner = () => {
 		this.props.history.goBack();
 	}
 
 	handleChange = (field, ev) => {
-
 		if (field === 'name') {
 			this.setState({
 				isErrorName: ev.target.value.length < 1,
@@ -288,19 +309,6 @@ class Login extends Component {
 						placeholder='Digite aqui...'
 					/>
 				</FormContent>
-
-
-
-
-
-
-				{/* Código, Produto,  Data de Validade, Categoria, Substância, Laboratório, Produto aberto? Quantidade, Descrição */}
-
-
-				{/* Code, Product, Expiration Date, Category, Substance, Laboratory, Open product? Quantity, Description */}
-
-
-
 				<FormContent>
 					<Label> Laboratório: </Label>
 					<Input
@@ -358,7 +366,10 @@ class Login extends Component {
 			isRedirect,
 			redirect,
 			isLoading,
+			medicament,
 		} = this.state;
+
+		console.log('medicament', medicament)
 
 		return (
 			<Container>

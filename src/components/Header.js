@@ -26,14 +26,16 @@ const Header = (props) => (
 				height: '4rem',
 				borderRadius: '50%',
 				background: '#000',
-				boxShadow: '5px 5px 6px #888888',
+				// boxShadow: '5px 5px 6px #888888',
 			}}
 		/>
-		<img
-			src={CloseIcon}
-			alt='Fechar'
-			onClick={props.openModal}
-		/>
+		{props.withoutClose ? null
+			: <img
+				src={CloseIcon}
+				alt='Fechar'
+				onClick={props.openModal}
+			/>
+		}
 	</Container>
 );
 

@@ -1,5 +1,5 @@
 // Libs
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 // Images
@@ -26,7 +26,7 @@ const borderAnimation = keyframes`
 		border-bottom-right-radius: 50%;
 		border-bottom-left-radius: 50%;
   }
-`
+`;
 
 const fadeIn = keyframes`
   0% {
@@ -35,13 +35,13 @@ const fadeIn = keyframes`
   100% {
 		opacity: 1;
   }
-`
+`;
 const pressAnimation = keyframes`
   100% {
 		transform: translateY(2px);
     box-shadow: none;
   }
-`
+`;
 
 const ContainerHeader = styled.div`
 	position: relative;
@@ -121,23 +121,23 @@ const Button = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 1rem;
 	font-weight: bold;
 	text-decoration: none;
 	border: none;
 	border-radius: 50px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
-	animation: ${props => props.pressed ? pressAnimation : ''} 0.5s ease forwards;
+	animation: ${(props) => (props.pressed ? pressAnimation : '')} 0.5s ease forwards;
 `;
 
-
-const Login = props => {
+const Login = (props) => {
 	const [pressed, setPressed] = useState(false);
 	const [currentButton, chooseCurrentButton] = useState(false);
 
 	const handleClick = (link) => {
-		setPressed(pressed => !pressed)
-		chooseCurrentButton(link)
+		setPressed((pressed) => !pressed);
+		chooseCurrentButton(link);
 
 		if (!pressed) {
 			setTimeout(() => {
@@ -166,7 +166,7 @@ const Login = props => {
 				>
 					Escanear Código de Barras
 				</Button>
-				<Button
+				{/* <Button
 					pressed={pressed && currentButton === '/qrcode'}
 					onClick={() => handleClick('/AddMoreInfo')}
 					style={{
@@ -175,14 +175,13 @@ const Login = props => {
 					}}
 				>
 					Escanear QR Code
-				</Button>
+				</Button> */}
 				<Button
 					pressed={pressed && currentButton === 'none'}
 					onClick={() => handleClick(props.history, '/')}
 					disabled
 					style={{
 						background: '#EDEDED',
-						color: '#000',
 						cursor: 'not-allowed',
 						color: '#9E9E9E',
 						opacity: '0.5',

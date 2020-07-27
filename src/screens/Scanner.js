@@ -15,6 +15,8 @@ import Header from '../components/Header';
 import MarkerIcon from '../assets/markerIcon.svg';
 import BackIcon from '../assets/back.svg';
 
+// remedio.rename(columns={'': ''})
+
 // Styles
 const Video = styled.div`
 	video {
@@ -287,7 +289,8 @@ class Scanner extends Component {
 	}
 
 	handleButtonBarCode = () => {
-		if (this.state.valueCode.length === 0) {
+		const { valueCode } = this.state;
+		if (valueCode.length === 0) {
 			this.setState({
 				error: '*Insira o código de barras.',
 			});
@@ -296,7 +299,7 @@ class Scanner extends Component {
 				error: null,
 			});
 
-			const isbn = this.state.valueCode;
+			const isbn = valueCode;
 			// meu codigo valido 7898927111014
 
 			if (validateIsbn(isbn)) {
@@ -306,8 +309,11 @@ class Scanner extends Component {
 				// more info modal
 				this.setState({
 					modalOpenLoading: false,
-					isRedirect: true,
-					redirect: '/addmoreinfo',
+					isbnCode: valueCode,
+					modalOpenBarCode: false,
+					modalOpenDetails: true,
+					// isRedirect: true,
+					// redirect: '/addmoreinfo',
 				});
 			} else {
 				this.setState({
@@ -356,6 +362,28 @@ class Scanner extends Component {
 		</ContainerModalBoilerPlate>
 	)
 
+	handleCloseModalExactedInfo = () => {
+		this.setState({
+			modalOpenDetails: false,
+			modalOpenBarCode: true,
+		});
+	}
+
+	handleRedirectScreen = () => {
+		const { valueCode } = this.state;
+
+		// this.setState({
+		// 	isRedirect: true,
+		// 	redirect: '/addmoreinfo'
+		// });
+		this.props.history.push({
+			pathname: '/addmoreinfo',
+			state: {
+				result: valueCode,
+			},
+		});
+	}
+
 	renderModalDetails = () => (
 		<ModalDetails>
 			<Header openModal={this.handleModalOpenDetails} />
@@ -366,12 +394,12 @@ class Scanner extends Component {
 				</ContainerIbsnCode>
 				<Button
 					addInfo
-					onClick={() => this.setState({ isRedirect: true, redirect: '/addmoreinfo' })}
+					onClick={this.handleRedirectScreen}
 				>
 					Adicionar mais Informações
 				</Button>
 				<Button
-					onClick={() => this.setState({ modalOpenDetails: false })}
+					onClick={this.handleCloseModalExactedInfo}
 				>
 					Cancelar
 				</Button>
@@ -406,6 +434,8 @@ class Scanner extends Component {
 		const {
 			modalOpenDetails, modalOpenBarCode, modalOpenLoading, isRedirect, redirect,
 		} = this.state;
+
+		console.log('modalOpenDetails', modalOpenDetails)
 
 		return (
 			<>

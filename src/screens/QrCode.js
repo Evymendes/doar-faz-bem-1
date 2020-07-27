@@ -6,9 +6,9 @@ import { NavLink } from 'react-router-dom';
 
 //Assets
 import MarkerIcon from '../assets/markerIconQr.svg';
-import BackIcon from '../assets/back.svg';
-import Loading from '../components/Loading';
+import BackIcon from '../assets/backWhite.svg';
 
+import Loading from '../components/Loading';
 
 // Styles
 const Container = styled.div`
