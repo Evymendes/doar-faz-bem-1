@@ -18,6 +18,7 @@ const Overlay = styled.div`
 	justify-content: center;
 	align-items: center;
 	background: rgba(196, 196, 196, 0.3);
+	z-index: 5;
 `;
 
 const ContainerDelModal = styled.div`

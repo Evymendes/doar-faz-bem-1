@@ -1,6 +1,8 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-import { useTable, useFilters, useGlobalFilter } from 'react-table';
+// import { useTable } from 'react-table';
+import { useTable, useFilters, useGlobalFilter } from "react-table";
+
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -53,6 +55,7 @@ const Container = styled.div`
 
 const ContainerSearch = styled.div`
 	padding-top: 1rem;
+	padding-bottom: 2rem;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -88,7 +91,6 @@ const InputSearch = styled.input`
 `;
 
 const ContainerTable = styled.table`
-	margin-top: 2rem;
 	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
@@ -286,7 +288,7 @@ const columns = [
 		accessor: 'QUANTIDADE',
 	},
 	{
-		Header: 'Cadastrado Em',
+		Header: 'Cadastrado',
 		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
@@ -304,39 +306,82 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	}
 };
 
-const Search = (search, setSearch) => (
-	<ContainerSearch>
-		<ContainerInputSearch>
-			<InputSearch
-				type="text"
-				value={search}
-				onChange={(e) => setSearch(e.target.value)}
-				placeholder="Digite aqui para pesquisar..."
-			/>
-			<img src={searchIcon} alt="Lupa" />
-		</ContainerInputSearch>
-{		console.log('search', search)}
-	</ContainerSearch>
-);
+const GlobalFilter = ({
+	preGlobalFilteredRows,
+	globalFilter,
+	setGlobalFilter
+}) => {
+	const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+
+	return (
+		<ContainerSearch>
+			<ContainerInputSearch>
+				<InputSearch
+					value={globalFilter || ""}
+					onChange={e => {
+						setGlobalFilter(e.target.value || undefined);
+					}}
+					placeholder={`${count} records...`}
+					style={{
+						border: "0"
+					}}
+					placeholder="Digite aqui para pesquisar..."
+				/>
+				<img src={searchIcon} alt="Lupa" />
+			</ContainerInputSearch>
+		</ContainerSearch>
+	);
+};
 
 const Table = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
+	const filterTypes = React.useMemo(
+		() => ({
+			text: (rows, id, filterValue) => {
+				return rows.filter(row => {
+					const rowValue = row.values[id];
+					return rowValue !== undefined
+						? String(rowValue)
+							.toLowerCase()
+							.startsWith(String(filterValue).toLowerCase())
+						: true;
+				});
+			}
+		}),
+		[]
+	);
+
 	const {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
 		rows,
 		prepareRow,
+		state,
+		preGlobalFilteredRows,
+		setGlobalFilter,
 	} = useTable({
 		columns,
-		data
-	});
+		data,
+		filterTypes,
+	},
+		useFilters,
+		useGlobalFilter,
+	);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
+
 	return (
 		<ContainerTable {...getTableProps()}>
+
+			<GlobalFilter
+				preGlobalFilteredRows={preGlobalFilteredRows}
+				globalFilter={state.globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+
 			<Thead>
 				{headerGroups.map((headerGroup, index) => (
 					<Tr
@@ -446,22 +491,14 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Search search={search} setSearch={setSearch} />
-			{isFetching ? <Loading
-				backgroundColor='transparent'
-				textColor='#D8998A'
-				loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
-			/> : (
-				<Table
-					columns={columns}
-					data={medList}
-					isOpenedMedDetails={isOpenedMedDetails}
-					setOpenMedDetails={setOpenMedDetails}
-					medicament={medicament}
-					setItemMedDetails={setItemMedDetails}
-					isFetching={isFetching}
-				/>
-			)}
+			<Table
+				columns={columns}
+				data={medList}
+				isOpenedMedDetails={isOpenedMedDetails}
+				setOpenMedDetails={setOpenMedDetails}
+				medicament={medicament}
+				setItemMedDetails={setItemMedDetails}
+			/>
 			<ContainerButton medDetails={isOpenedMedDetails}>
 				{!isOpenedMedDetails ? (
 					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
