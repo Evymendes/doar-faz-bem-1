@@ -470,8 +470,6 @@ function Dashboard() {
 	const [itemMedDetails, setItemMedDetails] = useState(null);
 	const [openDelModal, setOpenDelModal] = useState(false);
 
-	const [medicamentsList, setMedicamentsList] = useState(null);
-
 	const [medList, setMedList] = useState([]);
 
 	useEffect(() => {
@@ -498,8 +496,6 @@ function Dashboard() {
 				setOpenMedDetails={setOpenMedDetails}
 				itemMedDetails={itemMedDetails}
 				setItemMedDetails={setItemMedDetails}
-				medicamentsList={medicamentsList}
-				setMedicamentsList={setMedicamentsList}
 			/>
 			<ContainerButton medDetails={openMedDetails}>
 				{!openMedDetails ? (
