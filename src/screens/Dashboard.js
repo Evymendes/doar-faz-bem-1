@@ -1,6 +1,8 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-import { useTable } from 'react-table';
+// import { useTable } from 'react-table';
+import { useTable, useFilters, useGlobalFilter } from "react-table";
+
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -50,7 +52,8 @@ const Container = styled.div`
 	}
 `;
 
-const ContainerSearch = styled.div`
+const ContainerSearch = styled.div`	
+	margin: 1rem 0;
 	padding-top: 1rem;
 	width: 100%;
 	display: flex;
@@ -285,7 +288,7 @@ const columns = [
 		accessor: 'QUANTIDADE',
 	},
 	{
-		Header: 'Cadastrado Em',
+		Header: 'Cadastrado',
 		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
@@ -303,36 +306,82 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	}
 };
 
-const Search = () => (
-	<ContainerSearch>
-		<ContainerInputSearch>
-			<InputSearch
-				// onChange={}
-				placeholder="Digite aqui para pesquisar..."
-			/>
-			<img src={searchIcon} alt="Lupa" />
-		</ContainerInputSearch>
-	</ContainerSearch>
-);
+const GlobalFilter = ({
+	preGlobalFilteredRows,
+	globalFilter,
+	setGlobalFilter
+}) => {
+	const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+
+	return (
+		<ContainerSearch>
+			<ContainerInputSearch>
+				<InputSearch
+					value={globalFilter || ""}
+					onChange={e => {
+						setGlobalFilter(e.target.value || undefined);
+					}}
+					placeholder={`${count} records...`}
+					style={{
+						border: "0"
+					}}
+					placeholder="Digite aqui para pesquisar..."
+				/>
+				<img src={searchIcon} alt="Lupa" />
+			</ContainerInputSearch>
+		</ContainerSearch>
+	);
+};
 
 const Table = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
+	const filterTypes = React.useMemo(
+		() => ({
+			text: (rows, id, filterValue) => {
+				return rows.filter(row => {
+					const rowValue = row.values[id];
+					return rowValue !== undefined
+						? String(rowValue)
+							.toLowerCase()
+							.startsWith(String(filterValue).toLowerCase())
+						: true;
+				});
+			}
+		}),
+		[]
+	);
+
 	const {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
 		rows,
 		prepareRow,
+		state,
+		preGlobalFilteredRows,
+		setGlobalFilter,
 	} = useTable({
 		columns,
 		data,
-	});
+		filterTypes,
+	},
+		useFilters,
+		useGlobalFilter,
+	);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
+	
 	return (
 		<ContainerTable {...getTableProps()}>
+
+			<GlobalFilter
+				preGlobalFilteredRows={preGlobalFilteredRows}
+				globalFilter={state.globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+
 			<Thead>
 				{headerGroups.map((headerGroup, index) => (
 					<Tr
@@ -438,7 +487,6 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Search />
 			<Table
 				columns={columns}
 				data={medList}
