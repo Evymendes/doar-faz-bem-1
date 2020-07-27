@@ -50,7 +50,8 @@ const Input = styled.input`
 	box-shadow: 2px 2px 2px #888888;
 
 	::placeholder {
-		color: #989494;
+		color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
+		/* color: #989494; */
 	}
 `;
 
@@ -63,12 +64,31 @@ const MultSelect = styled.div`
 	background: #FFF;
 	outline: none;
 	border: ${(props) => (props.isError ? '2px solid red' : 'none')};
-	border-radius: 4px;
+	border-radius:${(props) => (props.isModal ? '4px 4px 0 0' : '4px')};
 	box-shadow: 2px 2px 2px #888888;
 	display: flex;
+	justify-content: space-between;
 
 	::placeholder {
 		color: #989494;
+	}
+`;
+
+const Modal = styled.div`
+	background: #FFF;
+	display: flex;
+	flex-direction: column;
+	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
+`;
+
+const Text = styled.p`
+	padding: 0.35rem 0 0.35rem 0.7rem;
+	font: 400 0.9rem 'Overpass', serif;
+	color:#989494;
+	text-transform: capitalize;
+
+	&:hover {
+		background: #98949457;
 	}
 `;
 
@@ -111,12 +131,18 @@ class Login extends Component {
 	state = {
 		isRedirect: undefined,
 		redirect: undefined,
+		isModalOpenPackaging: true,
+		typePackaging: ['true', 'false'],
+		selectedPackaging: undefined,
+		isModalType: undefined,
+		typeMed: ['comprimidos', 'gel', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
+		selectedType: undefined,
 		isLoading: undefined,
-
 		isErrorName: undefined,
 		isErrorExpirationDate: undefined,
 		isErrorCode: undefined,
 		isErrorCategory: undefined,
+		isMedReq: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -144,6 +170,7 @@ class Login extends Component {
 			const data = response.data.results[0];
 
 			this.setState({
+				isMedReq: true,
 				medicament: {
 					code: data.EAN_1,
 					name: data.PRODUTO,
@@ -167,25 +194,25 @@ class Login extends Component {
 
 		if (field === 'name') {
 			this.setState({
-				isErrorName: ev.target.value.length < 1,
+				isErrorName: false,
 			});
 		}
 
 		if (field === 'expirationDate') {
 			this.setState({
-				isErrorExpirationDate: ev.target.value.length < 1,
+				isErrorExpirationDate: false,
 			});
 		}
 
 		if (field === 'code') {
 			this.setState({
-				isErrorCode: ev.target.value.length < 1,
+				isErrorCode: false,
 			});
 		}
 
 		if (field === 'category') {
 			this.setState({
-				isErrorCategory: ev.target.value.length < 1,
+				isErrorCategory: false,
 			});
 		}
 
@@ -198,8 +225,18 @@ class Login extends Component {
 
 	validationScreen = () => {
 		const {
-			name, expirationDate, code, category,
-		} = this.state;
+			code, name, expirationDate, quantity, openPacking,
+		} = this.state.medicament;
+
+		if (!code) {
+			this.setState({
+				isErrorCode: true,
+			});
+		} else {
+			this.setState({
+				isErrorCode: false,
+			});
+		}
 
 		if (!name) {
 			this.setState({
@@ -221,23 +258,23 @@ class Login extends Component {
 			});
 		}
 
-		if (!code) {
+		if (!quantity) {
 			this.setState({
-				isErrorCode: true,
+				isErrorQuantity: true,
 			});
 		} else {
 			this.setState({
-				isErrorCode: false,
+				isErrorQuantity: false,
 			});
 		}
 
-		if (!category) {
+		if (!openPacking) {
 			this.setState({
-				isErrorCategory: true,
+				isErrorOpenPacking: true,
 			});
 		} else {
 			this.setState({
-				isErrorCategory: false,
+				isErrorOpenPacking: false,
 			});
 		}
 	}
@@ -250,6 +287,8 @@ class Login extends Component {
 			isErrorCode,
 			isErrorCategory,
 		} = this.state;
+
+		console.log('medi', this.state.medicament);
 
 		this.validationScreen();
 
@@ -270,42 +309,64 @@ class Login extends Component {
 		// }
 	}
 
-
 	createMedic = async () => {
 		const { medicament } = this.state;
+		// const formatName = {
+		// 	EAN_1: medicament.code,
+		// 	PRODUTO: medicament.name,
+		// 	SUBSTANCIA: medicament.substance,
+		// 	APRESENTACAO: medicament.description,
+		// 	LABORATORIO: medicament.laboratory,
+		// 	TIPO: medicament.type,
+		// 	QUANTIDADE: medicament.quantity,
+		// 	EMBALAGEM_ABERTA: medicament.open_packing,
+		// 	DATA_EXPIRACAO: medicament.expirationDate,
+		// 	CATEGORIA: medicament.category,
+		// };
+
+		const date = new Date(medicament.expirationDate);
+
+		const formatName = {
+			EAN_1: '123456789',
+			PRODUTO: 'Test',
+			SUBSTANCIA: 'subs',
+			APRESENTACAO: 'cate',
+			LABORATORIO: 'subs',
+			TIPO: 'type',
+			QUANTIDADE: '9',
+			EMBALAGEM_ABERTA: true,
+			DATA_EXPIRACAO: { __type: 'Date', iso: date },
+			CATEGORIA: 'descri',
+		};
+
 		try {
+			// const response = await createMedicament(formatName);
 
-			const date = new Date(medicament.expirationDate);
-
-			const formatName = {
-				EAN_1: '123456789',
-				PRODUTO: 'Test',
-				SUBSTANCIA: 'subs',
-				APRESENTACAO: 'cate',
-				LABORATORIO: 'subs',
-				TIPO: 'type',
-				QUANTIDADE: '9',
-				EMBALAGEM_ABERTA: true,
-				DATA_EXPIRACAO: { __type: 'Date', iso: date },
-				CATEGORIA: 'descri',
-			};
-
-			const response = await createMedicament(formatName);
-			console.log('repsonse', response)
+			// this.props.history.push({
+			// 	pathname: '/dashboard',
+			// });
+			// console.log('repsonse', response);
 
 		} catch (error) {
-
 			console.log('error', error);
 			console.log('error.response', error.response);
 		}
 	}
 
+	handleModalOpenPackaging = () => {
+		this.setState({
+			isModalOpenPackaging: !this.state.isModalOpenPackaging,
+		});
+	}
+
 	renderForm = () => {
 		const {
+			isMedReq,
 			medicament,
 			isErrorBarCode,
 			isErrorName,
 			isErrorExpirationDate,
+			isErrorCategory,
 			isErrorOpenProduct,
 			isErrorQuantity,
 		} = this.state;
@@ -321,7 +382,8 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('code', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorBarCode}
-						// disabled={medicament.code ? true : false}
+						disabled={!!(isMedReq && medicament.code)}
+						isData={medicament.code}
 					/>
 					{isErrorBarCode && (
 						<ErrorMessage>
@@ -339,7 +401,9 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('name', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorName}
-						// disabled={medicament.name ? true : false}
+						disabled={!!medicament.name}
+						isData={medicament.name}
+
 					/>
 					{isErrorName && (
 						<ErrorMessage>
@@ -355,7 +419,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('expirationDate', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorExpirationDate}
-						// disabled={medicament.expirationDate ? true : false}
+						isData={medicament.expirationDate}
 					/>
 					{isErrorExpirationDate && (
 						<ErrorMessage>
@@ -370,7 +434,7 @@ class Login extends Component {
 						value={medicament.category || ''}
 						onChange={(ev) => this.handleChange('category', ev)}
 						placeholder='Digite aqui...'
-						// disabled={medicament.category ? true : false}
+						isError={isErrorCategory}
 					/>
 				</FormContent>
 				<FormContent>
@@ -380,7 +444,8 @@ class Login extends Component {
 						value={medicament.substance || ''}
 						onChange={(ev) => this.handleChange('substance', ev)}
 						placeholder='Digite aqui...'
-						// disabled={medicament.substance ? true : false}
+						disabled={!!medicament.substance}
+						isData={medicament.substance}
 					/>
 				</FormContent>
 				<FormContent>
@@ -390,15 +455,23 @@ class Login extends Component {
 						value={medicament.laboratory || ''}
 						onChange={(ev) => this.handleChange('laboratory', ev)}
 						placeholder='Digite aqui...'
-						// disabled={medicament.laboratory ? true : false}
+						disabled={medicament.laboratory}
+						isData={medicament.laboratory}
 					/>
 				</FormContent>
 				<FormContent isError={isErrorOpenProduct}>
 					<Label> Embalagem aberta? </Label>
-					<MultSelect>
+					<MultSelect isModal={this.state.isModalOpenPackaging} onClick={this.handleModalOpenPackaging}>
 						<p>Clique para selecionar</p>
 						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
+					{this.state.isModalOpenPackaging
+						&& <Modal>
+							{this.state.typePackaging.map((item) => (
+								<Text>{item}</Text>
+							))}
+						</Modal>
+					}
 
 					{/* <Input
 						type="text"
@@ -416,6 +489,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('type', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorQuantity}
+						isData={medicament.type}
 					/>
 					{/* {isErrorQuantity && (
 						<ErrorMessage>
@@ -423,6 +497,13 @@ class Login extends Component {
 						</ErrorMessage>
 					)} */}
 				</FormContent>
+				{/* {this.state.isModalOpenPackaging
+						&& <Modal>
+							{this.state.typeMed.map((item) => (
+								<Text>{item}</Text>
+							))}
+						</Modal>
+					} */}
 				<FormContent isError={isErrorQuantity}>
 					<Label> Quantidade: </Label>
 					<Input
@@ -431,6 +512,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('quantity', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorQuantity}
+						isData={medicament.quantity}
 					/>
 					{isErrorQuantity && (
 						<ErrorMessage>
@@ -445,7 +527,8 @@ class Login extends Component {
 						value={medicament.description || ''}
 						onChange={(ev) => this.handleChange('description', ev)}
 						placeholder='Digite aqui...'
-						// disabled={medicament.description ? true : false}
+						disabled={medicament.description}
+						isData={medicament.description}
 					/>
 				</FormContent>
 			</>
@@ -458,6 +541,7 @@ class Login extends Component {
 			redirect,
 			isLoading,
 		} = this.state;
+		console.log('medicament', this.state.medicament);
 
 		return (
 			<Container>
@@ -472,6 +556,10 @@ class Login extends Component {
 							Nome:
 						</Label>
 					</FormContent> */}
+
+					{/* {this.state.typeMed.map((item) => (
+item
+)} */}
 					<div>
 						{this.renderForm()}
 					</div>
@@ -488,4 +576,4 @@ class Login extends Component {
 }
 
 export default Login;
-// comprimidos,  gel,  xarope,  gotas,  supositórios, injetáveis, cápsulas, drágeas
+//
