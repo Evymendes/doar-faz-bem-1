@@ -40,7 +40,7 @@ const Label = styled.label`
 const Input = styled.input`
 	padding: 0.7rem 0.7rem;
   width: 100%;
-	color: #989494;
+	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
 	font: 700 1rem 'Overpass', serif;
 	text-decoration: none;
 	background: #FFF;
@@ -56,7 +56,7 @@ const Input = styled.input`
 `;
 
 const MultSelect = styled.div`
-	padding: 0.7rem 0.7rem;
+	padding: 0.7rem 0.7rem 0.44rem 0.7rem;
 	width: 100%;
 	color: #989494;
 	font: 700 1rem 'Overpass', serif;
@@ -72,6 +72,12 @@ const MultSelect = styled.div`
 	::placeholder {
 		color: #989494;
 	}
+`;
+
+const TextMultSelect = styled.p`
+	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
+	text-transform: capitalize;
+
 `;
 
 const Modal = styled.div`
@@ -131,7 +137,7 @@ class Login extends Component {
 	state = {
 		isRedirect: undefined,
 		redirect: undefined,
-		isModalOpenPackaging: true,
+		isModalOpenPackaging: undefined,
 		typePackaging: ['true', 'false'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
@@ -142,7 +148,6 @@ class Login extends Component {
 		isErrorExpirationDate: undefined,
 		isErrorCode: undefined,
 		isErrorCategory: undefined,
-		isMedReq: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -170,7 +175,6 @@ class Login extends Component {
 			const data = response.data.results[0];
 
 			this.setState({
-				isMedReq: true,
 				medicament: {
 					code: data.EAN_1,
 					name: data.PRODUTO,
@@ -204,6 +208,12 @@ class Login extends Component {
 			});
 		}
 
+		if (field === 'quantity') {
+			this.setState({
+				isErrorQuantity: false,
+			});
+		}
+
 		if (field === 'code') {
 			this.setState({
 				isErrorCode: false,
@@ -215,6 +225,7 @@ class Login extends Component {
 				isErrorCategory: false,
 			});
 		}
+
 
 		medicament[field] = ev.target.value;
 
@@ -288,8 +299,6 @@ class Login extends Component {
 			isErrorCategory,
 		} = this.state;
 
-		console.log('medi', this.state.medicament);
-
 		this.validationScreen();
 
 		// if (
@@ -359,33 +368,57 @@ class Login extends Component {
 		});
 	}
 
+	handleSelectedPackaging = (item) => {
+		this.setState({
+			selectedPackaging: item,
+		});
+	}
+
+	handleSelectedType = (item) => {
+		this.setState({
+			selectedType: item,
+		});
+	}
+
+	handleModalType = () => {
+		this.setState({
+			isModalType: !this.state.isModalType,
+		});
+	}
+
 	renderForm = () => {
 		const {
-			isMedReq,
 			medicament,
-			isErrorBarCode,
+			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
 			isErrorCategory,
 			isErrorOpenProduct,
 			isErrorQuantity,
+			isModalOpenPackaging,
+			typePackaging,
+			selectedPackaging,
+			isModalType,
+			typeMed,
+			selectedType,
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
+		console.log('medicament.expirationDate', medicament.expirationDate)
 
 		return (
 			<>
-				<FormContent isError={isErrorBarCode}>
+				<FormContent isError={isErrorCode}>
 					<Label> Código de barras: </Label>
 					<Input
 						type="text"
 						value={medicament.code || ''}
 						onChange={(ev) => this.handleChange('code', ev)}
 						placeholder='Digite aqui...'
-						isError={isErrorBarCode}
-						disabled={!!(isMedReq && medicament.code)}
+						isError={isErrorCode}
+						disabled={medicament.code}
 						isData={medicament.code}
 					/>
-					{isErrorBarCode && (
+					{isErrorCode && (
 						<ErrorMessage>
 							{errorMessage}
 						</ErrorMessage>
@@ -403,7 +436,6 @@ class Login extends Component {
 						isError={isErrorName}
 						disabled={!!medicament.name}
 						isData={medicament.name}
-
 					/>
 					{isErrorName && (
 						<ErrorMessage>
@@ -435,6 +467,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('category', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorCategory}
+						isData={medicament.category}
 					/>
 				</FormContent>
 				<FormContent>
@@ -459,55 +492,38 @@ class Login extends Component {
 						isData={medicament.laboratory}
 					/>
 				</FormContent>
-				<FormContent isError={isErrorOpenProduct}>
+				<FormContent>
 					<Label> Embalagem aberta? </Label>
-					<MultSelect isModal={this.state.isModalOpenPackaging} onClick={this.handleModalOpenPackaging}>
-						<p>Clique para selecionar</p>
-						<img src={ChevronDown} alt="DropDown" />
+					<MultSelect isModal={isModalOpenPackaging} onClick={this.handleModalOpenPackaging}>
+						<TextMultSelect>{selectedPackaging ? selectedPackaging : 'Clique para selecionar'}</TextMultSelect>
+						<img src={ChevronDown} alt="DropDown"/>
 					</MultSelect >
-					{this.state.isModalOpenPackaging
+					{isModalOpenPackaging
 						&& <Modal>
-							{this.state.typePackaging.map((item) => (
-								<Text>{item}</Text>
+							{typePackaging.map((item, index) => (
+								<Text key={index} onClick={() => this.handleSelectedPackaging(item)}>{item}</Text>
 							))}
 						</Modal>
 					}
-
-					{/* <Input
-						type="text"
-						value={medicament.openProduct || ''}
-						onChange={(ev) => this.handleChange('openProduct', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorOpenProduct}
-					/> */}
 				</FormContent>
-				<FormContent isError={isErrorQuantity}>
+				<FormContent>
 					<Label> Tipo do medicamento: </Label>
-					<Input
-						type="text"
-						value={medicament.type || ''}
-						onChange={(ev) => this.handleChange('type', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorQuantity}
-						isData={medicament.type}
-					/>
-					{/* {isErrorQuantity && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)} */}
-				</FormContent>
-				{/* {this.state.isModalOpenPackaging
+					<MultSelect isModal={isModalType} onClick={this.handleModalType}>
+						<TextMultSelect>{selectedType ? selectedType : 'Clique para selecionar'}</TextMultSelect>
+						<img src={ChevronDown} alt="DropDown" />
+					</MultSelect >
+					{isModalType
 						&& <Modal>
-							{this.state.typeMed.map((item) => (
-								<Text>{item}</Text>
+							{typeMed.map((item, index) => (
+								<Text onClick={() => this.handleSelectedType(item)} key={index}>{item}</Text>
 							))}
 						</Modal>
-					} */}
+					}
+				</FormContent>
 				<FormContent isError={isErrorQuantity}>
 					<Label> Quantidade: </Label>
 					<Input
-						type="text"
+						type="number"
 						value={medicament.quantity || ''}
 						onChange={(ev) => this.handleChange('quantity', ev)}
 						placeholder='Digite aqui...'
@@ -541,25 +557,11 @@ class Login extends Component {
 			redirect,
 			isLoading,
 		} = this.state;
-		console.log('medicament', this.state.medicament);
 
 		return (
 			<Container>
 				<Header openModal={this.handleBackScanner} />
 				<Form onSubmit={this.handleSubmit}>
-					{/* <FormContent>
-						<Input
-							id="input__name"
-							placeholder='Digite seu nome'
-						/>
-						<Label for="input__name" onClick={this.handleLabelName}>
-							Nome:
-						</Label>
-					</FormContent> */}
-
-					{/* {this.state.typeMed.map((item) => (
-item
-)} */}
 					<div>
 						{this.renderForm()}
 					</div>
