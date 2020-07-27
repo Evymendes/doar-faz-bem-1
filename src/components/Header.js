@@ -18,17 +18,28 @@ const Container = styled.div`
 	}
 `;
 
+const Logo = styled.div`
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.85rem;
+	padding: 1rem;
+	color: #fff;
+	background: linear-gradient(45deg, #3dfefe, #9E9E9E);
+	font-weight: 800;
+	font-family: sans-serif;
+`;
+
 const Header = (props) => (
 	<Container>
-		<div
-			style={{
-				width: '4rem',
-				height: '4rem',
-				borderRadius: '50%',
-				background: '#000',
-				// boxShadow: '5px 5px 6px #888888',
-			}}
-		/>
+		<Logo>
+			DOAR FAZ BEM
+		</Logo>
 		{props.withoutClose ? null
 			: <img
 				src={CloseIcon}
