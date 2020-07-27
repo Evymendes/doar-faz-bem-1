@@ -472,12 +472,19 @@ function Dashboard() {
 
 	const [medList, setMedList] = useState([]);
 
+	const [isFetching, setIsFetching] = useState(null);
+
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
+
+				setIsFetching(true);
+
 				const response = await getAllMedicaments();
 
 				setMedList(response.data.results);
+
+				setIsFetching(false);
 			} catch (error) {
 				console.log('error', error.response);
 			}
@@ -542,6 +549,7 @@ function Dashboard() {
 					</ContainerDelModal>
 				</Overlay>
 			)}
+			{isFetching && <div>aaaaaaaaaaa</div>}
 		</Container>
 	);
 }
