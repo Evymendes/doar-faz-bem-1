@@ -8,7 +8,7 @@ import 'moment/locale/pt-br';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import ModalDelete from '../components/ModalDelete'
+import ModalDelete from '../components/ModalDelete';
 
 // Images
 import SelectMoreIcon from '../assets/plus.svg';
@@ -66,6 +66,10 @@ const ContainerInputSearch = styled.div`
 	border: none;
 	border-radius: 50px;
 	background-color: #EDEDED;
+
+	@media(min-width: 1024px) {
+		width: 30rem;
+	}
 `;
 
 const InputSearch = styled.input`
@@ -76,6 +80,10 @@ const InputSearch = styled.input`
 	background: transparent;
 	border: none;
 	outline: none;
+
+	@media(min-width: 1024px) {
+		width: 90%;
+	}
 `;
 
 const ContainerTable = styled.table`
@@ -129,7 +137,7 @@ const TableTitle = styled.th`
 		width: 25%;
 		display: flex;
 		color: #fff;
-		text-align: center;
+		align-items: center;
 		font-size: 1rem;
 		font-family: 'Overpass', Regular;
 		background-color: #D8998A;
@@ -237,9 +245,7 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
-const formatDate = (date) => {
-	return moment(date).locale('pt-br').format('DD/MM/YYYY');
-};
+const formatDate = (date) => moment(date).locale('pt-br').format('DD/MM/YYYY');
 
 const columns = [
 	{
@@ -454,11 +460,12 @@ function Dashboard() {
 					medicament={medicament.original}
 				/>
 			)}
-			{isFetching
+			{/* {isFetching
 				&& <Loading
-					containerBackground={'transparent'}
-					textColor={'#D8998A'}
-				/>}
+					backgroundColor='transparent'
+					textColor='#D8998A'
+					loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
+				/>} */}
 		</Container>
 	);
 }
