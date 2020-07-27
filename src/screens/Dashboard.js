@@ -7,6 +7,8 @@ import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import ModalDelete from '../components/ModalDelete';
 
 // Images
 import SelectMoreIcon from '../assets/plus.svg';
@@ -64,6 +66,10 @@ const ContainerInputSearch = styled.div`
 	border: none;
 	border-radius: 50px;
 	background-color: #EDEDED;
+
+	@media(min-width: 1024px) {
+		width: 30rem;
+	}
 `;
 
 const InputSearch = styled.input`
@@ -74,6 +80,10 @@ const InputSearch = styled.input`
 	background: transparent;
 	border: none;
 	outline: none;
+
+	@media(min-width: 1024px) {
+		width: 90%;
+	}
 `;
 
 const ContainerTable = styled.table`
@@ -127,7 +137,7 @@ const TableTitle = styled.th`
 		width: 25%;
 		display: flex;
 		color: #fff;
-		text-align: center;
+		align-items: center;
 		font-size: 1rem;
 		font-family: 'Overpass', Regular;
 		background-color: #D8998A;
@@ -235,73 +245,7 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
-const Overlay = styled.div`
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: rgba(196, 196, 196, 0.3);
-`;
-
-const ContainerDelModal = styled.div`
-	width: 90%;
-	border-radius: 6px;
-	background: #fff;
-	font-family: "Overpass", Regular;
-`;
-
-const DelModalHeader = styled.span`
-	padding: 1rem;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-
-	p {
-		color: #D8998A;
-		font-size: 1.2rem;
-		font-weight: 600;
-	}
-
-	img {
-		width: 1rem;
-	}
-`;
-
-const DelModalText = styled.p`
-	padding: .8rem;
-	flex-wrap: wrap;
-
-	span {
-		font-weight: 600;
-	}
-`;
-
-const ContainerDelModalButtons = styled.div`
-	padding: 0.5rem 0 1rem 0;
-	width: 100%;
-	display: flex;
-	justify-content: space-around;
-`;
-
-const DelModalButton = styled.button`
-	width: 8.5rem;
-	height: 3rem;
-	text-transform: uppercase;
-	color: ${(props) => ((props.cancel) ? '#D8998A' : '#fff')};
-	font-size: 1rem;
-	font-weight: 600;
-	border-radius: 50px;
-	border:  ${(props) => (props.cancel ? '2px solid #D8998A' : 'none')};
-	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
-`;
-
-const formatDate = (date) => {
-	return moment(date).locale('pt-br').format('DD/MM/YYYY');
-};
+const formatDate = (date) => moment(date).locale('pt-br').format('DD/MM/YYYY');
 
 const columns = [
 	{
@@ -313,12 +257,12 @@ const columns = [
 		accessor: 'EAN_1',
 	},
 	{
-		Header: 'Data de Validade',
-		accessor: d => formatDate(d.DATA_EXPIRACAO.iso),
+		Header: 'Validade',
+		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
 		Header: 'Categoria',
-		accessor: 'TIPO',
+		accessor: 'CATEGORIA',
 	},
 	{
 		Header: 'Substância',
@@ -330,7 +274,11 @@ const columns = [
 	},
 	{
 		Header: 'Embalagem Aberta?',
-		accessor: d => d.EMBALAGEM_ABERTA ? 'Sim' : 'Não',
+		accessor: (d) => (d.EMBALAGEM_ABERTA ? 'Sim' : 'Não'),
+	},
+	{
+		Header: 'Tipo',
+		accessor: 'TIPO',
 	},
 	{
 		Header: 'Quantidade',
@@ -338,7 +286,7 @@ const columns = [
 	},
 	{
 		Header: 'Cadastrado Em',
-		accessor: d => formatDate(d.createdAt),
+		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
 		Header: 'Descrição',
@@ -346,22 +294,13 @@ const columns = [
 	},
 ];
 
-const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMedDetails) => {
-	setItemMedDetails(rowId);
-	setOpenMedDetails(!openMedDetails);
+const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails) => {
+	setItemMedDetails(row);
+	setOpenMedDetails(!isOpenedMedDetails);
 
-	if (openMedDetails) {
+	if (isOpenedMedDetails) {
 		setItemMedDetails(null);
 	}
-};
-
-const handleDeleteMed = (selectedId) => {
-
-	console.log('selectedId', selectedId);
-
-	// const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
-
-	// setMedicamentsList(filtering);
 };
 
 const Search = () => (
@@ -377,7 +316,7 @@ const Search = () => (
 );
 
 const Table = ({
-	columns, data, openMedDetails, setOpenMedDetails, itemMedDetails, setItemMedDetails,
+	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
 	const {
 		getTableProps,
@@ -433,13 +372,16 @@ const Table = ({
 										<TableList>{row.values.EAN_1}</TableList>
 									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
-										<TableTitleMob>Data de Validade</TableTitleMob>
+										<TableTitleMob>Validade</TableTitleMob>
 										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
 									</ContainerTableTitleMob>
-
+									{/* <ContainerTableTitleMob>
+										<TableTitleMob>Tipo</TableTitleMob>
+										<TableList>{row.values.TIPO}</TableList>
+									</ContainerTableTitleMob> */}
 									<ContainerTableTitleMob>
 										<TableTitleMob>Categoria</TableTitleMob>
-										<TableList>{row.values.TIPO}</TableList>
+										<TableList>{row.values.CATEGORIA}</TableList>
 									</ContainerTableTitleMob>
 								</>
 								: <>
@@ -453,8 +395,8 @@ const Table = ({
 								</>
 							}
 							<ButtonMoreMob
-								src={itemMedDetails === row.id ? SelectMinusIcon : SelectMoreIcon}
-								onClick={() => handleOptionChange(row.id, openMedDetails, setOpenMedDetails, setItemMedDetails)}
+								src={(medicament && medicament.id) === row.id ? SelectMinusIcon : SelectMoreIcon}
+								onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
 							/>
 						</Tr>
 					);
@@ -466,24 +408,29 @@ const Table = ({
 
 function Dashboard() {
 	const [showCloseButton] = useState(true);
-	const [openMedDetails, setOpenMedDetails] = useState(false);
-	const [itemMedDetails, setItemMedDetails] = useState(null);
-	const [openDelModal, setOpenDelModal] = useState(false);
-
+	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
+	const [medicament, setItemMedDetails] = useState(null);
+	const [isModalDelOpened, setOpenDelModal] = useState(false);
 	const [medList, setMedList] = useState([]);
+
+	const [isFetching, setIsFetching] = useState(null);
 
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
+				setIsFetching(true);
+
 				const response = await getAllMedicaments();
 
 				setMedList(response.data.results);
+
+				setIsFetching(false);
 			} catch (error) {
 				console.log('error', error.response);
 			}
 		};
 		getAllData();
-	}, []);
+	}, [isModalDelOpened]);
 
 	return (
 		<Container>
@@ -492,13 +439,13 @@ function Dashboard() {
 			<Table
 				columns={columns}
 				data={medList}
-				openMedDetails={openMedDetails}
+				isOpenedMedDetails={isOpenedMedDetails}
 				setOpenMedDetails={setOpenMedDetails}
-				itemMedDetails={itemMedDetails}
+				medicament={medicament}
 				setItemMedDetails={setItemMedDetails}
 			/>
-			<ContainerButton medDetails={openMedDetails}>
-				{!openMedDetails ? (
+			<ContainerButton medDetails={isOpenedMedDetails}>
+				{!isOpenedMedDetails ? (
 					<ButtonAddMed>Adicionar Medicamento</ButtonAddMed>
 				) : (
 					<>
@@ -506,42 +453,26 @@ function Dashboard() {
 							<img src={EditIcon} alt="Editar" />
 							<p>Editar</p>
 						</ButtonMedDetails>
-						<ButtonMedDetails onClick={() => setOpenDelModal(!openDelModal)}>
+						<ButtonMedDetails onClick={() => setOpenDelModal(!isModalDelOpened)}>
 							<img src={TrashIcon} alt="Excluir" />
 							<p>Excluir</p>
 						</ButtonMedDetails>
 					</>
 				)}
 			</ContainerButton>
-			{openDelModal && (
-				<Overlay>
-					<ContainerDelModal>
-						<DelModalHeader>
-							<p>Excluir Medicamento</p>
-							<img
-								src={CloseIcon}
-								alt="Fechar"
-								onClick={() => setOpenDelModal(!openDelModal)}
-							/>
-						</DelModalHeader>
-						<DelModalText>Após ser excluido, um modelo não pode ser recuperado.</DelModalText>
-						<DelModalText>Você deseja excluir o { }
-							<span>
-								Medicamento *****
-							</span>?
-						</DelModalText>
-						<ContainerDelModalButtons>
-							<DelModalButton
-								cancel
-								onClick={() => setOpenDelModal(!openDelModal)}
-							>
-								cancelar
-							</DelModalButton>
-							<DelModalButton onClick={() => handleDeleteMed(itemMedDetails)}>confirmar</DelModalButton>
-						</ContainerDelModalButtons>
-					</ContainerDelModal>
-				</Overlay>
+			{isModalDelOpened && (
+				<ModalDelete
+					setOpenDelModal={setOpenDelModal}
+					isModalDelOpened={isModalDelOpened}
+					medicament={medicament.original}
+				/>
 			)}
+			{/* {isFetching
+				&& <Loading
+					backgroundColor='transparent'
+					textColor='#D8998A'
+					loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
+				/>} */}
 		</Container>
 	);
 }

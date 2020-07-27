@@ -70,7 +70,7 @@ const ScanMarker = styled.div`
 `;
 
 const ContainerDigitBarCode = styled.div`
-	width: 20%;
+	width: 100%;
 	height: 5rem;
 	display: flex;
 	justify-content: center;
@@ -78,10 +78,6 @@ const ContainerDigitBarCode = styled.div`
 	background: rgba(255, 255, 255, 0.8);
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
-
-	@media(max-width: 648px) {
-		width: 100%;
-	}
 `;
 
 const ButtonDigitBarCode = styled.button`
