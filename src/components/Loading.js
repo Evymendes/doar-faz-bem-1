@@ -16,6 +16,7 @@ const Container = styled.div`
 	min-width: 100%;
 	min-height: 100%;
 	background-color: #49E5D6;
+	${'' /* background-color: ${(props) => (props.containerBackground)}; */}
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,6 +26,7 @@ const Container = styled.div`
 const TextLoading = styled.h2`
 	margin-bottom: 1rem;
 	color: #fff;
+	${'' /* color: ${(props) => (props.textColor)}; */}
 	font-size: 1.5rem;
   font-weight: 600;
 	font-family: "Overpass", Regular;
@@ -54,7 +56,8 @@ const LoadingAnimation = styled.span`
 	overflow: hidden;
 `;
 
-const Loading = () => (
+const Loading = (props) => (
+	// <Container containerBackground={props.containerBackground} textColor={props.textColor}>
 	<Container>
 		<TextLoading>Carregando...</TextLoading>
 		<LoadingAnimation />

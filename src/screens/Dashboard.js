@@ -7,6 +7,7 @@ import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 
 // Images
 import SelectMoreIcon from '../assets/plus.svg';
@@ -299,9 +300,7 @@ const DelModalButton = styled.button`
 	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
 `;
 
-const formatDate = (date) => {
-	return moment(date).locale('pt-br').format('DD/MM/YYYY');
-};
+const formatDate = (date) => moment(date).locale('pt-br').format('DD/MM/YYYY');
 
 const columns = [
 	{
@@ -314,7 +313,7 @@ const columns = [
 	},
 	{
 		Header: 'Data de Validade',
-		accessor: d => formatDate(d.DATA_EXPIRACAO.iso),
+		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
 		Header: 'Categoria',
@@ -330,7 +329,7 @@ const columns = [
 	},
 	{
 		Header: 'Embalagem Aberta?',
-		accessor: d => d.EMBALAGEM_ABERTA ? 'Sim' : 'Não',
+		accessor: (d) => (d.EMBALAGEM_ABERTA ? 'Sim' : 'Não'),
 	},
 	{
 		Header: 'Quantidade',
@@ -338,7 +337,7 @@ const columns = [
 	},
 	{
 		Header: 'Cadastrado Em',
-		accessor: d => formatDate(d.createdAt),
+		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
 		Header: 'Descrição',
@@ -356,7 +355,6 @@ const handleOptionChange = (rowId, openMedDetails, setOpenMedDetails, setItemMed
 };
 
 const handleDeleteMed = (selectedId) => {
-
 	console.log('selectedId', selectedId);
 
 	// const filtering = medicamentsList.filter((medicament) => medicament.id !== selectedId);
@@ -477,7 +475,6 @@ function Dashboard() {
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
-
 				setIsFetching(true);
 
 				const response = await getAllMedicaments();
@@ -549,7 +546,11 @@ function Dashboard() {
 					</ContainerDelModal>
 				</Overlay>
 			)}
-			{isFetching && <div>aaaaaaaaaaa</div>}
+			{isFetching
+				&& <Loading
+					containerBackground={'transparent'}
+					textColor={'#D8998A'}
+				/>}
 		</Container>
 	);
 }
