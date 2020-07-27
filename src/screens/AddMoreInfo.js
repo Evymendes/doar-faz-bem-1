@@ -9,6 +9,9 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { getById } from '../services/api';
 
+//Assets
+import ChevronDown from '../assets/chevron-down.svg';
+
 //Styled
 const Container = styled.div`
 	width: 100%;
@@ -45,6 +48,24 @@ const Input = styled.input`
   border: ${(props) => (props.isError ? '2px solid red' : 'none')};
 	border-radius: 4px;
 	box-shadow: 2px 2px 2px #888888;
+
+	::placeholder {
+		color: #989494;
+	}
+`;
+
+const MultSelect = styled.div`
+	padding: 0.7rem 0.7rem;
+	width: 100%;
+	color: #989494;
+	font: 700 1rem 'Overpass', serif;
+	text-decoration: none;
+	background: #FFF;
+	outline: none;
+	border: ${(props) => (props.isError ? '2px solid red' : 'none')};
+	border-radius: 4px;
+	box-shadow: 2px 2px 2px #888888;
+	display: flex;
 
 	::placeholder {
 		color: #989494;
@@ -91,15 +112,21 @@ class Login extends Component {
 		isRedirect: undefined,
 		redirect: undefined,
 		isLoading: undefined,
-		name: '',
-		expirationDate: undefined,
-		code: '',
-		category: '',
+
 		isErrorName: undefined,
 		isErrorExpirationDate: undefined,
 		isErrorCode: undefined,
 		isErrorCategory: undefined,
-		medicament: {},
+		medicament: {
+			code: '',
+			name: '',
+			expirationDate: undefined,
+			category: '',
+			substance: '',
+			type: '',
+			laboratory: '',
+			description: '',
+		},
 	}
 
 	componentDidMount() {
@@ -113,8 +140,15 @@ class Login extends Component {
 			const response = await getById(result);
 			const data = response.data.results[0];
 
+
 			this.setState({
-				medicament: data,
+				medicament: {
+					code: data.EAN_1,
+					name: data.PRODUTO,
+					substance: data.SUBSTANCIA,
+					laboratory: data.LABORATORIO,
+					description: data.APRESENTACAO,
+				},
 			});
 		} catch (error) {
 			console.log('error', error);
@@ -127,6 +161,8 @@ class Login extends Component {
 	}
 
 	handleChange = (field, ev) => {
+		const { medicament } = this.state;
+
 		if (field === 'name') {
 			this.setState({
 				isErrorName: ev.target.value.length < 1,
@@ -151,8 +187,10 @@ class Login extends Component {
 			});
 		}
 
+		medicament[field] = ev.target.value;
+
 		this.setState({
-			[field]: ev.target.value,
+			medicament,
 		});
 	};
 
@@ -225,20 +263,12 @@ class Login extends Component {
 
 	renderForm = () => {
 		const {
-			barCode,
-			name,
-			expirationDate,
-			category,
-			substance,
-			laboratory,
-			openProduct,
-			quantity,
-			description,
+			medicament,
 			isErrorBarCode,
 			isErrorName,
 			isErrorExpirationDate,
 			isErrorOpenProduct,
-			isErrorQuantity
+			isErrorQuantity,
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
 
@@ -248,10 +278,11 @@ class Login extends Component {
 					<Label> Código de barras: </Label>
 					<Input
 						type="text"
-						value={barCode}
+						value={medicament.code || ''}
 						onChange={(ev) => this.handleChange('barCode', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorBarCode}
+						disabled={medicament.code ? true : false}
 					/>
 					{isErrorBarCode && (
 						<ErrorMessage>
@@ -261,14 +292,15 @@ class Login extends Component {
 				</FormContent>
 				<FormContent isError={isErrorName}>
 					<Label onClick={this.handleLabelName}>
-						Nome:
+						Medicamento:
 					</Label>
 					<Input
 						type="text"
-						value={name}
+						value={medicament.name || ''}
 						onChange={(ev) => this.handleChange('name', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorName}
+						disabled={medicament.name ? true : false}
 					/>
 					{isErrorName && (
 						<ErrorMessage>
@@ -280,10 +312,11 @@ class Login extends Component {
 					<Label>	Data de Validade:	</Label>
 					<Input
 						type="date"
-						value={expirationDate}
+						value={medicament.expirationDate || ''}
 						onChange={(ev) => this.handleChange('expirationDate', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorExpirationDate}
+						disabled={medicament.expirationDate ? true : false}
 					/>
 					{isErrorExpirationDate && (
 						<ErrorMessage>
@@ -295,49 +328,68 @@ class Login extends Component {
 					<Label>Categoria: </Label>
 					<Input
 						type="text"
-						value={category}
+						value={medicament.category || ''}
 						onChange={(ev) => this.handleChange('category', ev)}
 						placeholder='Digite aqui...'
+						disabled={medicament.category ? true : false}
 					/>
 				</FormContent>
 				<FormContent>
 					<Label> Substância: </Label>
 					<Input
 						type="text"
-						value={substance}
+						value={medicament.substance || ''}
 						onChange={(ev) => this.handleChange('substance', ev)}
 						placeholder='Digite aqui...'
+						disabled={medicament.substance ? true : false}
+
 					/>
 				</FormContent>
 				<FormContent>
 					<Label> Laboratório: </Label>
 					<Input
 						type="text"
-						value={laboratory}
+						value={medicament.laboratory || ''}
 						onChange={(ev) => this.handleChange('laboratory', ev)}
 						placeholder='Digite aqui...'
+						disabled={medicament.laboratory ? true : false}
 					/>
 				</FormContent>
 				<FormContent isError={isErrorOpenProduct}>
-					<Label> Produto aberto? </Label>
-					<Input
+					<Label> Embalagem aberta? </Label>
+					<MultSelect>
+						<p>Clique para selecionar</p>
+						<img src={ChevronDown} alt="DropDown" />
+					</MultSelect >
+
+					{/* <Input
 						type="text"
-						value={openProduct}
+						value={medicament.openProduct || ''}
 						onChange={(ev) => this.handleChange('openProduct', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorOpenProduct}
+					/> */}
+				</FormContent>
+				<FormContent isError={isErrorQuantity}>
+					<Label> Tipo do medicamento: </Label>
+					<Input
+						type="text"
+						value={medicament.type || ''}
+						onChange={(ev) => this.handleChange('quantity', ev)}
+						placeholder='Digite aqui...'
+						isError={isErrorQuantity}
 					/>
-					{isErrorOpenProduct && (
+					{/* {isErrorQuantity && (
 						<ErrorMessage>
 							{errorMessage}
 						</ErrorMessage>
-					)}
+					)} */}
 				</FormContent>
 				<FormContent isError={isErrorQuantity}>
 					<Label> Quantidade: </Label>
 					<Input
 						type="text"
-						value={quantity}
+						value={medicament.quantity || ''}
 						onChange={(ev) => this.handleChange('quantity', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorQuantity}
@@ -352,9 +404,11 @@ class Login extends Component {
 					<Label> Descrição: </Label>
 					<Input
 						type="text"
-						value={description}
+						value={medicament.description || ''}
 						onChange={(ev) => this.handleChange('description', ev)}
 						placeholder='Digite aqui...'
+						disabled={medicament.description ? true : false}
+
 					/>
 				</FormContent>
 			</>
@@ -366,7 +420,6 @@ class Login extends Component {
 			isRedirect,
 			redirect,
 			isLoading,
-			medicament,
 		} = this.state;
 
 		return (
@@ -398,3 +451,4 @@ class Login extends Component {
 }
 
 export default Login;
+//comprimidos,  gel,  xarope,  gotas,  supositórios, injetáveis, cápsulas, drágeas
