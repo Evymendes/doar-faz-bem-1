@@ -7,7 +7,6 @@ import CloseIcon from '../assets/fechar.svg';
 
 import { deleteMedicament } from '../services/api';
 
-
 const Overlay = styled.div`
 	position: fixed;
 	top: 0;
@@ -76,42 +75,44 @@ const DelModalButton = styled.button`
 const handleDeleteMed = async (row, setOpenDelModal, isModalDelOpened) => {
 	try {
 		const response = await deleteMedicament(row.objectId);
-		setOpenDelModal(!isModalDelOpened)
+		setOpenDelModal(!isModalDelOpened);
 	} catch (error) {
 		console.log('error', error.response);
 	}
 };
 
-const ModalDelete = props => {
-	return (
-		<Overlay>
-			<ContainerDelModal>
-				<DelModalHeader>
-					<p>Excluir Medicamento</p>
-					<img
-						src={CloseIcon}
-						alt="Fechar"
-						onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
-					/>
-				</DelModalHeader>
-				<DelModalText>Após ser excluido, um modelo não pode ser recuperado.</DelModalText>
-				<DelModalText>Você deseja excluir o medicamento {}
-					<span>
-						{props.medicament.PRODUTO}
-					</span>?
-        </DelModalText>
-				<ContainerDelModalButtons>
-					<DelModalButton
-						cancel
-						onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
-					>
+const ModalDelete = (props) => (
+	<Overlay>
+		<ContainerDelModal>
+			<DelModalHeader>
+				<p>Excluir Medicamento</p>
+				<img
+					src={CloseIcon}
+					alt="Fechar"
+					onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
+				/>
+			</DelModalHeader>
+			<DelModalText>Após ser excluido, um modelo não pode ser recuperado.</DelModalText>
+			<DelModalText>Você deseja excluir o medicamento {}
+				<span>
+					{props.medicament.PRODUTO}
+				</span>?
+			</DelModalText>
+			<ContainerDelModalButtons>
+				<DelModalButton
+					cancel
+					onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
+				>
 						cancelar
-        </DelModalButton>
-					<DelModalButton onClick={() => handleDeleteMed(props.medicament, props.setOpenDelModal, props.isModalDelOpened)}>confirmar</DelModalButton>
-				</ContainerDelModalButtons>
-			</ContainerDelModal>
-		</Overlay>
-	)
-}
+				</DelModalButton>
+				<DelModalButton
+					onClick={() => handleDeleteMed(props.medicament, props.setOpenDelModal, props.isModalDelOpened)}
+				>
+					confirmar
+				</DelModalButton>
+			</ContainerDelModalButtons>
+		</ContainerDelModal>
+	</Overlay>
+);
 
 export default ModalDelete;

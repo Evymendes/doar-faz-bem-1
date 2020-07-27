@@ -1,7 +1,7 @@
 // Libs
 import React, { useState, useEffect } from 'react';
 // import { useTable } from 'react-table';
-import { useTable, useFilters, useGlobalFilter } from "react-table";
+import { useTable, useFilters, useGlobalFilter } from 'react-table';
 
 import styled from 'styled-components';
 import moment from 'moment';
@@ -309,7 +309,7 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 const GlobalFilter = ({
 	preGlobalFilteredRows,
 	globalFilter,
-	setGlobalFilter
+	setGlobalFilter,
 }) => {
 	const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
 
@@ -317,15 +317,15 @@ const GlobalFilter = ({
 		<ContainerSearch>
 			<ContainerInputSearch>
 				<InputSearch
-					value={globalFilter || ""}
-					onChange={e => {
+					value={globalFilter || ''}
+					onChange={(e) => {
 						setGlobalFilter(e.target.value || undefined);
 					}}
 					placeholder={`${count} records...`}
 					style={{
-						border: "0"
+						border: '0',
 					}}
-					placeholder="Digite aqui para pesquisar..."
+					placeholder='Digite aqui para pesquisar...'
 				/>
 				<img src={searchIcon} alt="Lupa" />
 			</ContainerInputSearch>
@@ -338,18 +338,16 @@ const Table = ({
 }) => {
 	const filterTypes = React.useMemo(
 		() => ({
-			text: (rows, id, filterValue) => {
-				return rows.filter(row => {
-					const rowValue = row.values[id];
-					return rowValue !== undefined
-						? String(rowValue)
-							.toLowerCase()
-							.startsWith(String(filterValue).toLowerCase())
-						: true;
-				});
-			}
+			text: (rows, id, filterValue) => rows.filter((row) => {
+				const rowValue = row.values[id];
+				return rowValue !== undefined
+					? String(rowValue)
+						.toLowerCase()
+						.startsWith(String(filterValue).toLowerCase())
+					: true;
+			}),
 		}),
-		[]
+		[],
 	);
 
 	const {
@@ -366,12 +364,10 @@ const Table = ({
 		data,
 		filterTypes,
 	},
-		useFilters,
-		useGlobalFilter,
-	);
+	useFilters,
+	useGlobalFilter);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
-
 
 	return (
 		<ContainerTable {...getTableProps()}>
