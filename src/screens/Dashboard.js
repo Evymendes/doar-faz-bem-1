@@ -1,9 +1,12 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-import { useTable } from 'react-table';
+// import { useTable } from 'react-table';
+import { useTable, useFilters, useGlobalFilter } from 'react-table';
+
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
@@ -52,6 +55,7 @@ const Container = styled.div`
 
 const ContainerSearch = styled.div`
 	padding-top: 1rem;
+	padding-bottom: 2rem;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -87,7 +91,6 @@ const InputSearch = styled.input`
 `;
 
 const ContainerTable = styled.table`
-	margin-top: 2rem;
 	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
@@ -285,7 +288,7 @@ const columns = [
 		accessor: 'QUANTIDADE',
 	},
 	{
-		Header: 'Cadastrado Em',
+		Header: 'Cadastrado',
 		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
@@ -303,36 +306,78 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	}
 };
 
-const Search = () => (
-	<ContainerSearch>
-		<ContainerInputSearch>
-			<InputSearch
-				// onChange={}
-				placeholder="Digite aqui para pesquisar..."
-			/>
-			<img src={searchIcon} alt="Lupa" />
-		</ContainerInputSearch>
-	</ContainerSearch>
-);
+const GlobalFilter = ({
+	preGlobalFilteredRows,
+	globalFilter,
+	setGlobalFilter,
+}) => {
+	const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+
+	return (
+		<ContainerSearch>
+			<ContainerInputSearch>
+				<InputSearch
+					value={globalFilter || ''}
+					onChange={(e) => {
+						setGlobalFilter(e.target.value || undefined);
+					}}
+					placeholder={`${count} records...`}
+					style={{
+						border: '0',
+					}}
+					placeholder='Digite aqui para pesquisar...'
+				/>
+				<img src={searchIcon} alt="Lupa" />
+			</ContainerInputSearch>
+		</ContainerSearch>
+	);
+};
 
 const Table = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
+	const filterTypes = React.useMemo(
+		() => ({
+			text: (rows, id, filterValue) => rows.filter((row) => {
+				const rowValue = row.values[id];
+				return rowValue !== undefined
+					? String(rowValue)
+						.toLowerCase()
+						.startsWith(String(filterValue).toLowerCase())
+					: true;
+			}),
+		}),
+		[],
+	);
+
 	const {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
 		rows,
 		prepareRow,
+		state,
+		preGlobalFilteredRows,
+		setGlobalFilter,
 	} = useTable({
 		columns,
 		data,
-	});
+		filterTypes,
+	},
+	useFilters,
+	useGlobalFilter);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
 	return (
 		<ContainerTable {...getTableProps()}>
+
+			<GlobalFilter
+				preGlobalFilteredRows={preGlobalFilteredRows}
+				globalFilter={state.globalFilter}
+				setGlobalFilter={setGlobalFilter}
+			/>
+
 			<Thead>
 				{headerGroups.map((headerGroup, index) => (
 					<Tr
@@ -354,12 +399,15 @@ const Table = ({
 			<tbody {...getTableBodyProps()}>
 				{rows.map((row, index) => {
 					prepareRow(row);
-
 					return (
 						<Tr
 							{...row.getRowProps()}
+							onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
 							key={index}
-							style={{ margin: index === rows.length - 1 && '0 0 8rem 0' }}
+							style={{
+								margin: index === rows.length - 1 && '0 0 8rem 0',
+								cursor: 'pointer',
+							}}
 						>
 							{widthMob
 								? <>
@@ -415,6 +463,10 @@ function Dashboard() {
 
 	const [isFetching, setIsFetching] = useState(null);
 
+	const [search, setSearch] = useState('');
+
+	const [isRedirect, setIsRedirect] = useState(null);
+
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
@@ -435,7 +487,6 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Search />
 			<Table
 				columns={columns}
 				data={medList}
@@ -446,7 +497,7 @@ function Dashboard() {
 			/>
 			<ContainerButton medDetails={isOpenedMedDetails}>
 				{!isOpenedMedDetails ? (
-					<ButtonAddMed>Adicionar Medicamento</ButtonAddMed>
+					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
 				) : (
 					<>
 						<ButtonMedDetails detail>
@@ -467,12 +518,7 @@ function Dashboard() {
 					medicament={medicament.original}
 				/>
 			)}
-			{/* {isFetching
-				&& <Loading
-					backgroundColor='transparent'
-					textColor='#D8998A'
-					loadingColor='linear-gradient(to right, #B4E4E6 0%, #fff 100%, #B4E4E6 0% )'
-				/>} */}
+			{isRedirect && <Redirect to={'/addmoreinfo'} />}
 		</Container>
 	);
 }

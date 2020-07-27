@@ -51,7 +51,6 @@ const Input = styled.input`
 
 	::placeholder {
 		color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-		/* color: #989494; */
 	}
 `;
 
@@ -77,7 +76,6 @@ const MultSelect = styled.div`
 const TextMultSelect = styled.p`
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
 	text-transform: capitalize;
-
 `;
 
 const Modal = styled.div`
@@ -226,7 +224,6 @@ class Login extends Component {
 			});
 		}
 
-
 		medicament[field] = ev.target.value;
 
 		this.setState({
@@ -307,7 +304,6 @@ class Login extends Component {
 		// 	&& isErrorCode === false
 		// 	&& isErrorCategory === false
 		// ) {
-		// 	console.log('oiiii 1');
 
 		// 	this.setState({
 		// 		isLoading: true,
@@ -349,12 +345,11 @@ class Login extends Component {
 		};
 
 		try {
-			// const response = await createMedicament(formatName);
+			const response = await createMedicament(formatName);
 
-			// this.props.history.push({
-			// 	pathname: '/dashboard',
-			// });
-			// console.log('repsonse', response);
+			this.props.history.push({
+				pathname: '/dashboard',
+			});
 
 		} catch (error) {
 			console.log('error', error);
@@ -403,7 +398,6 @@ class Login extends Component {
 			selectedType,
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
-		console.log('medicament.expirationDate', medicament.expirationDate)
 
 		return (
 			<>

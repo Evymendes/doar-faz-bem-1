@@ -101,7 +101,7 @@ const Logo = styled.div`
 	height: 9rem;
 	border-radius: 50%;
 	background: #fff;
-	box-shadow: 5px 5px 10px #888888;
+	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
 	opacity: 0;
 	animation-name: ${fadeIn};
   animation-duration: 2s;
@@ -110,7 +110,15 @@ const Logo = styled.div`
   animation-iteration-count: 1;
   animation-direction: normal;
   animation-fill-mode: forwards;
-  animation-play-state: running;
+	animation-play-state: running;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	padding: 2rem;
+	color: #fff;
+	background: linear-gradient(45deg, #3dfefe, #9E9E9E);
+	font-weight: 800;
 `;
 
 const Button = styled.button`
@@ -152,7 +160,9 @@ const Login = (props) => {
 		<Container>
 			<ContainerHeader>
 				<Header>
-					<Logo/>
+					<Logo>
+						DOAR FAZ BEM
+					</Logo>
 				</Header>
 			</ContainerHeader>
 			<Content>
