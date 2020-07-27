@@ -7,12 +7,12 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { getById } from '../services/api';
+import { getById, createMedicament } from '../services/api';
 
-//Assets
+// Assets
 import ChevronDown from '../assets/chevron-down.svg';
 
-//Styled
+// Styled
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -124,6 +124,8 @@ class Login extends Component {
 			category: '',
 			substance: '',
 			type: '',
+			quantity: '',
+			openPacking: '',
 			laboratory: '',
 			description: '',
 		},
@@ -134,12 +136,12 @@ class Login extends Component {
 	}
 
 	fetchingData = async () => {
-		const { result } = this.props.location.state;
-		// const okk = "7894916341769"
-		try {
-			const response = await getById(result);
-			const data = response.data.results[0];
+		// const { result } = this.props.location.state;
+		const okk = '7894916341769';
 
+		try {
+			const response = await getById(okk);
+			const data = response.data.results[0];
 
 			this.setState({
 				medicament: {
@@ -195,7 +197,9 @@ class Login extends Component {
 	};
 
 	validationScreen = () => {
-		const { name, expirationDate, code, category } = this.state;
+		const {
+			name, expirationDate, code, category,
+		} = this.state;
 
 		if (!name) {
 			this.setState({
@@ -249,15 +253,50 @@ class Login extends Component {
 
 		this.validationScreen();
 
-		if (
-			isErrorName === false
-			&& isErrorExpirationDate === false
-			&& isErrorCode === false
-			&& isErrorCategory === false
-		) {
-			this.setState({
-				isLoading: true,
-			});
+		// if (
+		// 	isErrorName === false
+		// 	&& isErrorExpirationDate === false
+		// 	&& isErrorCode === false
+		// 	&& isErrorCategory === false
+		// ) {
+		// 	console.log('oiiii 1');
+
+		// 	this.setState({
+		// 		isLoading: true,
+		// 	});
+
+		this.createMedic();
+
+		// }
+	}
+
+
+	createMedic = async () => {
+		const { medicament } = this.state;
+		try {
+
+			const date = new Date(medicament.expirationDate);
+
+			const formatName = {
+				EAN_1: '123456789',
+				PRODUTO: 'Test',
+				SUBSTANCIA: 'subs',
+				APRESENTACAO: 'cate',
+				LABORATORIO: 'subs',
+				TIPO: 'type',
+				QUANTIDADE: '9',
+				EMBALAGEM_ABERTA: true,
+				DATA_EXPIRACAO: { __type: 'Date', iso: date },
+				CATEGORIA: 'descri',
+			};
+
+			const response = await createMedicament(formatName);
+			console.log('repsonse', response)
+
+		} catch (error) {
+
+			console.log('error', error);
+			console.log('error.response', error.response);
 		}
 	}
 
@@ -279,10 +318,10 @@ class Login extends Component {
 					<Input
 						type="text"
 						value={medicament.code || ''}
-						onChange={(ev) => this.handleChange('barCode', ev)}
+						onChange={(ev) => this.handleChange('code', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorBarCode}
-						disabled={medicament.code ? true : false}
+						// disabled={medicament.code ? true : false}
 					/>
 					{isErrorBarCode && (
 						<ErrorMessage>
@@ -300,7 +339,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('name', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorName}
-						disabled={medicament.name ? true : false}
+						// disabled={medicament.name ? true : false}
 					/>
 					{isErrorName && (
 						<ErrorMessage>
@@ -316,7 +355,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('expirationDate', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorExpirationDate}
-						disabled={medicament.expirationDate ? true : false}
+						// disabled={medicament.expirationDate ? true : false}
 					/>
 					{isErrorExpirationDate && (
 						<ErrorMessage>
@@ -331,7 +370,7 @@ class Login extends Component {
 						value={medicament.category || ''}
 						onChange={(ev) => this.handleChange('category', ev)}
 						placeholder='Digite aqui...'
-						disabled={medicament.category ? true : false}
+						// disabled={medicament.category ? true : false}
 					/>
 				</FormContent>
 				<FormContent>
@@ -341,8 +380,7 @@ class Login extends Component {
 						value={medicament.substance || ''}
 						onChange={(ev) => this.handleChange('substance', ev)}
 						placeholder='Digite aqui...'
-						disabled={medicament.substance ? true : false}
-
+						// disabled={medicament.substance ? true : false}
 					/>
 				</FormContent>
 				<FormContent>
@@ -352,7 +390,7 @@ class Login extends Component {
 						value={medicament.laboratory || ''}
 						onChange={(ev) => this.handleChange('laboratory', ev)}
 						placeholder='Digite aqui...'
-						disabled={medicament.laboratory ? true : false}
+						// disabled={medicament.laboratory ? true : false}
 					/>
 				</FormContent>
 				<FormContent isError={isErrorOpenProduct}>
@@ -375,7 +413,7 @@ class Login extends Component {
 					<Input
 						type="text"
 						value={medicament.type || ''}
-						onChange={(ev) => this.handleChange('quantity', ev)}
+						onChange={(ev) => this.handleChange('type', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorQuantity}
 					/>
@@ -407,8 +445,7 @@ class Login extends Component {
 						value={medicament.description || ''}
 						onChange={(ev) => this.handleChange('description', ev)}
 						placeholder='Digite aqui...'
-						disabled={medicament.description ? true : false}
-
+						// disabled={medicament.description ? true : false}
 					/>
 				</FormContent>
 			</>
@@ -451,4 +488,4 @@ class Login extends Component {
 }
 
 export default Login;
-//comprimidos,  gel,  xarope,  gotas,  supositórios, injetáveis, cápsulas, drágeas
+// comprimidos,  gel,  xarope,  gotas,  supositórios, injetáveis, cápsulas, drágeas
