@@ -354,12 +354,15 @@ const Table = ({
 			<tbody {...getTableBodyProps()}>
 				{rows.map((row, index) => {
 					prepareRow(row);
-
 					return (
 						<Tr
 							{...row.getRowProps()}
+							onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
 							key={index}
-							style={{ margin: index === rows.length - 1 && '0 0 8rem 0' }}
+							style={{
+								margin: index === rows.length - 1 && '0 0 8rem 0',
+								cursor: 'pointer',
+							}}
 						>
 							{widthMob
 								? <>
