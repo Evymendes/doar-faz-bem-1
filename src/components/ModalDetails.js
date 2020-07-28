@@ -15,18 +15,14 @@ const Overlay = styled.div`
 	left: 0;
 	right: 0;
 	display: flex;
-	${'' /* justify-content: center;
-	align-items: center; */}
 	align-items: flex-end;
 	background: rgba(196, 196, 196, 0.3);
 	z-index: 5;
 `;
 
 const ContainerDetails = styled.div`
-	${'' /* position: fixed;
-	bottom: 0; */}
 	width: 100%;
-	height: 65vh;
+	min-height: 65vh;
 	display: flex;
 	flex-direction: column;
 	background-color: #fff;
@@ -41,9 +37,10 @@ const WrapperDetails = styled.div`
 `;
 
 const ContainerDetailsHeader = styled.div`
-	padding: 0 .95rem;
+	${'' /* padding: 0 .95rem; */}
+	padding: 1.5rem .95rem;
 	width: 100%;
-	height: 5rem;
+	${'' /* height: 5rem; */}
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -62,6 +59,9 @@ const ContainerDetailsHeader = styled.div`
 const DetailsItem = styled.span`
 	padding: 0 0.8rem 1.5rem 0.8rem;
 	width: 35%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 `;
 
 const DetailsText = styled.p`
