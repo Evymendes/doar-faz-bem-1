@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 // Libs
 import React, { Component } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import { getById } from '../services/api';
 
@@ -74,7 +74,7 @@ class ExtractedInf extends Component {
 	fetchingData = async () => {
 		try {
 			const response = await getById(this.props.code);
-			const data = response.data.results[0];
+			const data = response.data.results[0] || this.props.code;
 
 			this.setState({
 				medicament: {
@@ -103,7 +103,7 @@ class ExtractedInf extends Component {
 	render() {
 		return (
 			<ModalDetails>
-				<Header openModal={this.props.openModal} />
+				<Header openModal={this.props.openModal} history={this.props.history} />
 				<ContentModalDetails>
 					<TextModalDetails title>Informação Extraída:</TextModalDetails>
 					<ContainerIbsnCode>
@@ -122,7 +122,7 @@ class ExtractedInf extends Component {
 					</Button>
 				</ContentModalDetails>
 			</ModalDetails>
-		)
+		);
 	}
 }
 

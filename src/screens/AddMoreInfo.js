@@ -142,51 +142,48 @@ class Login extends Component {
 		typeMed: ['comprimidos', 'gel', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
 		selectedType: undefined,
 		isLoading: undefined,
-		isErrorName: undefined,
-		isErrorExpirationDate: undefined,
-		isErrorCode: undefined,
-		isErrorCategory: undefined,
-		isErrorPackaging: undefined,
+		isErrorCode: false,
+		isErrorName: false,
+		isErrorExpirationDate: false,
+		isErrorCategory: false,
+		isErrorSubstance: false,
+		isErroLaboratory: false,
+		isErrorOpenPackaging: false,
+		isErrorTypeMed: false,
+		isErrorQuantity: false,
+		isErrorDescription: false,
 		medicament: {
-			code: '',
+			code: null,
 			name: '',
 			expirationDate: undefined,
 			category: '',
 			substance: '',
+			laboratory: '',
+			openPacking: '',
 			type: '',
 			quantity: '',
-			openPacking: '',
-			laboratory: '',
 			description: '',
 		},
 	}
 
 	componentDidMount() {
-		this.fetchingData();
+		this.treatingData();
 	}
 
-	fetchingData = async () => {
-		// const { result } = this.props.location.state;
-		const okk = '7894916341769';
+	treatingData = () => {
+		const { result } = this.props.location.state;
+		// code: 7894916341769
 
-		try {
-			const response = await getById(okk);
-			const data = response.data.results[0];
-
-			this.setState({
-				medicament: {
-					code: data.EAN_1,
-					name: data.PRODUTO,
-					substance: data.SUBSTANCIA,
-					laboratory: data.LABORATORIO,
-					description: data.APRESENTACAO,
-				},
-			});
-		} catch (error) {
-			console.log('error', error);
-			console.log('error.response', error.response);
-		}
-	};
+		this.setState({
+			medicament: {
+				code: result.code,
+				name: result.name,
+				substance: result.substance,
+				laboratory: result.laboratory,
+				description: result.description,
+			},
+		});
+	}
 
 	handleBackScanner = () => {
 		this.props.history.goBack();
@@ -194,6 +191,12 @@ class Login extends Component {
 
 	handleChange = (field, ev) => {
 		const { medicament } = this.state;
+
+		if (field === 'code') {
+			this.setState({
+				isErrorCode: false,
+			});
+		}
 
 		if (field === 'name') {
 			this.setState({
@@ -207,21 +210,45 @@ class Login extends Component {
 			});
 		}
 
+		if (field === 'category') {
+			this.setState({
+				isErrorCategory: false,
+			});
+		}
+
+		if (field === 'substance') {
+			this.setState({
+				isErrorSubstance: false,
+			});
+		}
+
+		if (field === 'laboratory') {
+			this.setState({
+				isErroLaboratory: false,
+			});
+		}
+
+		if (field === 'openPacking') {
+			this.setState({
+				isErrorOpenPackaging: false,
+			});
+		}
+
+		if (field === 'type') {
+			this.setState({
+				isErrorTypeMed: false,
+			});
+		}
+
 		if (field === 'quantity') {
 			this.setState({
 				isErrorQuantity: false,
 			});
 		}
 
-		if (field === 'code') {
+		if (field === 'description') {
 			this.setState({
-				isErrorCode: false,
-			});
-		}
-
-		if (field === 'category') {
-			this.setState({
-				isErrorCategory: false,
+				isErrorDescription: false,
 			});
 		}
 
@@ -234,7 +261,16 @@ class Login extends Component {
 
 	validationScreen = () => {
 		const {
-			code, name, expirationDate, quantity, isErrorPackaging,
+			code,
+			name,
+			expirationDate,
+			category,
+			substance,
+			type,
+			quantity,
+			openPacking,
+			laboratory,
+			description,
 		} = this.state.medicament;
 
 		if (!code) {
@@ -267,6 +303,56 @@ class Login extends Component {
 			});
 		}
 
+		if (!category) {
+			this.setState({
+				isErrorCategory: true,
+			});
+		} else {
+			this.setState({
+				isErrorCategory: false,
+			});
+		}
+
+		if (!substance) {
+			this.setState({
+				isErrorSubstance: true,
+			});
+		} else {
+			this.setState({
+				isErrorSubstance: false,
+			});
+		}
+
+		if (!laboratory) {
+			this.setState({
+				isErroLaboratory: true,
+			});
+		} else {
+			this.setState({
+				isErroLaboratory: false,
+			});
+		}
+
+		if (!openPacking) {
+			this.setState({
+				isErrorOpenPackaging: true,
+			});
+		} else {
+			this.setState({
+				isErrorOpenPackaging: false,
+			});
+		}
+
+		if (!type) {
+			this.setState({
+				isErrorTypeMed: true,
+			});
+		} else {
+			this.setState({
+				isErrorTypeMed: false,
+			});
+		}
+
 		if (!quantity) {
 			this.setState({
 				isErrorQuantity: true,
@@ -276,15 +362,14 @@ class Login extends Component {
 				isErrorQuantity: false,
 			});
 		}
-		console.log('isErrorPackaging', isErrorPackaging);
 
-		if (isErrorPackaging === undefined) {
+		if (!description) {
 			this.setState({
-				isErrorPackaging: true,
+				isErrorDescription: true,
 			});
 		} else {
 			this.setState({
-				isErrorPackaging: false,
+				isErrorDescription: false,
 			});
 		}
 	}
@@ -292,62 +377,63 @@ class Login extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		const {
+			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCode,
 			isErrorCategory,
+			isErrorSubstance,
+			isErroLaboratory,
+			isErrorOpenPackaging,
+			isErrorTypeMed,
+			isErrorQuantity,
+			isErrorDescription,
+			isModalOpenPackaging,
 		} = this.state;
 
 		this.validationScreen();
 
-		// if (
-		// 	isErrorName === false
-		// 	&& isErrorExpirationDate === false
-		// 	&& isErrorCode === false
-		// 	&& isErrorCategory === false
-		// ) {
+		if (
+			isErrorCode === false
+			&& isErrorName === false
+			&& isErrorExpirationDate === false
+			&& isErrorCategory === false
+			&& isErrorSubstance === false
+			&& isErroLaboratory === false
+			&& isErrorOpenPackaging === false
+			&& isErrorTypeMed === false
+			&& isErrorQuantity === false
+			&& isErrorDescription === false
+			&& isModalOpenPackaging === false
+		) {
+			// this.setState({
+			// 	isLoading: true,
+			// });
 
-		// 	this.setState({
-		// 		isLoading: true,
-		// 	});
-
-		// this.createMedic();
-
-		// }
+			this.createMedic();
+		}
 	}
 
 	createMedic = async () => {
 		const { medicament } = this.state;
-		// const formatName = {
-		// 	EAN_1: medicament.code,
-		// 	PRODUTO: medicament.name,
-		// 	SUBSTANCIA: medicament.substance,
-		// 	APRESENTACAO: medicament.description,
-		// 	LABORATORIO: medicament.laboratory,
-		// 	TIPO: medicament.type,
-		// 	QUANTIDADE: medicament.quantity,
-		// 	EMBALAGEM_ABERTA: medicament.open_packing,
-		// 	DATA_EXPIRACAO: medicament.expirationDate,
-		// 	CATEGORIA: medicament.category,
-		// };
-
 		const date = new Date(medicament.expirationDate);
 
 		const formatName = {
-			EAN_1: '123456789',
-			PRODUTO: 'Test',
-			SUBSTANCIA: 'subs',
-			APRESENTACAO: 'cate',
-			LABORATORIO: 'subs',
-			TIPO: 'type',
-			QUANTIDADE: '9',
-			EMBALAGEM_ABERTA: true,
+			EAN_1: medicament.code.toString(),
+			PRODUTO: medicament.name,
+			SUBSTANCIA: medicament.substance,
+			APRESENTACAO: medicament.description,
+			LABORATORIO: medicament.laboratory,
+			TIPO: medicament.type,
+			QUANTIDADE: medicament.quantity,
+			EMBALAGEM_ABERTA: medicament.open_packing,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
-			CATEGORIA: 'descri',
+			CATEGORIA: medicament.category,
 		};
 
 		try {
 			const response = await createMedicament(formatName);
+
+			console.log('response', response)
 
 			this.props.history.push({
 				pathname: '/dashboard',
@@ -369,7 +455,11 @@ class Login extends Component {
 		this.setState({
 			selectedPackaging: item,
 			isModalOpenPackaging: false,
-			isErrorPackaging: false,
+			isErrorOpenPackaging: false,
+			medicament: {
+				...this.state.medicament,
+				openPacking: item,
+			},
 		});
 	}
 
@@ -377,6 +467,11 @@ class Login extends Component {
 		this.setState({
 			selectedType: item,
 			isModalType: false,
+			isErrorTypeMed: false,
+			medicament: {
+				...this.state.medicament,
+				type: item,
+			},
 		});
 	}
 
@@ -393,9 +488,12 @@ class Login extends Component {
 			isErrorName,
 			isErrorExpirationDate,
 			isErrorCategory,
-			isErrorPackaging,
-			isErrorOpenProduct,
+			isErrorSubstance,
+			isErroLaboratory,
+			isErrorOpenPackaging,
+			isErrorTypeMed,
 			isErrorQuantity,
+			isErrorDescription,
 			isModalOpenPackaging,
 			typePackaging,
 			selectedPackaging,
@@ -404,6 +502,9 @@ class Login extends Component {
 			selectedType,
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
+
+		// code,  medicamento, data de validade, categoria,
+		// substancia, laboratório, embalagem aberto, tipo de medicamento, quantidade, descrição
 
 		return (
 			<>
@@ -469,6 +570,11 @@ class Login extends Component {
 						isError={isErrorCategory}
 						isData={medicament.category}
 					/>
+					{isErrorCategory && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 				<FormContent>
 					<Label> Substância: </Label>
@@ -477,9 +583,15 @@ class Login extends Component {
 						value={medicament.substance || ''}
 						onChange={(ev) => this.handleChange('substance', ev)}
 						placeholder='Digite aqui...'
+						isError={isErrorSubstance}
 						disabled={!!medicament.substance}
 						isData={medicament.substance}
 					/>
+					{isErrorSubstance && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 				<FormContent>
 					<Label> Laboratório: </Label>
@@ -488,15 +600,21 @@ class Login extends Component {
 						value={medicament.laboratory || ''}
 						onChange={(ev) => this.handleChange('laboratory', ev)}
 						placeholder='Digite aqui...'
+						isError={isErroLaboratory}
 						disabled={medicament.laboratory}
 						isData={medicament.laboratory}
 					/>
+					{isErroLaboratory && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 				<FormContent>
 					<Label> Embalagem aberta? </Label>
-					<MultSelect isModal={isModalOpenPackaging} isError={isErrorPackaging} onClick={this.handleModalOpenPackaging}>
+					<MultSelect isModal={isModalOpenPackaging} isError={isErrorOpenPackaging} onClick={this.handleModalOpenPackaging}>
 						<TextMultSelect>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
-						<img src={ChevronDown} alt="DropDown"/>
+						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
 					{isModalOpenPackaging
 						&& <Modal>
@@ -505,10 +623,15 @@ class Login extends Component {
 							))}
 						</Modal>
 					}
+					{isErrorOpenPackaging && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 				<FormContent>
 					<Label> Tipo do medicamento: </Label>
-					<MultSelect isModal={isModalType} onClick={this.handleModalType}>
+					<MultSelect isModal={isModalType} isError={isErrorTypeMed} onClick={this.handleModalType}>
 						<TextMultSelect>{selectedType || 'Clique para selecionar'}</TextMultSelect>
 						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
@@ -519,6 +642,11 @@ class Login extends Component {
 							))}
 						</Modal>
 					}
+					{isErrorTypeMed && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 				<FormContent isError={isErrorQuantity}>
 					<Label> Quantidade: </Label>
@@ -543,9 +671,15 @@ class Login extends Component {
 						value={medicament.description || ''}
 						onChange={(ev) => this.handleChange('description', ev)}
 						placeholder='Digite aqui...'
+						isError={isErrorDescription}
 						disabled={medicament.description}
 						isData={medicament.description}
 					/>
+					{isErrorDescription && (
+						<ErrorMessage>
+							{errorMessage}
+						</ErrorMessage>
+					)}
 				</FormContent>
 			</>
 		);
@@ -557,10 +691,10 @@ class Login extends Component {
 			redirect,
 			isLoading,
 		} = this.state;
-console.log('isErrorPackaging', this.state.isErrorPackaging)
+
 		return (
 			<Container>
-				<Header openModal={this.handleBackScanner} />
+				<Header openModal={this.handleBackScanner} history={this.props.history} />
 				<Form onSubmit={this.handleSubmit}>
 					<div>
 						{this.renderForm()}
