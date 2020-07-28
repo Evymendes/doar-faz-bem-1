@@ -11,6 +11,7 @@ import { validateIsbn } from '../services/barcode';
 // Components
 import Header from '../components/Header';
 import ExtractedInf from '../components/ExtractedInf';
+import DefaultButton from '../components/DefaultButton';
 
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
@@ -79,23 +80,6 @@ const ContainerDigitBarCode = styled.div`
 	background: rgba(255, 255, 255, 0.8);
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
-`;
-
-const ButtonDigitBarCode = styled.button`
-	width: 20rem;
-	height: 3rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #fff;
-	font-size: 1rem;
-	font-weight: bold;
-	text-decoration: none;
-	border: none;
-	border-radius: 50px;
-	box-shadow: 2px 2px 2px #888888;
-	cursor: pointer;
-	background: #49E5D6;
 `;
 
 const ContainerModalBoilerPlate = styled.div`
@@ -233,6 +217,7 @@ class Scanner extends Component {
 		modalOpenLoading: false,
 		valueCode: '',
 		error: null,
+		pressed: false,
 	}
 
 	componentDidMount() {
@@ -287,7 +272,12 @@ class Scanner extends Component {
 	}
 
 	handleButtonBarCode = () => {
-		const { valueCode } = this.state;
+		const { valueCode, pressed } = this.state;
+
+		this.setState({
+			pressed: !pressed,
+		})
+
 		if (valueCode.length === 0) {
 			this.setState({
 				error: '*Insira o código de barras.',
@@ -361,7 +351,7 @@ class Scanner extends Component {
 	handleCloseModalExactedInfo = () => {
 		this.setState({
 			modalOpenDetails: false,
-			modalOpenBarCode: true,
+			// modalOpenBarCode: true,
 		});
 	}
 
@@ -377,7 +367,24 @@ class Scanner extends Component {
 						placeholder='Digite o codigo de barras...'
 						onChange={this.handleInputBarCode}
 					/>
-					<Button onClick={this.handleButtonBarCode}>concluir</Button>
+					<DefaultButton
+						handleClick={this.handleButtonBarCode}
+						text={'Verificar Código'}
+						style={{
+							margin: '0',
+							background: '#49E5D6',
+							color: '#fff',
+						}}
+					/>
+					<DefaultButton
+						handleClick={this.handleOpenBarCodeModal}
+						text={'Voltar para a Leitura de Código'}
+						style={{
+							margin: '1rem',
+							background: '#D8998A',
+							color: '#fff',
+						}}
+					/>
 					{this.state.error && (
 						<ErrorMessage>
 							{this.state.error}
@@ -409,11 +416,14 @@ class Scanner extends Component {
 						/>
 					</ScanMarker>
 					<ContainerDigitBarCode>
-						<ButtonDigitBarCode
-							onClick={this.handleOpenBarCodeModal}
-						>
-							Se preferir, digite o código de barras
-						</ButtonDigitBarCode>
+						<DefaultButton
+							handleClick={this.handleOpenBarCodeModal}
+							text={'Se preferir, digite o código de barras'}
+							style={{
+								background: '#49E5D6',
+								color: '#fff',
+							}}
+						/>
 					</ContainerDigitBarCode>
 				</Container>
 				<ContainerModalBoilerPlate display={modalOpenDetails}>
@@ -424,7 +434,8 @@ class Scanner extends Component {
 							code={this.state.isbnCode}
 							handleRedirectScreen={this.handleRedirectScreen}
 							handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
-						/>)}
+						/>
+					)}
 				</ContainerModalBoilerPlate>
 				{modalOpenBarCode && this.renderModalBarCode()}
 				{modalOpenLoading && this.renderModalLoading()}

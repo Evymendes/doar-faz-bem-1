@@ -118,20 +118,10 @@ const Logo = styled.div`
 `;
 
 const Login = (props) => {
-	const [pressed, setPressed] = useState(false);
-	const [currentButton, chooseCurrentButton] = useState(false);
-
 	const handleClick = (link) => {
-		setPressed((pressed) => !pressed);
-		chooseCurrentButton(link);
-
-		if (!pressed) {
-			setTimeout(() => {
-				props.history.push({
-					pathname: link,
-				});
-			}, 1000);
-		}
+		props.history.push({
+			pathname: link,
+		});
 	};
 
 	return (
@@ -145,7 +135,6 @@ const Login = (props) => {
 			</ContainerHeader>
 			<Content>
 				<Button
-					pressed={pressed && currentButton === '/scanner'}
 					handleClick={() => handleClick('/scanner')}
 					text={'Escanear Código de Barras'}
 					style={{
@@ -155,8 +144,6 @@ const Login = (props) => {
 					}}
 				/>
 				<Button
-					// disabled
-					pressed={pressed && currentButton === 'none'}
 					handleClick={() => handleClick('/dashboard')}
 					text={'Visualizar Medicamentos'}
 					style={{

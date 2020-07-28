@@ -1,5 +1,5 @@
 // Libs
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 // Styles
@@ -29,10 +29,21 @@ const Button = styled.button`
 `;
 
 const DefaultButton = (props) => {
+	const [pressed, setPressed] = useState(false);
+
+	const handleClick = () => {
+		setPressed((pressed) => !pressed);
+		if (!pressed) {
+			setTimeout(() => {
+				props.handleClick();
+			}, 750);
+		}
+	};
+
   return (
     <Button
-      pressed={props.pressed}
-      onClick={props.handleClick}
+      pressed={pressed}
+      onClick={handleClick}
       style={props.style}
       disabled={props.disabled}
     >
