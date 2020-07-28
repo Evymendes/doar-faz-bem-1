@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { getById, createMedicament } from '../services/api';
+import { createMedicament } from '../services/api';
 
 // Assets
 import ChevronDown from '../assets/chevron-down.svg';
@@ -613,7 +613,7 @@ class Login extends Component {
 				<FormContent>
 					<Label> Embalagem aberta? </Label>
 					<MultSelect isModal={isModalOpenPackaging} isError={isErrorOpenPackaging} onClick={this.handleModalOpenPackaging}>
-						<TextMultSelect>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
+						<TextMultSelect isData={selectedPackaging}>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
 						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
 					{isModalOpenPackaging
@@ -630,9 +630,9 @@ class Login extends Component {
 					)}
 				</FormContent>
 				<FormContent>
-					<Label> Tipo do medicamento: </Label>
+					<Label> Apresentação: </Label>
 					<MultSelect isModal={isModalType} isError={isErrorTypeMed} onClick={this.handleModalType}>
-						<TextMultSelect>{selectedType || 'Clique para selecionar'}</TextMultSelect>
+						<TextMultSelect isData={selectedType}>{selectedType || 'Clique para selecionar'}</TextMultSelect>
 						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
 					{isModalType
@@ -712,4 +712,3 @@ class Login extends Component {
 }
 
 export default Login;
-//
