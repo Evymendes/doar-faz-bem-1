@@ -11,6 +11,7 @@ const pressAnimation = keyframes`
 `;
 
 const Button = styled.button`
+	margin: 0.25rem;
 	width: 100%;
 	max-width: 20rem;
 	height: 3.5rem;
@@ -38,6 +39,10 @@ const DefaultButton = (props) => {
       {props.text}
     </Button>
   );
+};
+
+DefaultButton.defaultProps = {
+	text: 'Confirmar'
 };
 
 export default DefaultButton;

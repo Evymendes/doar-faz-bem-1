@@ -149,21 +149,20 @@ const Login = (props) => {
 					handleClick={() => handleClick('/scanner')}
 					text={'Escanear Código de Barras'}
 					style={{
-						margin: '1.25rem',
+						margin: '1rem',
 						background: '#49E5D6',
 						color: '#fff',
 					}}
 				/>
 				<Button
-					disabled
+					// disabled
 					pressed={pressed && currentButton === 'none'}
-					handleClick={() => handleClick(props.history, '/')}
-					text={'Adicionar Medicamento'}
+					handleClick={() => handleClick('/dashboard')}
+					text={'Visualizar Medicamentos'}
 					style={{
-						background: '#EDEDED',
-						cursor: 'not-allowed',
-						color: '#9E9E9E',
-						opacity: '0.5',
+						margin: '1rem',
+						background: '#D8998A',
+						color: '#fff',
 					}}
 				/>
 			</Content>
