@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+import Button from '../components/DefaultButton'
+
 // Images
 import Background from '../assets/headerbg.jpeg';
 
@@ -34,12 +36,6 @@ const fadeIn = keyframes`
   }
   100% {
 		opacity: 1;
-  }
-`;
-const pressAnimation = keyframes`
-  100% {
-		transform: translateY(2px);
-    box-shadow: none;
   }
 `;
 
@@ -121,24 +117,6 @@ const Logo = styled.div`
 	font-weight: 800;
 `;
 
-const Button = styled.button`
-	margin-bottom: 2rem;
-	width: 100%;
-	max-width: 20rem;
-	height: 3.5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 1rem;
-	font-weight: bold;
-	text-decoration: none;
-	border: none;
-	border-radius: 50px;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-	cursor: pointer;
-	animation: ${(props) => (props.pressed ? pressAnimation : '')} 0.5s ease forwards;
-`;
-
 const Login = (props) => {
 	const [pressed, setPressed] = useState(false);
 	const [currentButton, chooseCurrentButton] = useState(false);
@@ -168,37 +146,26 @@ const Login = (props) => {
 			<Content>
 				<Button
 					pressed={pressed && currentButton === '/scanner'}
-					onClick={() => handleClick('/scanner')}
+					handleClick={() => handleClick('/scanner')}
+					text={'Escanear Código de Barras'}
 					style={{
+						margin: '1.25rem',
 						background: '#49E5D6',
 						color: '#fff',
 					}}
-				>
-					Escanear Código de Barras
-				</Button>
-				{/* <Button
-					pressed={pressed && currentButton === '/qrcode'}
-					onClick={() => handleClick('/AddMoreInfo')}
-					style={{
-						background: '#D8998A',
-						color: '#fff',
-					}}
-				>
-					Escanear QR Code
-				</Button> */}
+				/>
 				<Button
-					pressed={pressed && currentButton === 'none'}
-					onClick={() => handleClick(props.history, '/')}
 					disabled
+					pressed={pressed && currentButton === 'none'}
+					handleClick={() => handleClick(props.history, '/')}
+					text={'Adicionar Medicamento'}
 					style={{
 						background: '#EDEDED',
 						cursor: 'not-allowed',
 						color: '#9E9E9E',
 						opacity: '0.5',
 					}}
-				>
-					Adicionar Medicamento
-				</Button>
+				/>
 			</Content>
 		</Container>
 	);
