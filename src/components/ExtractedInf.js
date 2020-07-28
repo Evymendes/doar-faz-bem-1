@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+import { getById } from '../services/api';
+
 // Components
 import Header from './Header';
 
@@ -65,35 +67,56 @@ const Button = styled.button`
 `;
 
 class ExtractedInf extends Component {
-	handleNextScreen = () => {
+	componentDidMount() {
+		this.fetchingData();
+	}
+
+	fetchingData = async () => {
+		try {
+			const response = await getById(this.props.code);
+			const data = response.data.results[0];
+
+			this.setState({
+				medicament: {
+					code: data.EAN_1,
+					name: data.PRODUTO,
+					substance: data.SUBSTANCIA,
+					laboratory: data.LABORATORIO,
+					description: data.APRESENTACAO,
+				},
+			});
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response', error.response);
+		}
+	};
+
+	handleRedirectScreen = () => {
 		this.props.history.push({
 			pathname: '/addmoreinfo',
+			state: {
+				result: this.state.medicament,
+			},
 		});
 	}
 
-	handleGoBack = () => {
-		this.props.history.goBack();
-	}
-
 	render() {
-		const { location } = this.props;
-
 		return (
 			<ModalDetails>
-				<Header openModal={this.handleGoBack} />
+				<Header openModal={this.props.openModal} />
 				<ContentModalDetails>
 					<TextModalDetails title>Informação Extraída:</TextModalDetails>
 					<ContainerIbsnCode>
-						<TextModalDetails>{location.state.result}</TextModalDetails>
+						<TextModalDetails>{this.props.code}</TextModalDetails>
 					</ContainerIbsnCode>
 					<Button
 						addInfo
-						onClick={this.handleNextScreen}
+						onClick={this.handleRedirectScreen}
 					>
 						Adicionar mais Informações
 					</Button>
 					<Button
-						onClick={this.handleGoBack}
+						onClick={this.props.handleCloseModalExactedInfo}
 					>
 						Cancelar
 					</Button>
