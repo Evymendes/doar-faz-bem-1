@@ -10,6 +10,7 @@ import { validateIsbn } from '../services/barcode';
 
 // Components
 import Header from '../components/Header';
+import ExtractedInf from '../components/ExtractedInf';
 
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
@@ -365,44 +366,6 @@ class Scanner extends Component {
 		});
 	}
 
-	handleRedirectScreen = () => {
-		const { valueCode } = this.state;
-
-		// this.setState({
-		// 	isRedirect: true,
-		// 	redirect: '/addmoreinfo'
-		// });
-		this.props.history.push({
-			pathname: '/addmoreinfo',
-			state: {
-				result: valueCode,
-			},
-		});
-	}
-
-	renderModalDetails = () => (
-		<ModalDetails>
-			<Header openModal={this.handleModalOpenDetails} />
-			<ContentModalDetails>
-				<TextModalDetails title>Informação Extraída:</TextModalDetails>
-				<ContainerIbsnCode>
-					<TextModalDetails>{this.state.isbnCode}</TextModalDetails>
-				</ContainerIbsnCode>
-				<Button
-					addInfo
-					onClick={this.handleRedirectScreen}
-				>
-					Adicionar mais Informações
-				</Button>
-				<Button
-					onClick={this.handleCloseModalExactedInfo}
-				>
-					Cancelar
-				</Button>
-			</ContentModalDetails>
-		</ModalDetails>
-	);
-
 	renderModalBarCode = () => (
 		<ContainerModalBoilerPlate
 			display={this.state.modalOpenBarCode}
@@ -455,7 +418,14 @@ class Scanner extends Component {
 					</ContainerDigitBarCode>
 				</Container>
 				<ContainerModalBoilerPlate display={modalOpenDetails}>
-					{modalOpenDetails && this.renderModalDetails()}
+					{modalOpenDetails && (
+						<ExtractedInf
+							history={this.props.history}
+							openModal={this.handleModalOpenDetails}
+							code={this.state.isbnCode}
+							handleRedirectScreen={this.handleRedirectScreen}
+							handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
+						/>)}
 				</ContainerModalBoilerPlate>
 				{modalOpenBarCode && this.renderModalBarCode()}
 				{modalOpenLoading && this.renderModalLoading()}
