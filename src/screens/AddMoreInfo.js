@@ -146,6 +146,7 @@ class Login extends Component {
 		isErrorExpirationDate: undefined,
 		isErrorCode: undefined,
 		isErrorCategory: undefined,
+		isErrorPackaging: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -233,7 +234,7 @@ class Login extends Component {
 
 	validationScreen = () => {
 		const {
-			code, name, expirationDate, quantity, openPacking,
+			code, name, expirationDate, quantity, isErrorPackaging,
 		} = this.state.medicament;
 
 		if (!code) {
@@ -275,14 +276,15 @@ class Login extends Component {
 				isErrorQuantity: false,
 			});
 		}
+		console.log('isErrorPackaging', isErrorPackaging);
 
-		if (!openPacking) {
+		if (isErrorPackaging === undefined) {
 			this.setState({
-				isErrorOpenPacking: true,
+				isErrorPackaging: true,
 			});
 		} else {
 			this.setState({
-				isErrorOpenPacking: false,
+				isErrorPackaging: false,
 			});
 		}
 	}
@@ -309,7 +311,7 @@ class Login extends Component {
 		// 		isLoading: true,
 		// 	});
 
-		this.createMedic();
+		// this.createMedic();
 
 		// }
 	}
@@ -366,12 +368,15 @@ class Login extends Component {
 	handleSelectedPackaging = (item) => {
 		this.setState({
 			selectedPackaging: item,
+			isModalOpenPackaging: false,
+			isErrorPackaging: false,
 		});
 	}
 
 	handleSelectedType = (item) => {
 		this.setState({
 			selectedType: item,
+			isModalType: false,
 		});
 	}
 
@@ -388,6 +393,7 @@ class Login extends Component {
 			isErrorName,
 			isErrorExpirationDate,
 			isErrorCategory,
+			isErrorPackaging,
 			isErrorOpenProduct,
 			isErrorQuantity,
 			isModalOpenPackaging,
@@ -488,8 +494,8 @@ class Login extends Component {
 				</FormContent>
 				<FormContent>
 					<Label> Embalagem aberta? </Label>
-					<MultSelect isModal={isModalOpenPackaging} onClick={this.handleModalOpenPackaging}>
-						<TextMultSelect>{selectedPackaging ? selectedPackaging : 'Clique para selecionar'}</TextMultSelect>
+					<MultSelect isModal={isModalOpenPackaging} isError={isErrorPackaging} onClick={this.handleModalOpenPackaging}>
+						<TextMultSelect>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
 						<img src={ChevronDown} alt="DropDown"/>
 					</MultSelect >
 					{isModalOpenPackaging
@@ -503,7 +509,7 @@ class Login extends Component {
 				<FormContent>
 					<Label> Tipo do medicamento: </Label>
 					<MultSelect isModal={isModalType} onClick={this.handleModalType}>
-						<TextMultSelect>{selectedType ? selectedType : 'Clique para selecionar'}</TextMultSelect>
+						<TextMultSelect>{selectedType || 'Clique para selecionar'}</TextMultSelect>
 						<img src={ChevronDown} alt="DropDown" />
 					</MultSelect >
 					{isModalType
@@ -551,7 +557,7 @@ class Login extends Component {
 			redirect,
 			isLoading,
 		} = this.state;
-
+console.log('isErrorPackaging', this.state.isErrorPackaging)
 		return (
 			<Container>
 				<Header openModal={this.handleBackScanner} />
