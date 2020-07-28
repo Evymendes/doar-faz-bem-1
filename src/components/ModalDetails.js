@@ -107,7 +107,6 @@ const ButtonMedDetails = styled.button`
 
 const ModalDelete = (props) => (
 	<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
-		{console.log('isOpenedMedDetails overlay', props.isOpenedMedDetails)}
 		<ContainerDetails onClick={(e) => e.stopPropagation()}>
 			<ContainerDetailsHeader>
 				<p>Cadastrado em {(props.medicament.values.Cadastrado) || '-'}</p>
@@ -116,7 +115,6 @@ const ModalDelete = (props) => (
 					alt="Fechar"
 					onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
 				/>
-				{console.log('isOpenedMedDetails', props.isOpenedMedDetails)}
 			</ContainerDetailsHeader>
 			<WrapperDetails main>
 				<WrapperDetails>
