@@ -341,7 +341,6 @@ const GlobalFilter = ({
 					onChange={(e) => {
 						setGlobalFilter(e.target.value || undefined);
 					}}
-					placeholder={`${count} records...`}
 					style={{
 						border: '0',
 					}}
