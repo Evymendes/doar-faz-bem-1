@@ -99,7 +99,7 @@ const ContainerTable = styled.table`
 const Thead = styled.thead`
 	display: none;
 
-	@media (min-width: 768px) {
+	@media (min-width: 1024px) {
 		display: flex;
 		text-align: left;
 	}
