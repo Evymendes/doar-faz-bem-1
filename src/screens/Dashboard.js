@@ -1,6 +1,5 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-// import { useTable } from 'react-table';
 import { useTable, useFilters, useGlobalFilter } from 'react-table';
 
 import styled from 'styled-components';
@@ -12,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import ModalDelete from '../components/ModalDelete';
+import ModalDetails from '../components/ModalDetails';
 
 // Images
 import SelectMoreIcon from '../assets/plus.svg';
@@ -150,6 +150,7 @@ const TableTitle = styled.th`
 `;
 
 const ContainerTableTitleMob = styled.span`
+	min-width: 40%;
 	padding-right: 2rem;
 	padding-bottom: 0.8rem;
 	display: flex;
@@ -197,9 +198,28 @@ const ButtonMoreMob = styled.img`
 	}
 `;
 
-const ContainerButton = styled.div`
+const ContainerDetails = styled.div`
 	position: fixed;
 	bottom: 0;
+	width: 100%;
+	height: 65vh;
+	display: flex;
+	flex-direction: column;
+	${'' /* justify-content: flex-end; */}
+	background-color: #fff;
+`;
+
+const ContainerDetailsHeader = styled.div`
+	width: 100%;
+	height: 5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const ContainerButton = styled.div`
+	position: ${(props) => (!props.medDetails && 'fixed')};;
+	bottom: ${(props) => (!props.medDetails && '0')};
 	width: 100%;
 	height: 5rem;
 	display: flex;
@@ -423,10 +443,6 @@ const Table = ({
 										<TableTitleMob>Validade</TableTitleMob>
 										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
 									</ContainerTableTitleMob>
-									{/* <ContainerTableTitleMob>
-										<TableTitleMob>Tipo</TableTitleMob>
-										<TableList>{row.values.TIPO}</TableList>
-									</ContainerTableTitleMob> */}
 									<ContainerTableTitleMob>
 										<TableTitleMob>Categoria</TableTitleMob>
 										<TableList>{row.values.CATEGORIA}</TableList>
@@ -463,8 +479,6 @@ function Dashboard() {
 
 	const [isFetching, setIsFetching] = useState(null);
 
-	const [search, setSearch] = useState('');
-
 	const [isRedirect, setIsRedirect] = useState(null);
 
 	useEffect(() => {
@@ -495,26 +509,25 @@ function Dashboard() {
 				medicament={medicament}
 				setItemMedDetails={setItemMedDetails}
 			/>
-			<ContainerButton medDetails={isOpenedMedDetails}>
-				{!isOpenedMedDetails ? (
+			{!isOpenedMedDetails ? (
+				<ContainerButton medDetails={isOpenedMedDetails}>
 					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
-				) : (
-					<>
-						<ButtonMedDetails detail>
-							<img src={EditIcon} alt="Editar" />
-							<p>Editar</p>
-						</ButtonMedDetails>
-						<ButtonMedDetails onClick={() => setOpenDelModal(!isModalDelOpened)}>
-							<img src={TrashIcon} alt="Excluir" />
-							<p>Excluir</p>
-						</ButtonMedDetails>
-					</>
-				)}
-			</ContainerButton>
+				</ContainerButton>
+			) : (
+				<ModalDetails
+					isOpenedMedDetails={isOpenedMedDetails}
+					setOpenMedDetails={setOpenMedDetails}
+					setOpenDelModal={setOpenDelModal}
+					isModalDelOpened={isModalDelOpened}
+					medicament={medicament}
+				/>
+			)}
 			{isModalDelOpened && (
 				<ModalDelete
 					setOpenDelModal={setOpenDelModal}
 					isModalDelOpened={isModalDelOpened}
+					isOpenedMedDetails={isOpenedMedDetails}
+					setOpenMedDetails={setOpenMedDetails}
 					medicament={medicament.original}
 				/>
 			)}
