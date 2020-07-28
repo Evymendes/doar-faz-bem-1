@@ -331,7 +331,7 @@ const GlobalFilter = ({
 	globalFilter,
 	setGlobalFilter,
 }) => {
-	const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+	// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
 
 	return (
 		<ContainerSearch>
@@ -458,7 +458,7 @@ const Table = ({
 								</>
 							}
 							<ButtonMoreMob
-								src={(medicament && medicament.id) === row.id ? SelectMinusIcon : SelectMoreIcon}
+								src={(medicament && medicament.id) === row.id && isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
 								onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
 							/>
 						</Tr>

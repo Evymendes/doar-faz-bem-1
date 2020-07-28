@@ -55,6 +55,7 @@ const ContainerDetailsHeader = styled.div`
 
 	img {
 		width: 1.2rem;
+		cursor: pointer;
 	}
 `;
 
@@ -64,6 +65,7 @@ const DetailsItem = styled.span`
 `;
 
 const DetailsText = styled.p`
+	padding-top:  ${(props) => (!props.title && '.2rem')};
 	color: ${(props) => (props.title ? '#D8998A' : '#404040')};
 	font-size: ${(props) => (props.title ? '.9rem' : '.85rem')};
 	font-weight: ${(props) => (props.title ? '600' : '400')};
@@ -105,6 +107,7 @@ const ButtonMedDetails = styled.button`
 
 const ModalDelete = (props) => (
 	<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
+		{console.log('isOpenedMedDetails overlay', props.isOpenedMedDetails)}
 		<ContainerDetails onClick={(e) => e.stopPropagation()}>
 			<ContainerDetailsHeader>
 				<p>Cadastrado em {(props.medicament.values.Cadastrado) || '-'}</p>
@@ -113,6 +116,7 @@ const ModalDelete = (props) => (
 					alt="Fechar"
 					onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
 				/>
+				{console.log('isOpenedMedDetails', props.isOpenedMedDetails)}
 			</ContainerDetailsHeader>
 			<WrapperDetails main>
 				<WrapperDetails>
