@@ -118,20 +118,10 @@ const Logo = styled.div`
 `;
 
 const Login = (props) => {
-	const [pressed, setPressed] = useState(false);
-	const [currentButton, chooseCurrentButton] = useState(false);
-
 	const handleClick = (link) => {
-		setPressed((pressed) => !pressed);
-		chooseCurrentButton(link);
-
-		if (!pressed) {
-			setTimeout(() => {
-				props.history.push({
-					pathname: link,
-				});
-			}, 1000);
-		}
+		props.history.push({
+			pathname: link,
+		});
 	};
 
 	return (
@@ -145,25 +135,21 @@ const Login = (props) => {
 			</ContainerHeader>
 			<Content>
 				<Button
-					pressed={pressed && currentButton === '/scanner'}
 					handleClick={() => handleClick('/scanner')}
 					text={'Escanear Código de Barras'}
 					style={{
-						margin: '1.25rem',
+						margin: '1rem',
 						background: '#49E5D6',
 						color: '#fff',
 					}}
 				/>
 				<Button
-					disabled
-					pressed={pressed && currentButton === 'none'}
-					handleClick={() => handleClick(props.history, '/')}
-					text={'Adicionar Medicamento'}
+					handleClick={() => handleClick('/dashboard')}
+					text={'Visualizar Medicamentos'}
 					style={{
-						background: '#EDEDED',
-						cursor: 'not-allowed',
-						color: '#9E9E9E',
-						opacity: '0.5',
+						margin: '1rem',
+						background: '#D8998A',
+						color: '#fff',
 					}}
 				/>
 			</Content>

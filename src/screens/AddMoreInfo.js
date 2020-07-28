@@ -153,7 +153,7 @@ class Login extends Component {
 		isErrorQuantity: false,
 		isErrorDescription: false,
 		medicament: {
-			code: null,
+			code: '',
 			name: '',
 			expirationDate: undefined,
 			category: '',
@@ -164,6 +164,7 @@ class Login extends Component {
 			quantity: '',
 			description: '',
 		},
+		isDisabled: false,
 	}
 
 	componentDidMount() {
@@ -171,18 +172,23 @@ class Login extends Component {
 	}
 
 	treatingData = () => {
-		const { result } = this.props.location.state;
-		// code: 7894916341769
+		const state = this.props.location.state;
+		if (state && state.result && state.result.code) {
 
-		this.setState({
-			medicament: {
-				code: result.code,
-				name: result.name,
-				substance: result.substance,
-				laboratory: result.laboratory,
-				description: result.description,
-			},
-		});
+			const { result } = this.props.location.state;
+			// code: 7894916341769
+
+			this.setState({
+				medicament: {
+					code: result.code,
+					name: result.name,
+					substance: result.substance,
+					laboratory: result.laboratory,
+					description: result.description,
+				},
+				isFromAPI: true
+			});
+		}
 	}
 
 	handleBackScanner = () => {
@@ -500,6 +506,7 @@ class Login extends Component {
 			isModalType,
 			typeMed,
 			selectedType,
+			isDisabled
 		} = this.state;
 		const errorMessage = '*Campo obrigatório.';
 
@@ -516,7 +523,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('code', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorCode}
-						disabled={medicament.code}
+						disabled={isDisabled}
 						isData={medicament.code}
 					/>
 					{isErrorCode && (
@@ -535,7 +542,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('name', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorName}
-						disabled={!!medicament.name}
+						disabled={isDisabled}
 						isData={medicament.name}
 					/>
 					{isErrorName && (
@@ -584,7 +591,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('substance', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorSubstance}
-						disabled={!!medicament.substance}
+						disabled={isDisabled}
 						isData={medicament.substance}
 					/>
 					{isErrorSubstance && (
@@ -601,7 +608,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('laboratory', ev)}
 						placeholder='Digite aqui...'
 						isError={isErroLaboratory}
-						disabled={medicament.laboratory}
+						disabled={isDisabled}
 						isData={medicament.laboratory}
 					/>
 					{isErroLaboratory && (
@@ -672,7 +679,7 @@ class Login extends Component {
 						onChange={(ev) => this.handleChange('description', ev)}
 						placeholder='Digite aqui...'
 						isError={isErrorDescription}
-						disabled={medicament.description}
+						disabled={isDisabled}
 						isData={medicament.description}
 					/>
 					{isErrorDescription && (
