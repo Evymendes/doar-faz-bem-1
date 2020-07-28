@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import DefaultButton from './DefaultButton'
+
 import { getById } from '../services/api';
 
 // Components
@@ -42,28 +44,6 @@ const TextModalDetails = styled.h2`
 	font-weight: 800;
 	font-family: 'Overpass', Bold;
 	text-align: center;
-`;
-
-const Button = styled.button`
-	margin-bottom: ${(props) => (props.addInfo && '2rem')};
-	width: 20rem;
-	height: 3.5rem;
-	text-align: center;
-	color: #fff;
-	font-size: 1rem;
-	font-family: 'Overpass', Bold;
-	font-weight: 800;
-	text-transform: ${(props) => (props.addInfo ? 'null' : 'uppercase')};
-	text-decoration: none;
-	border: none;
-	border-radius: 50px;
-	box-shadow: 2px 2px 2px #888888;
-	background: ${(props) => (props.addInfo ? '#D8998A' : '#49E5D6')};
-	cursor: pointer;
-
-	@media(max-width: 320px) {
-		width: 18rem;
-	}
 `;
 
 class ExtractedInf extends Component {
@@ -109,17 +89,23 @@ class ExtractedInf extends Component {
 					<ContainerIbsnCode>
 						<TextModalDetails>{this.props.code}</TextModalDetails>
 					</ContainerIbsnCode>
-					<Button
-						addInfo
-						onClick={this.handleRedirectScreen}
-					>
-						Adicionar mais Informações
-					</Button>
-					<Button
-						onClick={this.props.handleCloseModalExactedInfo}
-					>
-						Cancelar
-					</Button>
+					<DefaultButton
+						handleClick={this.handleRedirectScreen}
+						text={'Adicionar mais Informações'}
+						style={{
+							margin: '1rem',
+							background: '#49E5D6',
+							color: '#fff',
+						}}
+					/>
+					<DefaultButton
+						handleClick={this.props.handleCloseModalExactedInfo}
+						text={'Voltar para Leitura de Código'}
+						style={{
+							background: '#D8998A',
+							color: '#fff',
+						}}
+					/>
 				</ContentModalDetails>
 			</ModalDetails>
 		);
