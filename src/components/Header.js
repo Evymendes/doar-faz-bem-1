@@ -33,11 +33,18 @@ const Logo = styled.div`
 	background: linear-gradient(45deg, #3dfefe, #9E9E9E);
 	font-weight: 800;
 	font-family: sans-serif;
+	cursor: pointer;
 `;
+
+function handleClick(history) {
+	history.push({
+		pathname: '/',
+	});
+}
 
 const Header = (props) => (
 	<Container>
-		<Logo>
+		<Logo onClick={() => handleClick(props.history)}>
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null

@@ -282,6 +282,7 @@ class Scanner extends Component {
 	handleInputBarCode = (event) => {
 		this.setState({
 			valueCode: event.target.value,
+			error: '',
 		});
 	}
 
@@ -329,8 +330,6 @@ class Scanner extends Component {
   onDetected = (result) => {
   	Quagga.offDetected(this.onDetected);
 
-  	console.log('result', result);
-
   	const isbn = result.codeResult.code;
 
   	if (validateIsbn(isbn)) {
@@ -371,7 +370,7 @@ class Scanner extends Component {
 			display={this.state.modalOpenBarCode}
 		>
 			<ContentModalBarCode>
-				<Header openModal={this.handleOpenBarCodeModal} />
+				<Header openModal={this.handleOpenBarCodeModal} history={this.props.history} />
 				<WrapperModalBarCode>
 					<InputBarCode
 						type='number'
