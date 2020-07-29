@@ -25,6 +25,11 @@ const ContainerDelModal = styled.div`
 	border-radius: 6px;
 	background: #fff;
 	font-family: "Overpass", Regular;
+
+	@media(min-width: 1024px) {
+		width: 25%;
+		min-width: 25%;
+	}
 `;
 
 const DelModalHeader = styled.span`
