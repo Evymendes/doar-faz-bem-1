@@ -83,7 +83,10 @@ class ExtractedInf extends Component {
 	render() {
 		return (
 			<ModalDetails>
-				<Header openModal={this.props.openModal} history={this.props.history} />
+				<Header
+					openModal={this.props.openModal}
+					history={this.props.history}
+				/>
 				<ContentModalDetails>
 					<TextModalDetails title>Informação Extraída:</TextModalDetails>
 					<ContainerIbsnCode>

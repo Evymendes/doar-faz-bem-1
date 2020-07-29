@@ -701,7 +701,13 @@ class Login extends Component {
 
 		return (
 			<Container>
-				<Header openModal={this.handleBackScanner} history={this.props.history} />
+				<Header
+					openModal={this.handleBackScanner}
+					history={this.props.history}
+					style={{
+						stroke: '#FFFFFF'
+					}}
+				/>
 				<Form onSubmit={this.handleSubmit}>
 					<div>
 						{this.renderForm()}

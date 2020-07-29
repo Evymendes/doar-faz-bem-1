@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 // Components
 // import Logo from '../asssets/';
-import CloseIcon from '../assets/fechar.svg';
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg'
 
 // Styles
 const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 1rem;
 
 	img {
@@ -48,13 +49,18 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			: <img
-				src={CloseIcon}
-				alt='Fechar'
+			:
+			<CloseIcon
+				strokeWidth={'2'}
+				style={props.style}
 				onClick={props.openModal}
 			/>
 		}
 	</Container>
-);
+)
+
+Header.defaultProps = {
+	style: { stroke: '#D8998A'}
+};
 
 export default Header;
