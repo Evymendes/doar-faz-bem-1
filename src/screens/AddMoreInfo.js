@@ -63,7 +63,7 @@ class Login extends Component {
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
-		typeMed: ['comprimidos', 'pomada', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
+		typeMed: ['comprimidos', 'pomada', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas', 'outros'],
 		selectedType: undefined,
 		isLoading: undefined,
 		isErrorCode: false,
