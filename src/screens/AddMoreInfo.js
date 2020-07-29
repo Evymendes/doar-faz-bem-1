@@ -7,10 +7,11 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { createMedicament } from '../services/api';
+import DefaultInput from '../components/DefaultInput';
+import DefaultDropDown from '../components/DefaulfDropDown';
 
-// Assets
-import ChevronDown from '../assets/chevron-down.svg';
+// Api
+import { createMedicament } from '../services/api';
 
 // Styled
 const Container = styled.div`
@@ -25,83 +26,6 @@ const Form = styled.form`
 	width: 86%;
 	display: flex;
 	flex-direction: column;
-`;
-
-const FormContent = styled.div`
-  margin-bottom: ${(props) => (props.isError ? '0.5rem' : '1.5rem')};
-`;
-
-const Label = styled.label`
-	font: 700 1rem 'Overpass', serif;
-	width: 90%;
-	color: #FFF;
-`;
-
-const Input = styled.input`
-	padding: 0.7rem 0.7rem;
-  width: 100%;
-	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	background: #FFF;
-	outline: none;
-  border: ${(props) => (props.isError ? '2px solid red' : 'none')};
-	border-radius: 4px;
-	box-shadow: 2px 2px 2px #888888;
-
-	::placeholder {
-		color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	}
-`;
-
-const MultSelect = styled.div`
-	padding: 0.7rem 0.7rem 0.44rem 0.7rem;
-	width: 100%;
-	color: #989494;
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	background: #FFF;
-	outline: none;
-	border: ${(props) => (props.isError ? '2px solid red' : 'none')};
-	border-radius:${(props) => (props.isModal ? '4px 4px 0 0' : '4px')};
-	box-shadow: 2px 2px 2px #888888;
-	display: flex;
-	justify-content: space-between;
-
-	::placeholder {
-		color: #989494;
-	}
-`;
-
-const TextMultSelect = styled.p`
-	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	text-transform: capitalize;
-`;
-
-const Modal = styled.div`
-	background: #FFF;
-	display: flex;
-	flex-direction: column;
-	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
-`;
-
-const Text = styled.p`
-	padding: 0.35rem 0 0.35rem 0.7rem;
-	font: 400 0.9rem 'Overpass', serif;
-	color:#989494;
-	text-transform: capitalize;
-
-	&:hover {
-		background: #98949457;
-	}
-`;
-
-const ErrorMessage = styled.p`
-	margin-top: .3rem;
-  color: red;
-	font: 400 .9rem 'Overpass', serif;
-	display: flex;
-	justify-content: flex-end;
 `;
 
 const Footer = styled.div`
@@ -136,18 +60,29 @@ class Login extends Component {
 		isRedirect: undefined,
 		redirect: undefined,
 		isModalOpenPackaging: undefined,
-		typePackaging: ['true', 'false'],
+		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
-		typeMed: ['comprimidos', 'gel', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
+		typeMed: [
+			'comprimidos',
+			'pomada',
+			'xarope',
+			'gotas',
+			'supositórios',
+			'injetáveis',
+			'cápsulas',
+			'drágeas',
+			'outros',
+		],
 		selectedType: undefined,
 		isLoading: undefined,
 		isErrorCode: false,
 		isErrorName: false,
 		isErrorExpirationDate: false,
-		isErrorCategory: false,
+		isErrorTherapeuticClass: false,
 		isErrorSubstance: false,
-		isErroLaboratory: false,
+		isErrorLaboratory: false,
+		isErrorProductType: false,
 		isErrorOpenPackaging: false,
 		isErrorTypeMed: false,
 		isErrorQuantity: false,
@@ -156,37 +91,70 @@ class Login extends Component {
 			code: '',
 			name: '',
 			expirationDate: undefined,
-			category: '',
+			therapeuticClass: '',
 			substance: '',
 			laboratory: '',
+			productType: '',
 			openPacking: '',
 			type: '',
 			quantity: '',
 			description: '',
 		},
 		isDisabled: false,
+		anvisa: {
+			code: undefined,
+			name: undefined,
+			expirationDate: undefined,
+			therapeuticClass: undefined,
+			substance: undefined,
+			laboratory: undefined,
+			productType: undefined,
+			openPacking: undefined,
+			type: undefined,
+			quantity: undefined,
+			description: undefined,
+		},
 	}
 
 	componentDidMount() {
-		this.treatingData();
+		this.treatingDataAnvisa();
 	}
 
-	treatingData = () => {
-		const state = this.props.location.state;
-		if (state && state.result && state.result.code) {
-
+	treatingDataAnvisa = () => {
+		const { state } = this.props.location;
+		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
-			// code: 7894916341769
+
+			// 7894916341769
+			// 7896112121831 ANVISA
+			// 7898927111014
+
+
+		// LABORATORIO: {
+		// 	data: 'bbbababa',
+		// 	disable: true
+		// }
+
+		// this.state.anvisa
+		// this.state.medicament
+
+		// disabled = {this.state.anvisa.code}
+		// medicament = onchange code
+
+		// code: this.state.anvisa || this.state.medicament
+
 
 			this.setState({
-				medicament: {
-					code: result.code,
-					name: result.name,
-					substance: result.substance,
-					laboratory: result.laboratory,
-					description: result.description,
+				anvisa: {
+					code: result.EAN_1,
+					name: result.PRODUTO,
+					substance: result.SUBSTANCIA,
+					laboratory: result.LABORATORIO,
+					therapeuticClass: result.CLASSE_TERAPEUTICA,
+					productType: result.TIPO_DE_PRODUTO,
+					description: result.APRESENTACAO,
 				},
-				isFromAPI: true
+				isDisabled: true,
 			});
 		}
 	}
@@ -216,9 +184,9 @@ class Login extends Component {
 			});
 		}
 
-		if (field === 'category') {
+		if (field === 'therapeuticClass') {
 			this.setState({
-				isErrorCategory: false,
+				isErrorTherapeuticClass: false,
 			});
 		}
 
@@ -230,7 +198,13 @@ class Login extends Component {
 
 		if (field === 'laboratory') {
 			this.setState({
-				isErroLaboratory: false,
+				isErrorLaboratory: false,
+			});
+		}
+
+		if (field === 'productType') {
+			this.setState({
+				isErrorProductType: false,
 			});
 		}
 
@@ -270,10 +244,11 @@ class Login extends Component {
 			code,
 			name,
 			expirationDate,
-			category,
+			therapeuticClass,
 			substance,
 			type,
 			quantity,
+			productType,
 			openPacking,
 			laboratory,
 			description,
@@ -309,13 +284,13 @@ class Login extends Component {
 			});
 		}
 
-		if (!category) {
+		if (!therapeuticClass) {
 			this.setState({
-				isErrorCategory: true,
+				isErrorTherapeuticClass: true,
 			});
 		} else {
 			this.setState({
-				isErrorCategory: false,
+				isErrorTherapeuticClass: false,
 			});
 		}
 
@@ -331,11 +306,21 @@ class Login extends Component {
 
 		if (!laboratory) {
 			this.setState({
-				isErroLaboratory: true,
+				isErrorLaboratory: true,
 			});
 		} else {
 			this.setState({
-				isErroLaboratory: false,
+				isErrorLaboratory: false,
+			});
+		}
+
+		if (!productType) {
+			this.setState({
+				isErrorProductType: true,
+			});
+		} else {
+			this.setState({
+				isErrorProductType: false,
 			});
 		}
 
@@ -386,9 +371,10 @@ class Login extends Component {
 			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCategory,
+			isErrorTherapeuticClass,
 			isErrorSubstance,
-			isErroLaboratory,
+			isErrorLaboratory,
+			isErrorProductType,
 			isErrorOpenPackaging,
 			isErrorTypeMed,
 			isErrorQuantity,
@@ -402,49 +388,44 @@ class Login extends Component {
 			isErrorCode === false
 			&& isErrorName === false
 			&& isErrorExpirationDate === false
-			&& isErrorCategory === false
+			&& isErrorTherapeuticClass === false
 			&& isErrorSubstance === false
-			&& isErroLaboratory === false
+			&& isErrorLaboratory === false
+			&& isErrorProductType === false
 			&& isErrorOpenPackaging === false
 			&& isErrorTypeMed === false
 			&& isErrorQuantity === false
 			&& isErrorDescription === false
 			&& isModalOpenPackaging === false
 		) {
-			// this.setState({
-			// 	isLoading: true,
-			// });
-
 			this.createMedic();
 		}
 	}
 
 	createMedic = async () => {
-		const { medicament } = this.state;
+		const { medicament, anvisa } = this.state;
 		const date = new Date(medicament.expirationDate);
 
-		const formatName = {
-			EAN_1: medicament.code.toString(),
-			PRODUTO: medicament.name,
-			SUBSTANCIA: medicament.substance,
-			APRESENTACAO: medicament.description,
-			LABORATORIO: medicament.laboratory,
-			TIPO: medicament.type,
-			QUANTIDADE: medicament.quantity,
-			EMBALAGEM_ABERTA: medicament.open_packing,
+		const formatData = {
+			EAN_1: anvisa.code.toString() || medicament.code.toString(),
+			PRODUTO: anvisa.name || medicament.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
-			CATEGORIA: medicament.category,
+			CLASSE_TERAPEUTICA: anvisa.therapeuticClass || medicament.therapeuticClass,
+			SUBSTANCIA: anvisa.substance ||  medicament.substance,
+			LABORATORIO: anvisa.laboratory || medicament.laboratory,
+			TIPO_DE_PRODUTO: anvisa.productType || medicament.productType,
+			QUANTIDADE: medicament.quantity,
+			EMBALAGEM_ABERTA: medicament.openPacking === true,
+			APRESENTACAO: anvisa.type || medicament.type,
+			DESCRICAO: anvisa.description || medicament.description,
 		};
 
 		try {
-			const response = await createMedicament(formatName);
-
-			console.log('response', response)
+			await createMedicament(formatData);
 
 			this.props.history.push({
 				pathname: '/dashboard',
 			});
-
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
@@ -493,9 +474,10 @@ class Login extends Component {
 			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCategory,
+			isErrorTherapeuticClass,
 			isErrorSubstance,
-			isErroLaboratory,
+			isErrorLaboratory,
+			isErrorProductType,
 			isErrorOpenPackaging,
 			isErrorTypeMed,
 			isErrorQuantity,
@@ -506,188 +488,99 @@ class Login extends Component {
 			isModalType,
 			typeMed,
 			selectedType,
-			isDisabled
+			isDisabled,
+			anvisa,
 		} = this.state;
-		const errorMessage = '*Campo obrigatório.';
 
-		// code,  medicamento, data de validade, categoria,
-		// substancia, laboratório, embalagem aberto, tipo de medicamento, quantidade, descrição
+		// 7896112121831
+		// 7898927111014
 
 		return (
 			<>
-				<FormContent isError={isErrorCode}>
-					<Label> Código de barras: </Label>
-					<Input
-						type="text"
-						value={medicament.code || ''}
-						onChange={(ev) => this.handleChange('code', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorCode}
-						disabled={isDisabled}
-						isData={medicament.code}
-					/>
-					{isErrorCode && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label onClick={this.handleLabelName}>
-						Medicamento:
-					</Label>
-					<Input
-						type="text"
-						value={medicament.name || ''}
-						onChange={(ev) => this.handleChange('name', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorName}
-						disabled={isDisabled}
-						isData={medicament.name}
-					/>
-					{isErrorName && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label>	Data de Validade:	</Label>
-					<Input
-						type="date"
-						value={medicament.expirationDate || ''}
-						onChange={(ev) => this.handleChange('expirationDate', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorExpirationDate}
-						isData={medicament.expirationDate}
-					/>
-					{isErrorExpirationDate && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label>Categoria: </Label>
-					<Input
-						type="text"
-						value={medicament.category || ''}
-						onChange={(ev) => this.handleChange('category', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorCategory}
-						isData={medicament.category}
-					/>
-					{isErrorCategory && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Substância: </Label>
-					<Input
-						type="text"
-						value={medicament.substance || ''}
-						onChange={(ev) => this.handleChange('substance', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorSubstance}
-						disabled={isDisabled}
-						isData={medicament.substance}
-					/>
-					{isErrorSubstance && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Laboratório: </Label>
-					<Input
-						type="text"
-						value={medicament.laboratory || ''}
-						onChange={(ev) => this.handleChange('laboratory', ev)}
-						placeholder='Digite aqui...'
-						isError={isErroLaboratory}
-						disabled={isDisabled}
-						isData={medicament.laboratory}
-					/>
-					{isErroLaboratory && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Embalagem aberta? </Label>
-					<MultSelect isModal={isModalOpenPackaging} isError={isErrorOpenPackaging} onClick={this.handleModalOpenPackaging}>
-						<TextMultSelect isData={selectedPackaging}>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
-						<img src={ChevronDown} alt="DropDown" />
-					</MultSelect >
-					{isModalOpenPackaging
-						&& <Modal>
-							{typePackaging.map((item, index) => (
-								<Text key={index} onClick={() => this.handleSelectedPackaging(item)}>{item}</Text>
-							))}
-						</Modal>
-					}
-					{isErrorOpenPackaging && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Apresentação: </Label>
-					<MultSelect isModal={isModalType} isError={isErrorTypeMed} onClick={this.handleModalType}>
-						<TextMultSelect isData={selectedType}>{selectedType || 'Clique para selecionar'}</TextMultSelect>
-						<img src={ChevronDown} alt="DropDown" />
-					</MultSelect >
-					{isModalType
-						&& <Modal>
-							{typeMed.map((item, index) => (
-								<Text onClick={() => this.handleSelectedType(item)} key={index}>{item}</Text>
-							))}
-						</Modal>
-					}
-					{isErrorTypeMed && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorQuantity}>
-					<Label> Quantidade: </Label>
-					<Input
-						type="number"
-						value={medicament.quantity || ''}
-						onChange={(ev) => this.handleChange('quantity', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorQuantity}
-						isData={medicament.quantity}
-					/>
-					{isErrorQuantity && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Descrição: </Label>
-					<Input
-						type="text"
-						value={medicament.description || ''}
-						onChange={(ev) => this.handleChange('description', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorDescription}
-						disabled={isDisabled}
-						isData={medicament.description}
-					/>
-					{isErrorDescription && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
+				<DefaultInput
+					label='Código de barras:'
+					type='number'
+					onChange={(ev) => this.handleChange('code', ev)}
+					text={anvisa.code || medicament.code}
+					isError={isErrorCode}
+					disabled={anvisa.code}
+				/>
+				<DefaultInput
+					label='Medicamento:'
+					onChange={(ev) => this.handleChange('name', ev)}
+					text={anvisa.name || medicament.name}
+					isError={isErrorName}
+					disabled={anvisa.name}
+				/>
+				<DefaultInput
+					label='Data de Validade:'
+					type="date"
+					onChange={(ev) => this.handleChange('expirationDate', ev)}
+					text={medicament.expirationDate}
+					isError={isErrorExpirationDate}
+					disabled={false}
+				/>
+				<DefaultInput
+					label='Classe terapêutica:'
+					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
+					text={anvisa.therapeuticClass || medicament.therapeuticClass}
+					isError={isErrorTherapeuticClass}
+					disabled={anvisa.therapeuticClass}
+				/>
+				<DefaultInput
+					label='Substância:'
+					onChange={(ev) => this.handleChange('substance', ev)}
+					text={anvisa.substance || medicament.substance}
+					isError={isErrorSubstance}
+					disabled={anvisa.substance}
+				/>
+				<DefaultInput
+					label='Laboratório:'
+					onChange={(ev) => this.handleChange('laboratory', ev)}
+					text={anvisa.laboratory || medicament.laboratory}
+					isError={isErrorLaboratory}
+					disabled={anvisa.laboratory}
+				/>
+				<DefaultInput
+					label='Tipo do Produto:'
+					onChange={(ev) => this.handleChange('productType', ev)}
+					text={anvisa.productType || medicament.productType}
+					isError={isErrorProductType}
+					disabled={anvisa.productType}
+				/>
+				<DefaultDropDown
+					title='Embalagem aberta?'
+					isModal={isModalOpenPackaging}
+					isError={isErrorOpenPackaging}
+					onClick={this.handleModalOpenPackaging}
+					inClickSelected={this.handleSelectedPackaging}
+					selectedText={selectedPackaging}
+					item={typePackaging}
+				/>
+				<DefaultDropDown
+					title='Apresentação:'
+					isModal={isModalType}
+					isError={isErrorTypeMed}
+					onClick={this.handleModalType}
+					inClickSelected={this.handleSelectedType}
+					selectedText={selectedType}
+					item={typeMed}
+					type='apresentation'
+				/>
+				<DefaultInput
+					label='Quantidade:'
+					type='number'
+					onChange={(ev) => this.handleChange('quantity', ev)}
+					text={medicament.quantity}
+					isError={isErrorQuantity}
+				/>
+				<DefaultInput
+					label='Descrição:'
+					onChange={(ev) => this.handleChange('description', ev)}
+					text={anvisa.description || medicament.description}
+					isError={isErrorDescription}
+					disabled={anvisa.description}
+				/>
 			</>
 		);
 	}
@@ -714,7 +607,7 @@ class Login extends Component {
 					</div>
 					<Footer>
 						<Button cancel onClick={this.handleBackScanner}>cancelar</Button>
-						<Button>confirmar</Button>
+						<Button>salvar</Button>
 					</Footer>
 				</Form>
 				{isLoading && <Loading />}

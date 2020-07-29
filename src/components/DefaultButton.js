@@ -40,20 +40,20 @@ const DefaultButton = (props) => {
 		}
 	};
 
-  return (
-    <Button
-      pressed={pressed}
-      onClick={handleClick}
-      style={props.style}
-      disabled={props.disabled}
-    >
-      {props.text}
-    </Button>
-  );
+	return (
+		<Button
+			pressed={pressed}
+			onClick={handleClick}
+			style={props.style}
+			disabled={props.disabled}
+		>
+			{props.text}
+		</Button>
+	);
 };
 
 DefaultButton.defaultProps = {
-	text: 'Confirmar'
+	text: 'Confirmar',
 };
 
 export default DefaultButton;
