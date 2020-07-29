@@ -7,10 +7,11 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { createMedicament } from '../services/api';
+import DefaultInput from '../components/DefaultInput';
+import DefaultDropDown from '../components/DefaulfDropDown';
 
-// Assets
-import ChevronDown from '../assets/chevron-down.svg';
+//Api
+import { createMedicament } from '../services/api';
 
 // Styled
 const Container = styled.div`
@@ -25,88 +26,6 @@ const Form = styled.form`
 	width: 86%;
 	display: flex;
 	flex-direction: column;
-`;
-
-const FormContent = styled.div`
-  margin-bottom: ${(props) => (props.isError ? '0.5rem' : '1.5rem')};
-`;
-
-const Label = styled.label`
-	font: 700 1rem 'Overpass', serif;
-	width: 90%;
-	color: #FFF;
-`;
-
-const Input = styled.input`
-	padding: 0.7rem 0.7rem;
-  width: 100%;
-	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	background: #FFF;
-	outline: none;
-  border: ${(props) => (props.isError ? '2px solid red' : 'none')};
-	border-radius: 4px;
-	box-shadow: 2px 2px 2px #888888;
-
-	::placeholder {
-		color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	}
-`;
-
-const MultSelect = styled.div`
-	padding: 0.7rem 0.7rem 0.44rem 0.7rem;
-	width: 100%;
-	color: #989494;
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	background: #FFF;
-	outline: none;
-	border: ${(props) => (props.isError ? '2px solid red' : 'none')};
-	border-radius:${(props) => (props.isModal ? '4px 4px 0 0' : '4px')};
-	box-shadow: 2px 2px 2px #888888;
-	display: flex;
-	justify-content: space-between;
-
-	::placeholder {
-		color: #989494;
-	}
-`;
-
-const IconDropDown = styled.img`
-  transform: { rotate: '90deg'};
-`;
-
-
-const TextMultSelect = styled.p`
-	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	text-transform: capitalize;
-`;
-
-const Modal = styled.div`
-	background: #FFF;
-	display: flex;
-	flex-direction: column;
-	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
-`;
-
-const Text = styled.p`
-	padding: 0.35rem 0 0.35rem 0.7rem;
-	font: 400 0.9rem 'Overpass', serif;
-	color:#989494;
-	text-transform: capitalize;
-
-	&:hover {
-		background: #98949457;
-	}
-`;
-
-const ErrorMessage = styled.p`
-	margin-top: .3rem;
-  color: red;
-	font: 400 .9rem 'Overpass', serif;
-	display: flex;
-	justify-content: flex-end;
 `;
 
 const Footer = styled.div`
@@ -158,7 +77,7 @@ class Login extends Component {
 		isErrorQuantity: false,
 		isErrorDescription: false,
 		medicament: {
-			code: null,
+			code: '',
 			name: '',
 			expirationDate: undefined,
 			category: '',
@@ -169,6 +88,7 @@ class Login extends Component {
 			quantity: '',
 			description: '',
 		},
+		isDisabled: false,
 	}
 
 	componentDidMount() {
@@ -176,13 +96,12 @@ class Login extends Component {
 	}
 
 	treatingData = () => {
-		// code: 7894916341769
-
-console.log('this.props.location.state.result', this.props)
-		// if(this.props.location.state.result !== undefined) {
+		const { state } = this.props.location;
+		if (state && state.result && state.result.code) {
 			const { result } = this.props.location.state;
+			// code: 7894916341769
+
 			this.setState({
-				isApi: true,
 				medicament: {
 					code: result.code,
 					name: result.name,
@@ -190,8 +109,9 @@ console.log('this.props.location.state.result', this.props)
 					laboratory: result.laboratory,
 					description: result.description,
 				},
+				isFromAPI: true,
 			});
-		// }
+		}
 	}
 
 	handleBackScanner = () => {
@@ -200,6 +120,7 @@ console.log('this.props.location.state.result', this.props)
 
 	handleChange = (field, ev) => {
 		const { medicament } = this.state;
+		console.log('aquiii', field)
 
 		if (field === 'code') {
 			this.setState({
@@ -442,12 +363,11 @@ console.log('this.props.location.state.result', this.props)
 		try {
 			const response = await createMedicament(formatName);
 
-			console.log('response', response)
+			console.log('response', response);
 
 			this.props.history.push({
 				pathname: '/dashboard',
 			});
-
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
@@ -509,187 +429,86 @@ console.log('this.props.location.state.result', this.props)
 			isModalType,
 			typeMed,
 			selectedType,
+			isDisabled,
 		} = this.state;
-		const errorMessage = '*Campo obrigatório.';
-
-		// code,  medicamento, data de validade, categoria,
-		// substancia, laboratório, embalagem aberto, tipo de medicamento, quantidade, descrição
-
 		return (
 			<>
-				<FormContent isError={isErrorCode}>
-					<Label> Código de barras: </Label>
-					<Input
-						type="text"
-						value={medicament.code || ''}
-						onChange={(ev) => this.handleChange('code', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorCode}
-						disabled={medicament.code}
-						isData={medicament.code}
-					/>
-					{isErrorCode && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label onClick={this.handleLabelName}>
-						Medicamento:
-					</Label>
-					<Input
-						type="text"
-						value={medicament.name || ''}
-						onChange={(ev) => this.handleChange('name', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorName}
-						disabled={!!medicament.name}
-						isData={medicament.name}
-					/>
-					{isErrorName && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorName}>
-					<Label>	Data de Validade:	</Label>
-					<Input
-						type="date"
-						value={medicament.expirationDate || ''}
-						onChange={(ev) => this.handleChange('expirationDate', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorExpirationDate}
-						isData={medicament.expirationDate}
-					/>
-					{isErrorExpirationDate && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label>Classe terapêutica: </Label>
-					<Input
-						type="text"
-						value={medicament.category || ''}
-						onChange={(ev) => this.handleChange('category', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorCategory}
-						isData={medicament.category}
-					/>
-					{isErrorCategory && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Substância: </Label>
-					<Input
-						type="text"
-						value={medicament.substance || ''}
-						onChange={(ev) => this.handleChange('substance', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorSubstance}
-						disabled={!!medicament.substance}
-						isData={medicament.substance}
-					/>
-					{isErrorSubstance && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Laboratório: </Label>
-					<Input
-						type="text"
-						value={medicament.laboratory || ''}
-						onChange={(ev) => this.handleChange('laboratory', ev)}
-						placeholder='Digite aqui...'
-						isError={isErroLaboratory}
-						disabled={medicament.laboratory}
-						isData={medicament.laboratory}
-					/>
-					{isErroLaboratory && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Embalagem aberta? </Label>
-					<MultSelect isModal={isModalOpenPackaging} isError={isErrorOpenPackaging} onClick={this.handleModalOpenPackaging}>
-						<TextMultSelect isData={selectedPackaging}>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
-						<IconDropDown src={ChevronDown} alt="DropDown" />
-					</MultSelect >
-					{isModalOpenPackaging
-						&& <Modal>
-							{typePackaging.map((item, index) => (
-								<Text key={index} onClick={() => this.handleSelectedPackaging(item)}>{item}</Text>
-							))}
-						</Modal>
-					}
-					{isErrorOpenPackaging && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Apresentação: </Label>
-					<MultSelect isModal={isModalType} isError={isErrorTypeMed} onClick={this.handleModalType}>
-						<TextMultSelect isData={selectedType}>{selectedType || 'Clique para selecionar'}</TextMultSelect>
-						<img src={ChevronDown} alt="DropDown" />
-					</MultSelect >
-					{isModalType
-						&& <Modal>
-							{typeMed.map((item, index) => (
-								<Text onClick={() => this.handleSelectedType(item)} key={index}>{item}</Text>
-							))}
-						</Modal>
-					}
-					{isErrorTypeMed && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent isError={isErrorQuantity}>
-					<Label> Quantidade: </Label>
-					<Input
-						type="number"
-						value={medicament.quantity || ''}
-						onChange={(ev) => this.handleChange('quantity', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorQuantity}
-						isData={medicament.quantity}
-					/>
-					{isErrorQuantity && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
-				<FormContent>
-					<Label> Descrição: </Label>
-					<Input
-						type="text"
-						value={medicament.description || ''}
-						onChange={(ev) => this.handleChange('description', ev)}
-						placeholder='Digite aqui...'
-						isError={isErrorDescription}
-						disabled={medicament.description}
-						isData={medicament.description}
-					/>
-					{isErrorDescription && (
-						<ErrorMessage>
-							{errorMessage}
-						</ErrorMessage>
-					)}
-				</FormContent>
+				<DefaultInput
+					label='Código de barras:'
+					onChange={(ev) => this.handleChange('code', ev)}
+					text={medicament.code}
+					isError={isErrorCode}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Medicamento:'
+					onChange={(ev) => this.handleChange('name', ev)}
+					text={medicament.name}
+					isError={isErrorName}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Data de Validade:'
+					type="date"
+					onChange={(ev) => this.handleChange('expirationDate', ev)}
+					text={medicament.expirationDate}
+					isError={isErrorExpirationDate}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Classe terapêutica:'
+					onChange={(ev) => this.handleChange('category', ev)}
+					text={medicament.category}
+					isError={isErrorCategory}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Substância:'
+					onChange={(ev) => this.handleChange('substance', ev)}
+					text={medicament.substance}
+					isError={isErrorSubstance}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Laboratório:'
+					onChange={(ev) => this.handleChange('laboratory', ev)}
+					text={medicament.laboratory}
+					isError={isErroLaboratory}
+					disabled={isDisabled}
+				/>
+				<DefaultDropDown
+					title='Embalagem aberta?'
+					isModal={isModalOpenPackaging}
+					isError={isErrorOpenPackaging}
+					onClick={this.handleModalOpenPackaging}
+					inClickSelected={this.handleSelectedPackaging}
+					selectedText={selectedPackaging}
+					item={typePackaging}
+				/>
+				<DefaultDropDown
+					title='Apresentação:'
+					isModal={isModalType}
+					isError={isErrorTypeMed}
+					onClick={this.handleModalType}
+					inClickSelected={this.handleSelectedType}
+					selectedText={selectedType}
+					item={typeMed}
+				/>
+				<DefaultInput
+					label='Quantidade:'
+					type='number'
+					onChange={(ev) => this.handleChange('quantity', ev)}
+					text={medicament.quantity}
+					isError={isErrorQuantity}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Descrição:'
+					onChange={(ev) => this.handleChange('description', ev)}
+					text={medicament.description}
+					isError={isErrorDescription}
+					disabled={isDisabled}
+				/>
 			</>
 		);
 	}
@@ -710,7 +529,7 @@ console.log('this.props.location.state.result', this.props)
 					</div>
 					<Footer>
 						<Button cancel onClick={this.handleBackScanner}>cancelar</Button>
-						<Button>confirmar</Button>
+						<Button>salvar</Button>
 					</Footer>
 				</Form>
 				{isLoading && <Loading />}
@@ -721,3 +540,16 @@ console.log('this.props.location.state.result', this.props)
 }
 
 export default Login;
+
+
+
+//classe terapeutica
+//tipo d e    apresentação  - ter opção de outro para a pessoa digitar
+//-botao de voltar na dashboard
+// 7896112121831
+// 7898927111014
+
+//almentar a largunra caso for grande o dado
+//component input
+//botão pressionada
+//ass scroll no modal
