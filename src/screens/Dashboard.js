@@ -98,6 +98,9 @@ const ContainerTable = styled.table`
 `;
 
 const ContainerTableHeader = styled.div`
+	display: flex;
+`;
+const WrapperTableHeader = styled.div`
 	display: none;
 
 	@media(min-width: 1024px) {
@@ -111,10 +114,11 @@ const TableHeaderTitle = styled.h2`
 
 	@media(min-width: 1024px) {
 		padding-left: .7rem;
-		font-size: 2rem;
-		color: #404040;
+		display: flex;
+		font-size: 1.8rem;
+		color: #D8998A;
 		font-weight: 600;
-		font-family: 'Overpass', Regular;
+		font-family: 'Overpass', Bold;
 	}
 `;
 
@@ -386,7 +390,9 @@ const Table = ({
 		<ContainerTable {...getTableProps()}>
 
 			<ContainerTableHeader>
-				<TableHeaderTitle>Gerenciar Medicamentos</TableHeaderTitle>
+				<WrapperTableHeader>
+					<TableHeaderTitle>Gerenciar Medicamentos</TableHeaderTitle>
+				</WrapperTableHeader>
 				<GlobalFilter
 					preGlobalFilteredRows={preGlobalFilteredRows}
 					globalFilter={state.globalFilter}
