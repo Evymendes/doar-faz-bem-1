@@ -704,7 +704,7 @@ class Login extends Component {
 				<Header
 					openModal={this.handleBackScanner}
 					history={this.props.history}
-					style={{
+					iconStyle={{
 						stroke: '#FFFFFF'
 					}}
 				/>

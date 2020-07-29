@@ -60,7 +60,7 @@ const Header = (props) => (
 )
 
 Header.defaultProps = {
-	style: { stroke: '#D8998A'}
+	iconStyle: { stroke: '#D8998A'}
 };
 
 export default Header;
