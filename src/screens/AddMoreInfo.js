@@ -63,7 +63,7 @@ class Login extends Component {
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
-		typeMed: ['comprimidos', 'gel', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
+		typeMed: ['comprimidos', 'pomada', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
 		selectedType: undefined,
 		isLoading: undefined,
 		isErrorCode: false,
@@ -522,7 +522,7 @@ class Login extends Component {
 
 		return (
 			<Container>
-				<Header openModal={this.handleBackScanner} history={this.props.history} />
+				<Header width={'2.2rem'} iconWhite openModal={this.handleBackScanner} history={this.props.history} />
 				<Form onSubmit={this.handleSubmit}>
 					<div>
 						{this.renderForm()}

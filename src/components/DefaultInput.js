@@ -14,8 +14,9 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-	padding: 0.7rem 0.7rem;
+	padding-left: 0.7rem;
   width: 100%;
+	height: 2.7rem;
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
 	font: 700 1rem 'Overpass', serif;
 	text-decoration: none;

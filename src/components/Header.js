@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // Components
 // import Logo from '../asssets/';
 import CloseIcon from '../assets/fechar.svg';
+import IconWhite from '../assets/closeWhite.svg';
 
 // Styles
 const Container = styled.div`
@@ -13,9 +14,17 @@ const Container = styled.div`
 	padding: 1rem;
 
 	img {
-		width: 1.2rem;
+		/* width: ${(props) => (props.iconWhite ? '2.2rem' : '1.2rem')}; */
+		width: ${(props) => (props.width)};
 		cursor: pointer;
 	}
+`;
+
+const Icon  = styled.img`
+
+	width: ${(props) => (props.iconWhite ? '2rem' : '1.2rem')};
+	width: ${(props) => (props.width)};
+	cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -44,17 +53,24 @@ function handleClick(history) {
 
 const Header = (props) => (
 	<Container>
+		{console.log('porps', props)}
 		<Logo onClick={() => handleClick(props.history)}>
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			: <img
-				src={CloseIcon}
+			: <Icon
+				src={props.iconWhite ? IconWhite : CloseIcon}
+				iconWhite={props.iconWhite}
+				// width={props.width}
 				alt='Fechar'
 				onClick={props.openModal}
 			/>
 		}
 	</Container>
 );
+
+// Header.defaultProps = {
+// 	width: '1.2rem',
+// };
 
 export default Header;

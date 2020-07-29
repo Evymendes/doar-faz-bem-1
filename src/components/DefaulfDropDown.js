@@ -17,8 +17,9 @@ const Title = styled.p`
 `;
 
 const Content = styled.div`
-	padding: 0.7rem 0.7rem 0.44rem 0.7rem;
+	padding-left: 0.7rem;
 	width: 100%;
+	height: 2.7rem;
 	color: #989494;
 	font: 700 1rem 'Overpass', serif;
 	text-decoration: none;
@@ -29,6 +30,7 @@ const Content = styled.div`
 	box-shadow: 2px 2px 2px #888888;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 `;
 
 const ContentText = styled.p`
