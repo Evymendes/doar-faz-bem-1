@@ -101,6 +101,19 @@ class Login extends Component {
 			description: '',
 		},
 		isDisabled: false,
+		anvisa: {
+			code: undefined,
+			name: undefined,
+			expirationDate: undefined,
+			therapeuticClass: undefined,
+			substance: undefined,
+			laboratory: undefined,
+			productType: undefined,
+			openPacking: undefined,
+			type: undefined,
+			quantity: undefined,
+			description: undefined,
+		},
 	}
 
 	componentDidMount() {
@@ -111,12 +124,28 @@ class Login extends Component {
 		const { state } = this.props.location;
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
+
 			// 7894916341769
 			// 7896112121831 ANVISA
 			// 7898927111014
 
+
+		// LABORATORIO: {
+		// 	data: 'bbbababa',
+		// 	disable: true
+		// }
+
+		// this.state.anvisa
+		// this.state.medicament
+
+		// disabled = {this.state.anvisa.code}
+		// medicament = onchange code
+
+		// code: this.state.anvisa || this.state.medicament
+
+
 			this.setState({
-				medicament: {
+				anvisa: {
 					code: result.EAN_1,
 					name: result.PRODUTO,
 					substance: result.SUBSTANCIA,
@@ -374,21 +403,21 @@ class Login extends Component {
 	}
 
 	createMedic = async () => {
-		const { medicament } = this.state;
+		const { medicament, anvisa } = this.state;
 		const date = new Date(medicament.expirationDate);
 
 		const formatData = {
-			EAN_1: medicament.code.toString(),
-			PRODUTO: medicament.name,
+			EAN_1: anvisa.code.toString() || medicament.code.toString(),
+			PRODUTO: anvisa.name || medicament.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
-			CLASSE_TERAPEUTICA: medicament.therapeuticClass,
-			SUBSTANCIA: medicament.substance,
-			LABORATORIO: medicament.laboratory,
-			TIPO_DE_PRODUTO: medicament.productType,
-			EMBALAGEM_ABERTA: medicament.openPacking === true,
-			APRESENTACAO: medicament.type,
+			CLASSE_TERAPEUTICA: anvisa.therapeuticClass || medicament.therapeuticClass,
+			SUBSTANCIA: anvisa.substance ||  medicament.substance,
+			LABORATORIO: anvisa.laboratory || medicament.laboratory,
+			TIPO_DE_PRODUTO: anvisa.productType || medicament.productType,
 			QUANTIDADE: medicament.quantity,
-			DESCRICAO: medicament.description,
+			EMBALAGEM_ABERTA: medicament.openPacking === true,
+			APRESENTACAO: anvisa.type || medicament.type,
+			DESCRICAO: anvisa.description || medicament.description,
 		};
 
 		try {
@@ -460,23 +489,28 @@ class Login extends Component {
 			typeMed,
 			selectedType,
 			isDisabled,
+			anvisa,
 		} = this.state;
+
+		// 7896112121831
+		// 7898927111014
+
 		return (
 			<>
 				<DefaultInput
 					label='Código de barras:'
 					type='number'
 					onChange={(ev) => this.handleChange('code', ev)}
-					text={medicament.code}
+					text={anvisa.code || medicament.code}
 					isError={isErrorCode}
-					disabled={isDisabled}
+					disabled={anvisa.code}
 				/>
 				<DefaultInput
 					label='Medicamento:'
 					onChange={(ev) => this.handleChange('name', ev)}
-					text={medicament.name}
+					text={anvisa.name || medicament.name}
 					isError={isErrorName}
-					disabled={isDisabled}
+					disabled={anvisa.name}
 				/>
 				<DefaultInput
 					label='Data de Validade:'
@@ -484,35 +518,35 @@ class Login extends Component {
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={medicament.expirationDate}
 					isError={isErrorExpirationDate}
-					disabled={isDisabled}
+					disabled={false}
 				/>
 				<DefaultInput
 					label='Classe terapêutica:'
 					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
-					text={medicament.therapeuticClass}
+					text={anvisa.therapeuticClass || medicament.therapeuticClass}
 					isError={isErrorTherapeuticClass}
-					disabled={isDisabled}
+					disabled={anvisa.therapeuticClass}
 				/>
 				<DefaultInput
 					label='Substância:'
 					onChange={(ev) => this.handleChange('substance', ev)}
-					text={medicament.substance}
+					text={anvisa.substance || medicament.substance}
 					isError={isErrorSubstance}
-					disabled={isDisabled}
+					disabled={anvisa.substance}
 				/>
 				<DefaultInput
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
-					text={medicament.laboratory}
+					text={anvisa.laboratory || medicament.laboratory}
 					isError={isErrorLaboratory}
-					disabled={isDisabled}
+					disabled={anvisa.laboratory}
 				/>
 				<DefaultInput
 					label='Tipo do Produto:'
 					onChange={(ev) => this.handleChange('productType', ev)}
-					text={medicament.productType}
+					text={anvisa.productType || medicament.productType}
 					isError={isErrorProductType}
-					disabled={isDisabled}
+					disabled={anvisa.productType}
 				/>
 				<DefaultDropDown
 					title='Embalagem aberta?'
@@ -539,14 +573,13 @@ class Login extends Component {
 					onChange={(ev) => this.handleChange('quantity', ev)}
 					text={medicament.quantity}
 					isError={isErrorQuantity}
-					disabled={isDisabled}
 				/>
 				<DefaultInput
 					label='Descrição:'
 					onChange={(ev) => this.handleChange('description', ev)}
-					text={medicament.description}
+					text={anvisa.description || medicament.description}
 					isError={isErrorDescription}
-					disabled={isDisabled}
+					disabled={anvisa.description}
 				/>
 			</>
 		);
@@ -561,7 +594,13 @@ class Login extends Component {
 
 		return (
 			<Container>
-				<Header width={'2.2rem'} iconWhite openModal={this.handleBackScanner} history={this.props.history} />
+				<Header
+					openModal={this.handleBackScanner}
+					history={this.props.history}
+					iconStyle={{
+						stroke: '#FFFFFF'
+					}}
+				/>
 				<Form onSubmit={this.handleSubmit}>
 					<div>
 						{this.renderForm()}

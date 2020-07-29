@@ -4,19 +4,14 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 // Components
-import CloseIcon from '../assets/fechar.svg';
-import IconWhite from '../assets/closeWhite.svg';
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg'
 
 // Styles
 const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 1rem;
-`;
-
-const Icon = styled.img`
-	width: ${(props) => (props.iconWhite ? '2rem' : '1.2rem')};
-	cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -62,15 +57,19 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			: <Icon
-				src={props.iconWhite ? IconWhite : CloseIcon}
-				iconWhite={props.iconWhite}
-				alt='Fechar'
+			:
+			<CloseIcon
+				strokeWidth={'2'}
+				style={props.iconStyle}
 				onClick={props.openModal}
 			/>
 		}
 		{props.withoutClose && <DashboardText exact to="/">Voltar Para o Início</DashboardText>}
 	</Container>
-);
+)
+
+Header.defaultProps = {
+	iconStyle: { stroke: '#D8998A'}
+};
 
 export default Header;

@@ -48,7 +48,7 @@ const DefaultInput = (props) => (
 			onChange={props.onChange}
 			placeholder='Digite aqui...'
 			isError={props.isError}
-			disabled={props.isDisabled}
+			disabled={props.disabled}
 			isData={props.text}
 		/>
 		{props.isError && (
@@ -56,6 +56,8 @@ const DefaultInput = (props) => (
 				*Campo obrigatório.
 			</ErrorMessage>
 		)}
+		{console.log('text', props.text)}
+		{console.log('disabled', props.disabled)}
 	</Container>
 );
 

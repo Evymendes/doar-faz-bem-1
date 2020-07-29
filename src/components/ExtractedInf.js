@@ -57,7 +57,7 @@ class ExtractedInf extends Component {
 			const data = response.data.results[0] || this.props.code;
 
 			this.setState({
-				medicament: data,
+				medicament: data
 			});
 		} catch (error) {
 			console.log('error', error);
