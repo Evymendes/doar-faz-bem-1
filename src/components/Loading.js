@@ -1,9 +1,8 @@
-/* eslint-disable class-methods-use-this */
 // Libs
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-//
+// Styles
 const Container = styled.div`
 	width: 100vw;
 	height: 100vh;
@@ -16,7 +15,6 @@ const Container = styled.div`
 	min-width: 100%;
 	min-height: 100%;
 	background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : '#49E5D6')};
-	${'' /* background-color: ${(props) => (props.containerBackground)}; */}
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,7 +23,6 @@ const Container = styled.div`
 
 const TextLoading = styled.h2`
 	margin-bottom: 1rem;
-	${'' /* color: #fff; */}
 	color: ${(props) => (props.textColor ? props.textColor : '#fff')};
 	font-size: 1.5rem;
   font-weight: 600;
@@ -51,7 +48,6 @@ const LoadingAnimation = styled.span`
 	animation-iteration-count: infinite;
 	animation-name: ${animation};
 	animation-timing-function: linear;
-	${'' /* background: linear-gradient(to right, #38c7ba 0%, #fff 100%, #38c7ba 0% ); */}
 	background: ${(props) => (props.loadingColor ? props.loadingColor : 'linear-gradient(to right, #38c7ba 0%, #fff 100%, #38c7ba 0% )')};
 	background-size: 1000px 104px;
 	overflow: hidden;

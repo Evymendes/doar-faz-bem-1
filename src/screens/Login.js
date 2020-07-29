@@ -1,7 +1,8 @@
 // Libs
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
+// Components
 import Button from '../components/DefaultButton';
 
 // Images

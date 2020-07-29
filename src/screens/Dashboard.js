@@ -16,9 +16,6 @@ import ModalDetails from '../components/ModalDetails';
 // Images
 import SelectMoreIcon from '../assets/plus.svg';
 import SelectMinusIcon from '../assets/minus.svg';
-import EditIcon from '../assets/edit.svg';
-import TrashIcon from '../assets/trash.svg';
-import CloseIcon from '../assets/fechar.svg';
 import searchIcon from '../assets/search.svg';
 
 // Services
@@ -60,6 +57,10 @@ const ContainerSearch = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	@media(min-width: 1024px) {
+		width: 60%;
+	}
 `;
 
 const ContainerInputSearch = styled.div`
@@ -96,6 +97,27 @@ const ContainerTable = styled.table`
 	border-spacing: 0;
 `;
 
+const ContainerTableHeader = styled.div`
+	display: none;
+
+	@media(min-width: 1024px) {
+		display: flex;
+		align-items: center;
+	}
+`;
+
+const TableHeaderTitle = styled.h2`
+	display: none;
+
+	@media(min-width: 1024px) {
+		padding-left: .7rem;
+		font-size: 2rem;
+		color: #404040;
+		font-weight: 600;
+		font-family: 'Overpass', Regular;
+	}
+`;
+
 const Thead = styled.thead`
 	display: none;
 
@@ -126,6 +148,8 @@ const Tr = styled.tr`
 	@media(min-width: 1024px) {
 		padding: 0;
 		flex-wrap: initial;
+		height: 2.8rem;
+		min-height: 2.8rem;
 	}
 `;
 
@@ -185,6 +209,10 @@ const TableList = styled.td`
 		font-size: 0.95rem;
 		width: 25%;
 	}
+
+	@media(min-width: 1024px) {
+		align-items: center;
+	}
 `;
 
 const ButtonMoreMob = styled.img`
@@ -194,27 +222,8 @@ const ButtonMoreMob = styled.img`
 	display: flex;
 
 	@media(min-width: 1024px) {
-		display: none;
+		align-self: center;
 	}
-`;
-
-const ContainerDetails = styled.div`
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	height: 65vh;
-	display: flex;
-	flex-direction: column;
-	${'' /* justify-content: flex-end; */}
-	background-color: #fff;
-`;
-
-const ContainerDetailsHeader = styled.div`
-	width: 100%;
-	height: 5rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 `;
 
 const ContainerButton = styled.div`
@@ -245,29 +254,6 @@ const ButtonAddMed = styled.button`
 	cursor: pointer;
 `;
 
-const ButtonMedDetails = styled.button`
-	width: 50%;
-	height: 5rem;
-	border: none;
-	border-right: ${(props) => (props.detail ? '1.5px solid rgba(196, 196, 196, 0.3)' : 'none')};
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: transparent;
-
-	img {
-		margin-right: .5rem;
-	}
-
-	p {
-		color: #404040;
-		font-size: 0.95rem;
-		font-family: "Overpass", Medium;
-		font-weight: 600;
-	}
-`;
-
 const formatDate = (date) => moment(date).locale('pt-br').format('DD/MM/YYYY');
 
 const columns = [
@@ -284,8 +270,8 @@ const columns = [
 		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
-		Header: 'Categoria',
-		accessor: 'CATEGORIA',
+		Header: 'Classe Terapêutica',
+		accessor: 'CLASSE_TERAPEUTICA',
 	},
 	{
 		Header: 'Substância',
@@ -300,20 +286,24 @@ const columns = [
 		accessor: (d) => (d.EMBALAGEM_ABERTA ? 'Sim' : 'Não'),
 	},
 	{
-		Header: 'Tipo',
-		accessor: 'TIPO',
+		Header: 'Apresentação',
+		accessor: 'APRESENTACAO',
 	},
 	{
 		Header: 'Quantidade',
 		accessor: 'QUANTIDADE',
 	},
 	{
-		Header: 'Cadastrado',
+		Header: 'Cadastrado Em',
 		accessor: (d) => formatDate(d.createdAt),
 	},
 	{
+		Header: 'Tipo de Produto',
+		accessor: 'TIPO_DE_PRODUTO',
+	},
+	{
 		Header: 'Descrição',
-		accessor: 'APRESENTACAO',
+		accessor: 'DESCRICAO',
 	},
 ];
 
@@ -330,10 +320,10 @@ const GlobalFilter = ({
 	preGlobalFilteredRows,
 	globalFilter,
 	setGlobalFilter,
-}) => {
-	// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+}) =>
+// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
 
-	return (
+	(
 		<ContainerSearch>
 			<ContainerInputSearch>
 				<InputSearch
@@ -350,8 +340,6 @@ const GlobalFilter = ({
 			</ContainerInputSearch>
 		</ContainerSearch>
 	);
-};
-
 const Table = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
@@ -388,14 +376,23 @@ const Table = ({
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
+	// rows.sort((item, b) => item.values.Validade.localeCompare(b.values.Validade));
+
+	const sortListByDate = (a, b) => a.values.Validade - b.values.Validade;
+
+	rows.sort(sortListByDate);
+
 	return (
 		<ContainerTable {...getTableProps()}>
 
-			<GlobalFilter
-				preGlobalFilteredRows={preGlobalFilteredRows}
-				globalFilter={state.globalFilter}
-				setGlobalFilter={setGlobalFilter}
-			/>
+			<ContainerTableHeader>
+				<TableHeaderTitle>Gerenciar Medicamentos</TableHeaderTitle>
+				<GlobalFilter
+					preGlobalFilteredRows={preGlobalFilteredRows}
+					globalFilter={state.globalFilter}
+					setGlobalFilter={setGlobalFilter}
+				/>
+			</ContainerTableHeader>
 
 			<Thead>
 				{headerGroups.map((headerGroup, index) => (
@@ -408,6 +405,12 @@ const Table = ({
 							<TableTitle
 								{...column.getHeaderProps()}
 								key={index}
+								style={{
+									display: (column.Header === 'Laboratório' || column.Header === 'Apresentação'
+								|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em') && 'none',
+									justifyContent: (column.Header === 'Embalagem Aberta?'
+								|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
+								}}
 							>
 								{column.render('Header')}
 							</TableTitle>
@@ -430,27 +433,34 @@ const Table = ({
 						>
 							{widthMob
 								? <>
+									{console.log('row.values', row.values)}
 									<ContainerTableTitleMob>
 										<TableTitleMob>Medicamento</TableTitleMob>
-										<TableList>{row.values.PRODUTO}</TableList>
+										<TableList>{row.values.PRODUTO || '-'}</TableList>
 									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
 										<TableTitleMob>Código</TableTitleMob>
-										<TableList>{row.values.EAN_1}</TableList>
+										<TableList>{row.values.EAN_1 || '-'}</TableList>
 									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
 										<TableTitleMob>Validade</TableTitleMob>
-										<TableList>{formatDate(row.values['DATA_EXPIRACAO.iso'])}</TableList>
+										<TableList>{row.values.Validade || '-'}</TableList>
 									</ContainerTableTitleMob>
 									<ContainerTableTitleMob>
-										<TableTitleMob>Categoria</TableTitleMob>
-										<TableList>{row.values.CATEGORIA}</TableList>
+										<TableTitleMob>Classe Terapêutica</TableTitleMob>
+										<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
 									</ContainerTableTitleMob>
 								</>
 								: <>
 									{row.cells.map((cell, index) => <TableList
 										{...cell.getCellProps()}
-										style={{ paddingLeft: '.7rem' }}
+										style={{
+											paddingLeft: '.7rem',
+											display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
+											|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em') && 'none',
+											justifyContent: (cell.column.Header === 'Embalagem Aberta?'
+											|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
+										}}
 										key={index}
 									>
 										{cell.render('Cell')}
@@ -500,14 +510,20 @@ function Dashboard() {
 	return (
 		<Container>
 			<Header withoutClose={showCloseButton} />
-			<Table
-				columns={columns}
-				data={medList}
-				isOpenedMedDetails={isOpenedMedDetails}
-				setOpenMedDetails={setOpenMedDetails}
-				medicament={medicament}
-				setItemMedDetails={setItemMedDetails}
-			/>
+			{isFetching ? <Loading
+				backgroundColor='transparent'
+				textColor='#B4E4E6'
+				loadingColor='linear-gradient(to right, #D8998A 0%, #fff 100%, #D8998A 0% )'
+			/> : (
+				<Table
+					columns={columns}
+					data={medList}
+					isOpenedMedDetails={isOpenedMedDetails}
+					setOpenMedDetails={setOpenMedDetails}
+					medicament={medicament}
+					setItemMedDetails={setItemMedDetails}
+				/>
+			)}
 			{!isOpenedMedDetails ? (
 				<ContainerButton medDetails={isOpenedMedDetails}>
 					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
