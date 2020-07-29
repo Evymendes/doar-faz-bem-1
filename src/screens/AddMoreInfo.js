@@ -69,7 +69,7 @@ class Login extends Component {
 		isErrorCode: false,
 		isErrorName: false,
 		isErrorExpirationDate: false,
-		isErrorCategory: false,
+		isErrorTherapeuticClass: false,
 		isErrorSubstance: false,
 		isErroLaboratory: false,
 		isErrorOpenPackaging: false,
@@ -80,7 +80,7 @@ class Login extends Component {
 			code: '',
 			name: '',
 			expirationDate: undefined,
-			category: '',
+			therapeuticClass: '',
 			substance: '',
 			laboratory: '',
 			openPacking: '',
@@ -140,9 +140,9 @@ class Login extends Component {
 			});
 		}
 
-		if (field === 'category') {
+		if (field === 'therapeuticClass') {
 			this.setState({
-				isErrorCategory: false,
+				isErrorTherapeuticClass: false,
 			});
 		}
 
@@ -194,7 +194,7 @@ class Login extends Component {
 			code,
 			name,
 			expirationDate,
-			category,
+			therapeuticClass,
 			substance,
 			type,
 			quantity,
@@ -233,13 +233,13 @@ class Login extends Component {
 			});
 		}
 
-		if (!category) {
+		if (!therapeuticClass) {
 			this.setState({
-				isErrorCategory: true,
+				isErrorTherapeuticClass: true,
 			});
 		} else {
 			this.setState({
-				isErrorCategory: false,
+				isErrorTherapeuticClass: false,
 			});
 		}
 
@@ -310,7 +310,7 @@ class Login extends Component {
 			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCategory,
+			isErrorTherapeuticClass,
 			isErrorSubstance,
 			isErroLaboratory,
 			isErrorOpenPackaging,
@@ -326,7 +326,7 @@ class Login extends Component {
 			isErrorCode === false
 			&& isErrorName === false
 			&& isErrorExpirationDate === false
-			&& isErrorCategory === false
+			&& isErrorTherapeuticClass === false
 			&& isErrorSubstance === false
 			&& isErroLaboratory === false
 			&& isErrorOpenPackaging === false
@@ -357,7 +357,7 @@ class Login extends Component {
 			QUANTIDADE: medicament.quantity,
 			EMBALAGEM_ABERTA: medicament.open_packing,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
-			CATEGORIA: medicament.category,
+			CLASSE_TERAPEUTICA: medicament.therapeuticClass,
 		};
 
 		try {
@@ -416,7 +416,7 @@ class Login extends Component {
 			isErrorCode,
 			isErrorName,
 			isErrorExpirationDate,
-			isErrorCategory,
+			isErrorTherapeuticClass,
 			isErrorSubstance,
 			isErroLaboratory,
 			isErrorOpenPackaging,
@@ -435,6 +435,7 @@ class Login extends Component {
 			<>
 				<DefaultInput
 					label='Código de barras:'
+					type='number'
 					onChange={(ev) => this.handleChange('code', ev)}
 					text={medicament.code}
 					isError={isErrorCode}
@@ -457,9 +458,9 @@ class Login extends Component {
 				/>
 				<DefaultInput
 					label='Classe terapêutica:'
-					onChange={(ev) => this.handleChange('category', ev)}
-					text={medicament.category}
-					isError={isErrorCategory}
+					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
+					text={medicament.therapeuticClass}
+					isError={isErrorTherapeuticClass}
 					disabled={isDisabled}
 				/>
 				<DefaultInput
