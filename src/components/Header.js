@@ -52,7 +52,7 @@ const Header = (props) => (
 			:
 			<CloseIcon
 				strokeWidth={'2'}
-				style={props.style}
+				style={props.iconStyle}
 				onClick={props.openModal}
 			/>
 		}
