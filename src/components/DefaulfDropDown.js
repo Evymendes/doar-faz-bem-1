@@ -71,7 +71,7 @@ const ErrorMessage = styled.p`
 `;
 
 const DefaultDropDown = (props) => (
-	<Container>
+	<Container isError={props.isError}>
 		<Title> {props.title}</Title>
 		<Content isModal={props.isModal} isError={props.isError} onClick={props.onClick}>
 			<ContentText isData={props.selectedText}>{props.selectedText || 'clique para selecionar'}</ContentText>
