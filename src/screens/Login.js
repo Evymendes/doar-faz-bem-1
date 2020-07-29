@@ -1,8 +1,9 @@
 // Libs
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import Button from '../components/DefaultButton'
+// Components
+import Button from '../components/DefaultButton';
 
 // Images
 import Background from '../assets/headerbg.jpeg';

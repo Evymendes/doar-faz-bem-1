@@ -1,6 +1,7 @@
 // Libs
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 // Components
 // import Logo from '../asssets/';
@@ -36,6 +37,19 @@ const Logo = styled.div`
 	cursor: pointer;
 `;
 
+const DashboardText = styled(NavLink)`
+	padding-left: 1rem;
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	color: #D8998A;
+	font-size: .90rem;
+	font-family: 'Overpass', Bold;
+	text-decoration: none;
+	font-weight: 800;
+`;
+
 function handleClick(history) {
 	history.push({
 		pathname: '/',
@@ -54,6 +68,7 @@ const Header = (props) => (
 				onClick={props.openModal}
 			/>
 		}
+		{props.withoutClose && <DashboardText exact to="/">Voltar Para o Início</DashboardText>}
 	</Container>
 );
 

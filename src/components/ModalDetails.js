@@ -37,10 +37,8 @@ const WrapperDetails = styled.div`
 `;
 
 const ContainerDetailsHeader = styled.div`
-	${'' /* padding: 0 .95rem; */}
 	padding: 1.5rem .95rem;
 	width: 100%;
-	${'' /* height: 5rem; */}
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -133,8 +131,8 @@ const ModalDelete = (props) => (
 				</WrapperDetails>
 				<WrapperDetails>
 					<DetailsItem>
-						<DetailsText title>Categoria</DetailsText>
-						<DetailsText>{(props.medicament.values.CATEGORIA) || '-'}</DetailsText>
+						<DetailsText title>Classe Terapêutica</DetailsText>
+						<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
 					</DetailsItem>
 					<DetailsItem>
 						<DetailsText title>Substância</DetailsText>
@@ -151,8 +149,8 @@ const ModalDelete = (props) => (
 						<DetailsText>{(props.medicament.values['Embalagem Aberta?']) || '-'}</DetailsText>
 					</DetailsItem>
 					<DetailsItem>
-						<DetailsText title>Tipo do Medicamento</DetailsText>
-						<DetailsText>{(props.medicament.values.TIPO) || '-'}</DetailsText>
+						<DetailsText title>Apresentação</DetailsText>
+						<DetailsText>{(props.medicament.values.APRESENTACAO) || '-'}</DetailsText>
 					</DetailsItem>
 					<DetailsItem>
 						<DetailsText title>Quantidade</DetailsText>
@@ -161,8 +159,14 @@ const ModalDelete = (props) => (
 				</WrapperDetails>
 				<WrapperDetails>
 					<DetailsItem style={{ width: '100%' }}>
+						<DetailsText title>Tipo de Produto</DetailsText>
+						<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
+					</DetailsItem>
+				</WrapperDetails>
+				<WrapperDetails>
+					<DetailsItem style={{ width: '100%' }}>
 						<DetailsText title>Descrição</DetailsText>
-						<DetailsText>{(props.medicament.values.APRESENTACAO) || '-'}</DetailsText>
+						<DetailsText>{(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
 					</DetailsItem>
 				</WrapperDetails>
 			</WrapperDetails>
