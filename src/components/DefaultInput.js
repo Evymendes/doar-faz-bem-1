@@ -14,7 +14,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-	padding-left: 0.7rem;
+	padding: 0 0.7rem;
   width: 100%;
 	height: 2.7rem;
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};

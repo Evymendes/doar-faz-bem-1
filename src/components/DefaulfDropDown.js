@@ -17,7 +17,7 @@ const Title = styled.p`
 `;
 
 const Content = styled.div`
-	padding-left: 0.7rem;
+	padding: 0 0.7rem;
 	width: 100%;
 	height: 2.7rem;
 	color: #989494;

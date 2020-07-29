@@ -10,7 +10,7 @@ import Loading from '../components/Loading';
 import DefaultInput from '../components/DefaultInput';
 import DefaultDropDown from '../components/DefaulfDropDown';
 
-//Api
+// Api
 import { createMedicament } from '../services/api';
 
 // Styled
@@ -81,7 +81,8 @@ class Login extends Component {
 		isErrorExpirationDate: false,
 		isErrorTherapeuticClass: false,
 		isErrorSubstance: false,
-		isErroLaboratory: false,
+		isErrorLaboratory: false,
+		isErrorProductType: false,
 		isErrorOpenPackaging: false,
 		isErrorTypeMed: false,
 		isErrorQuantity: false,
@@ -93,6 +94,7 @@ class Login extends Component {
 			therapeuticClass: '',
 			substance: '',
 			laboratory: '',
+			productType: '',
 			openPacking: '',
 			type: '',
 			quantity: '',
@@ -102,24 +104,28 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
-		this.treatingData();
+		this.treatingDataAnvisa();
 	}
 
-	treatingData = () => {
+	treatingDataAnvisa = () => {
 		const { state } = this.props.location;
-		if (state && state.result && state.result.code) {
+		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
-			// code: 7894916341769
+			// 7894916341769
+			// 7896112121831 ANVISA
+			// 7898927111014
 
 			this.setState({
 				medicament: {
-					code: result.code,
-					name: result.name,
-					substance: result.substance,
-					laboratory: result.laboratory,
-					description: result.description,
+					code: result.EAN_1,
+					name: result.PRODUTO,
+					substance: result.SUBSTANCIA,
+					laboratory: result.LABORATORIO,
+					therapeuticClass: result.CLASSE_TERAPEUTICA,
+					productType: result.TIPO_DE_PRODUTO,
+					description: result.APRESENTACAO,
 				},
-				isFromAPI: true,
+				isDisabled: true,
 			});
 		}
 	}
@@ -130,7 +136,6 @@ class Login extends Component {
 
 	handleChange = (field, ev) => {
 		const { medicament } = this.state;
-		console.log('aquiii', field)
 
 		if (field === 'code') {
 			this.setState({
@@ -164,7 +169,13 @@ class Login extends Component {
 
 		if (field === 'laboratory') {
 			this.setState({
-				isErroLaboratory: false,
+				isErrorLaboratory: false,
+			});
+		}
+
+		if (field === 'productType') {
+			this.setState({
+				isErrorProductType: false,
 			});
 		}
 
@@ -208,6 +219,7 @@ class Login extends Component {
 			substance,
 			type,
 			quantity,
+			productType,
 			openPacking,
 			laboratory,
 			description,
@@ -265,11 +277,21 @@ class Login extends Component {
 
 		if (!laboratory) {
 			this.setState({
-				isErroLaboratory: true,
+				isErrorLaboratory: true,
 			});
 		} else {
 			this.setState({
-				isErroLaboratory: false,
+				isErrorLaboratory: false,
+			});
+		}
+
+		if (!productType) {
+			this.setState({
+				isErrorProductType: true,
+			});
+		} else {
+			this.setState({
+				isErrorProductType: false,
 			});
 		}
 
@@ -322,7 +344,8 @@ class Login extends Component {
 			isErrorExpirationDate,
 			isErrorTherapeuticClass,
 			isErrorSubstance,
-			isErroLaboratory,
+			isErrorLaboratory,
+			isErrorProductType,
 			isErrorOpenPackaging,
 			isErrorTypeMed,
 			isErrorQuantity,
@@ -338,17 +361,14 @@ class Login extends Component {
 			&& isErrorExpirationDate === false
 			&& isErrorTherapeuticClass === false
 			&& isErrorSubstance === false
-			&& isErroLaboratory === false
+			&& isErrorLaboratory === false
+			&& isErrorProductType === false
 			&& isErrorOpenPackaging === false
 			&& isErrorTypeMed === false
 			&& isErrorQuantity === false
 			&& isErrorDescription === false
 			&& isModalOpenPackaging === false
 		) {
-			// this.setState({
-			// 	isLoading: true,
-			// });
-
 			this.createMedic();
 		}
 	}
@@ -357,23 +377,22 @@ class Login extends Component {
 		const { medicament } = this.state;
 		const date = new Date(medicament.expirationDate);
 
-		const formatName = {
+		const formatData = {
 			EAN_1: medicament.code.toString(),
 			PRODUTO: medicament.name,
-			SUBSTANCIA: medicament.substance,
-			APRESENTACAO: medicament.description,
-			LABORATORIO: medicament.laboratory,
-			TIPO: medicament.type,
-			QUANTIDADE: medicament.quantity,
-			EMBALAGEM_ABERTA: medicament.open_packing,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
 			CLASSE_TERAPEUTICA: medicament.therapeuticClass,
+			SUBSTANCIA: medicament.substance,
+			LABORATORIO: medicament.laboratory,
+			TIPO_DE_PRODUTO: medicament.productType,
+			EMBALAGEM_ABERTA: medicament.openPacking === true,
+			APRESENTACAO: medicament.type,
+			QUANTIDADE: medicament.quantity,
+			DESCRICAO: medicament.description,
 		};
 
 		try {
-			const response = await createMedicament(formatName);
-
-			console.log('response', response);
+			await createMedicament(formatData);
 
 			this.props.history.push({
 				pathname: '/dashboard',
@@ -428,7 +447,8 @@ class Login extends Component {
 			isErrorExpirationDate,
 			isErrorTherapeuticClass,
 			isErrorSubstance,
-			isErroLaboratory,
+			isErrorLaboratory,
+			isErrorProductType,
 			isErrorOpenPackaging,
 			isErrorTypeMed,
 			isErrorQuantity,
@@ -484,7 +504,14 @@ class Login extends Component {
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
 					text={medicament.laboratory}
-					isError={isErroLaboratory}
+					isError={isErrorLaboratory}
+					disabled={isDisabled}
+				/>
+				<DefaultInput
+					label='Tipo do Produto:'
+					onChange={(ev) => this.handleChange('productType', ev)}
+					text={medicament.productType}
+					isError={isErrorProductType}
 					disabled={isDisabled}
 				/>
 				<DefaultDropDown
@@ -552,16 +579,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-
-
-//classe terapeutica
-//tipo d e    apresentação  - ter opção de outro para a pessoa digitar
-//-botao de voltar na dashboard
-// 7896112121831
-// 7898927111014
-
-//almentar a largunra caso for grande o dado
-//component input
-//botão pressionada
-//ass scroll no modal
