@@ -73,6 +73,11 @@ const MultSelect = styled.div`
 	}
 `;
 
+const IconDropDown = styled.img`
+  transform: { rotate: '90deg'};
+`;
+
+
 const TextMultSelect = styled.p`
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
 	text-transform: capitalize;
@@ -136,7 +141,7 @@ class Login extends Component {
 		isRedirect: undefined,
 		redirect: undefined,
 		isModalOpenPackaging: undefined,
-		typePackaging: ['true', 'false'],
+		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
 		typeMed: ['comprimidos', 'gel', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas'],
@@ -171,18 +176,22 @@ class Login extends Component {
 	}
 
 	treatingData = () => {
-		const { result } = this.props.location.state;
 		// code: 7894916341769
 
-		this.setState({
-			medicament: {
-				code: result.code,
-				name: result.name,
-				substance: result.substance,
-				laboratory: result.laboratory,
-				description: result.description,
-			},
-		});
+console.log('this.props.location.state.result', this.props)
+		// if(this.props.location.state.result !== undefined) {
+			const { result } = this.props.location.state;
+			this.setState({
+				isApi: true,
+				medicament: {
+					code: result.code,
+					name: result.name,
+					substance: result.substance,
+					laboratory: result.laboratory,
+					description: result.description,
+				},
+			});
+		// }
 	}
 
 	handleBackScanner = () => {
@@ -561,7 +570,7 @@ class Login extends Component {
 					)}
 				</FormContent>
 				<FormContent>
-					<Label>Categoria: </Label>
+					<Label>Classe terapêutica: </Label>
 					<Input
 						type="text"
 						value={medicament.category || ''}
@@ -614,7 +623,7 @@ class Login extends Component {
 					<Label> Embalagem aberta? </Label>
 					<MultSelect isModal={isModalOpenPackaging} isError={isErrorOpenPackaging} onClick={this.handleModalOpenPackaging}>
 						<TextMultSelect isData={selectedPackaging}>{selectedPackaging || 'clique para selecionar'}</TextMultSelect>
-						<img src={ChevronDown} alt="DropDown" />
+						<IconDropDown src={ChevronDown} alt="DropDown" />
 					</MultSelect >
 					{isModalOpenPackaging
 						&& <Modal>
