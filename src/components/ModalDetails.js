@@ -18,6 +18,11 @@ const Overlay = styled.div`
 	align-items: flex-end;
 	background: rgba(196, 196, 196, 0.3);
 	z-index: 5;
+
+	@media(min-width: 1024px) {
+		justify-content: center;
+		align-items: center;
+	}
 `;
 
 const ContainerDetails = styled.div`
@@ -27,6 +32,13 @@ const ContainerDetails = styled.div`
 	flex-direction: column;
 	background-color: #fff;
 	font-family: 'Overpass', Regular;
+
+	@media(min-width: 1024px) {
+		border-radius: 10px;
+		min-width: 35%;
+		width: 35%;
+		min-height: auto;
+	}
 `;
 
 const WrapperDetails = styled.div`
@@ -67,6 +79,10 @@ const DetailsText = styled.p`
 	color: ${(props) => (props.title ? '#D8998A' : '#404040')};
 	font-size: ${(props) => (props.title ? '.9rem' : '.85rem')};
 	font-weight: ${(props) => (props.title ? '600' : '400')};
+
+	@media(min-width: 1024px) {
+		font-size: ${(props) => (props.title ? '1rem' : '.85rem')};
+	}
 `;
 
 const ContainerButton = styled.div`
@@ -78,6 +94,11 @@ const ContainerButton = styled.div`
 	justify-content: center;
 	align-items: center;
 	background: ${(props) => (props.medDetails ? '#D8998A' : '#fff')};
+
+	@media(min-width: 1024px) {
+		border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+	}
 `;
 
 const ButtonMedDetails = styled.button`
@@ -103,7 +124,7 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
-const ModalDelete = (props) => (
+const ModalDetails = (props) => (
 	<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 		<ContainerDetails onClick={(e) => e.stopPropagation()}>
 			<ContainerDetailsHeader>
@@ -185,4 +206,4 @@ const ModalDelete = (props) => (
 	</Overlay>
 );
 
-export default ModalDelete;
+export default ModalDetails;
