@@ -63,7 +63,17 @@ class Login extends Component {
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
-		typeMed: ['comprimidos', 'pomada', 'xarope', 'gotas', 'supositórios', 'injetáveis', 'cápsulas', 'drágeas', 'outros'],
+		typeMed: [
+			'comprimidos',
+			'pomada',
+			'xarope',
+			'gotas',
+			'supositórios',
+			'injetáveis',
+			'cápsulas',
+			'drágeas',
+			'outros',
+		],
 		selectedType: undefined,
 		isLoading: undefined,
 		isErrorCode: false,
@@ -494,6 +504,7 @@ class Login extends Component {
 					inClickSelected={this.handleSelectedType}
 					selectedText={selectedType}
 					item={typeMed}
+					type='apresentation'
 				/>
 				<DefaultInput
 					label='Quantidade:'

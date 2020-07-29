@@ -44,9 +44,11 @@ const Icon = styled.img`
 
 const DropDown = styled.div`
 	background: #FFF;
+	height: ${(props) => (props.apresentation ? '7.5rem' : null)};
 	display: flex;
 	flex-direction: column;
 	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
+	overflow: scroll;
 `;
 
 const Text = styled.p`
@@ -76,7 +78,7 @@ const DefaultDropDown = (props) => (
 			<Icon src={ChevronDown} alt="DropDown" />
 		</Content >
 		{props.isModal
-			&& <DropDown>
+			&& <DropDown apresentation={props.type}>
 				{props.item.map((item, index) => (
 					<Text key={index} onClick={() => props.inClickSelected(item)}>{item}</Text>
 				))}
