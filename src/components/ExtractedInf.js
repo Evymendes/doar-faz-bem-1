@@ -57,13 +57,7 @@ class ExtractedInf extends Component {
 			const data = response.data.results[0] || this.props.code;
 
 			this.setState({
-				medicament: {
-					code: data.EAN_1,
-					name: data.PRODUTO,
-					substance: data.SUBSTANCIA,
-					laboratory: data.LABORATORIO,
-					description: data.APRESENTACAO,
-				},
+				medicament: data,
 			});
 		} catch (error) {
 			console.log('error', error);

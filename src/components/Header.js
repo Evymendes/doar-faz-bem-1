@@ -4,19 +4,19 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 // Components
-// import Logo from '../asssets/';
 import CloseIcon from '../assets/fechar.svg';
+import IconWhite from '../assets/closeWhite.svg';
 
 // Styles
 const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
+`;
 
-	img {
-		width: 1.2rem;
-		cursor: pointer;
-	}
+const Icon = styled.img`
+	width: ${(props) => (props.iconWhite ? '2rem' : '1.2rem')};
+	cursor: pointer;
 `;
 
 const Logo = styled.div`
@@ -62,8 +62,9 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			: <img
-				src={CloseIcon}
+			: <Icon
+				src={props.iconWhite ? IconWhite : CloseIcon}
+				iconWhite={props.iconWhite}
 				alt='Fechar'
 				onClick={props.openModal}
 			/>
