@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Images
-import CloseIcon from '../assets/fechar.svg';
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
 
 // Services
 import { deleteMedicament } from '../services/api';
@@ -26,6 +26,10 @@ const ContainerDelModal = styled.div`
 	border-radius: 6px;
 	background: #fff;
 	font-family: "Overpass", Regular;
+
+	@media(min-width: 768px) {
+		max-width: 50%;
+	}
 
 	@media(min-width: 1024px) {
 		width: 25%;
@@ -80,7 +84,7 @@ const DelModalButton = styled.button`
 
 const handleDeleteMed = async (row, setOpenDelModal, isModalDelOpened, isOpenedMedDetails, setOpenMedDetails) => {
 	try {
-		const response = await deleteMedicament(row.objectId);
+		await deleteMedicament(row.objectId);
 		setOpenDelModal(!isModalDelOpened);
 
 		setOpenMedDetails(!isOpenedMedDetails);
@@ -94,8 +98,10 @@ const ModalDelete = (props) => (
 		<ContainerDelModal>
 			<DelModalHeader>
 				<p>Excluir Medicamento</p>
-				<img
-					src={CloseIcon}
+				<CloseIcon
+					strokeWidth={'2'}
+					width="18"
+					style={{ stroke: '#D8998A', cursor: 'pointer' }}
 					alt="Fechar"
 					onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
 				/>

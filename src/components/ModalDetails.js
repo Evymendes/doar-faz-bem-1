@@ -35,11 +35,14 @@ const ContainerDetails = styled.div`
 	background-color: #fff;
 	font-family: 'Overpass', Regular;
 
+	@media(min-width: 768px) {
+		min-height: auto;
+	}
+
 	@media(min-width: 1024px) {
 		border-radius: 10px;
 		min-width: 35%;
 		width: 35%;
-		min-height: auto;
 	}
 `;
 
