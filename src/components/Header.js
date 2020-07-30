@@ -12,6 +12,7 @@ const Container = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 1rem;
+	height: 15vh;
 `;
 
 const Logo = styled.div`

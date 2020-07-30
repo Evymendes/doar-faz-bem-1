@@ -42,8 +42,8 @@ const fadeIn = keyframes`
 
 const ContainerHeader = styled.div`
 	position: relative;
-	width: 125%;
-	height: 40vh;
+	width: 150%;
+	height: 45vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -65,7 +65,7 @@ const ContainerHeader = styled.div`
 
 const Header = styled.div`
 	flex: 1;
-	height: 40vh;
+	height: 45vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -83,8 +83,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.section`
-	padding-top: 1rem;
-	height: 60vh;
+	height: 55vh;
 	background: #fff;
 	display: flex;
 	flex-direction: column;
@@ -94,8 +93,8 @@ const Content = styled.section`
 `;
 
 const Logo = styled.div`
-	width: 9rem;
-	height: 9rem;
+	width: 10rem;
+	height: 10rem;
 	border-radius: 50%;
 	background: #fff;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
@@ -111,7 +110,7 @@ const Logo = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.5rem;
+	font-size: 1.75rem;
 	padding: 2rem;
 	color: #fff;
 	background: linear-gradient(45deg, #3dfefe, #9E9E9E);

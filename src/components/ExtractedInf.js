@@ -18,11 +18,11 @@ const ModalDetails = styled.div`
 `;
 
 const ContentModalDetails = styled.div`
-	margin-top: 3rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	height: 75vh;
 `;
 
 const ContainerIbsnCode = styled.div`
