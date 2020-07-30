@@ -121,6 +121,7 @@ const ContentModalBarCode = styled.div`
 
 const WrapperModalBarCode = styled.div`
 	height: 80vh;
+	padding: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -129,7 +130,8 @@ const WrapperModalBarCode = styled.div`
 
 const InputBarCode = styled.input`
 	margin-bottom: 2rem;
-	width: 20rem;
+	width: 100%;
+	max-width: 20rem;
 	height: 3.5rem;
 	text-align: center;
 	color: #000;
