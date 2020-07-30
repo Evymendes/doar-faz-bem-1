@@ -15,7 +15,7 @@ import DefaultButton from '../components/DefaultButton';
 
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
-import BackIcon from '../assets/back.svg';
+import BackIcon from '../assets/backWhite.svg';
 
 // remedio.rename(columns={'': ''})
 
@@ -45,7 +45,14 @@ const ButtonBack = styled(NavLink)`
 	z-index: 1;
 
 	img {
+		margin-left: .5rem;
 		width: 2.3rem;
+	}
+
+	@media(min-width: 768px) {
+		img {
+			width: 3rem;
+		}
 	}
 `;
 
@@ -69,6 +76,16 @@ const ScanMarker = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	img {
+		width: 20rem;
+	}
+
+	@media(min-width: 768px) {
+		img {
+			width: 35rem;
+		}
+	}
 `;
 
 const ContainerDigitBarCode = styled.div`
@@ -276,11 +293,11 @@ class Scanner extends Component {
 
 		this.setState({
 			pressed: !pressed,
-		})
+		});
 
 		if (valueCode.length === 0) {
 			this.setState({
-				error: '*Insira o código de barras.',
+				error: '*Insira o Código de Barras.',
 			});
 		} else {
 			this.setState({
@@ -411,8 +428,8 @@ class Scanner extends Component {
 						<img
 							src={MarkerIcon}
 							alt="marker space"
-							width="320"
-							height="260"
+							// width="320"
+							// height="260"
 						/>
 					</ScanMarker>
 					<ContainerDigitBarCode>

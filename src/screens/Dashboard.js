@@ -44,10 +44,20 @@ const Container = styled.div`
 	}
 
 	@media(min-width: 1024px) {
+		overflow-y: hidden;
+	}
+	${'' /* @media(min-width: 1024px) {
 		overflow-y: scroll;
 		max-height: calc(100% - 89.8px);
-	}
+	} */}
 `;
+
+// const Tbody = styled.tbody`
+// 	@media(min-width: 1024px) {
+// 		overflow-y: scroll;
+// 		max-height: calc(100% - 89.8px);
+// 	}
+// `;
 
 const ContainerSearch = styled.div`
 	padding-top: 1rem;
@@ -70,6 +80,10 @@ const ContainerInputSearch = styled.div`
 	border: none;
 	border-radius: 50px;
 	background-color: #EDEDED;
+
+	@media(min-width: 768px) {
+		width: 25rem;
+	}
 
 	@media(min-width: 1024px) {
 		width: 30rem;
@@ -94,6 +108,12 @@ const ContainerTable = styled.table`
 	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
+`;
+
+const Tbody = styled.tbody`
+	max-width: 100%;
+  width: 100%;
+	overflow-y: scroll;
 `;
 
 const ContainerTableHeader = styled.div`
@@ -184,7 +204,7 @@ const ContainerTableTitleMob = styled.span`
 	display: flex;
 	flex-direction: column;
 
-	@media (min-width: 768px) {
+	@media (min-width: 1024px) {
 		display: none;
 	}
 `;
@@ -195,7 +215,7 @@ const TableTitleMob = styled.th`
 	font-size: 1rem;
 	font-family: 'Overpass', Regular;
 
-	@media(min-width: 768px) {
+	@media(min-width: 1024px) {
 		display: none;
 	}
 `;
@@ -211,10 +231,11 @@ const TableList = styled.td`
 	@media (min-width: 768px) {
 		padding: .25rem;
 		font-size: 0.95rem;
-		width: 25%;
+		width: 100%;
 	}
 
 	@media(min-width: 1024px) {
+		width: 25%;
 		align-items: center;
 	}
 `;
@@ -413,9 +434,9 @@ const Table = ({
 								key={index}
 								style={{
 									display: (column.Header === 'Laboratório' || column.Header === 'Apresentação'
-								|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em') && 'none',
+									|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em') && 'none',
 									justifyContent: (column.Header === 'Embalagem Aberta?'
-								|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
+									|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
 								}}
 							>
 								{column.render('Header')}
@@ -424,7 +445,7 @@ const Table = ({
 					</Tr>
 				))}
 			</Thead>
-			<tbody {...getTableBodyProps()}>
+			<Tbody {...getTableBodyProps()}>
 				{rows.map((row, index) => {
 					prepareRow(row);
 					return (
@@ -479,7 +500,7 @@ const Table = ({
 						</Tr>
 					);
 				})}
-			</tbody>
+			</Tbody>
 		</ContainerTable>
 	);
 };

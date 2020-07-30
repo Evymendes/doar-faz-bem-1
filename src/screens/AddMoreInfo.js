@@ -365,7 +365,7 @@ class Login extends Component {
 					openModal={this.handleBackScanner}
 					history={this.props.history}
 					iconStyle={{
-						stroke: '#FFFFFF'
+						stroke: '#FFFFFF',
 					}}
 				/>
 				<Form onSubmit={this.handleSubmit}>
