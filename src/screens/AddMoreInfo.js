@@ -7,8 +7,9 @@ import { Redirect } from 'react-router-dom';
 // Components
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import DefaultInput from '../components/DefaultInput';
-import DefaultDropDown from '../components/DefaulfDropDown';
+import DefaultInput from '../components/form/DefaultInput';
+import DefaultDropDown from '../components/form/DefaulfDropDown';
+import DefaultTextarea from '../components/form/DefaultTextarea';
 
 // Api
 import { createMedicament } from '../services/api';
@@ -152,7 +153,7 @@ class Login extends Component {
 		medicament[field] = ev.target.value;
 		this.setState({
 			medicament,
-			errors: errors.filter((erro) => erro !== field)
+			errors: errors.filter((erro) => erro !== field),
 		});
 	};
 
@@ -163,14 +164,14 @@ class Login extends Component {
 			fields,
 		} = this.state;
 
-		const errors = []
-		fields.map(field => {
+		const errors = [];
+		fields.map((field) => {
 			if (!anvisa[field] && !medicament[field]) {
-				errors.push(field)
+				errors.push(field);
 			}
-		})
+		});
 		this.setState({
-			errors: errors,
+			errors,
 		});
 
 		if (errors.length === 0) {
@@ -192,7 +193,7 @@ class Login extends Component {
 			PRODUTO: anvisa.name || medicament.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
 			CLASSE_TERAPEUTICA: anvisa.therapeuticClass || medicament.therapeuticClass,
-			SUBSTANCIA: anvisa.substance ||  medicament.substance,
+			SUBSTANCIA: anvisa.substance || medicament.substance,
 			LABORATORIO: anvisa.laboratory || medicament.laboratory,
 			TIPO_DE_PRODUTO: anvisa.productType || medicament.productType,
 			QUANTIDADE: medicament.quantity,
@@ -227,7 +228,7 @@ class Login extends Component {
 				...this.state.medicament,
 				openPacking: item,
 			},
-			errors: this.state.errors.filter((erro) => erro !== 'openPacking')
+			errors: this.state.errors.filter((erro) => erro !== 'openPacking'),
 		});
 	}
 
@@ -239,7 +240,7 @@ class Login extends Component {
 				...this.state.medicament,
 				type: item,
 			},
-			errors: this.state.errors.filter((erro) => erro !== 'type')
+			errors: this.state.errors.filter((erro) => erro !== 'type'),
 		});
 	}
 
@@ -341,13 +342,20 @@ class Login extends Component {
 					text={medicament.quantity}
 					isError={errors.includes('quantity')}
 				/>
-				<DefaultInput
+				<DefaultTextarea
 					label='Descrição:'
 					onChange={(ev) => this.handleChange('description', ev)}
 					text={anvisa.description || medicament.description}
 					isError={errors.includes('description')}
 					disabled={anvisa.description}
 				/>
+				{/* <DefaultInput
+					label='Descrição:'
+					onChange={(ev) => this.handleChange('description', ev)}
+					text={anvisa.description || medicament.description}
+					isError={errors.includes('description')}
+					disabled={anvisa.description}
+				/> */}
 			</>
 		);
 	}
