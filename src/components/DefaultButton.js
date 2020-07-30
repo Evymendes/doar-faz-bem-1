@@ -36,7 +36,7 @@ const DefaultButton = (props) => {
 		if (!pressed) {
 			setTimeout(() => {
 				props.handleClick();
-			}, 750);
+			}, 550);
 		}
 	};
 

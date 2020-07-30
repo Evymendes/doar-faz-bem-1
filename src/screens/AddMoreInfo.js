@@ -74,19 +74,21 @@ class Login extends Component {
 			'drágeas',
 			'outros',
 		],
-		selectedType: undefined,
+		errors: [],
+		fields: [
+			'code',
+			'name',
+			'expirationDate',
+			'therapeuticClass',
+			'substance',
+			'laboratory',
+			'productType',
+			'openPacking',
+			'type',
+			'quantity',
+			'description',
+		],
 		isLoading: undefined,
-		isErrorCode: false,
-		isErrorName: false,
-		isErrorExpirationDate: false,
-		isErrorTherapeuticClass: false,
-		isErrorSubstance: false,
-		isErrorLaboratory: false,
-		isErrorProductType: false,
-		isErrorOpenPackaging: false,
-		isErrorTypeMed: false,
-		isErrorQuantity: false,
-		isErrorDescription: false,
 		medicament: {
 			code: '',
 			name: '',
@@ -125,25 +127,6 @@ class Login extends Component {
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
-			// 7894916341769
-			// 7896112121831 ANVISA
-			// 7898927111014
-
-
-		// LABORATORIO: {
-		// 	data: 'bbbababa',
-		// 	disable: true
-		// }
-
-		// this.state.anvisa
-		// this.state.medicament
-
-		// disabled = {this.state.anvisa.code}
-		// medicament = onchange code
-
-		// code: this.state.anvisa || this.state.medicament
-
-
 			this.setState({
 				anvisa: {
 					code: result.EAN_1,
@@ -164,242 +147,40 @@ class Login extends Component {
 	}
 
 	handleChange = (field, ev) => {
-		const { medicament } = this.state;
-
-		if (field === 'code') {
-			this.setState({
-				isErrorCode: false,
-			});
-		}
-
-		if (field === 'name') {
-			this.setState({
-				isErrorName: false,
-			});
-		}
-
-		if (field === 'expirationDate') {
-			this.setState({
-				isErrorExpirationDate: false,
-			});
-		}
-
-		if (field === 'therapeuticClass') {
-			this.setState({
-				isErrorTherapeuticClass: false,
-			});
-		}
-
-		if (field === 'substance') {
-			this.setState({
-				isErrorSubstance: false,
-			});
-		}
-
-		if (field === 'laboratory') {
-			this.setState({
-				isErrorLaboratory: false,
-			});
-		}
-
-		if (field === 'productType') {
-			this.setState({
-				isErrorProductType: false,
-			});
-		}
-
-		if (field === 'openPacking') {
-			this.setState({
-				isErrorOpenPackaging: false,
-			});
-		}
-
-		if (field === 'type') {
-			this.setState({
-				isErrorTypeMed: false,
-			});
-		}
-
-		if (field === 'quantity') {
-			this.setState({
-				isErrorQuantity: false,
-			});
-		}
-
-		if (field === 'description') {
-			this.setState({
-				isErrorDescription: false,
-			});
-		}
+		const { medicament, errors } = this.state;
 
 		medicament[field] = ev.target.value;
-
 		this.setState({
 			medicament,
+			errors: errors.filter((erro) => erro !== field)
 		});
 	};
 
 	validationScreen = () => {
 		const {
-			code,
-			name,
-			expirationDate,
-			therapeuticClass,
-			substance,
-			type,
-			quantity,
-			productType,
-			openPacking,
-			laboratory,
-			description,
-		} = this.state.medicament;
+			medicament,
+			anvisa,
+			fields,
+		} = this.state;
 
-		if (!code) {
-			this.setState({
-				isErrorCode: true,
-			});
-		} else {
-			this.setState({
-				isErrorCode: false,
-			});
-		}
+		const errors = []
+		fields.map(field => {
+			if (!anvisa[field] && !medicament[field]) {
+				errors.push(field)
+			}
+		})
+		this.setState({
+			errors: errors,
+		});
 
-		if (!name) {
-			this.setState({
-				isErrorName: true,
-			});
-		} else {
-			this.setState({
-				isErrorName: false,
-			});
-		}
-
-		if (!expirationDate) {
-			this.setState({
-				isErrorExpirationDate: true,
-			});
-		} else {
-			this.setState({
-				isErrorExpirationDate: false,
-			});
-		}
-
-		if (!therapeuticClass) {
-			this.setState({
-				isErrorTherapeuticClass: true,
-			});
-		} else {
-			this.setState({
-				isErrorTherapeuticClass: false,
-			});
-		}
-
-		if (!substance) {
-			this.setState({
-				isErrorSubstance: true,
-			});
-		} else {
-			this.setState({
-				isErrorSubstance: false,
-			});
-		}
-
-		if (!laboratory) {
-			this.setState({
-				isErrorLaboratory: true,
-			});
-		} else {
-			this.setState({
-				isErrorLaboratory: false,
-			});
-		}
-
-		if (!productType) {
-			this.setState({
-				isErrorProductType: true,
-			});
-		} else {
-			this.setState({
-				isErrorProductType: false,
-			});
-		}
-
-		if (!openPacking) {
-			this.setState({
-				isErrorOpenPackaging: true,
-			});
-		} else {
-			this.setState({
-				isErrorOpenPackaging: false,
-			});
-		}
-
-		if (!type) {
-			this.setState({
-				isErrorTypeMed: true,
-			});
-		} else {
-			this.setState({
-				isErrorTypeMed: false,
-			});
-		}
-
-		if (!quantity) {
-			this.setState({
-				isErrorQuantity: true,
-			});
-		} else {
-			this.setState({
-				isErrorQuantity: false,
-			});
-		}
-
-		if (!description) {
-			this.setState({
-				isErrorDescription: true,
-			});
-		} else {
-			this.setState({
-				isErrorDescription: false,
-			});
+		if (errors.length === 0) {
+			this.createMedic();
 		}
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const {
-			isErrorCode,
-			isErrorName,
-			isErrorExpirationDate,
-			isErrorTherapeuticClass,
-			isErrorSubstance,
-			isErrorLaboratory,
-			isErrorProductType,
-			isErrorOpenPackaging,
-			isErrorTypeMed,
-			isErrorQuantity,
-			isErrorDescription,
-			isModalOpenPackaging,
-		} = this.state;
-
 		this.validationScreen();
-
-		if (
-			isErrorCode === false
-			&& isErrorName === false
-			&& isErrorExpirationDate === false
-			&& isErrorTherapeuticClass === false
-			&& isErrorSubstance === false
-			&& isErrorLaboratory === false
-			&& isErrorProductType === false
-			&& isErrorOpenPackaging === false
-			&& isErrorTypeMed === false
-			&& isErrorQuantity === false
-			&& isErrorDescription === false
-			&& isModalOpenPackaging === false
-		) {
-			this.createMedic();
-		}
 	}
 
 	createMedic = async () => {
@@ -442,11 +223,11 @@ class Login extends Component {
 		this.setState({
 			selectedPackaging: item,
 			isModalOpenPackaging: false,
-			isErrorOpenPackaging: false,
 			medicament: {
 				...this.state.medicament,
 				openPacking: item,
 			},
+			errors: this.state.errors.filter((erro) => erro !== 'openPacking')
 		});
 	}
 
@@ -454,11 +235,11 @@ class Login extends Component {
 		this.setState({
 			selectedType: item,
 			isModalType: false,
-			isErrorTypeMed: false,
 			medicament: {
 				...this.state.medicament,
 				type: item,
 			},
+			errors: this.state.errors.filter((erro) => erro !== 'type')
 		});
 	}
 
@@ -471,29 +252,15 @@ class Login extends Component {
 	renderForm = () => {
 		const {
 			medicament,
-			isErrorCode,
-			isErrorName,
-			isErrorExpirationDate,
-			isErrorTherapeuticClass,
-			isErrorSubstance,
-			isErrorLaboratory,
-			isErrorProductType,
-			isErrorOpenPackaging,
-			isErrorTypeMed,
-			isErrorQuantity,
-			isErrorDescription,
 			isModalOpenPackaging,
 			typePackaging,
 			selectedPackaging,
 			isModalType,
 			typeMed,
 			selectedType,
-			isDisabled,
 			anvisa,
+			errors,
 		} = this.state;
-
-		// 7896112121831
-		// 7898927111014
 
 		return (
 			<>
@@ -502,14 +269,14 @@ class Login extends Component {
 					type='number'
 					onChange={(ev) => this.handleChange('code', ev)}
 					text={anvisa.code || medicament.code}
-					isError={isErrorCode}
+					isError={errors.includes('code')}
 					disabled={anvisa.code}
 				/>
 				<DefaultInput
 					label='Medicamento:'
 					onChange={(ev) => this.handleChange('name', ev)}
 					text={anvisa.name || medicament.name}
-					isError={isErrorName}
+					isError={errors.includes('name')}
 					disabled={anvisa.name}
 				/>
 				<DefaultInput
@@ -517,41 +284,41 @@ class Login extends Component {
 					type="date"
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={medicament.expirationDate}
-					isError={isErrorExpirationDate}
+					isError={errors.includes('expirationDate')}
 					disabled={false}
 				/>
 				<DefaultInput
 					label='Classe terapêutica:'
 					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
 					text={anvisa.therapeuticClass || medicament.therapeuticClass}
-					isError={isErrorTherapeuticClass}
+					isError={errors.includes('therapeuticClass')}
 					disabled={anvisa.therapeuticClass}
 				/>
 				<DefaultInput
 					label='Substância:'
 					onChange={(ev) => this.handleChange('substance', ev)}
 					text={anvisa.substance || medicament.substance}
-					isError={isErrorSubstance}
+					isError={errors.includes('substance')}
 					disabled={anvisa.substance}
 				/>
 				<DefaultInput
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
 					text={anvisa.laboratory || medicament.laboratory}
-					isError={isErrorLaboratory}
+					isError={errors.includes('laboratory')}
 					disabled={anvisa.laboratory}
 				/>
 				<DefaultInput
 					label='Tipo do Produto:'
 					onChange={(ev) => this.handleChange('productType', ev)}
 					text={anvisa.productType || medicament.productType}
-					isError={isErrorProductType}
+					isError={errors.includes('productType')}
 					disabled={anvisa.productType}
 				/>
 				<DefaultDropDown
 					title='Embalagem aberta?'
 					isModal={isModalOpenPackaging}
-					isError={isErrorOpenPackaging}
+					isError={errors.includes('openPacking')}
 					onClick={this.handleModalOpenPackaging}
 					inClickSelected={this.handleSelectedPackaging}
 					selectedText={selectedPackaging}
@@ -560,7 +327,7 @@ class Login extends Component {
 				<DefaultDropDown
 					title='Apresentação:'
 					isModal={isModalType}
-					isError={isErrorTypeMed}
+					isError={errors.includes('type')}
 					onClick={this.handleModalType}
 					inClickSelected={this.handleSelectedType}
 					selectedText={selectedType}
@@ -572,13 +339,13 @@ class Login extends Component {
 					type='number'
 					onChange={(ev) => this.handleChange('quantity', ev)}
 					text={medicament.quantity}
-					isError={isErrorQuantity}
+					isError={errors.includes('quantity')}
 				/>
 				<DefaultInput
 					label='Descrição:'
 					onChange={(ev) => this.handleChange('description', ev)}
 					text={anvisa.description || medicament.description}
-					isError={isErrorDescription}
+					isError={errors.includes('description')}
 					disabled={anvisa.description}
 				/>
 			</>
