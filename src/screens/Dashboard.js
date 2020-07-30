@@ -104,6 +104,7 @@ const WrapperTableHeader = styled.div`
 	display: none;
 
 	@media(min-width: 1024px) {
+		width: 20%;
 		display: flex;
 		align-items: center;
 	}
@@ -132,7 +133,7 @@ const Thead = styled.thead`
 `;
 
 const Tr = styled.tr`
-	padding: 1rem 1rem 8.5rem 1rem;
+	padding: 1rem 1rem 13rem 1rem;
 	height: 2.3rem;
 	display: flex;
 	flex-wrap: wrap;
@@ -439,7 +440,6 @@ const Table = ({
 						>
 							{widthMob
 								? <>
-									{console.log('row.values', row.values)}
 									<ContainerTableTitleMob>
 										<TableTitleMob>Medicamento</TableTitleMob>
 										<TableList>{row.values.PRODUTO || '-'}</TableList>

@@ -2,8 +2,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Components
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
+
 // Images
-import CloseIcon from '../assets/fechar.svg';
 import EditIcon from '../assets/edit.svg';
 import TrashIcon from '../assets/trash.svg';
 
@@ -128,10 +130,11 @@ const ModalDetails = (props) => (
 	<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 		<ContainerDetails onClick={(e) => e.stopPropagation()}>
 			<ContainerDetailsHeader>
-				<p>Cadastrado em {(props.medicament.values.Cadastrado) || '-'}</p>
-				<img
-					src={CloseIcon}
+				<p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p>
+				<CloseIcon
 					alt="Fechar"
+					strokeWidth={'1.5'}
+					style={{ stroke: '#D8998A', cursor: 'pointer' }}
 					onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
 				/>
 			</ContainerDetailsHeader>
@@ -151,9 +154,9 @@ const ModalDetails = (props) => (
 					</DetailsItem>
 				</WrapperDetails>
 				<WrapperDetails>
-					<DetailsItem>
-						<DetailsText title>Classe Terapêutica</DetailsText>
-						<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
+					<DetailsItem style={{ width: '100%' }}>
+						<DetailsText title>Tipo de Produto</DetailsText>
+						<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
 					</DetailsItem>
 					<DetailsItem>
 						<DetailsText title>Substância</DetailsText>
@@ -180,8 +183,8 @@ const ModalDetails = (props) => (
 				</WrapperDetails>
 				<WrapperDetails>
 					<DetailsItem style={{ width: '100%' }}>
-						<DetailsText title>Tipo de Produto</DetailsText>
-						<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
+						<DetailsText title>Classe Terapêutica</DetailsText>
+						<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
 					</DetailsItem>
 				</WrapperDetails>
 				<WrapperDetails>

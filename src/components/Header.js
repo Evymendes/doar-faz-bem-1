@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 // Components
-import { ReactComponent as CloseIcon } from '../assets/fechar.svg'
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
 
 // Styles
 const Container = styled.div`
@@ -57,8 +57,7 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			:
-			<CloseIcon
+			:			<CloseIcon
 				strokeWidth={'2'}
 				style={props.iconStyle}
 				onClick={props.openModal}
@@ -66,10 +65,10 @@ const Header = (props) => (
 		}
 		{props.withoutClose && <DashboardText exact to="/">Voltar Para o Início</DashboardText>}
 	</Container>
-)
+);
 
 Header.defaultProps = {
-	iconStyle: { stroke: '#D8998A'}
+	iconStyle: { stroke: '#D8998A' },
 };
 
 export default Header;
