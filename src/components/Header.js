@@ -68,7 +68,7 @@ const Header = (props) => (
 );
 
 Header.defaultProps = {
-	iconStyle: { stroke: '#D8998A' },
+	iconStyle: { stroke: '#D8998A', cursor: 'pointer' },
 };
 
 export default Header;
