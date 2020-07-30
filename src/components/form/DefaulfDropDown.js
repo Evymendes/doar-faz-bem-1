@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Assets
-import ChevronDown from '../assets/chevron-down.svg';
+import ChevronDown from '../../assets/chevron-down.svg';
 
 // Styles
 const Container = styled.div`
