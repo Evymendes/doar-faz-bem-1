@@ -154,7 +154,7 @@ const ModalDetails = (props) => (
 					</DetailsItem>
 				</WrapperDetails>
 				<WrapperDetails>
-					<DetailsItem style={{ width: '100%' }}>
+					<DetailsItem>
 						<DetailsText title>Tipo de Produto</DetailsText>
 						<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
 					</DetailsItem>
