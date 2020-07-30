@@ -104,8 +104,14 @@ const InputSearch = styled.input`
 	}
 `;
 
+const WrapperTable = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+`;
+
 const ContainerTable = styled.table`
-	max-width: 100%;
+	max-width: 90%;
   width: 100%;
 	border-spacing: 0;
 `;
@@ -137,6 +143,7 @@ const TableHeaderTitle = styled.h2`
 		display: flex;
 		font-size: 1.8rem;
 		color: #D8998A;
+		white-space: nowrap;
 		font-weight: 600;
 		font-family: 'Overpass', Bold;
 	}
@@ -541,14 +548,16 @@ function Dashboard() {
 				textColor='#B4E4E6'
 				loadingColor='linear-gradient(to right, #D8998A 0%, #fff 100%, #D8998A 0% )'
 			/> : (
-				<Table
-					columns={columns}
-					data={medList}
-					isOpenedMedDetails={isOpenedMedDetails}
-					setOpenMedDetails={setOpenMedDetails}
-					medicament={medicament}
-					setItemMedDetails={setItemMedDetails}
-				/>
+				<WrapperTable>
+					<Table
+						columns={columns}
+						data={medList}
+						isOpenedMedDetails={isOpenedMedDetails}
+						setOpenMedDetails={setOpenMedDetails}
+						medicament={medicament}
+						setItemMedDetails={setItemMedDetails}
+					/>
+				</WrapperTable>
 			)}
 			{!isOpenedMedDetails ? (
 				<ContainerButton medDetails={isOpenedMedDetails}>
