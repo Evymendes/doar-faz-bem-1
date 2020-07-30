@@ -56,8 +56,6 @@ const DefaultInput = (props) => (
 				*Campo obrigatório.
 			</ErrorMessage>
 		)}
-		{console.log('text', props.text)}
-		{console.log('disabled', props.disabled)}
 	</Container>
 );
 
