@@ -1,7 +1,6 @@
 // Libs
 import React, { useState, useEffect } from 'react';
 import { useTable, useFilters, useGlobalFilter } from 'react-table';
-
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';

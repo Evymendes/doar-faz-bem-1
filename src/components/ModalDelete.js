@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // Images
 import CloseIcon from '../assets/fechar.svg';
 
+// Services
 import { deleteMedicament } from '../services/api';
 
 const Overlay = styled.div`
@@ -113,7 +114,8 @@ const ModalDelete = (props) => (
 						cancelar
 				</DelModalButton>
 				<DelModalButton
-					onClick={() => handleDeleteMed(props.medicament, props.setOpenDelModal, props.isModalDelOpened, props.isOpenedMedDetails, props.setOpenMedDetails)}
+					onClick={() => handleDeleteMed(props.medicament, props.setOpenDelModal,
+						props.isModalDelOpened, props.isOpenedMedDetails, props.setOpenMedDetails)}
 				>
 					confirmar
 				</DelModalButton>

@@ -3,14 +3,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import DefaultButton from './DefaultButton'
+import DefaultButton from './DefaultButton';
 
 import { getById } from '../services/api';
 
 // Components
 import Header from './Header';
 
-//Styled
+// Styles
 const ModalDetails = styled.div`
 	flex: 1;
 	height: 100vh;
@@ -57,7 +57,7 @@ class ExtractedInf extends Component {
 			const data = response.data.results[0] || this.props.code;
 
 			this.setState({
-				medicament: data
+				medicament: data,
 			});
 		} catch (error) {
 			console.log('error', error);
