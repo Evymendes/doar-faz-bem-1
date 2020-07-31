@@ -129,87 +129,91 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
-const ModalDetails = (props) => (
-	<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
-		<ContainerDetails onClick={(e) => e.stopPropagation()}>
-			<ContainerDetailsHeader>
-				<p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p>
-				<CloseIcon
-					alt="Fechar"
-					strokeWidth={'1.5'}
-					style={{ stroke: '#D8998A', cursor: 'pointer' }}
-					onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
-				/>
-			</ContainerDetailsHeader>
-			<WrapperDetails main>
-				<WrapperDetails>
-					<DetailsItem>
-						<DetailsText title>Medicamento</DetailsText>
-						<DetailsText>{(props.medicament.values.PRODUTO) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Código</DetailsText>
-						<DetailsText>{(props.medicament.values.EAN_1) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Validade</DetailsText>
-						<DetailsText>{(props.medicament.values.Validade) || '-'}</DetailsText>
-					</DetailsItem>
-				</WrapperDetails>
-				<WrapperDetails>
-					<DetailsItem>
-						<DetailsText title>Tipo de Produto</DetailsText>
-						<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Substância</DetailsText>
-						<DetailsText>{(props.medicament.values.SUBSTANCIA) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Laboratório</DetailsText>
-						<DetailsText>{(props.medicament.values.LABORATORIO) || '-'}</DetailsText>
-					</DetailsItem>
-				</WrapperDetails>
-				<WrapperDetails>
-					<DetailsItem>
-						<DetailsText title>Embalagem Aberta?</DetailsText>
-						<DetailsText>{(props.medicament.values['Embalagem Aberta?']) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Apresentação</DetailsText>
-						<DetailsText>{(props.medicament.values.APRESENTACAO) || '-'}</DetailsText>
-					</DetailsItem>
-					<DetailsItem>
-						<DetailsText title>Quantidade</DetailsText>
-						<DetailsText>{(props.medicament.values.QUANTIDADE) || '-'}</DetailsText>
-					</DetailsItem>
-				</WrapperDetails>
-				<WrapperDetails>
-					<DetailsItem style={{ width: '100%' }}>
-						<DetailsText title>Classe Terapêutica</DetailsText>
-						<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
-					</DetailsItem>
-				</WrapperDetails>
-				<WrapperDetails>
-					<DetailsItem style={{ width: '100%' }}>
-						<DetailsText title>Descrição</DetailsText>
-						<DetailsText>{(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
-					</DetailsItem>
-				</WrapperDetails>
-			</WrapperDetails>
+const ModalDetails = (props) => {
+	console.log(props.isModalDelOpened)
 
-			<ContainerButton medDetails={props.isOpenedMedDetails}>
-				<ButtonMedDetails detail>
-					<img src={EditIcon} alt="Editar" />
-					<p>Editar</p>
-				</ButtonMedDetails>
-				<ButtonMedDetails onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}>
-					<img src={TrashIcon} alt="Excluir" />
-					<p>Excluir</p>
-				</ButtonMedDetails>
-			</ContainerButton>
-		</ContainerDetails>
-	</Overlay>
-);
+	return (
+		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
+			<ContainerDetails onClick={(e) => e.stopPropagation()}>
+				<ContainerDetailsHeader>
+					<p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p>
+					<CloseIcon
+						alt="Fechar"
+						strokeWidth={'1.5'}
+						style={{ stroke: '#D8998A', cursor: 'pointer' }}
+						onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
+					/>
+				</ContainerDetailsHeader>
+				<WrapperDetails main>
+					<WrapperDetails>
+						<DetailsItem>
+							<DetailsText title>Medicamento</DetailsText>
+							<DetailsText>{(props.medicament.values.PRODUTO) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Código</DetailsText>
+							<DetailsText>{(props.medicament.values.EAN_1) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Validade</DetailsText>
+							<DetailsText>{(props.medicament.values.Validade) || '-'}</DetailsText>
+						</DetailsItem>
+					</WrapperDetails>
+					<WrapperDetails>
+						<DetailsItem>
+							<DetailsText title>Tipo de Produto</DetailsText>
+							<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Substância</DetailsText>
+							<DetailsText>{(props.medicament.values.SUBSTANCIA) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Laboratório</DetailsText>
+							<DetailsText>{(props.medicament.values.LABORATORIO) || '-'}</DetailsText>
+						</DetailsItem>
+					</WrapperDetails>
+					<WrapperDetails>
+						<DetailsItem>
+							<DetailsText title>Embalagem Aberta?</DetailsText>
+							<DetailsText>{(props.medicament.values['Embalagem Aberta?']) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Apresentação</DetailsText>
+							<DetailsText>{(props.medicament.values.APRESENTACAO) || '-'}</DetailsText>
+						</DetailsItem>
+						<DetailsItem>
+							<DetailsText title>Quantidade</DetailsText>
+							<DetailsText>{(props.medicament.values.QUANTIDADE) || '-'}</DetailsText>
+						</DetailsItem>
+					</WrapperDetails>
+					<WrapperDetails>
+						<DetailsItem style={{ width: '100%' }}>
+							<DetailsText title>Classe Terapêutica</DetailsText>
+							<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
+						</DetailsItem>
+					</WrapperDetails>
+					<WrapperDetails>
+						<DetailsItem style={{ width: '100%' }}>
+							<DetailsText title>Descrição</DetailsText>
+							<DetailsText>{(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
+						</DetailsItem>
+					</WrapperDetails>
+				</WrapperDetails>
+
+				<ContainerButton medDetails={props.isOpenedMedDetails}>
+					<ButtonMedDetails detail>
+						<img src={EditIcon} alt="Editar" />
+						<p>Editar</p>
+					</ButtonMedDetails>
+					<ButtonMedDetails onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}>
+						<img src={TrashIcon} alt="Excluir" />
+						<p>Excluir</p>
+					</ButtonMedDetails>
+				</ContainerButton>
+			</ContainerDetails>
+		</Overlay>
+	)
+}
 
 export default ModalDetails;

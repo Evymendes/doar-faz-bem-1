@@ -82,13 +82,24 @@ const DelModalButton = styled.button`
 	background: ${(props) => ((props.cancel) ? 'transparent' : '#D8998A')};
 `;
 
-const handleDeleteMed = async (row, setOpenDelModal, isModalDelOpened, isOpenedMedDetails, setOpenMedDetails) => {
+const handleDeleteMed = async (
+	isModalDelOpened,
+	isOpenedMedDetails,
+	medList,
+	medicament,
+	setMedList,
+	setOpenDelModal,
+	setOpenMedDetails,
+) => {
 	try {
-		await deleteMedicament(row.objectId);
-		setOpenDelModal(!isModalDelOpened);
+		await deleteMedicament(medicament.objectId);
+		const list = medList.filter(med => med.objectId !== medicament.objectId)
 
+		setOpenDelModal(!isModalDelOpened);
 		setOpenMedDetails(!isOpenedMedDetails);
+		setMedList(list)
 	} catch (error) {
+		console.log('error', error);
 		console.log('error', error.response);
 	}
 };
@@ -120,9 +131,17 @@ const ModalDelete = (props) => (
 						cancelar
 				</DelModalButton>
 				<DelModalButton
-					onClick={() => handleDeleteMed(props.medicament, props.setOpenDelModal,
-						props.isModalDelOpened, props.isOpenedMedDetails, props.setOpenMedDetails)}
-				>
+					onClick={
+						() => handleDeleteMed(
+							props.isModalDelOpened,
+							props.isOpenedMedDetails,
+							props.medList,
+							props.medicament,
+							props.setMedList,
+							props.setOpenDelModal,
+							props.setOpenMedDetails,
+						)}
+					>
 					confirmar
 				</DelModalButton>
 			</ContainerDelModalButtons>

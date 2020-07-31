@@ -517,10 +517,10 @@ function Dashboard() {
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
+	
 	const [medList, setMedList] = useState([]);
-
+	
 	const [isFetching, setIsFetching] = useState(null);
-
 	const [isRedirect, setIsRedirect] = useState(null);
 
 	useEffect(() => {
@@ -538,7 +538,7 @@ function Dashboard() {
 			}
 		};
 		getAllData();
-	}, [isModalDelOpened]);
+	}, []);
 
 	return (
 		<Container>
@@ -579,6 +579,8 @@ function Dashboard() {
 					isOpenedMedDetails={isOpenedMedDetails}
 					setOpenMedDetails={setOpenMedDetails}
 					medicament={medicament.original}
+					setMedList={setMedList}
+					medList={medList}
 				/>
 			)}
 			{isRedirect && <Redirect to={'/addmoreinfo'} />}
