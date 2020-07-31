@@ -32,6 +32,11 @@ const ContainerDelModal = styled.div`
 	}
 
 	@media(min-width: 1024px) {
+		width: 40%;
+		min-width: 40%;
+	}
+
+	@media(min-width: 1440px) {
 		width: 25%;
 		min-width: 25%;
 	}

@@ -29,18 +29,19 @@ const Overlay = styled.div`
 
 const ContainerDetails = styled.div`
 	width: 100%;
-	min-height: 65vh;
+	min-height: auto;
 	display: flex;
 	flex-direction: column;
 	background-color: #fff;
 	font-family: 'Overpass', Regular;
 
-	@media(min-width: 768px) {
-		min-height: auto;
-	}
-
 	@media(min-width: 1024px) {
 		border-radius: 10px;
+		min-width: 50%;
+		width: 35%;
+	}
+
+	@media(min-width: 1440px) {
 		min-width: 35%;
 		width: 35%;
 	}
@@ -51,6 +52,10 @@ const WrapperDetails = styled.div`
 	padding-left: ${(props) => (!props.main && '.3rem')};
 	height: ${(props) => (props.main && '100%')};
 	display:  ${(props) => (!props.main && 'flex')};
+
+	@media(min-width: 1024px) {
+		padding-left: ${(props) => (!props.main && '1rem')};
+	}
 `;
 
 const ContainerDetailsHeader = styled.div`
@@ -68,6 +73,10 @@ const ContainerDetailsHeader = styled.div`
 	img {
 		width: 1.2rem;
 		cursor: pointer;
+	}
+
+	@media(min-width: 1024px) {
+		padding: 1.5rem 1.8rem;
 	}
 `;
 

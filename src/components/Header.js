@@ -13,6 +13,14 @@ const Container = styled.div`
 	align-items: center;
 	padding: 1rem;
 	height: 15vh;
+
+	@media(min-width: 1024px) {
+		height: 10vh;
+	}
+
+	@media(min-width: 1440px) {
+		height: 15vh;
+	}
 `;
 
 const Logo = styled.div`

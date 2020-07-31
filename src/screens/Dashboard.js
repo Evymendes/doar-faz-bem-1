@@ -119,6 +119,10 @@ const ContainerTable = styled.table`
 	border-spacing: 0;
 
 	@media(min-width: 1024px) {
+		max-width: 95%;
+	}
+
+	@media(min-width: 1440px) {
 		max-width: 90%;
 	}
 `;
@@ -131,14 +135,23 @@ const Tbody = styled.tbody`
 
 const ContainerTableHeader = styled.div`
 	display: flex;
+
+	@media(min-width: 1024px) {
+		padding-bottom: 1rem;
+	}
 `;
+
 const WrapperTableHeader = styled.div`
 	display: none;
 
 	@media(min-width: 1024px) {
-		width: 20%;
+		width: 55%;
 		display: flex;
 		align-items: center;
+	}
+
+	@media(min-width: 1440px) {
+		width: 20%;
 	}
 `;
 
@@ -415,9 +428,11 @@ const Table = ({
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
-	// rows.sort((item, b) => item.values.Validade.localeCompare(b.values.Validade));
-
-	const sortListByDate = (a, b) => a.values.Validade - b.values.Validade;
+	const sortListByDate = (date1, date2) => {
+		if (date1.values.Validade > date2.values.Validade) return 1;
+		if (date1.values.Validade < date2.values.Validade) return -1;
+		return 0;
+	};
 
 	rows.sort(sortListByDate);
 
