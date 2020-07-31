@@ -364,9 +364,7 @@ class Login extends Component {
 				<Header
 					openModal={this.handleBackScanner}
 					history={this.props.history}
-					iconStyle={{
-						stroke: '#FFFFFF',
-					}}
+					strokeColor={'#FFFFFF'}
 				/>
 				<Form onSubmit={this.handleSubmit}>
 					<div>
