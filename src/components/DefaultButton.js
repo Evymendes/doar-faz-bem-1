@@ -26,6 +26,10 @@ const Button = styled.button`
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
 	animation: ${(props) => (props.pressed ? pressAnimation : '')} 0.5s ease forwards;
+
+	@media(min-width: 320px) {
+		font-size: .95rem;
+	}
 `;
 
 const DefaultButton = (props) => {

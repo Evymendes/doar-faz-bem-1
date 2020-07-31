@@ -259,6 +259,7 @@ const ButtonMoreMob = styled.img`
 `;
 
 const ContainerButton = styled.div`
+	padding: 0 1rem;
 	position: ${(props) => (!props.medDetails && 'fixed')};;
 	bottom: ${(props) => (!props.medDetails && '0')};
 	width: 100%;
@@ -512,7 +513,7 @@ const Table = ({
 	);
 };
 
-function Dashboard() {
+function Dashboard(props) {
 	const [showCloseButton] = useState(true);
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
@@ -542,7 +543,7 @@ function Dashboard() {
 
 	return (
 		<Container>
-			<Header withoutClose={showCloseButton} />
+			<Header withoutClose={showCloseButton} history={props.history}/>
 			{isFetching ? <Loading
 				backgroundColor='transparent'
 				textColor='#B4E4E6'
