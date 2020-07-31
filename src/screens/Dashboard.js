@@ -4,7 +4,6 @@ import { useTable, useFilters, useGlobalFilter } from 'react-table';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
@@ -279,6 +278,7 @@ const ButtonMoreMob = styled.img`
 `;
 
 const ContainerButton = styled.div`
+	padding: 0 1rem;
 	position: ${(props) => (!props.medDetails && 'fixed')};;
 	bottom: ${(props) => (!props.medDetails && '0')};
 	width: 100%;
@@ -366,6 +366,12 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	if (isOpenedMedDetails) {
 		setItemMedDetails(null);
 	}
+};
+
+const handleHistory = (props) => {
+	props.history.push({
+		pathname: '/addmoreinfo',
+	});
 };
 
 const GlobalFilter = ({
@@ -534,16 +540,14 @@ const Table = ({
 	);
 };
 
-function Dashboard() {
+function Dashboard(props) {
 	const [showCloseButton] = useState(true);
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
 
 	const [medList, setMedList] = useState([]);
-
 	const [isFetching, setIsFetching] = useState(null);
-	const [isRedirect, setIsRedirect] = useState(null);
 
 	useEffect(() => {
 		const getAllData = async () => {
@@ -564,7 +568,7 @@ function Dashboard() {
 
 	return (
 		<Container>
-			<Header withoutClose={showCloseButton} />
+			<Header withoutClose={showCloseButton} history={props.history}/>
 			{isFetching ? <Loading
 				backgroundColor='transparent'
 				textColor='#B4E4E6'
@@ -583,7 +587,11 @@ function Dashboard() {
 			)}
 			{!isOpenedMedDetails ? (
 				<ContainerButton medDetails={isOpenedMedDetails}>
-					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
+					<ButtonAddMed
+						onClick={ () => handleHistory(props)
+						}>
+							Adicionar Medicamento
+					</ButtonAddMed>
 				</ContainerButton>
 			) : (
 				<ModalDetails
@@ -605,7 +613,6 @@ function Dashboard() {
 					medList={medList}
 				/>
 			)}
-			{isRedirect && <Redirect to={'/addmoreinfo'} />}
 		</Container>
 	);
 }

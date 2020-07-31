@@ -78,7 +78,7 @@ const ScanMarker = styled.div`
 	justify-content: center;
 
 	img {
-		width: 20rem;
+		width: 18rem;
 	}
 
 	@media(min-width: 768px) {
@@ -89,14 +89,13 @@ const ScanMarker = styled.div`
 `;
 
 const ContainerDigitBarCode = styled.div`
+	padding: 0 1rem;
 	width: 100%;
 	height: 5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background: rgba(255, 255, 255, 0.8);
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
 `;
 
 const ContainerModalBoilerPlate = styled.div`
@@ -262,6 +261,8 @@ class Scanner extends Component {
 
 			const isbn = valueCode;
 			// meu codigo valido 7898927111014
+			// 7896112121831
+			// 7898927111014
 
 			if (validateIsbn(isbn)) {
 				// loading
