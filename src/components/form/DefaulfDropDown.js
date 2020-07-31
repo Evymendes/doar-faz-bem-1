@@ -48,7 +48,21 @@ const DropDown = styled.div`
 	display: flex;
 	flex-direction: column;
 	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
-	overflow: scroll;
+	overflow-y: ${(props) => (props.apresentation ? 'scroll' : null)};
+
+	::-webkit-scrollbar {
+  width: 4px;
+	}
+	::-webkit-scrollbar-track {
+  	background: #fff;
+	}
+	::-webkit-scrollbar-thumb {
+  	background: #38D5D5;
+	}
+	::-webkit-scrollbar-thumb:hover {
+  	background: #38D5D5;
+	}
+
 `;
 
 const Text = styled.p`
@@ -56,6 +70,7 @@ const Text = styled.p`
 	font: 400 0.9rem 'Overpass', serif;
 	color:#989494;
 	text-transform: capitalize;
+	cursor: pointer;
 
 	&:hover {
 		background: #98949457;
@@ -80,7 +95,7 @@ const DefaultDropDown = (props) => (
 		{props.isModal
 			&& <DropDown apresentation={props.type}>
 				{props.item.map((item, index) => (
-					<Text key={index} onClick={() => props.inClickSelected(item)}>{item}</Text>
+					<Text key={index} apresentation={props.type} onClick={() => props.inClickSelected(item)}>{item}</Text>
 				))}
 			</DropDown>
 		}

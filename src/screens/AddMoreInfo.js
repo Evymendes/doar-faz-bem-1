@@ -11,6 +11,7 @@ import DefaultInput from '../components/form/DefaultInput';
 import DefaultDropDown from '../components/form/DefaulfDropDown';
 import DefaultTextarea from '../components/form/DefaultTextarea';
 import DefaultButton from '../components/DefaultButton';
+
 // Api
 import { createMedicament } from '../services/api';
 
@@ -125,6 +126,7 @@ class Login extends Component {
 
 	treatingDataAnvisa = () => {
 		const { state } = this.props.location;
+
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
@@ -137,6 +139,16 @@ class Login extends Component {
 					therapeuticClass: result.CLASSE_TERAPEUTICA,
 					productType: result.TIPO_DE_PRODUTO,
 					description: result.APRESENTACAO,
+				},
+				isDisabled: true,
+			});
+		}
+
+		if (state && state.result) {
+			const { result } = this.props.location.state;
+			this.setState({
+				anvisa: {
+					code: result,
 				},
 				isDisabled: true,
 			});
