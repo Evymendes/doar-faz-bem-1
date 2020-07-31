@@ -10,7 +10,7 @@ import Loading from '../components/Loading';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultDropDown from '../components/form/DefaulfDropDown';
 import DefaultTextarea from '../components/form/DefaultTextarea';
-
+import DefaultButton from '../components/DefaultButton';
 // Api
 import { createMedicament } from '../services/api';
 
@@ -181,7 +181,6 @@ class Login extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.validationScreen();
 	}
 
 	createMedic = async () => {
@@ -189,7 +188,7 @@ class Login extends Component {
 		const date = new Date(medicament.expirationDate);
 
 		const formatData = {
-			EAN_1: anvisa.code.toString() || medicament.code.toString(),
+			EAN_1: (anvisa.code && anvisa.code.toString()) || medicament.code,
 			PRODUTO: anvisa.name || medicament.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
 			CLASSE_TERAPEUTICA: anvisa.therapeuticClass || medicament.therapeuticClass,
@@ -349,13 +348,6 @@ class Login extends Component {
 					isError={errors.includes('description')}
 					disabled={anvisa.description}
 				/>
-				{/* <DefaultInput
-					label='Descrição:'
-					onChange={(ev) => this.handleChange('description', ev)}
-					text={anvisa.description || medicament.description}
-					isError={errors.includes('description')}
-					disabled={anvisa.description}
-				/> */}
 			</>
 		);
 	}
@@ -381,8 +373,27 @@ class Login extends Component {
 						{this.renderForm()}
 					</div>
 					<Footer>
-						<Button cancel onClick={this.handleBackScanner}>cancelar</Button>
-						<Button>salvar</Button>
+						<DefaultButton
+							handleClick={() => this.handleBackScanner()}
+							text={'cancelar'}
+							style={{
+								margin: 0,
+								marginRight: '1rem',
+								border: '1px solid white',
+								background: 'transparent',
+								color: '#fff',
+							}}
+						/>
+						<DefaultButton
+							handleClick={this.validationScreen}
+							text={'salvar'}
+							style={{
+								margin: '0',
+								color: '#fff',
+								border: '1px solid #49E5D6',
+								background: '#49E5D6',
+							}}
+						/>
 					</Footer>
 				</Form>
 				{isLoading && <Loading />}
