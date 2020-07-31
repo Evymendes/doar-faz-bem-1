@@ -319,7 +319,15 @@ const ButtonAddMed = styled.button`
 	cursor: pointer;
 `;
 
-const formatDate = (date) => moment(date).locale('pt-br').format('DD/MM/YYYY');
+const formatDate = (date) => moment(date).locale('pt-br').format('MM/DD/YYYY');
+
+const formatExpirationDate = (date) => {
+	return date
+		.substr(0, 10)
+		.split('-')
+		.reverse()
+		.join('/');
+};
 
 const columns = [
 	{
@@ -332,7 +340,7 @@ const columns = [
 	},
 	{
 		Header: 'Validade',
-		accessor: (d) => formatDate(d.DATA_EXPIRACAO.iso),
+		accessor: (d) => formatExpirationDate(d.DATA_EXPIRACAO.iso),
 	},
 	{
 		Header: 'Classe Terapêutica',
