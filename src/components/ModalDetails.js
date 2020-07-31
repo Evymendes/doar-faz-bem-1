@@ -130,8 +130,6 @@ const ButtonMedDetails = styled.button`
 `;
 
 const ModalDetails = (props) => {
-	console.log(props.isModalDelOpened)
-
 	return (
 		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 			<ContainerDetails onClick={(e) => e.stopPropagation()}>

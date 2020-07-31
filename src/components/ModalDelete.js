@@ -56,6 +56,7 @@ const DelModalHeader = styled.span`
 
 const DelModalText = styled.p`
 	padding: .8rem;
+	font-size: .9rem;
 	flex-wrap: wrap;
 
 	span {
@@ -93,11 +94,11 @@ const handleDeleteMed = async (
 ) => {
 	try {
 		await deleteMedicament(medicament.objectId);
-		const list = medList.filter(med => med.objectId !== medicament.objectId)
+		const list = medList.filter((med) => med.objectId !== medicament.objectId);
 
 		setOpenDelModal(!isModalDelOpened);
 		setOpenMedDetails(!isOpenedMedDetails);
-		setMedList(list)
+		setMedList(list);
 	} catch (error) {
 		console.log('error', error);
 		console.log('error', error.response);
@@ -141,7 +142,7 @@ const ModalDelete = (props) => (
 							props.setOpenDelModal,
 							props.setOpenMedDetails,
 						)}
-					>
+				>
 					confirmar
 				</DelModalButton>
 			</ContainerDelModalButtons>

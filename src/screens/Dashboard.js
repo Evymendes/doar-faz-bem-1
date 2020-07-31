@@ -106,14 +106,21 @@ const InputSearch = styled.input`
 
 const WrapperTable = styled.div`
 	width: 100%;
-	display: flex;
-	justify-content: center;
+
+	@media(min-width: 1024px) {
+		display: flex;
+		justify-content: center;
+	}
 `;
 
 const ContainerTable = styled.table`
-	max-width: 90%;
+	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
+
+	@media(min-width: 1024px) {
+		max-width: 90%;
+	}
 `;
 
 const Tbody = styled.tbody`
@@ -517,9 +524,9 @@ function Dashboard() {
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
-	
+
 	const [medList, setMedList] = useState([]);
-	
+
 	const [isFetching, setIsFetching] = useState(null);
 	const [isRedirect, setIsRedirect] = useState(null);
 
