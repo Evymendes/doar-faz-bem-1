@@ -143,7 +143,6 @@ const InputBarCode = styled.input`
 `;
 
 const ErrorMessage = styled.span`
-	margin-top: 1rem;
   color: red;
   font-size: .8rem;
   font-weight: 600;
@@ -227,6 +226,7 @@ class Scanner extends Component {
 	handleOpenBarCodeModal = () => {
 		this.setState({
 			modalOpenBarCode: !this.state.modalOpenBarCode,
+			error: '',
 		});
 	}
 
@@ -341,6 +341,11 @@ class Scanner extends Component {
 						placeholder='Digite o codigo de barras...'
 						onChange={this.handleInputBarCode}
 					/>
+					{this.state.error && (
+						<ErrorMessage>
+							{this.state.error}
+						</ErrorMessage>
+					)}
 					<DefaultButton
 						handleClick={this.handleButtonBarCode}
 						text={'Verificar Código'}
@@ -359,11 +364,6 @@ class Scanner extends Component {
 							color: '#fff',
 						}}
 					/>
-					{this.state.error && (
-						<ErrorMessage>
-							{this.state.error}
-						</ErrorMessage>
-					)}
 				</WrapperModalBarCode>
 			</ContentModalBarCode>
 		</ContainerModalBoilerPlate>

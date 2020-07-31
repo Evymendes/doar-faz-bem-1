@@ -84,6 +84,10 @@ const ContainerInputSearch = styled.div`
 	@media(min-width: 1440px) {
 		padding: 0 0 0 1.5rem;
 	}
+
+	@media(min-width: 320px) {
+		margin: 0 1rem;
+	}
 `;
 
 const InputSearch = styled.input`
