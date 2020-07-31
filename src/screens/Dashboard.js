@@ -4,7 +4,6 @@ import { useTable, useFilters, useGlobalFilter } from 'react-table';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
@@ -106,14 +105,25 @@ const InputSearch = styled.input`
 
 const WrapperTable = styled.div`
 	width: 100%;
-	display: flex;
-	justify-content: center;
+
+	@media(min-width: 1024px) {
+		display: flex;
+		justify-content: center;
+	}
 `;
 
 const ContainerTable = styled.table`
-	max-width: 90%;
+	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
+
+	@media(min-width: 1024px) {
+		max-width: 95%;
+	}
+
+	@media(min-width: 1440px) {
+		max-width: 90%;
+	}
 `;
 
 const Tbody = styled.tbody`
@@ -124,14 +134,23 @@ const Tbody = styled.tbody`
 
 const ContainerTableHeader = styled.div`
 	display: flex;
+
+	@media(min-width: 1024px) {
+		padding-bottom: 1rem;
+	}
 `;
+
 const WrapperTableHeader = styled.div`
 	display: none;
 
 	@media(min-width: 1024px) {
-		width: 20%;
+		width: 55%;
 		display: flex;
 		align-items: center;
+	}
+
+	@media(min-width: 1440px) {
+		width: 20%;
 	}
 `;
 
@@ -415,7 +434,11 @@ const Table = ({
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
-	const sortListByDate = (a, b) => a.values.Validade - b.values.Validade;
+	const sortListByDate = (date1, date2) => {
+		if (date1.values.Validade > date2.values.Validade) return 1;
+		if (date1.values.Validade < date2.values.Validade) return -1;
+		return 0;
+	};
 
 	rows.sort(sortListByDate);
 
@@ -522,6 +545,7 @@ function Dashboard(props) {
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
+
 	const [medList, setMedList] = useState([]);
 	const [isFetching, setIsFetching] = useState(null);
 
@@ -540,7 +564,7 @@ function Dashboard(props) {
 			}
 		};
 		getAllData();
-	}, [isModalDelOpened]);
+	}, []);
 
 	return (
 		<Container>
@@ -585,6 +609,8 @@ function Dashboard(props) {
 					isOpenedMedDetails={isOpenedMedDetails}
 					setOpenMedDetails={setOpenMedDetails}
 					medicament={medicament.original}
+					setMedList={setMedList}
+					medList={medList}
 				/>
 			)}
 		</Container>
