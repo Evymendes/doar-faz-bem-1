@@ -66,12 +66,11 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			: 
-			<CloseIcon
+			: <CloseIcon
 				strokeWidth={'2'}
 				style={{
 					stroke: props.strokeColor,
-					cursor: 'pointer'
+					cursor: 'pointer',
 				}}
 				onClick={props.openModal}
 			/>

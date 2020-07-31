@@ -23,40 +23,15 @@ import { getAllMedicaments } from '../services/api';
 const Container = styled.div`
 	width: 100%;
 	max-height: 100%;
-	overflow-y: visible;
-
-	::-webkit-scrollbar {
-  	width: 10px;
-	}
-	::-webkit-scrollbar-track {
-  	background: #fff;
-	}
-	::-webkit-scrollbar-thumb {
-  	background: #B4E4E6;
-	}
-	::-webkit-scrollbar-thumb:hover {
-  	background: #38D5D5;
-	}
 
 	@media(min-width: 768px) {
 		max-height: 75vh;
 	}
 
 	@media(min-width: 1024px) {
-		overflow-y: hidden;
+		max-height: 90vh;
 	}
-	${'' /* @media(min-width: 1024px) {
-		overflow-y: scroll;
-		max-height: calc(100% - 89.8px);
-	} */}
 `;
-
-// const Tbody = styled.tbody`
-// 	@media(min-width: 1024px) {
-// 		overflow-y: scroll;
-// 		max-height: calc(100% - 89.8px);
-// 	}
-// `;
 
 const ContainerSearch = styled.div`
 	padding-top: 1rem;
@@ -67,7 +42,24 @@ const ContainerSearch = styled.div`
 	align-items: center;
 
 	@media(min-width: 1024px) {
-		width: 60%;
+		width: 45%;
+	}
+
+	@media(min-width: 1440px) {
+		width: 30%;
+	}
+`;
+
+const TitleSearch = styled.p`
+	display: none;
+
+	@media(min-width: 1024px) {
+		display: flex;
+		color: #D8998A;
+		font-size: 1.3rem;
+		padding-right: 1rem;
+		font-family: 'Overpass', bold;
+		font-weight: 900;
 	}
 `;
 
@@ -85,7 +77,12 @@ const ContainerInputSearch = styled.div`
 	}
 
 	@media(min-width: 1024px) {
-		width: 30rem;
+		padding: 0 1.5rem 0 1.5rem;
+		width: 100%;
+	}
+
+	@media(min-width: 1440px) {
+		padding: 0 0 0 1.5rem;
 	}
 `;
 
@@ -112,24 +109,37 @@ const WrapperTable = styled.div`
 	}
 `;
 
-const ContainerTable = styled.table`
+const Table = styled.table`
 	max-width: 100%;
   width: 100%;
 	border-spacing: 0;
+`;
 
+const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
-		max-width: 95%;
-	}
-
-	@media(min-width: 1440px) {
-		max-width: 90%;
+		width: 90%;
 	}
 `;
 
-const Tbody = styled.tbody`
-	max-width: 100%;
-  width: 100%;
-	overflow-y: scroll;
+const ContentTable = styled.div`
+
+	@media(min-width: 1024px) {
+		max-height: 80%;
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			width: 10px;
+			}
+			::-webkit-scrollbar-track {
+			background: #fff;
+			}
+			::-webkit-scrollbar-thumb {
+				background: #dfb4a9;
+			}
+			::-webkit-scrollbar-thumb:hover {
+				background: #D8998A;
+			}
+		}
 `;
 
 const ContainerTableHeader = styled.div`
@@ -137,20 +147,8 @@ const ContainerTableHeader = styled.div`
 
 	@media(min-width: 1024px) {
 		padding-bottom: 1rem;
-	}
-`;
-
-const WrapperTableHeader = styled.div`
-	display: none;
-
-	@media(min-width: 1024px) {
-		width: 55%;
-		display: flex;
 		align-items: center;
-	}
-
-	@media(min-width: 1440px) {
-		width: 20%;
+    justify-content: space-between;
 	}
 `;
 
@@ -163,7 +161,7 @@ const TableHeaderTitle = styled.h2`
 		font-size: 1.8rem;
 		color: #D8998A;
 		white-space: nowrap;
-		font-weight: 600;
+		font-weight: 900;
 		font-family: 'Overpass', Bold;
 	}
 `;
@@ -209,6 +207,7 @@ const TableTitle = styled.th`
 	@media(min-width: 1024px) {
 		position: sticky;
 		top: 0;
+		z-index: 5;
 		padding: .25rem;
 		padding-left: 0.7rem;
 		width: 25%;
@@ -218,7 +217,6 @@ const TableTitle = styled.th`
 		font-size: 1rem;
 		font-family: 'Overpass', Regular;
 		background-color: #D8998A;
-		z-index: 5;
 		white-space: nowrap;
 	}
 `;
@@ -266,6 +264,20 @@ const TableList = styled.td`
 	}
 `;
 
+const TextNoMedicament = styled.h2`
+	padding-top: 10rem;
+	display: flex;
+	justify-content: center;
+	color: #D8998A;
+	font-size: 1.2rem;
+	font-family: "Overpass", Bold;
+	font-weight: 600;
+
+	@media(min-width: 768px) {
+		font-size: 1.5rem;
+	}
+`;
+
 const ButtonMoreMob = styled.img`
 	position: absolute;
 	right: 15px;
@@ -308,13 +320,11 @@ const ButtonAddMed = styled.button`
 
 const formatDate = (date) => moment(date).locale('pt-br').format('MM/DD/YYYY');
 
-const formatExpirationDate = (date) => {
-	return date
-		.substr(0, 10)
-		.split('-')
-		.reverse()
-		.join('/');
-};
+const formatExpirationDate = (date) => date
+	.substr(0, 10)
+	.split('-')
+	.reverse()
+	.join('/');
 
 const columns = [
 	{
@@ -391,6 +401,7 @@ const GlobalFilter = ({
 
 	(
 		<ContainerSearch>
+			<TitleSearch>Pesquisar</TitleSearch>
 			<ContainerInputSearch>
 				<InputSearch
 					value={globalFilter || ''}
@@ -406,7 +417,7 @@ const GlobalFilter = ({
 			</ContainerInputSearch>
 		</ContainerSearch>
 	);
-const Table = ({
+const RenderTable = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
 	const filterTypes = React.useMemo(
@@ -451,99 +462,106 @@ const Table = ({
 	rows.sort(sortListByDate);
 
 	return (
-		<ContainerTable {...getTableProps()}>
-
+		<ContainerTable>
 			<ContainerTableHeader>
-				<WrapperTableHeader>
-					<TableHeaderTitle>Gerenciar Medicamentos</TableHeaderTitle>
-				</WrapperTableHeader>
+				<TableHeaderTitle>Gerenciar Medicamentos</TableHeaderTitle>
 				<GlobalFilter
 					preGlobalFilteredRows={preGlobalFilteredRows}
 					globalFilter={state.globalFilter}
 					setGlobalFilter={setGlobalFilter}
 				/>
 			</ContainerTableHeader>
-
-			<Thead>
-				{headerGroups.map((headerGroup, index) => (
-					<Tr
-						{...headerGroup.getHeaderGroupProps()}
-						key={index}
-						style={{ width: '100%' }}
-					>
-						{headerGroup.headers.map((column, index) => (
-							<TableTitle
-								{...column.getHeaderProps()}
+			<ContentTable>
+				<Table {...getTableProps()}>
+					<Thead>
+						{headerGroups.map((headerGroup, index) => (
+							<Tr
+								{...headerGroup.getHeaderGroupProps()}
 								key={index}
-								style={{
-									display: (column.Header === 'Laboratório' || column.Header === 'Apresentação'
-									|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em') && 'none',
-									justifyContent: (column.Header === 'Embalagem Aberta?'
-									|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
-								}}
+								style={{ width: '100%' }}
 							>
-								{column.render('Header')}
-							</TableTitle>
-						))}
-					</Tr>
-				))}
-			</Thead>
-			<Tbody {...getTableBodyProps()}>
-				{rows.map((row, index) => {
-					prepareRow(row);
-					return (
-						<Tr
-							{...row.getRowProps()}
-							onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-							key={index}
-							style={{
-								margin: index === rows.length - 1 && '0 0 8rem 0',
-								cursor: 'pointer',
-							}}
-						>
-							{widthMob
-								? <>
-									<ContainerTableTitleMob>
-										<TableTitleMob>Medicamento</TableTitleMob>
-										<TableList>{row.values.PRODUTO || '-'}</TableList>
-									</ContainerTableTitleMob>
-									<ContainerTableTitleMob>
-										<TableTitleMob>Código</TableTitleMob>
-										<TableList>{row.values.EAN_1 || '-'}</TableList>
-									</ContainerTableTitleMob>
-									<ContainerTableTitleMob>
-										<TableTitleMob>Validade</TableTitleMob>
-										<TableList>{row.values.Validade || '-'}</TableList>
-									</ContainerTableTitleMob>
-									<ContainerTableTitleMob>
-										<TableTitleMob>Classe Terapêutica</TableTitleMob>
-										<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
-									</ContainerTableTitleMob>
-								</>
-								: <>
-									{row.cells.map((cell, index) => <TableList
-										{...cell.getCellProps()}
-										style={{
-											paddingLeft: '.7rem',
-											display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
-											|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em') && 'none',
-											justifyContent: (cell.column.Header === 'Embalagem Aberta?'
-											|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
-										}}
+								{headerGroup.headers.map((column, index) => (
+									<TableTitle
+										{...column.getHeaderProps()}
 										key={index}
+										style={{
+											display: (column.Header === 'Laboratório' || column.Header === 'Apresentação'
+										|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em'
+										|| column.Header === 'Classe Terapêutica') && 'none',
+											justifyContent: (column.Header === 'Embalagem Aberta?'
+										|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
+										}}
 									>
-										{cell.render('Cell')}
-									</TableList>)}
-								</>
-							}
-							<ButtonMoreMob
-								src={(medicament && medicament.id) === row.id && isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
-								onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-							/>
-						</Tr>
-					);
-				})}
-			</Tbody>
+										{column.render('Header')}
+									</TableTitle>
+								))}
+							</Tr>
+						))}
+					</Thead>
+					{rows && rows.length === 0 ? (
+						<TextNoMedicament>Não há Medicamentos no Momento.</TextNoMedicament>
+					) : (
+						<tbody {...getTableBodyProps()}>
+							{rows.map((row, index) => {
+								prepareRow(row);
+								return (
+									<Tr
+										{...row.getRowProps()}
+										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										key={index}
+										style={{
+											margin: index === rows.length - 1 && '0 0 8rem 0',
+											cursor: 'pointer',
+										}}
+									>
+										{widthMob
+											? <>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Medicamento</TableTitleMob>
+													<TableList>{row.values.PRODUTO || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Código</TableTitleMob>
+													<TableList>{row.values.EAN_1 || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Validade</TableTitleMob>
+													<TableList>{row.values.Validade || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Classe Terapêutica</TableTitleMob>
+													<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
+												</ContainerTableTitleMob>
+											</>
+											: <>
+												{row.cells.map((cell, index) => <TableList
+													{...cell.getCellProps()}
+													style={{
+														paddingLeft: '.7rem',
+														display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
+												|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
+												|| cell.column.Header === 'Classe Terapêutica') && 'none',
+														justifyContent: (cell.column.Header === 'Embalagem Aberta?'
+												|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
+													}}
+													key={index}
+												>
+													{cell.render('Cell')}
+												</TableList>)}
+											</>
+										}
+										<ButtonMoreMob
+											src={(medicament && medicament.id) === row.id
+										&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
+											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										/>
+									</Tr>
+								);
+							})}
+						</tbody>
+					)}
+				</Table>
+			</ContentTable>
 		</ContainerTable>
 	);
 };
@@ -582,44 +600,46 @@ function Dashboard(props) {
 				textColor='#B4E4E6'
 				loadingColor='linear-gradient(to right, #D8998A 0%, #fff 100%, #D8998A 0% )'
 			/> : (
-				<WrapperTable>
-					<Table
-						columns={columns}
-						data={medList}
-						isOpenedMedDetails={isOpenedMedDetails}
-						setOpenMedDetails={setOpenMedDetails}
-						medicament={medicament}
-						setItemMedDetails={setItemMedDetails}
-					/>
-				</WrapperTable>
-			)}
-			{!isOpenedMedDetails ? (
-				<ContainerButton medDetails={isOpenedMedDetails}>
-					<ButtonAddMed
-						onClick={ () => handleHistory(props)
-						}>
-							Adicionar Medicamento
-					</ButtonAddMed>
-				</ContainerButton>
-			) : (
-				<ModalDetails
-					isOpenedMedDetails={isOpenedMedDetails}
-					setOpenMedDetails={setOpenMedDetails}
-					setOpenDelModal={setOpenDelModal}
-					isModalDelOpened={isModalDelOpened}
-					medicament={medicament}
-				/>
-			)}
-			{isModalDelOpened && (
-				<ModalDelete
-					setOpenDelModal={setOpenDelModal}
-					isModalDelOpened={isModalDelOpened}
-					isOpenedMedDetails={isOpenedMedDetails}
-					setOpenMedDetails={setOpenMedDetails}
-					medicament={medicament.original}
-					setMedList={setMedList}
-					medList={medList}
-				/>
+				<>
+					<WrapperTable>
+						<RenderTable
+							columns={columns}
+							data={medList}
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							medicament={medicament}
+							setItemMedDetails={setItemMedDetails}
+						/>
+					</WrapperTable>
+					{!isOpenedMedDetails ? (
+						<ContainerButton medDetails={isOpenedMedDetails}>
+							<ButtonAddMed
+								onClick={ () => handleHistory(props)
+								}>
+									Adicionar Medicamento
+							</ButtonAddMed>
+						</ContainerButton>
+					) : (
+						<ModalDetails
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							setOpenDelModal={setOpenDelModal}
+							isModalDelOpened={isModalDelOpened}
+							medicament={medicament}
+						/>
+					)}
+					{isModalDelOpened && (
+						<ModalDelete
+							setOpenDelModal={setOpenDelModal}
+							isModalDelOpened={isModalDelOpened}
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							medicament={medicament.original}
+							setMedList={setMedList}
+							medList={medList}
+						/>
+					)}
+				</>
 			)}
 		</Container>
 	);

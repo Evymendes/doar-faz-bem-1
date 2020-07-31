@@ -104,6 +104,8 @@ class Login extends Component {
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
+			console.log('result', result)
+
 			this.setState({
 				anvisa: {
 					code: result.EAN_1,
