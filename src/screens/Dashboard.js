@@ -23,27 +23,12 @@ import { getAllMedicaments } from '../services/api';
 const Container = styled.div`
 	width: 100%;
 	max-height: 100%;
-	overflow-y: visible;
-
-	::-webkit-scrollbar {
-  	width: 10px;
-	}
-	::-webkit-scrollbar-track {
-  	background: #fff;
-	}
-	::-webkit-scrollbar-thumb {
-  	background: #B4E4E6;
-	}
-	::-webkit-scrollbar-thumb:hover {
-  	background: #38D5D5;
-	}
 
 	@media(min-width: 768px) {
 		max-height: 75vh;
 	}
 
 	@media(min-width: 1024px) {
-		overflow-y: hidden;
 		max-height: 90vh;
 	}
 `;

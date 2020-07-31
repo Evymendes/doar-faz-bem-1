@@ -35,27 +35,6 @@ const Footer = styled.div`
 	justify-content: space-between;
 `;
 
-const Button = styled.button`
-	width: 9.2rem;
-	height: 3rem;
-	color: #fff;
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	text-transform: uppercase;
-	border-radius: 50px;
-	box-shadow: ${(props) => (props.cancel ? 'none' : '2px 2px 2px #888888')};
-	background: ${(props) => (props.cancel ? 'transparent' : '#49E5D6')};
-	border: ${(props) => (props.cancel ? '1px solid #FFF' : 'none')};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-
-	@media(max-width: 320px) {
-		width: 8rem;
-	}
-`;
-
 class Login extends Component {
 	state = {
 		isRedirect: undefined,
