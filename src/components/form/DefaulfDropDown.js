@@ -39,7 +39,8 @@ const ContentText = styled.p`
 `;
 
 const Icon = styled.img`
-  transform: { rotate: '90deg'};
+	transform: ${(props) => (props.isRotation) && 'rotate(180deg)'};
+	transition-duration: 0.4s;
 `;
 
 const DropDown = styled.div`
@@ -90,7 +91,7 @@ const DefaultDropDown = (props) => (
 		<Title> {props.title}</Title>
 		<Content isModal={props.isModal} isError={props.isError} onClick={props.onClick}>
 			<ContentText isData={props.selectedText}>{props.selectedText || 'clique para selecionar'}</ContentText>
-			<Icon src={ChevronDown} alt="DropDown" />
+			<Icon isRotation={props.isRotation} src={ChevronDown} alt="DropDown" />
 		</Content >
 		{props.isModal
 			&& <DropDown apresentation={props.type}>

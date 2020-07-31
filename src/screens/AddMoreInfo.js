@@ -40,6 +40,8 @@ class Login extends Component {
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
+		isRotationOpenPackaging: undefined,
+		isRotationType: undefined,
 		typeMed: [
 			'comprimidos',
 			'pomada',
@@ -203,8 +205,11 @@ class Login extends Component {
 	}
 
 	handleModalOpenPackaging = () => {
+		const { isModalOpenPackaging, isRotationOpenPackaging } = this.state;
+
 		this.setState({
-			isModalOpenPackaging: !this.state.isModalOpenPackaging,
+			isModalOpenPackaging: !isModalOpenPackaging,
+			isRotationOpenPackaging: !isRotationOpenPackaging,
 		});
 	}
 
@@ -235,6 +240,7 @@ class Login extends Component {
 	handleModalType = () => {
 		this.setState({
 			isModalType: !this.state.isModalType,
+			isRotationType: !this.state.isRotationType,
 		});
 	}
 
@@ -248,6 +254,8 @@ class Login extends Component {
 			typeMed,
 			selectedType,
 			anvisa,
+			isRotationOpenPackaging,
+			isRotationType,
 			errors,
 		} = this.state;
 
@@ -311,6 +319,7 @@ class Login extends Component {
 					onClick={this.handleModalOpenPackaging}
 					inClickSelected={this.handleSelectedPackaging}
 					selectedText={selectedPackaging}
+					isRotation={isRotationOpenPackaging}
 					item={typePackaging}
 				/>
 				<DefaultDropDown
@@ -321,6 +330,7 @@ class Login extends Component {
 					inClickSelected={this.handleSelectedType}
 					selectedText={selectedType}
 					item={typeMed}
+					isRotation={isRotationType}
 					type='apresentation'
 				/>
 				<DefaultInput
