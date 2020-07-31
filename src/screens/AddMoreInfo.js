@@ -2,11 +2,9 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
-import Loading from '../components/Loading';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultDropDown from '../components/form/DefaulfDropDown';
 import DefaultTextarea from '../components/form/DefaultTextarea';
@@ -36,31 +34,8 @@ const Footer = styled.div`
 	justify-content: space-between;
 `;
 
-const Button = styled.button`
-	width: 9.2rem;
-	height: 3rem;
-	color: #fff;
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	text-transform: uppercase;
-	border-radius: 50px;
-	box-shadow: ${(props) => (props.cancel ? 'none' : '2px 2px 2px #888888')};
-	background: ${(props) => (props.cancel ? 'transparent' : '#49E5D6')};
-	border: ${(props) => (props.cancel ? '1px solid #FFF' : 'none')};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-
-	@media(max-width: 320px) {
-		width: 8rem;
-	}
-`;
-
 class Login extends Component {
 	state = {
-		isRedirect: undefined,
-		redirect: undefined,
 		isModalOpenPackaging: undefined,
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
@@ -90,7 +65,6 @@ class Login extends Component {
 			'quantity',
 			'description',
 		],
-		isLoading: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -146,6 +120,7 @@ class Login extends Component {
 
 		if (state && state.result) {
 			const { result } = this.props.location.state;
+
 			this.setState({
 				anvisa: {
 					code: result,
@@ -366,8 +341,6 @@ class Login extends Component {
 
 	render() {
 		const {
-			isRedirect,
-			redirect,
 			isLoading,
 		} = this.state;
 
@@ -406,8 +379,6 @@ class Login extends Component {
 						/>
 					</Footer>
 				</Form>
-				{isLoading && <Loading />}
-				{isRedirect && <Redirect to={redirect} />}
 			</Container>
 		);
 	}
