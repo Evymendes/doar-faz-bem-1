@@ -608,6 +608,7 @@ function Dashboard(props) {
 					setOpenDelModal={setOpenDelModal}
 					isModalDelOpened={isModalDelOpened}
 					medicament={medicament}
+					history={props.history}
 				/>
 			)}
 			{isModalDelOpened && (

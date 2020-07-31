@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
@@ -103,7 +105,6 @@ class Login extends Component {
 			quantity: '',
 			description: '',
 		},
-		isDisabled: false,
 		anvisa: {
 			code: undefined,
 			name: undefined,
@@ -123,24 +124,37 @@ class Login extends Component {
 		this.treatingDataAnvisa();
 	}
 
+	formatDate = (date) => {
+		if (date) {
+			return moment(date).locale('pt-br').format('YYYY-MM-DD');
+		}
+		return
+	}
+
 	treatingDataAnvisa = () => {
 		const { state } = this.props.location;
+		console.log('result', state.result)
+
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
 			this.setState({
 				anvisa: {
 					code: result.EAN_1,
+					expirationDate: result.DATA_EXPIRACAO && result.DATA_EXPIRACAO.iso,
 					name: result.PRODUTO,
 					substance: result.SUBSTANCIA,
 					laboratory: result.LABORATORIO,
 					therapeuticClass: result.CLASSE_TERAPEUTICA,
 					productType: result.TIPO_DE_PRODUTO,
 					description: result.APRESENTACAO,
+					type: result.TIPO_DE_PRODUTO,
+					openPacking: result.EMBALAGEM_ABERTA === true ? 'Sim' : result.EMBALAGEM_ABERTA === false ? 'Não' : null,
+					quantity: result.QUANTIDADE,
 				},
-				isDisabled: true,
 			});
 		}
+
 	}
 
 	handleBackScanner = () => {
@@ -149,6 +163,8 @@ class Login extends Component {
 
 	handleChange = (field, ev) => {
 		const { medicament, errors } = this.state;
+
+		console.log(ev.target.value)
 
 		medicament[field] = ev.target.value;
 		this.setState({
@@ -167,7 +183,11 @@ class Login extends Component {
 		const errors = [];
 		fields.map((field) => {
 			if (!anvisa[field] && !medicament[field]) {
+
+				
 				errors.push(field);
+				console.log('field', field)
+
 			}
 		});
 		this.setState({
@@ -185,7 +205,7 @@ class Login extends Component {
 
 	createMedic = async () => {
 		const { medicament, anvisa } = this.state;
-		const date = new Date(medicament.expirationDate);
+		const date = new Date(anvisa.expirationDate || medicament.expirationDate);
 
 		const formatData = {
 			EAN_1: (anvisa.code && anvisa.code.toString()) || medicament.code,
@@ -201,16 +221,19 @@ class Login extends Component {
 			DESCRICAO: anvisa.description || medicament.description,
 		};
 
-		try {
-			await createMedicament(formatData);
+		console.log('formatData', formatData)
 
-			this.props.history.push({
-				pathname: '/dashboard',
-			});
-		} catch (error) {
-			console.log('error', error);
-			console.log('error.response', error.response);
-		}
+
+		// try {
+		// 	await createMedicament(formatData);
+
+		// 	this.props.history.push({
+		// 		pathname: '/dashboard',
+		// 	});
+		// } catch (error) {
+		// 	console.log('error', error);
+		// 	console.log('error.response', error.response);
+		// }
 	}
 
 	handleModalOpenPackaging = () => {
@@ -261,6 +284,8 @@ class Login extends Component {
 			anvisa,
 			errors,
 		} = this.state;
+		console.log('anvisa', this.state.anvisa)
+		console.log('medicament', this.state.medicament)
 
 		return (
 			<>
@@ -283,9 +308,9 @@ class Login extends Component {
 					label='Data de Validade:'
 					type="date"
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
-					text={medicament.expirationDate}
+					text={this.formatDate(anvisa.expirationDate) || this.formatDate(medicament.expirationDate)}
 					isError={errors.includes('expirationDate')}
-					disabled={false}
+					disabled={anvisa.expirationDate}
 				/>
 				<DefaultInput
 					label='Classe terapêutica:'
@@ -321,7 +346,9 @@ class Login extends Component {
 					isError={errors.includes('openPacking')}
 					onClick={this.handleModalOpenPackaging}
 					inClickSelected={this.handleSelectedPackaging}
-					selectedText={selectedPackaging}
+					selectedText={
+						anvisa.openPacking || medicament.openPacking
+					}
 					item={typePackaging}
 				/>
 				<DefaultDropDown
@@ -330,16 +357,18 @@ class Login extends Component {
 					isError={errors.includes('type')}
 					onClick={this.handleModalType}
 					inClickSelected={this.handleSelectedType}
-					selectedText={selectedType}
+					selectedText={anvisa.typeMed || medicament.type}
 					item={typeMed}
 					type='apresentation'
 				/>
+
 				<DefaultInput
 					label='Quantidade:'
 					type='number'
 					onChange={(ev) => this.handleChange('quantity', ev)}
-					text={medicament.quantity}
+					text={anvisa.quantity || medicament.quantity}
 					isError={errors.includes('quantity')}
+					disabled={anvisa.quantity}
 				/>
 				<DefaultTextarea
 					label='Descrição:'

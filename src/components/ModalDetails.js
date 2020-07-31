@@ -138,6 +138,15 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
+const handleRedirectScreen = (props) => {
+	props.history.push({
+		pathname: '/addmoreinfo',
+		state: {
+			result: props.medicament.original,
+		},
+	});
+}
+
 const ModalDetails = (props) => {
 	return (
 		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
@@ -209,7 +218,7 @@ const ModalDetails = (props) => {
 				</WrapperDetails>
 
 				<ContainerButton medDetails={props.isOpenedMedDetails}>
-					<ButtonMedDetails detail>
+					<ButtonMedDetails detail onClick={() => handleRedirectScreen(props)}>
 						<img src={EditIcon} alt="Editar" />
 						<p>Editar</p>
 					</ButtonMedDetails>
