@@ -66,9 +66,13 @@ const Header = (props) => (
 			DOAR FAZ BEM
 		</Logo>
 		{props.withoutClose ? null
-			:			<CloseIcon
+			: 
+			<CloseIcon
 				strokeWidth={'2'}
-				style={props.iconStyle}
+				style={{
+					stroke: props.strokeColor,
+					cursor: 'pointer'
+				}}
 				onClick={props.openModal}
 			/>
 		}
@@ -77,7 +81,7 @@ const Header = (props) => (
 );
 
 Header.defaultProps = {
-	iconStyle: { stroke: '#D8998A', cursor: 'pointer' },
+	strokeColor: '#d8998a',
 };
 
 export default Header;
