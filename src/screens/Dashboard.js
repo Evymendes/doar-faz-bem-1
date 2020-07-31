@@ -264,6 +264,20 @@ const TableList = styled.td`
 	}
 `;
 
+const TextNoMedicament = styled.h2`
+	padding-top: 10rem;
+	display: flex;
+	justify-content: center;
+	color: #D8998A;
+	font-size: 1.2rem;
+	font-family: "Overpass", Bold;
+	font-weight: 600;
+
+	@media(min-width: 768px) {
+		font-size: 1.5rem;
+	}
+`;
+
 const ButtonMoreMob = styled.img`
 	position: absolute;
 	right: 15px;
@@ -306,13 +320,11 @@ const ButtonAddMed = styled.button`
 
 const formatDate = (date) => moment(date).locale('pt-br').format('MM/DD/YYYY');
 
-const formatExpirationDate = (date) => {
-	return date
-		.substr(0, 10)
-		.split('-')
-		.reverse()
-		.join('/');
-};
+const formatExpirationDate = (date) => date
+	.substr(0, 10)
+	.split('-')
+	.reverse()
+	.join('/');
 
 const columns = [
 	{
@@ -486,64 +498,68 @@ const RenderTable = ({
 							</Tr>
 						))}
 					</Thead>
-					<tbody {...getTableBodyProps()}>
-						{rows.map((row, index) => {
-							prepareRow(row);
-							return (
-								<Tr
-									{...row.getRowProps()}
-									onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-									key={index}
-									style={{
-										margin: index === rows.length - 1 && '0 0 8rem 0',
-										cursor: 'pointer',
-									}}
-								>
-									{widthMob
-										? <>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Medicamento</TableTitleMob>
-												<TableList>{row.values.PRODUTO || '-'}</TableList>
-											</ContainerTableTitleMob>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Código</TableTitleMob>
-												<TableList>{row.values.EAN_1 || '-'}</TableList>
-											</ContainerTableTitleMob>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Validade</TableTitleMob>
-												<TableList>{row.values.Validade || '-'}</TableList>
-											</ContainerTableTitleMob>
-											<ContainerTableTitleMob>
-												<TableTitleMob>Classe Terapêutica</TableTitleMob>
-												<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
-											</ContainerTableTitleMob>
-										</>
-										: <>
-											{row.cells.map((cell, index) => <TableList
-												{...cell.getCellProps()}
-												style={{
-													paddingLeft: '.7rem',
-													display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
+					{rows && rows.length === 0 ? (
+						<TextNoMedicament>Não há Medicamentos no Momento.</TextNoMedicament>
+					) : (
+						<tbody {...getTableBodyProps()}>
+							{rows.map((row, index) => {
+								prepareRow(row);
+								return (
+									<Tr
+										{...row.getRowProps()}
+										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										key={index}
+										style={{
+											margin: index === rows.length - 1 && '0 0 8rem 0',
+											cursor: 'pointer',
+										}}
+									>
+										{widthMob
+											? <>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Medicamento</TableTitleMob>
+													<TableList>{row.values.PRODUTO || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Código</TableTitleMob>
+													<TableList>{row.values.EAN_1 || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Validade</TableTitleMob>
+													<TableList>{row.values.Validade || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Classe Terapêutica</TableTitleMob>
+													<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
+												</ContainerTableTitleMob>
+											</>
+											: <>
+												{row.cells.map((cell, index) => <TableList
+													{...cell.getCellProps()}
+													style={{
+														paddingLeft: '.7rem',
+														display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
 												|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
 												|| cell.column.Header === 'Classe Terapêutica') && 'none',
-													justifyContent: (cell.column.Header === 'Embalagem Aberta?'
+														justifyContent: (cell.column.Header === 'Embalagem Aberta?'
 												|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
-												}}
-												key={index}
-											>
-												{cell.render('Cell')}
-											</TableList>)}
-										</>
-									}
-									<ButtonMoreMob
-										src={(medicament && medicament.id) === row.id
+													}}
+													key={index}
+												>
+													{cell.render('Cell')}
+												</TableList>)}
+											</>
+										}
+										<ButtonMoreMob
+											src={(medicament && medicament.id) === row.id
 										&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
-										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-									/>
-								</Tr>
-							);
-						})}
-					</tbody>
+											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										/>
+									</Tr>
+								);
+							})}
+						</tbody>
+					)}
 				</Table>
 			</ContentTable>
 		</ContainerTable>
