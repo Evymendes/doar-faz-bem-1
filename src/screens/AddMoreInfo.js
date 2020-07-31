@@ -2,15 +2,14 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 // Components
 import Header from '../components/Header';
-import Loading from '../components/Loading';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultDropDown from '../components/form/DefaulfDropDown';
 import DefaultTextarea from '../components/form/DefaultTextarea';
 import DefaultButton from '../components/DefaultButton';
+
 // Api
 import { createMedicament } from '../services/api';
 
@@ -37,8 +36,6 @@ const Footer = styled.div`
 
 class Login extends Component {
 	state = {
-		isRedirect: undefined,
-		redirect: undefined,
 		isModalOpenPackaging: undefined,
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
@@ -68,7 +65,6 @@ class Login extends Component {
 			'quantity',
 			'description',
 		],
-		isLoading: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -104,6 +100,7 @@ class Login extends Component {
 
 	treatingDataAnvisa = () => {
 		const { state } = this.props.location;
+
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
@@ -118,6 +115,17 @@ class Login extends Component {
 					therapeuticClass: result.CLASSE_TERAPEUTICA,
 					productType: result.TIPO_DE_PRODUTO,
 					description: result.APRESENTACAO,
+				},
+				isDisabled: true,
+			});
+		}
+
+		if (state && state.result) {
+			const { result } = this.props.location.state;
+
+			this.setState({
+				anvisa: {
+					code: result,
 				},
 				isDisabled: true,
 			});
@@ -335,8 +343,6 @@ class Login extends Component {
 
 	render() {
 		const {
-			isRedirect,
-			redirect,
 			isLoading,
 		} = this.state;
 
@@ -375,8 +381,6 @@ class Login extends Component {
 						/>
 					</Footer>
 				</Form>
-				{isLoading && <Loading />}
-				{isRedirect && <Redirect to={redirect} />}
 			</Container>
 		);
 	}
