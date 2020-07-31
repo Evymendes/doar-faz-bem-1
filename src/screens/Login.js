@@ -42,7 +42,7 @@ const fadeIn = keyframes`
 
 const ContainerHeader = styled.div`
 	position: relative;
-	width: 150%;
+	width: 115%;
 	height: 45vh;
 	display: flex;
 	justify-content: center;
@@ -60,7 +60,11 @@ const ContainerHeader = styled.div`
   animation-iteration-count: 1;
   animation-direction: normal;
   animation-fill-mode: forwards;
-  animation-play-state: running;
+	animation-play-state: running;
+	
+	@media(max-width: 720px) {
+		width: 150%;
+	}
 `;
 
 const Header = styled.div`
