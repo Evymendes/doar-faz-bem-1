@@ -349,6 +349,12 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 	}
 };
 
+const handleHistory = (props) => {
+	props.history.push({
+		pathname: '/addmoreinfo',
+	});
+};
+
 const GlobalFilter = ({
 	preGlobalFilteredRows,
 	globalFilter,
@@ -408,8 +414,6 @@ const Table = ({
 	useGlobalFilter);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
-
-	// rows.sort((item, b) => item.values.Validade.localeCompare(b.values.Validade));
 
 	const sortListByDate = (a, b) => a.values.Validade - b.values.Validade;
 
@@ -519,10 +523,7 @@ function Dashboard(props) {
 	const [medicament, setItemMedDetails] = useState(null);
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
 	const [medList, setMedList] = useState([]);
-
 	const [isFetching, setIsFetching] = useState(null);
-
-	const [isRedirect, setIsRedirect] = useState(null);
 
 	useEffect(() => {
 		const getAllData = async () => {
@@ -562,7 +563,11 @@ function Dashboard(props) {
 			)}
 			{!isOpenedMedDetails ? (
 				<ContainerButton medDetails={isOpenedMedDetails}>
-					<ButtonAddMed onClick={() => setIsRedirect(true)}>Adicionar Medicamento</ButtonAddMed>
+					<ButtonAddMed
+						onClick={ () => handleHistory(props)
+						}>
+							Adicionar Medicamento
+					</ButtonAddMed>
 				</ContainerButton>
 			) : (
 				<ModalDetails
@@ -582,7 +587,6 @@ function Dashboard(props) {
 					medicament={medicament.original}
 				/>
 			)}
-			{isRedirect && <Redirect to={'/addmoreinfo'} />}
 		</Container>
 	);
 }

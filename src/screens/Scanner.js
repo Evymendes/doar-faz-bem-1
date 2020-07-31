@@ -261,6 +261,8 @@ class Scanner extends Component {
 
 			const isbn = valueCode;
 			// meu codigo valido 7898927111014
+			// 7896112121831
+			// 7898927111014
 
 			if (validateIsbn(isbn)) {
 				// loading

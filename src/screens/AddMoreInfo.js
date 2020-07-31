@@ -375,7 +375,7 @@ class Login extends Component {
 					<Footer>
 						<DefaultButton
 							handleClick={() => this.handleBackScanner()}
-							text={'cancelar'}
+							text={'CANCELAR'}
 							style={{
 								margin: 0,
 								marginRight: '1rem',
@@ -386,7 +386,7 @@ class Login extends Component {
 						/>
 						<DefaultButton
 							handleClick={this.validationScreen}
-							text={'salvar'}
+							text={'SALVAR'}
 							style={{
 								margin: '0',
 								color: '#fff',

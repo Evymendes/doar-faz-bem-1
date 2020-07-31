@@ -88,6 +88,7 @@ class ExtractedInf extends Component {
 						text={'Adicionar mais Informações'}
 						style={{
 							margin: '1rem',
+							width: '90%',
 							background: '#49E5D6',
 							color: '#fff',
 						}}
@@ -96,6 +97,7 @@ class ExtractedInf extends Component {
 						handleClick={this.props.handleCloseModalExactedInfo}
 						text={'Voltar para Leitura de Código'}
 						style={{
+							width: '90%',
 							background: '#D8998A',
 							color: '#fff',
 						}}
