@@ -1,6 +1,8 @@
 // Libs
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 // Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
@@ -138,12 +140,20 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
+const formatDate = (props) => {
+	const date = props.medicament.values['Cadastrado Em'];
+
+	return moment(date).locale('pt-br').format('DD/MM/YYYY')
+};
+
 const ModalDetails = (props) => {
 	return (
 		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 			<ContainerDetails onClick={(e) => e.stopPropagation()}>
 				<ContainerDetailsHeader>
-					<p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p>
+					{/* <p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p> */}
+					<p>Cadastrado em {formatDate(props) || '-'}</p>
+
 					<CloseIcon
 						alt="Fechar"
 						strokeWidth={'1.5'}
