@@ -140,6 +140,16 @@ const ButtonMedDetails = styled.button`
 	}
 `;
 
+const handleRedirectScreen = (props) => {
+	props.history.push({
+		pathname: '/addmoreinfo',
+		state: {
+			result: props.medicament.original,
+			medId: props.medicament.original.objectId
+		},
+	});
+}
+
 const formatDate = (props) => {
 	const date = props.medicament.values['Cadastrado Em'];
 
@@ -219,7 +229,7 @@ const ModalDetails = (props) => {
 				</WrapperDetails>
 
 				<ContainerButton medDetails={props.isOpenedMedDetails}>
-					<ButtonMedDetails detail>
+					<ButtonMedDetails detail onClick={() => handleRedirectScreen(props)}>
 						<img src={EditIcon} alt="Editar" />
 						<p>Editar</p>
 					</ButtonMedDetails>

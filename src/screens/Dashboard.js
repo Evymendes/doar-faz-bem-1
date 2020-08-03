@@ -403,7 +403,7 @@ const GlobalFilter = ({
 	globalFilter,
 	setGlobalFilter,
 }) =>
-// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+	// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
 
 	(
 		<ContainerSearch>
@@ -454,8 +454,8 @@ const RenderTable = ({
 		data,
 		filterTypes,
 	},
-	useFilters,
-	useGlobalFilter);
+		useFilters,
+		useGlobalFilter);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -492,10 +492,10 @@ const RenderTable = ({
 										key={index}
 										style={{
 											display: (column.Header === 'Laboratório' || column.Header === 'Apresentação'
-										|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em'
-										|| column.Header === 'Classe Terapêutica') && 'none',
+												|| column.Header === 'Descrição' || column.Header === 'Cadastrado Em'
+												|| column.Header === 'Classe Terapêutica') && 'none',
 											justifyContent: (column.Header === 'Embalagem Aberta?'
-										|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
+												|| column.Header === 'Quantidade' || column.Header === 'Validade') && 'center',
 										}}
 									>
 										{column.render('Header')}
@@ -507,65 +507,65 @@ const RenderTable = ({
 					{rows && rows.length === 0 ? (
 						<TextNoMedicament>Não há Medicamentos no Momento.</TextNoMedicament>
 					) : (
-						<tbody {...getTableBodyProps()}>
-							{rows.map((row, index) => {
-								prepareRow(row);
-								return (
-									<Tr
-										{...row.getRowProps()}
-										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-										key={index}
-										style={{
-											margin: index === rows.length - 1 && '0 0 8rem 0',
-											cursor: 'pointer',
-										}}
-									>
-										{widthMob
-											? <>
-												<ContainerTableTitleMob>
-													<TableTitleMob>Medicamento</TableTitleMob>
-													<TableList>{row.values.PRODUTO || '-'}</TableList>
-												</ContainerTableTitleMob>
-												<ContainerTableTitleMob>
-													<TableTitleMob>Código</TableTitleMob>
-													<TableList>{row.values.EAN_1 || '-'}</TableList>
-												</ContainerTableTitleMob>
-												<ContainerTableTitleMob>
-													<TableTitleMob>Validade</TableTitleMob>
-													<TableList>{row.values.Validade || '-'}</TableList>
-												</ContainerTableTitleMob>
-												<ContainerTableTitleMob>
-													<TableTitleMob>Classe Terapêutica</TableTitleMob>
-													<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
-												</ContainerTableTitleMob>
-											</>
-											: <>
-												{row.cells.map((cell, index) => <TableList
-													{...cell.getCellProps()}
-													style={{
-														paddingLeft: '.7rem',
-														display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
-												|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
-												|| cell.column.Header === 'Classe Terapêutica') && 'none',
-														justifyContent: (cell.column.Header === 'Embalagem Aberta?'
-												|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
-													}}
-													key={index}
-												>
-													{cell.render('Cell')}
-												</TableList>)}
-											</>
-										}
-										<ButtonMoreMob
-											src={(medicament && medicament.id) === row.id
-										&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
+							<tbody {...getTableBodyProps()}>
+								{rows.map((row, index) => {
+									prepareRow(row);
+									return (
+										<Tr
+											{...row.getRowProps()}
 											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-										/>
-									</Tr>
-								);
-							})}
-						</tbody>
-					)}
+											key={index}
+											style={{
+												margin: index === rows.length - 1 && '0 0 8rem 0',
+												cursor: 'pointer',
+											}}
+										>
+											{widthMob
+												? <>
+													<ContainerTableTitleMob>
+														<TableTitleMob>Medicamento</TableTitleMob>
+														<TableList>{row.values.PRODUTO || '-'}</TableList>
+													</ContainerTableTitleMob>
+													<ContainerTableTitleMob>
+														<TableTitleMob>Código</TableTitleMob>
+														<TableList>{row.values.EAN_1 || '-'}</TableList>
+													</ContainerTableTitleMob>
+													<ContainerTableTitleMob>
+														<TableTitleMob>Validade</TableTitleMob>
+														<TableList>{row.values.Validade || '-'}</TableList>
+													</ContainerTableTitleMob>
+													<ContainerTableTitleMob>
+														<TableTitleMob>Classe Terapêutica</TableTitleMob>
+														<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
+													</ContainerTableTitleMob>
+												</>
+												: <>
+													{row.cells.map((cell, index) => <TableList
+														{...cell.getCellProps()}
+														style={{
+															paddingLeft: '.7rem',
+															display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
+																|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
+																|| cell.column.Header === 'Classe Terapêutica') && 'none',
+															justifyContent: (cell.column.Header === 'Embalagem Aberta?'
+																|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
+														}}
+														key={index}
+													>
+														{cell.render('Cell')}
+													</TableList>)}
+												</>
+											}
+											<ButtonMoreMob
+												src={(medicament && medicament.id) === row.id
+													&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
+												onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+											/>
+										</Tr>
+									);
+								})}
+							</tbody>
+						)}
 				</Table>
 			</ContentTable>
 		</ContainerTable>
@@ -600,53 +600,54 @@ function Dashboard(props) {
 
 	return (
 		<Container>
-			<Header withoutClose={showCloseButton} history={props.history}/>
+			<Header withoutClose={showCloseButton} history={props.history} />
 			{isFetching ? <Loading
 				backgroundColor='transparent'
 				textColor='#B4E4E6'
 				loadingColor='linear-gradient(to right, #D8998A 0%, #fff 100%, #D8998A 0% )'
 			/> : (
-				<>
-					<WrapperTable>
-						<RenderTable
-							columns={columns}
-							data={medList}
-							isOpenedMedDetails={isOpenedMedDetails}
-							setOpenMedDetails={setOpenMedDetails}
-							medicament={medicament}
-							setItemMedDetails={setItemMedDetails}
-						/>
-					</WrapperTable>
-					{!isOpenedMedDetails ? (
-						<ContainerButton medDetails={isOpenedMedDetails}>
-							<ButtonAddMed
-								onClick={ () => handleHistory(props)
-								}>
+					<>
+						<WrapperTable>
+							<RenderTable
+								columns={columns}
+								data={medList}
+								isOpenedMedDetails={isOpenedMedDetails}
+								setOpenMedDetails={setOpenMedDetails}
+								medicament={medicament}
+								setItemMedDetails={setItemMedDetails}
+							/>
+						</WrapperTable>
+						{!isOpenedMedDetails ? (
+							<ContainerButton medDetails={isOpenedMedDetails}>
+								<ButtonAddMed
+									onClick={() => handleHistory(props)
+									}>
 									Adicionar Medicamento
 							</ButtonAddMed>
-						</ContainerButton>
-					) : (
-						<ModalDetails
-							isOpenedMedDetails={isOpenedMedDetails}
-							setOpenMedDetails={setOpenMedDetails}
-							setOpenDelModal={setOpenDelModal}
-							isModalDelOpened={isModalDelOpened}
-							medicament={medicament}
-						/>
-					)}
-					{isModalDelOpened && (
-						<ModalDelete
-							setOpenDelModal={setOpenDelModal}
-							isModalDelOpened={isModalDelOpened}
-							isOpenedMedDetails={isOpenedMedDetails}
-							setOpenMedDetails={setOpenMedDetails}
-							medicament={medicament.original}
-							setMedList={setMedList}
-							medList={medList}
-						/>
-					)}
-				</>
-			)}
+							</ContainerButton>
+						) : (
+								<ModalDetails
+									isOpenedMedDetails={isOpenedMedDetails}
+									setOpenMedDetails={setOpenMedDetails}
+									setOpenDelModal={setOpenDelModal}
+									isModalDelOpened={isModalDelOpened}
+									medicament={medicament}
+									history={props.history}
+								/>
+							)}
+						{isModalDelOpened && (
+							<ModalDelete
+								setOpenDelModal={setOpenDelModal}
+								isModalDelOpened={isModalDelOpened}
+								isOpenedMedDetails={isOpenedMedDetails}
+								setOpenMedDetails={setOpenMedDetails}
+								medicament={medicament.original}
+								setMedList={setMedList}
+								medList={medList}
+							/>
+						)}
+					</>
+				)}
 		</Container>
 	);
 }

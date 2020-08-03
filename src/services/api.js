@@ -35,6 +35,17 @@ export const createMedicament = (data) => axios({
 	data,
 });
 
+export const editMedicament = (data, medicamentId) => axios({
+	url: `${API_URL}/classes/medicamento/${medicamentId}`,
+	method: 'put',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
+	data,
+});
+
 export const getAllMedicaments = () => axios({
 	url: `${API_URL}/classes/medicamento`,
 	method: 'get',

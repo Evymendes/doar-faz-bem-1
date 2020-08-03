@@ -52,6 +52,7 @@ const DefaultTextarea = (props) => (
 			isError={props.isError}
 			disabled={props.disabled}
 			isData={props.text}
+			style={props.style}
 		/>
 		{props.isError && (
 			<ErrorMessage>
