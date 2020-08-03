@@ -101,6 +101,8 @@ class Login extends Component {
 	treatingDataautoCompleted = () => {
 		const { state } = this.props.location;
 
+		console.log('this.props', state.result)
+
 		if (state && state.result && state.result.EAN_1) {
 			const { result, medId} = this.props.location.state;
 
@@ -119,7 +121,7 @@ class Login extends Component {
 						openPacking: result.EMBALAGEM_ABERTA === true ? 'sim' : 'não',
 						quantity: result.QUANTIDADE,
 					},
-					medId: result.medId,
+					medId,
 				});
 				return
 			}
@@ -363,7 +365,7 @@ class Login extends Component {
 					onChange={(ev) => this.handleChange('description', ev)}
 					text={med.description}
 					isError={errors.includes('description')}
-					disabled={med.description}
+					disabled={medId}
 					style={this.styledDisabled(medId)}
 				/>
 			</>
