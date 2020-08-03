@@ -550,7 +550,8 @@ const RenderTable = ({
 																|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
 																|| cell.column.Header === 'Classe Terapêutica') && 'none',
 														justifyContent: (cell.column.Header === 'Embalagem Aberta?'
-																|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
+																|| cell.column.Header === 'Quantidade'
+																|| cell.column.Header === 'Validade') && 'center',
 													}}
 													key={index}
 												>
