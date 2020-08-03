@@ -36,6 +36,10 @@ const ContainerIbsnCode = styled.div`
 		padding: 3rem 0;
 		width: 18rem;
 	}
+
+	@media(max-width: 425px) {
+		margin-bottom: 3rem;
+	}
 `;
 
 const TextModalDetails = styled.h2`
@@ -44,6 +48,10 @@ const TextModalDetails = styled.h2`
 	font-weight: 800;
 	font-family: 'Overpass', Bold;
 	text-align: center;
+
+	@media(max-width: 425px) {
+		font-size: 1.2rem;
+	}
 `;
 
 class ExtractedInf extends Component {
