@@ -145,6 +145,7 @@ const handleRedirectScreen = (props) => {
 		pathname: '/addmoreinfo',
 		state: {
 			result: props.medicament.original,
+			isEdit: true,
 		},
 	});
 }

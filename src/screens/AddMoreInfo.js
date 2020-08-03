@@ -14,7 +14,7 @@ import DefaultTextarea from '../components/form/DefaultTextarea';
 import DefaultButton from '../components/DefaultButton';
 
 // Api
-import { createMedicament } from '../services/api';
+import { createMedicament, editMedicament } from '../services/api';
 
 // Styled
 const Container = styled.div`
@@ -29,6 +29,10 @@ const Form = styled.form`
 	width: 86%;
 	display: flex;
 	flex-direction: column;
+	
+	@media(min-width: 1024px) {
+		width: 40%;
+	}
 `;
 
 const Footer = styled.div`
@@ -45,7 +49,7 @@ class Login extends Component {
 		isModalType: undefined,
 		isRotationOpenPackaging: undefined,
 		isRotationType: undefined,
-		typeMed: [
+		type: [
 			'comprimidos',
 			'pomada',
 			'xarope',
@@ -70,7 +74,7 @@ class Login extends Component {
 			'quantity',
 			'description',
 		],
-		medicament: {
+		newMedicament: {
 			code: '',
 			name: '',
 			expirationDate: undefined,
@@ -83,7 +87,7 @@ class Login extends Component {
 			quantity: '',
 			description: '',
 		},
-		anvisa: {
+		medicament: {
 			code: undefined,
 			name: undefined,
 			expirationDate: undefined,
@@ -96,30 +100,30 @@ class Login extends Component {
 			quantity: undefined,
 			description: undefined,
 		},
+		isEdit: false,
 	}
 
 	componentDidMount() {
-		this.treatingDataAnvisa();
+		this.treatingDataautoCompleted();
 	}
 
 	formatDate = (date) => {
 		if (date) {
-			return moment(date).locale('pt-br').format('YYYY-MM-DD');
+			return date.substr(0, 10);
 		}
 		return
 	}
 
-	treatingDataAnvisa = () => {
+	treatingDataautoCompleted = () => {
 		const { state } = this.props.location;
-		console.log('result', state.result)
 
 		if (state && state.result && state.result.EAN_1) {
-			const { result } = this.props.location.state;
+			const { result, isEdit } = this.props.location.state;
 
 			console.log('result', result)
 
 			this.setState({
-				anvisa: {
+				medicament: {
 					code: result.EAN_1,
 					expirationDate: result.DATA_EXPIRACAO && result.DATA_EXPIRACAO.iso,
 					name: result.PRODUTO,
@@ -127,11 +131,13 @@ class Login extends Component {
 					laboratory: result.LABORATORIO,
 					therapeuticClass: result.CLASSE_TERAPEUTICA,
 					productType: result.TIPO_DE_PRODUTO,
-					description: result.APRESENTACAO,
-					type: result.TIPO_DE_PRODUTO,
+					description: isEdit ? result.DESCRICAO : result.APRESENTACAO,
+					type: isEdit && result.APRESENTACAO,
 					openPacking: result.EMBALAGEM_ABERTA === true ? 'Sim' : result.EMBALAGEM_ABERTA === false ? 'Não' : null,
 					quantity: result.QUANTIDADE,
 				},
+				medicamentId: result.objectId,
+				isEdit,
 			});
 		}
 	}
@@ -141,32 +147,35 @@ class Login extends Component {
 	}
 
 	handleChange = (field, ev) => {
-		const { medicament, errors } = this.state;
+		const { newMedicament, medicament, errors, isEdit } = this.state;
 
-		console.log(ev.target.value)
+		if (isEdit) {
+			medicament[field] = ev.target.value;
+			this.setState({
+				medicament,
+				errors: errors.filter((erro) => erro !== field),
+			});
+			return
+		}
 
-		medicament[field] = ev.target.value;
+		newMedicament[field] = ev.target.value;
 		this.setState({
-			medicament,
+			newMedicament,
 			errors: errors.filter((erro) => erro !== field),
 		});
 	};
 
-	validationScreen = () => {
+	validationScreen = async () => {
 		const {
+			newMedicament,
 			medicament,
-			anvisa,
 			fields,
 		} = this.state;
 
 		const errors = [];
 		fields.map((field) => {
-			if (!anvisa[field] && !medicament[field]) {
-
-				
+			if (!medicament[field] && !newMedicament[field]) {
 				errors.push(field);
-				console.log('field', field)
-
 			}
 		});
 		this.setState({
@@ -174,7 +183,10 @@ class Login extends Component {
 		});
 
 		if (errors.length === 0) {
-			this.createMedic();
+			await this.createMedic();
+			this.props.history.push({
+				pathname: '/dashboard',
+			});
 		}
 	}
 
@@ -183,36 +195,34 @@ class Login extends Component {
 	}
 
 	createMedic = async () => {
-		const { medicament, anvisa } = this.state;
-		const date = new Date(anvisa.expirationDate || medicament.expirationDate);
+		const { newMedicament, medicament, isEdit, medicamentId } = this.state;
+		const date = new Date(medicament.expirationDate || newMedicament.expirationDate);
 
 		const formatData = {
-			EAN_1: (anvisa.code && anvisa.code.toString()) || medicament.code,
-			PRODUTO: anvisa.name || medicament.name,
+			EAN_1: (medicament.code && medicament.code.toString()) || newMedicament.code,
+			PRODUTO: medicament.name || newMedicament.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
-			CLASSE_TERAPEUTICA: anvisa.therapeuticClass || medicament.therapeuticClass,
-			SUBSTANCIA: anvisa.substance || medicament.substance,
-			LABORATORIO: anvisa.laboratory || medicament.laboratory,
-			TIPO_DE_PRODUTO: anvisa.productType || medicament.productType,
-			QUANTIDADE: medicament.quantity,
-			EMBALAGEM_ABERTA: medicament.openPacking === true,
-			APRESENTACAO: anvisa.type || medicament.type,
-			DESCRICAO: anvisa.description || medicament.description,
+			CLASSE_TERAPEUTICA: medicament.therapeuticClass || newMedicament.therapeuticClass,
+			SUBSTANCIA: medicament.substance || newMedicament.substance,
+			LABORATORIO: medicament.laboratory || newMedicament.laboratory,
+			TIPO_DE_PRODUTO: medicament.productType || newMedicament.productType,
+			QUANTIDADE: medicament.quantity || newMedicament.quantity,
+			EMBALAGEM_ABERTA: medicament.openPacking === 'sim' ? true : false || newMedicament.openPacking === 'sim' ? true : false,
+			APRESENTACAO: medicament.type || newMedicament.type,
+			DESCRICAO: medicament.description || newMedicament.description,
 		};
+		try {
+			if (isEdit) {
+				await editMedicament(formatData, medicamentId)
+				return
+			}
 
-		console.log('formatData', formatData)
+			await createMedicament(formatData);
 
-
-		// try {
-		// 	await createMedicament(formatData);
-
-		// 	this.props.history.push({
-		// 		pathname: '/dashboard',
-		// 	});
-		// } catch (error) {
-		// 	console.log('error', error);
-		// 	console.log('error.response', error.response);
-		// }
+		} catch (error) {
+			console.log('error', error);
+			console.log('error.response', error.response);
+		}
 	}
 
 	handleModalOpenPackaging = () => {
@@ -225,11 +235,24 @@ class Login extends Component {
 	}
 
 	handleSelectedPackaging = (item) => {
+		if (this.state.isEdit) {
+			this.setState({
+				selectedPackaging: item,
+				isModalOpenPackaging: false,
+				medicament: {
+					...this.state.medicament,
+					openPacking: item,
+				},
+				errors: this.state.errors.filter((erro) => erro !== 'openPacking'),
+			});
+			return
+		}
+
 		this.setState({
 			selectedPackaging: item,
 			isModalOpenPackaging: false,
-			medicament: {
-				...this.state.medicament,
+			newMedicament: {
+				...this.state.newMedicament,
 				openPacking: item,
 			},
 			errors: this.state.errors.filter((erro) => erro !== 'openPacking'),
@@ -237,11 +260,23 @@ class Login extends Component {
 	}
 
 	handleSelectedType = (item) => {
+		if (this.state.isEdit) {
+			this.setState({
+				selectedType: item,
+				isModalType: false,
+				medicament: {
+					...this.state.medicament,
+					type: item,
+				},
+				errors: this.state.errors.filter((erro) => erro !== 'type'),
+			});
+			return
+		}
 		this.setState({
 			selectedType: item,
 			isModalType: false,
-			medicament: {
-				...this.state.medicament,
+			newMedicament: {
+				...this.state.newMedicament,
 				type: item,
 			},
 			errors: this.state.errors.filter((erro) => erro !== 'type'),
@@ -255,22 +290,29 @@ class Login extends Component {
 		});
 	}
 
+	styledDisabled = (isDisabled) => {
+		if (isDisabled) {
+			return {
+				cursor: 'not-allowed',
+				opacity: '0.8',
+			}
+		}
+	}
+
 	renderForm = () => {
 		const {
-			medicament,
+			newMedicament,
 			isModalOpenPackaging,
 			typePackaging,
 			selectedPackaging,
 			isModalType,
-			typeMed,
+			type,
 			selectedType,
-			anvisa,
+			medicament,
 			isRotationOpenPackaging,
 			isRotationType,
 			errors,
 		} = this.state;
-		console.log('anvisa', this.state.anvisa)
-		console.log('medicament', this.state.medicament)
 
 		return (
 			<>
@@ -278,52 +320,57 @@ class Login extends Component {
 					label='Código de barras:'
 					type='number'
 					onChange={(ev) => this.handleChange('code', ev)}
-					text={anvisa.code || medicament.code}
+					text={medicament.code || newMedicament.code}
 					isError={errors.includes('code')}
-					disabled={anvisa.code}
+					disabled={medicament.code}
+					style={this.styledDisabled(medicament.code)}
 				/>
 				<DefaultInput
 					label='Medicamento:'
 					onChange={(ev) => this.handleChange('name', ev)}
-					text={anvisa.name || medicament.name}
+					text={medicament.name || newMedicament.name}
 					isError={errors.includes('name')}
-					disabled={anvisa.name}
+					disabled={medicament.name}
+					style={this.styledDisabled(medicament.name)}
 				/>
 				<DefaultInput
 					label='Data de Validade:'
 					type="date"
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
-					text={this.formatDate(anvisa.expirationDate) || this.formatDate(medicament.expirationDate)}
+					text={this.formatDate(medicament.expirationDate) || this.formatDate(newMedicament.expirationDate)}
 					isError={errors.includes('expirationDate')}
-					disabled={anvisa.expirationDate}
 				/>
 				<DefaultInput
 					label='Classe terapêutica:'
 					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
-					text={anvisa.therapeuticClass || medicament.therapeuticClass}
+					text={medicament.therapeuticClass || newMedicament.therapeuticClass}
 					isError={errors.includes('therapeuticClass')}
-					disabled={anvisa.therapeuticClass}
+					disabled={medicament.therapeuticClass}
+					style={this.styledDisabled(medicament.therapeuticClass)}
 				/>
 				<DefaultInput
 					label='Substância:'
 					onChange={(ev) => this.handleChange('substance', ev)}
-					text={anvisa.substance || medicament.substance}
+					text={medicament.substance || newMedicament.substance}
 					isError={errors.includes('substance')}
-					disabled={anvisa.substance}
+					disabled={medicament.substance}
+					style={this.styledDisabled(medicament.substance)}
 				/>
 				<DefaultInput
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
-					text={anvisa.laboratory || medicament.laboratory}
+					text={medicament.laboratory || newMedicament.laboratory}
 					isError={errors.includes('laboratory')}
-					disabled={anvisa.laboratory}
+					disabled={medicament.laboratory}
+					style={this.styledDisabled(medicament.laboratory)}
 				/>
 				<DefaultInput
 					label='Tipo do Produto:'
 					onChange={(ev) => this.handleChange('productType', ev)}
-					text={anvisa.productType || medicament.productType}
+					text={medicament.productType || newMedicament.productType}
 					isError={errors.includes('productType')}
-					disabled={anvisa.productType}
+					disabled={medicament.productType}
+					style={this.styledDisabled(medicament.productType)}
 				/>
 				<DefaultDropDown
 					title='Embalagem aberta?'
@@ -332,9 +379,8 @@ class Login extends Component {
 					onClick={this.handleModalOpenPackaging}
 					inClickSelected={this.handleSelectedPackaging}
 					selectedText={
-						anvisa.openPacking || medicament.openPacking
+						medicament.openPacking || newMedicament.openPacking
 					}
-					selectedText={selectedPackaging}
 					isRotation={isRotationOpenPackaging}
 					item={typePackaging}
 				/>
@@ -344,26 +390,25 @@ class Login extends Component {
 					isError={errors.includes('type')}
 					onClick={this.handleModalType}
 					inClickSelected={this.handleSelectedType}
-					selectedText={anvisa.typeMed || medicament.type}
-					item={typeMed}
+					selectedText={medicament.type || newMedicament.type}
+					item={type}
 					isRotation={isRotationType}
 					type='apresentation'
 				/>
-
 				<DefaultInput
 					label='Quantidade:'
 					type='number'
 					onChange={(ev) => this.handleChange('quantity', ev)}
-					text={anvisa.quantity || medicament.quantity}
+					text={medicament.quantity || newMedicament.quantity}
 					isError={errors.includes('quantity')}
-					disabled={anvisa.quantity}
 				/>
 				<DefaultTextarea
 					label='Descrição:'
 					onChange={(ev) => this.handleChange('description', ev)}
-					text={anvisa.description || medicament.description}
+					text={medicament.description || newMedicament.description}
 					isError={errors.includes('description')}
-					disabled={anvisa.description}
+					disabled={medicament.description}
+					style={this.styledDisabled(medicament.description)}
 				/>
 			</>
 		);
