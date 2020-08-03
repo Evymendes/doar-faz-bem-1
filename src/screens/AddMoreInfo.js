@@ -174,7 +174,8 @@ class Login extends Component {
 		if (errors.length === 0) {
 			await this.createMedic();
 			this.props.history.push({
-				pathname: '/dashboard',
+				// pathname: '/dashboard',
+				pathname: '/doar-faz-bem/dashboard',
 			});
 		}
 	}

@@ -20,6 +20,7 @@ const Routes = () => (
 			<Route path='/qrcode' component={QrCode} />
 			<Route path='/addmoreinfo' component={AddMoreInfo} />
 			<Route path='/dashboard' component={Dashboard} />
+			<Route path='/doar-faz-bem/dashboard' component={Dashboard} /> {/*deploy*/}
 			{/* <Route path='/extractedInf' component={ExtractedInf} /> */}
 
 			{/* <PrivateRoute path='/documents' component={DocumentsScreen} /> */}
