@@ -8,11 +8,11 @@ import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
-import Loading from '../components/Loading';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultDropDown from '../components/form/DefaulfDropDown';
 import DefaultTextarea from '../components/form/DefaultTextarea';
 import DefaultButton from '../components/DefaultButton';
+
 // Api
 import { createMedicament } from '../services/api';
 
@@ -37,35 +37,14 @@ const Footer = styled.div`
 	justify-content: space-between;
 `;
 
-const Button = styled.button`
-	width: 9.2rem;
-	height: 3rem;
-	color: #fff;
-	font: 700 1rem 'Overpass', serif;
-	text-decoration: none;
-	text-transform: uppercase;
-	border-radius: 50px;
-	box-shadow: ${(props) => (props.cancel ? 'none' : '2px 2px 2px #888888')};
-	background: ${(props) => (props.cancel ? 'transparent' : '#49E5D6')};
-	border: ${(props) => (props.cancel ? '1px solid #FFF' : 'none')};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-
-	@media(max-width: 320px) {
-		width: 8rem;
-	}
-`;
-
 class Login extends Component {
 	state = {
-		isRedirect: undefined,
-		redirect: undefined,
 		isModalOpenPackaging: undefined,
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
 		isModalType: undefined,
+		isRotationOpenPackaging: undefined,
+		isRotationType: undefined,
 		typeMed: [
 			'comprimidos',
 			'pomada',
@@ -91,7 +70,6 @@ class Login extends Component {
 			'quantity',
 			'description',
 		],
-		isLoading: undefined,
 		medicament: {
 			code: '',
 			name: '',
@@ -138,6 +116,8 @@ class Login extends Component {
 		if (state && state.result && state.result.EAN_1) {
 			const { result } = this.props.location.state;
 
+			console.log('result', result)
+
 			this.setState({
 				anvisa: {
 					code: result.EAN_1,
@@ -154,7 +134,6 @@ class Login extends Component {
 				},
 			});
 		}
-
 	}
 
 	handleBackScanner = () => {
@@ -237,8 +216,11 @@ class Login extends Component {
 	}
 
 	handleModalOpenPackaging = () => {
+		const { isModalOpenPackaging, isRotationOpenPackaging } = this.state;
+
 		this.setState({
-			isModalOpenPackaging: !this.state.isModalOpenPackaging,
+			isModalOpenPackaging: !isModalOpenPackaging,
+			isRotationOpenPackaging: !isRotationOpenPackaging,
 		});
 	}
 
@@ -269,6 +251,7 @@ class Login extends Component {
 	handleModalType = () => {
 		this.setState({
 			isModalType: !this.state.isModalType,
+			isRotationType: !this.state.isRotationType,
 		});
 	}
 
@@ -282,6 +265,8 @@ class Login extends Component {
 			typeMed,
 			selectedType,
 			anvisa,
+			isRotationOpenPackaging,
+			isRotationType,
 			errors,
 		} = this.state;
 		console.log('anvisa', this.state.anvisa)
@@ -349,6 +334,8 @@ class Login extends Component {
 					selectedText={
 						anvisa.openPacking || medicament.openPacking
 					}
+					selectedText={selectedPackaging}
+					isRotation={isRotationOpenPackaging}
 					item={typePackaging}
 				/>
 				<DefaultDropDown
@@ -359,6 +346,7 @@ class Login extends Component {
 					inClickSelected={this.handleSelectedType}
 					selectedText={anvisa.typeMed || medicament.type}
 					item={typeMed}
+					isRotation={isRotationType}
 					type='apresentation'
 				/>
 
@@ -383,8 +371,6 @@ class Login extends Component {
 
 	render() {
 		const {
-			isRedirect,
-			redirect,
 			isLoading,
 		} = this.state;
 
@@ -423,8 +409,6 @@ class Login extends Component {
 						/>
 					</Footer>
 				</Form>
-				{isLoading && <Loading />}
-				{isRedirect && <Redirect to={redirect} />}
 			</Container>
 		);
 	}

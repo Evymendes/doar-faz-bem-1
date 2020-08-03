@@ -123,7 +123,7 @@ const ModalDelete = (props) => (
 					onClick={() => props.setOpenDelModal(!props.isModalDelOpened)}
 				/>
 			</DelModalHeader>
-			<DelModalText>Após ser excluido, um modelo não pode ser recuperado.</DelModalText>
+			<DelModalText>Após ser excluido, o medicamento não pode ser recuperado.</DelModalText>
 			<DelModalText>Você deseja excluir o medicamento {}
 				<span>
 					{props.medicament.PRODUTO}
