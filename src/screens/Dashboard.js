@@ -110,6 +110,7 @@ const WrapperTable = styled.div`
 	width: 100%;
 
 	@media(min-width: 1024px) {
+		height: 85vh;
 		display: flex;
 		justify-content: center;
 	}
@@ -130,7 +131,7 @@ const ContainerTable = styled.div`
 const ContentTable = styled.div`
 
 	@media(min-width: 1024px) {
-		max-height: 80%;
+		max-height: 70%;
 		overflow-y: scroll;
 
 		::-webkit-scrollbar {
@@ -182,11 +183,13 @@ const Thead = styled.thead`
 `;
 
 const Tr = styled.tr`
+	margin: ${(props) => (props.lastOneMob && '0 0 8rem 0')};
 	padding: 1rem 1rem 13rem 1rem;
+	position: relative;
 	height: 2.3rem;
 	display: flex;
 	flex-wrap: wrap;
-	position: relative;
+	cursor: pointer;
 
 	&:nth-child(even) {
     background-color: #fff;
@@ -196,10 +199,12 @@ const Tr = styled.tr`
 	}
 
 	@media(min-width: 768px) {
+		margin: ${(props) => (props.lastOneMob && '0 0 6rem 0')};
 		padding: 1rem 1rem 9rem 1rem;
 	}
 
 	@media(min-width: 1024px) {
+		margin: ${(props) => (props.lastOneMob && '0 0 1rem 0')};
 		padding: 0;
 		flex-wrap: initial;
 		height: 2.8rem;
@@ -403,7 +408,7 @@ const GlobalFilter = ({
 	globalFilter,
 	setGlobalFilter,
 }) =>
-	// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
+// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
 
 	(
 		<ContainerSearch>
@@ -454,8 +459,8 @@ const RenderTable = ({
 		data,
 		filterTypes,
 	},
-		useFilters,
-		useGlobalFilter);
+	useFilters,
+	useGlobalFilter);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
@@ -507,65 +512,62 @@ const RenderTable = ({
 					{rows && rows.length === 0 ? (
 						<TextNoMedicament>Não há Medicamentos no Momento.</TextNoMedicament>
 					) : (
-							<tbody {...getTableBodyProps()}>
-								{rows.map((row, index) => {
-									prepareRow(row);
-									return (
-										<Tr
-											{...row.getRowProps()}
-											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-											key={index}
-											style={{
-												margin: index === rows.length - 1 && '0 0 8rem 0',
-												cursor: 'pointer',
-											}}
-										>
-											{widthMob
-												? <>
-													<ContainerTableTitleMob>
-														<TableTitleMob>Medicamento</TableTitleMob>
-														<TableList>{row.values.PRODUTO || '-'}</TableList>
-													</ContainerTableTitleMob>
-													<ContainerTableTitleMob>
-														<TableTitleMob>Código</TableTitleMob>
-														<TableList>{row.values.EAN_1 || '-'}</TableList>
-													</ContainerTableTitleMob>
-													<ContainerTableTitleMob>
-														<TableTitleMob>Validade</TableTitleMob>
-														<TableList>{row.values.Validade || '-'}</TableList>
-													</ContainerTableTitleMob>
-													<ContainerTableTitleMob>
-														<TableTitleMob>Classe Terapêutica</TableTitleMob>
-														<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
-													</ContainerTableTitleMob>
-												</>
-												: <>
-													{row.cells.map((cell, index) => <TableList
-														{...cell.getCellProps()}
-														style={{
-															paddingLeft: '.7rem',
-															display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
+						<tbody {...getTableBodyProps()}>
+							{rows.map((row, index) => {
+								prepareRow(row);
+								return (
+									<Tr
+										{...row.getRowProps()}
+										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										key={index}
+										lastOneMob={index === rows.length - 1}
+									>
+										{widthMob
+											? <>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Medicamento</TableTitleMob>
+													<TableList>{row.values.PRODUTO || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Código</TableTitleMob>
+													<TableList>{row.values.EAN_1 || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Validade</TableTitleMob>
+													<TableList>{row.values.Validade || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Classe Terapêutica</TableTitleMob>
+													<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
+												</ContainerTableTitleMob>
+											</>
+											: <>
+												{row.cells.map((cell, index) => <TableList
+													{...cell.getCellProps()}
+													style={{
+														paddingLeft: '.7rem',
+														display: (cell.column.Header === 'Laboratório' || cell.column.Header === 'Apresentação'
 																|| cell.column.Header === 'Descrição' || cell.column.Header === 'Cadastrado Em'
 																|| cell.column.Header === 'Classe Terapêutica') && 'none',
-															justifyContent: (cell.column.Header === 'Embalagem Aberta?'
+														justifyContent: (cell.column.Header === 'Embalagem Aberta?'
 																|| cell.column.Header === 'Quantidade' || cell.column.Header === 'Validade') && 'center',
-														}}
-														key={index}
-													>
-														{cell.render('Cell')}
-													</TableList>)}
-												</>
-											}
-											<ButtonMoreMob
-												src={(medicament && medicament.id) === row.id
+													}}
+													key={index}
+												>
+													{cell.render('Cell')}
+												</TableList>)}
+											</>
+										}
+										<ButtonMoreMob
+											src={(medicament && medicament.id) === row.id
 													&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
-												onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
-											/>
-										</Tr>
-									);
-								})}
-							</tbody>
-						)}
+											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										/>
+									</Tr>
+								);
+							})}
+						</tbody>
+					)}
 				</Table>
 			</ContentTable>
 		</ContainerTable>
@@ -606,48 +608,48 @@ function Dashboard(props) {
 				textColor='#B4E4E6'
 				loadingColor='linear-gradient(to right, #D8998A 0%, #fff 100%, #D8998A 0% )'
 			/> : (
-					<>
-						<WrapperTable>
-							<RenderTable
-								columns={columns}
-								data={medList}
-								isOpenedMedDetails={isOpenedMedDetails}
-								setOpenMedDetails={setOpenMedDetails}
-								medicament={medicament}
-								setItemMedDetails={setItemMedDetails}
-							/>
-						</WrapperTable>
-						{!isOpenedMedDetails ? (
-							<ContainerButton medDetails={isOpenedMedDetails}>
-								<ButtonAddMed
-									onClick={() => handleHistory(props)
-									}>
+				<>
+					<WrapperTable>
+						<RenderTable
+							columns={columns}
+							data={medList}
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							medicament={medicament}
+							setItemMedDetails={setItemMedDetails}
+						/>
+					</WrapperTable>
+					{!isOpenedMedDetails ? (
+						<ContainerButton medDetails={isOpenedMedDetails}>
+							<ButtonAddMed
+								onClick={() => handleHistory(props)
+								}>
 									Adicionar Medicamento
 							</ButtonAddMed>
-							</ContainerButton>
-						) : (
-								<ModalDetails
-									isOpenedMedDetails={isOpenedMedDetails}
-									setOpenMedDetails={setOpenMedDetails}
-									setOpenDelModal={setOpenDelModal}
-									isModalDelOpened={isModalDelOpened}
-									medicament={medicament}
-									history={props.history}
-								/>
-							)}
-						{isModalDelOpened && (
-							<ModalDelete
-								setOpenDelModal={setOpenDelModal}
-								isModalDelOpened={isModalDelOpened}
-								isOpenedMedDetails={isOpenedMedDetails}
-								setOpenMedDetails={setOpenMedDetails}
-								medicament={medicament.original}
-								setMedList={setMedList}
-								medList={medList}
-							/>
-						)}
-					</>
-				)}
+						</ContainerButton>
+					) : (
+						<ModalDetails
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							setOpenDelModal={setOpenDelModal}
+							isModalDelOpened={isModalDelOpened}
+							medicament={medicament}
+							history={props.history}
+						/>
+					)}
+					{isModalDelOpened && (
+						<ModalDelete
+							setOpenDelModal={setOpenDelModal}
+							isModalDelOpened={isModalDelOpened}
+							isOpenedMedDetails={isOpenedMedDetails}
+							setOpenMedDetails={setOpenMedDetails}
+							medicament={medicament.original}
+							setMedList={setMedList}
+							medList={medList}
+						/>
+					)}
+				</>
+			)}
 		</Container>
 	);
 }

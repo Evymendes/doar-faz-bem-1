@@ -26,7 +26,7 @@ const Form = styled.form`
 	width: 86%;
 	display: flex;
 	flex-direction: column;
-	
+
 	@media(min-width: 1024px) {
 		width: 40%;
 	}
@@ -95,14 +95,15 @@ class Login extends Component {
 		if (date) {
 			return date.substr(0, 10);
 		}
-		return
 	}
 
 	treatingDataautoCompleted = () => {
 		const { state } = this.props.location;
 
 		if (state && state.result && state.result.EAN_1) {
-			const { result, medId} = this.props.location.state;
+			const { result, medId } = this.props.location.state;
+
+			console.log('result', result)
 
 			if (medId) {
 				this.setState({
@@ -121,7 +122,7 @@ class Login extends Component {
 					},
 					medId: result.medId,
 				});
-				return
+				return;
 			}
 			this.setState({
 				med: {
@@ -193,15 +194,15 @@ class Login extends Component {
 			LABORATORIO: med.laboratory,
 			TIPO_DE_PRODUTO: med.productType,
 			QUANTIDADE: med.quantity,
-			EMBALAGEM_ABERTA: med.openPacking === 'sim' ? true : false,
+			EMBALAGEM_ABERTA: med.openPacking === 'sim',
 			APRESENTACAO: med.type,
 			DESCRICAO: med.description,
 		};
 
 		try {
 			if (medId) {
-				await editMedicament(formatData, medId)
-				return
+				await editMedicament(formatData, medId);
+				return;
 			}
 			await createMedicament(formatData);
 		} catch (error) {
@@ -225,7 +226,7 @@ class Login extends Component {
 			isModalOpenPackaging: false,
 			med: {
 				...this.state.med,
-				openPacking: item
+				openPacking: item,
 			},
 			errors: this.state.errors.filter((erro) => erro !== 'openPacking'),
 		});
@@ -255,7 +256,7 @@ class Login extends Component {
 			return {
 				cursor: 'not-allowed',
 				opacity: '0.8',
-			}
+			};
 		}
 	}
 
