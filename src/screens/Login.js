@@ -61,7 +61,7 @@ const ContainerHeader = styled.div`
   animation-direction: normal;
   animation-fill-mode: forwards;
 	animation-play-state: running;
-	
+
 	@media(max-width: 720px) {
 		width: 150%;
 	}
@@ -148,7 +148,7 @@ const Login = (props) => {
 					}}
 				/>
 				<Button
-					handleClick={() => handleClick('/dashboard')}
+					handleClick={() => handleClick('/doar-faz-bem/dashboard')}
 					text={'Visualizar Medicamentos'}
 					style={{
 						margin: '1rem',

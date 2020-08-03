@@ -100,12 +100,8 @@ class Login extends Component {
 	treatingDataautoCompleted = () => {
 		const { state } = this.props.location;
 
-		console.log('this.props', state.result)
-
 		if (state && state.result && state.result.EAN_1) {
 			const { result, medId } = this.props.location.state;
-
-			console.log('result', result)
 
 			if (medId) {
 				this.setState({
@@ -174,7 +170,7 @@ class Login extends Component {
 		if (errors.length === 0) {
 			await this.createMedic();
 			this.props.history.push({
-				pathname: '/dashboard',
+				pathname: '/doar-faz-bem/dashboard',
 			});
 		}
 	}
@@ -278,7 +274,7 @@ class Login extends Component {
 		return (
 			<>
 				<DefaultInput
-					label='Código de barras:'
+					label='Código de Barras:'
 					type='number'
 					onChange={(ev) => this.handleChange('code', ev)}
 					text={med.code}
@@ -302,7 +298,7 @@ class Login extends Component {
 					isError={errors.includes('expirationDate')}
 				/>
 				<DefaultInput
-					label='Classe terapêutica:'
+					label='Classe Terapêutica:'
 					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
 					text={med.therapeuticClass}
 					isError={errors.includes('therapeuticClass')}
@@ -334,7 +330,7 @@ class Login extends Component {
 					style={this.styledDisabled(medId)}
 				/>
 				<DefaultDropDown
-					title='Embalagem aberta?'
+					title='Embalagem Aberta?'
 					isModal={isModalOpenPackaging}
 					isError={errors.includes('openPacking')}
 					onClick={this.handleModalOpenPackaging}

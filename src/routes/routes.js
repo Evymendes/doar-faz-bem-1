@@ -8,8 +8,6 @@ import Scanner from '../screens/Scanner';
 import QrCode from '../screens/QrCode';
 import AddMoreInfo from '../screens/AddMoreInfo';
 import Dashboard from '../screens/Dashboard';
-// import ExtractedInf from '../components/ExtractedInf';
-// import PrivateRoute from './PrivateRoute';
 
 const Routes = () => (
 	<BrowserRouter>
@@ -20,9 +18,7 @@ const Routes = () => (
 			<Route path='/qrcode' component={QrCode} />
 			<Route path='/addmoreinfo' component={AddMoreInfo} />
 			<Route path='/dashboard' component={Dashboard} />
-			{/* <Route path='/extractedInf' component={ExtractedInf} /> */}
-
-			{/* <PrivateRoute path='/documents' component={DocumentsScreen} /> */}
+			<Route path='/doar-faz-bem/dashboard' component={Dashboard} />
 		</Switch>
 	</BrowserRouter>
 );

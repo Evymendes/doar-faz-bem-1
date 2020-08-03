@@ -56,7 +56,7 @@ export const getAllMedicaments = () => axios({
 	},
 });
 
-export const deleteMedicament = medicamentId => axios({
+export const deleteMedicament = (medicamentId) => axios({
 	url: `${API_URL}/classes/medicamento/${medicamentId}`,
 	method: 'delete',
 	headers: {
@@ -65,4 +65,3 @@ export const deleteMedicament = medicamentId => axios({
 		'Content-Type': 'application/json',
 	},
 });
-

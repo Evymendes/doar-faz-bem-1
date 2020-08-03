@@ -404,30 +404,26 @@ const handleHistory = (props) => {
 };
 
 const GlobalFilter = ({
-	preGlobalFilteredRows,
 	globalFilter,
 	setGlobalFilter,
-}) =>
-// const count = preGlobalFilteredRows && preGlobalFilteredRows.length;
-
-	(
-		<ContainerSearch>
-			<TitleSearch>Pesquisar</TitleSearch>
-			<ContainerInputSearch>
-				<InputSearch
-					value={globalFilter || ''}
-					onChange={(e) => {
-						setGlobalFilter(e.target.value || undefined);
-					}}
-					style={{
-						border: '0',
-					}}
-					placeholder='Digite aqui para pesquisar...'
-				/>
-				<img src={searchIcon} alt="Lupa" />
-			</ContainerInputSearch>
-		</ContainerSearch>
-	);
+}) => (
+	<ContainerSearch>
+		<TitleSearch>Pesquisar</TitleSearch>
+		<ContainerInputSearch>
+			<InputSearch
+				value={globalFilter || ''}
+				onChange={(e) => {
+					setGlobalFilter(e.target.value || undefined);
+				}}
+				style={{
+					border: '0',
+				}}
+				placeholder='Digite aqui para pesquisar...'
+			/>
+			<img src={searchIcon} alt="Lupa" />
+		</ContainerInputSearch>
+	</ContainerSearch>
+);
 const RenderTable = ({
 	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
 }) => {
