@@ -46,7 +46,7 @@ const ContainerSearch = styled.div`
 	}
 
 	@media(min-width: 1440px) {
-		width: 30%;
+		width: 32%;
 	}
 `;
 
@@ -72,7 +72,12 @@ const ContainerInputSearch = styled.div`
 	border-radius: 50px;
 	background-color: #EDEDED;
 
+	@media(min-width: 320px) {
+		margin: 0 1rem;
+	}
+
 	@media(min-width: 768px) {
+		margin: 0;
 		width: 25rem;
 	}
 
@@ -82,12 +87,9 @@ const ContainerInputSearch = styled.div`
 	}
 
 	@media(min-width: 1440px) {
-		padding: 0 0 0 1.5rem;
+		padding: 0 1.5rem 0 1.5rem;
 	}
 
-	@media(min-width: 320px) {
-		margin: 0 1rem;
-	}
 `;
 
 const InputSearch = styled.input`
