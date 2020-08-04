@@ -2,7 +2,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { NavLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Quagga from 'quagga';
 
 // Services
@@ -16,8 +16,6 @@ import DefaultButton from '../components/DefaultButton';
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
 import BackIcon from '../assets/backWhite.svg';
-
-// remedio.rename(columns={'': ''})
 
 // Styles
 const Video = styled.div`
@@ -36,12 +34,16 @@ const Video = styled.div`
 	}
 `;
 
-const ButtonBack = styled(NavLink)`
+const ButtonBack = styled.button`
 	position: fixed;
 	left: 0;
 	top: 0;
 	margin-top: .8rem;
 	position: fixed;
+	text-decoration: none;
+	background: none;
+	border: none;
+	outline:none;
 	z-index: 1;
 
 	img {
@@ -274,8 +276,6 @@ class Scanner extends Component {
 					isbnCode: valueCode,
 					modalOpenBarCode: false,
 					modalOpenDetails: true,
-					// isRedirect: true,
-					// redirect: '/addmoreinfo',
 				});
 			} else {
 				this.setState({
@@ -302,9 +302,6 @@ class Scanner extends Component {
   			isbnCode: isbn,
   		});
   	}
-  	// else if (result.length >= 5) {
-  	// 	alert('Não foi possível ler o código. Digite-o!');
-  	// }
 
   	Quagga.onDetected(this.onDetected);
   }
@@ -325,7 +322,6 @@ class Scanner extends Component {
 	handleCloseModalExactedInfo = () => {
 		this.setState({
 			modalOpenDetails: false,
-			// modalOpenBarCode: true,
 		});
 	}
 
@@ -369,15 +365,19 @@ class Scanner extends Component {
 		</ContainerModalBoilerPlate>
 	)
 
+	handleBackScreen = () => {
+		this.props.history.goBack();
+	};
+
 	render() {
 		const {
-			modalOpenDetails, modalOpenBarCode, modalOpenLoading, isRedirect, redirect,
+			modalOpenDetails, modalOpenBarCode, modalOpenLoading,
 		} = this.state;
 
 		return (
 			<>
 				<Video id="video" />
-				<ButtonBack exact to="/">
+				<ButtonBack onClick={this.handleBackScreen}>
 					<img src={BackIcon} alt="Voltar" />
 				</ButtonBack>
 				<Container>
@@ -385,8 +385,6 @@ class Scanner extends Component {
 						<img
 							src={MarkerIcon}
 							alt="marker space"
-							// width="320"
-							// height="260"
 						/>
 					</ScanMarker>
 					<ContainerDigitBarCode>
@@ -406,14 +404,12 @@ class Scanner extends Component {
 							history={this.props.history}
 							openModal={this.handleModalOpenDetails}
 							code={this.state.isbnCode}
-							handleRedirectScreen={this.handleRedirectScreen}
 							handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
 						/>
 					)}
 				</ContainerModalBoilerPlate>
 				{modalOpenBarCode && this.renderModalBarCode()}
 				{modalOpenLoading && this.renderModalLoading()}
-				{isRedirect && <Redirect to={redirect} />}
 			</>
 		);
 	}

@@ -382,6 +382,10 @@ const columns = [
 		Header: 'Descrição',
 		accessor: 'DESCRICAO',
 	},
+	{
+		Header: 'Preço',
+		accessor: 'PMC_20_PERC',
+	},
 ];
 
 const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails) => {
@@ -395,7 +399,7 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 
 const handleHistory = (props) => {
 	props.history.push({
-		pathname: '/addmoreinfo',
+		pathname: '/scanner',
 	});
 };
 
@@ -518,6 +522,7 @@ const RenderTable = ({
 					) : (
 						<tbody {...getTableBodyProps()}>
 							{rows.map((row, index) => {
+								console.log('rowwww', row)
 								prepareRow(row);
 								return (
 									<Tr
