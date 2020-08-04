@@ -1,6 +1,8 @@
 // Libs
 import React, { useState, useEffect } from 'react';
-import { useTable, useFilters, useGlobalFilter } from 'react-table';
+import {
+	useTable, useFilters, useGlobalFilter, useSortBy,
+} from 'react-table';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -331,12 +333,6 @@ const ButtonAddMed = styled.button`
 
 const formatDate = (date) => moment(date).locale('pt-br').format('MM/DD/YYYY');
 
-const formatExpirationDate = (date) => date
-	.substr(0, 10)
-	.split('-')
-	.reverse()
-	.join('/');
-
 const columns = [
 	{
 		Header: 'Medicamento',
@@ -348,7 +344,7 @@ const columns = [
 	},
 	{
 		Header: 'Validade',
-		accessor: (d) => formatExpirationDate(d.DATA_EXPIRACAO.iso),
+		accessor: 'DATA_EXPIRACAO.iso',
 	},
 	{
 		Header: 'Classe Terapêutica',
@@ -454,19 +450,31 @@ const RenderTable = ({
 		columns,
 		data,
 		filterTypes,
+		initialState: {
+			sortBy: [{ id: 'DATA_EXPIRACAO.iso', desc: false }],
+		},
 	},
 	useFilters,
-	useGlobalFilter);
+	useGlobalFilter,
+	useSortBy);
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
-	const sortListByDate = (date1, date2) => {
-		if (date1.values.Validade > date2.values.Validade) return 1;
-		if (date1.values.Validade < date2.values.Validade) return -1;
-		return 0;
-	};
+	// const sortListByDate = (date1, date2) => {
+	// 	if (date1.values.Validade > date2.values.Validade) return 1;
+	// 	if (date1.values.Validade < date2.values.Validade) return -1;
+	// 	console.log('date 1', date1.values.Validade);
+	// 	console.log('date 2', date2.values.Validade);
+	// 	return 0;
+	// };
 
-	rows.sort(sortListByDate);
+	// rows.sort(sortListByDate);
+
+	const formatExpirationDate = (date) => date
+		.substr(0, 10)
+		.split('-')
+		.reverse()
+		.join('/');
 
 	return (
 		<ContainerTable>
@@ -530,7 +538,7 @@ const RenderTable = ({
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Validade</TableTitleMob>
-													<TableList>{row.values.Validade || '-'}</TableList>
+													<TableList>{formatExpirationDate(row.values['DATA_EXPIRACAO.iso']) || '-'}</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>
@@ -551,7 +559,10 @@ const RenderTable = ({
 													}}
 													key={index}
 												>
-													{cell.render('Cell')}
+													{cell.column.Header === 'Validade'
+														? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
+														: cell.render('Cell')
+													}
 												</TableList>)}
 											</>
 										}

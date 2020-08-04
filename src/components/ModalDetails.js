@@ -156,14 +156,18 @@ const formatDate = (props) => {
 	return moment(date).locale('pt-br').format('DD/MM/YYYY')
 };
 
+const formatExpirationDate = (date) => date
+	.substr(0, 10)
+	.split('-')
+	.reverse()
+	.join('/');
+
 const ModalDetails = (props) => {
 	return (
 		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 			<ContainerDetails onClick={(e) => e.stopPropagation()}>
 				<ContainerDetailsHeader>
-					{/* <p>Cadastrado em {(props.medicament.values['Cadastrado Em']) || '-'}</p> */}
 					<p>Cadastrado em {formatDate(props) || '-'}</p>
-
 					<CloseIcon
 						alt="Fechar"
 						strokeWidth={'1.5'}
@@ -184,7 +188,7 @@ const ModalDetails = (props) => {
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Validade</DetailsText>
-							<DetailsText>{(props.medicament.values.Validade) || '-'}</DetailsText>
+							<DetailsText>{(formatExpirationDate(props.medicament.values['DATA_EXPIRACAO.iso'])) || '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
