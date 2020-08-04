@@ -464,16 +464,6 @@ const RenderTable = ({
 
 	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
 
-	// const sortListByDate = (date1, date2) => {
-	// 	if (date1.values.Validade > date2.values.Validade) return 1;
-	// 	if (date1.values.Validade < date2.values.Validade) return -1;
-	// 	console.log('date 1', date1.values.Validade);
-	// 	console.log('date 2', date2.values.Validade);
-	// 	return 0;
-	// };
-
-	// rows.sort(sortListByDate);
-
 	const formatExpirationDate = (date) => date
 		.substr(0, 10)
 		.split('-')
@@ -522,7 +512,6 @@ const RenderTable = ({
 					) : (
 						<tbody {...getTableBodyProps()}>
 							{rows.map((row, index) => {
-								console.log('rowwww', row)
 								prepareRow(row);
 								return (
 									<Tr

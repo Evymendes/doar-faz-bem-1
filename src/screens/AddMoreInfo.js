@@ -206,10 +206,8 @@ class Login extends Component {
 				await editMedicament(formatData, medId);
 				return;
 			}
-			console.log('formatData', formatData);
 
-			const response = await createMedicament(formatData);
-			console.log('response create', response);
+			await createMedicament(formatData);
 
 		} catch (error) {
 			console.log('error', error);
