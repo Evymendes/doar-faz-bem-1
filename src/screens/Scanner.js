@@ -128,7 +128,7 @@ const WrapperModalBarCode = styled.div`
 `;
 
 const InputBarCode = styled.input`
-	margin-bottom: 2rem;
+	${'' /* margin-bottom: 2rem; */}
 	width: 100%;
 	max-width: 20rem;
 	height: 3.5rem;
@@ -143,6 +143,7 @@ const InputBarCode = styled.input`
 `;
 
 const ErrorMessage = styled.span`
+	margin-top: .5rem;
   color: red;
   font-size: .8rem;
   font-weight: 600;
@@ -351,6 +352,7 @@ class Scanner extends Component {
 						text={'Verificar Código'}
 						style={{
 							margin: '0',
+							marginTop: '2rem',
 							background: '#49E5D6',
 							color: '#fff',
 						}}

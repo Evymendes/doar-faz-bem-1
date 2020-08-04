@@ -237,7 +237,7 @@ const TableTitle = styled.th`
 const ContainerTableTitleMob = styled.span`
 	min-width: 40%;
 	padding-right: 2rem;
-	padding-bottom: 0.8rem;
+	padding-bottom: 0.5rem;
 	display: flex;
 	flex-direction: column;
 
@@ -414,7 +414,7 @@ const GlobalFilter = ({
 				style={{
 					border: '0',
 				}}
-				placeholder='Digite aqui para pesquisar...'
+				placeholder='Pesquisar por um medicamento...'
 			/>
 			<img src={searchIcon} alt="Lupa" />
 		</ContainerInputSearch>
@@ -458,17 +458,7 @@ const RenderTable = ({
 	useGlobalFilter,
 	useSortBy);
 
-	const widthMob = (window.matchMedia('(max-width: 768px)').matches);
-
-	// const sortListByDate = (date1, date2) => {
-	// 	if (date1.values.Validade > date2.values.Validade) return 1;
-	// 	if (date1.values.Validade < date2.values.Validade) return -1;
-	// 	console.log('date 1', date1.values.Validade);
-	// 	console.log('date 2', date2.values.Validade);
-	// 	return 0;
-	// };
-
-	// rows.sort(sortListByDate);
+	const widthMob = (window.matchMedia('(max-width: 1023px)').matches);
 
 	const formatExpirationDate = (date) => date
 		.substr(0, 10)

@@ -3,6 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
+// Images
+import Logo from '../assets/logo.jpg';
+
 // Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
 
@@ -23,22 +26,23 @@ const Container = styled.div`
 	}
 `;
 
-const Logo = styled.div`
+const ContainerLogo = styled.div`
+	padding: 1rem;
 	width: 4rem;
 	height: 4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: 50%;
 	background: #fff;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 0.85rem;
-	padding: 1rem;
-	color: #fff;
-	background: linear-gradient(45deg, #3dfefe, #9E9E9E);
-	font-weight: 800;
-	font-family: sans-serif;
 	cursor: pointer;
+`;
+
+const LogoIcon = styled.img`
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
 `;
 
 const DashboardText = styled(NavLink)`
@@ -62,18 +66,18 @@ function handleClick(history) {
 
 const Header = (props) => (
 	<Container>
-		<Logo onClick={() => handleClick(props.history)}>
-			DOAR FAZ BEM
-		</Logo>
-		{props.withoutClose ? null
-			: <CloseIcon
-				strokeWidth={'2'}
-				style={{
-					stroke: props.strokeColor,
-					cursor: 'pointer',
-				}}
-				onClick={props.openModal}
-			/>
+		<ContainerLogo onClick={() => handleClick(props.history)}>
+			{/* DOAR FAZ BEM */}
+			<LogoIcon src={Logo} alt="Logo" />
+		</ContainerLogo>
+		{!props.withoutClose && <CloseIcon
+			strokeWidth={'2'}
+			style={{
+				stroke: props.strokeColor,
+				cursor: 'pointer',
+			}}
+			onClick={props.openModal}
+		/>
 		}
 		{props.withoutClose && <DashboardText exact to="/">Voltar Para o Início</DashboardText>}
 	</Container>

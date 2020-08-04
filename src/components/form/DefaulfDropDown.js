@@ -92,7 +92,7 @@ const DefaultDropDown = (props) => (
 		<Content isModal={props.isModal} isError={props.isError} onClick={props.onClick}>
 			<ContentText isData={props.selectedText}>{props.selectedText || 'clique para selecionar'}</ContentText>
 			<Icon isRotation={props.isRotation} src={ChevronDown} alt="DropDown" />
-		</Content >
+		</Content>
 		{props.isModal
 			&& <DropDown apresentation={props.type}>
 				{props.item.map((item, index) => (
