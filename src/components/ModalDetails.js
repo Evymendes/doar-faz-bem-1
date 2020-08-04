@@ -158,7 +158,7 @@ const handleRedirectScreen = (props) => {
 const formatDate = (props) => {
 	const date = props.medicament.values['Cadastrado Em'];
 
-	return moment(date).locale('pt-br').format('DD/MM/YYYY')
+	return moment(date).locale('pt-br').format('DD/MM/YYYY');
 };
 
 const ModalDetails = (props) => {

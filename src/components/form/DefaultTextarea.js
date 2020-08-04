@@ -43,7 +43,7 @@ const ErrorMessage = styled.p`
 
 const DefaultTextarea = (props) => (
 	<Container isError={props.isError}>
-		<Label> {props.label} </Label>
+		<Label>{props.label}</Label>
 		<Textarea
 			type={props.type}
 			value={props.text || ''}

@@ -7,6 +7,7 @@ import Button from '../components/DefaultButton';
 
 // Images
 import Background from '../assets/headerbg.jpeg';
+import Logo from '../assets/logo.jpg';
 
 // Styles
 const Container = styled.div`
@@ -96,7 +97,7 @@ const Content = styled.section`
 	width: 90%;
 `;
 
-const Logo = styled.div`
+const ContainerLogo = styled.div`
 	width: 10rem;
 	height: 10rem;
 	border-radius: 50%;
@@ -114,11 +115,14 @@ const Logo = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.75rem;
 	padding: 2rem;
 	color: #fff;
-	background: linear-gradient(45deg, #3dfefe, #9E9E9E);
-	font-weight: 800;
+`;
+
+const LogoIcon = styled.img`
+	width: 10rem;
+	height: 10rem;
+	border-radius: 50%;
 `;
 
 const Login = (props) => {
@@ -132,9 +136,9 @@ const Login = (props) => {
 		<Container>
 			<ContainerHeader>
 				<Header>
-					<Logo>
-						DOAR FAZ BEM
-					</Logo>
+					<ContainerLogo>
+						<LogoIcon src={Logo} alt="Logo" />
+					</ContainerLogo>
 				</Header>
 			</ContainerHeader>
 			<Content>

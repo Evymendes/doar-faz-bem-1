@@ -41,7 +41,7 @@ const ErrorMessage = styled.p`
 
 const DefaultInput = (props) => (
 	<Container isError={props.isError}>
-		<Label> {props.label} </Label>
+		<Label>{props.label}</Label>
 		<Input
 			type={props.type}
 			value={props.text || ''}
