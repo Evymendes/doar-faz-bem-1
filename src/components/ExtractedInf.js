@@ -62,6 +62,7 @@ class ExtractedInf extends Component {
 		try {
 			const response = await getById(this.props.code);
 			const data = response.data.results[0] || {EAN_1: this.props.code};
+			console.log('response', response);
 
 			this.setState({
 				medicament: data,
@@ -77,6 +78,7 @@ class ExtractedInf extends Component {
 			pathname: '/addmoreinfo',
 			state: {
 				result: this.state.medicament,
+				// medId: this.state.medicament.objectId,
 			},
 		});
 	}

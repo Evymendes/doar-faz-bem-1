@@ -105,17 +105,18 @@ class Login extends Component {
 			const { result, medId } = this.props.location.state;
 
 			if (medId) {
+				//Edit
 				this.setState({
 					med: {
 						code: result.EAN_1,
-						expirationDate: result.DATA_EXPIRACAO.iso,
 						name: result.PRODUTO,
+						expirationDate: result.DATA_EXPIRACAO.iso,
 						substance: result.SUBSTANCIA,
 						laboratory: result.LABORATORIO,
 						therapeuticClass: result.CLASSE_TERAPEUTICA,
 						productType: result.TIPO_DE_PRODUTO,
-						description: result.DESCRICAO,
 						type: result.APRESENTACAO,
+						description: result.DESCRICAO,
 						openPacking: result.EMBALAGEM_ABERTA === true ? 'sim' : 'não',
 						quantity: result.QUANTIDADE,
 						price: result.PMC_20_PERC,
@@ -124,6 +125,8 @@ class Login extends Component {
 				});
 				return;
 			}
+
+			//Create
 			this.setState({
 				med: {
 					code: result.EAN_1,
@@ -135,6 +138,8 @@ class Login extends Component {
 					description: result.APRESENTACAO,
 					price: result.PMC_20_PERC,
 				},
+				onlyCode: !result.PRODUTO,
+				medId: result.PRODUTO,
 			});
 		}
 	}
@@ -275,6 +280,7 @@ class Login extends Component {
 			isRotationType,
 			errors,
 			medId,
+			onlyCode,
 		} = this.state;
 
 		return (
@@ -285,8 +291,8 @@ class Login extends Component {
 					onChange={(ev) => this.handleChange('code', ev)}
 					text={med.code}
 					isError={errors.includes('code')}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={onlyCode || medId}
+					style={this.styledDisabled(onlyCode || medId)}
 				/>
 				<DefaultInput
 					label='Medicamento:'

@@ -150,10 +150,10 @@ const handleRedirectScreen = (props) => {
 		pathname: '/addmoreinfo',
 		state: {
 			result: props.medicament.original,
-			medId: props.medicament.original.objectId
+			medId: props.medicament.original.objectId,
 		},
 	});
-}
+};
 
 const formatDate = (props) => {
 	const date = props.medicament.values['Cadastrado Em'];
