@@ -148,7 +148,7 @@ const Login = (props) => {
 					}}
 				/>
 				<Button
-					handleClick={() => handleClick('/doar-faz-bem/dashboard')}
+					handleClick={() => handleClick('/dashboard')}
 					text={'Visualizar Medicamentos'}
 					style={{
 						margin: '1rem',

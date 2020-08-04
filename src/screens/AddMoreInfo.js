@@ -170,7 +170,7 @@ class Login extends Component {
 		if (errors.length === 0) {
 			await this.createMedic();
 			this.props.history.push({
-				pathname: '/doar-faz-bem/dashboard',
+				pathname: '/dashboard',
 			});
 		}
 	}
