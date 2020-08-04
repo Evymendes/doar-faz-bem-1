@@ -143,20 +143,20 @@ const Login = (props) => {
 			</ContainerHeader>
 			<Content>
 				<Button
-					handleClick={() => handleClick('/dashboard')}
-					text={'Visualizar Medicamentos'}
-					style={{
-						margin: '1rem',
-						background: '#D8998A',
-						color: '#fff',
-					}}
-				/>
-				<Button
 					handleClick={() => handleClick('/scanner')}
 					text={'Escanear Código de Barras'}
 					style={{
 						margin: '1rem',
 						background: '#49E5D6',
+						color: '#fff',
+					}}
+				/>
+				<Button
+					handleClick={() => handleClick('/dashboard')}
+					text={'Visualizar Medicamentos'}
+					style={{
+						margin: '1rem',
+						background: '#D8998A',
 						color: '#fff',
 					}}
 				/>
