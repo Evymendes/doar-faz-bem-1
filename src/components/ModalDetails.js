@@ -171,6 +171,7 @@ const ModalDetails = (props) => {
 						onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}
 					/>
 				</ContainerDetailsHeader>
+				{console.log('aquiii----', props.medicament.values)}
 				<WrapperDetails main>
 					<WrapperDetails>
 						<DetailsItem>

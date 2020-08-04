@@ -83,6 +83,7 @@ class Login extends Component {
 			type: undefined,
 			quantity: undefined,
 			description: undefined,
+			price: undefined,
 		},
 		medId: false,
 	}
@@ -117,6 +118,7 @@ class Login extends Component {
 						type: result.APRESENTACAO,
 						openPacking: result.EMBALAGEM_ABERTA === true ? 'sim' : 'não',
 						quantity: result.QUANTIDADE,
+						price: result.PMC_20_PERC,
 					},
 					medId,
 				});
@@ -131,6 +133,7 @@ class Login extends Component {
 					laboratory: result.LABORATORIO,
 					productType: result.TIPO_DE_PRODUTO,
 					description: result.APRESENTACAO,
+					price: result.PMC_20_PERC,
 				},
 			});
 		}
@@ -195,6 +198,7 @@ class Login extends Component {
 			EMBALAGEM_ABERTA: med.openPacking === 'sim',
 			APRESENTACAO: med.type,
 			DESCRICAO: med.description,
+			PMC_20_PERC: med.price,
 		};
 
 		try {
@@ -202,7 +206,11 @@ class Login extends Component {
 				await editMedicament(formatData, medId);
 				return;
 			}
-			await createMedicament(formatData);
+			console.log('formatData', formatData);
+
+			const response = await createMedicament(formatData);
+			console.log('response create', response);
+
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
