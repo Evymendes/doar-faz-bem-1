@@ -89,6 +89,10 @@ const DetailsItem = styled.span`
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+
+	@media(max-width: 425px) {
+		width: ${(props) => (props.widthMob ? props.widthMob : '35%')};
+	}
 `;
 
 const DetailsText = styled.p`
@@ -214,13 +218,13 @@ const ModalDetails = (props) => {
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
-						<DetailsItem style={{ width: '50%' }}>
+						<DetailsItem widthMob={'50%'}>
 							<DetailsText title>Classe Terapêutica</DetailsText>
 							<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
 						</DetailsItem>
-						<DetailsItem style={{ width: '50%' }}>
+						<DetailsItem style={{ padding: 0 }}>
 							<DetailsText title>Preço Anvisa:</DetailsText>
-							<DetailsText>{(props.medicament.values.PMC_20_PERC) || '-'}</DetailsText>
+							<DetailsText>R$ {(props.medicament.values.PMC_20_PERC) || '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
