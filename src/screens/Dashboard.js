@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // Libs
 import React, { useState, useEffect } from 'react';
 import {
@@ -402,6 +403,18 @@ const handleHistory = (props) => {
 		pathname: '/scanner',
 	});
 };
+// const renderRow = ({cell}) => {
+// 	const formatExpirationDate = (date) => date
+// 		.substr(0, 10)
+// 		.split('-')
+// 		.reverse()
+// 		.join('/');
+
+// 		cell.column.Header === 'Validade'
+// 		? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
+// 		: cell.column.Header === 'Preço'  ?  'eira' : cell.render('Cell')
+
+// }
 
 const GlobalFilter = ({
 	globalFilter,
@@ -554,9 +567,9 @@ const RenderTable = ({
 													key={index}
 												>
 													{cell.column.Header === 'Validade'
-														? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
-														: cell.render('Cell')
-													}
+													 	? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
+													 	: cell.column.Header === 'Preço' && cell.row.values.PMC_20_PERC === undefined ? '-' : cell.render('Cell')
+													 }
 												</TableList>)}
 											</>
 										}
