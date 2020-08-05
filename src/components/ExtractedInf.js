@@ -61,7 +61,7 @@ class ExtractedInf extends Component {
 	fetchingData = async () => {
 		try {
 			const response = await getById(this.props.code);
-			const data = response.data.results[0] || {EAN_1: this.props.code};
+			const data = response.data.results[0] || { EAN_1: this.props.code };
 
 			this.setState({
 				medicament: data,

@@ -230,13 +230,13 @@ const ModalDetails = (props) => {
 						</DetailsItem>
 						<DetailsItem style={{ padding: 0 }}>
 							<DetailsText title>Preço Anvisa:</DetailsText>
-							<DetailsText>R$ {(props.medicament.values.PMC_20_PERC) || '-'}</DetailsText>
+							<DetailsText>{(props.medicament.values.PMC_20_PERC) ? `R$ ${props.medicament.values.PMC_20_PERC}` : '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
 						<DetailsItem style={{ width: '100%' }}>
 							<DetailsText title>Descrição</DetailsText>
-							<DetailsText>R$ {(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
+							<DetailsText>{(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 				</WrapperDetails>
