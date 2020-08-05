@@ -62,7 +62,6 @@ class ExtractedInf extends Component {
 		try {
 			const response = await getById(this.props.code);
 			const data = response.data.results[0] || {EAN_1: this.props.code};
-			console.log('response', response);
 
 			this.setState({
 				medicament: data,
