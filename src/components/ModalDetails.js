@@ -168,6 +168,8 @@ const formatExpirationDate = (date) => date
 	.join('/');
 
 const ModalDetails = (props) => {
+	const medicament = props.medicament.values;
+
 	return (
 		<Overlay onClick={() => props.setOpenMedDetails(!props.isOpenedMedDetails)}>
 			<ContainerDetails onClick={(e) => e.stopPropagation()}>
@@ -184,59 +186,74 @@ const ModalDetails = (props) => {
 					<WrapperDetails>
 						<DetailsItem>
 							<DetailsText title>Medicamento</DetailsText>
-							<DetailsText>{(props.medicament.values.PRODUTO) || '-'}</DetailsText>
+							<DetailsText>{(medicament.PRODUTO.charAt(0).toUpperCase() + medicament.PRODUTO.slice(1).toLowerCase()) || '-'}</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Código</DetailsText>
-							<DetailsText>{(props.medicament.values.EAN_1) || '-'}</DetailsText>
+							<DetailsText>{(medicament.EAN_1) || '-'}</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Validade</DetailsText>
-							<DetailsText>{(formatExpirationDate(props.medicament.values['DATA_EXPIRACAO.iso'])) || '-'}</DetailsText>
+							<DetailsText>{(formatExpirationDate(medicament['DATA_EXPIRACAO.iso'])) || '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
 						<DetailsItem>
 							<DetailsText title>Tipo de Produto</DetailsText>
-							<DetailsText>{(props.medicament.values.TIPO_DE_PRODUTO) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.TIPO_DE_PRODUTO.charAt(0).toUpperCase() + medicament.TIPO_DE_PRODUTO.slice(1)) || '-'}
+							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Substância</DetailsText>
-							<DetailsText>{(props.medicament.values.SUBSTANCIA) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.SUBSTANCIA.charAt(0).toUpperCase() + medicament.SUBSTANCIA.slice(1).toLowerCase()) || '-'}
+							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Laboratório</DetailsText>
-							<DetailsText>{(props.medicament.values.LABORATORIO) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.LABORATORIO.charAt(0).toUpperCase() + medicament.LABORATORIO.slice(1).toLowerCase()) || '-'}
+							</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
 						<DetailsItem>
 							<DetailsText title>Embalagem Aberta?</DetailsText>
-							<DetailsText>{(props.medicament.values['Embalagem Aberta?']) || '-'}</DetailsText>
+							<DetailsText>{(medicament['Embalagem Aberta?']) || '-'}</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Apresentação</DetailsText>
-							<DetailsText>{(props.medicament.values.APRESENTACAO) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.APRESENTACAO.charAt(0).toUpperCase() + medicament.APRESENTACAO.slice(1)) || '-'}
+							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Quantidade</DetailsText>
-							<DetailsText>{(props.medicament.values.QUANTIDADE) || '-'}</DetailsText>
+							<DetailsText>{(medicament.QUANTIDADE) || '-'}</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
 						<DetailsItem widthMob={'50%'}>
 							<DetailsText title>Classe Terapêutica</DetailsText>
-							<DetailsText>{(props.medicament.values.CLASSE_TERAPEUTICA) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.CLASSE_TERAPEUTICA.charAt(0).toUpperCase()
+								+ medicament.CLASSE_TERAPEUTICA.slice(1).toLowerCase()) || '-'}
+							</DetailsText>
 						</DetailsItem>
 						<DetailsItem style={{ padding: 0 }}>
 							<DetailsText title>Preço Anvisa:</DetailsText>
-							<DetailsText>{(props.medicament.values.PMC_20_PERC) ? `R$ ${props.medicament.values.PMC_20_PERC}` : '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.PMC_20_PERC) ? `R$ ${medicament.PMC_20_PERC}` : '-'}
+							</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 					<WrapperDetails>
 						<DetailsItem style={{ width: '100%' }}>
 							<DetailsText title>Descrição</DetailsText>
-							<DetailsText>{(props.medicament.values.DESCRICAO) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.DESCRICAO) || '-'}
+							</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
 				</WrapperDetails>
@@ -253,7 +270,7 @@ const ModalDetails = (props) => {
 				</ContainerButton>
 			</ContainerDetails>
 		</Overlay>
-	)
-}
+	);
+};
 
 export default ModalDetails;

@@ -537,7 +537,10 @@ const RenderTable = ({
 											? <>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Medicamento</TableTitleMob>
-													<TableList>{row.values.PRODUTO || '-'}</TableList>
+													<TableList>
+														{row.values.PRODUTO.charAt(0).toUpperCase()
+														+ row.values.PRODUTO.slice(1).toLowerCase() || '-'}
+													</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Código</TableTitleMob>
@@ -549,7 +552,10 @@ const RenderTable = ({
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>
-													<TableList>{row.values.CLASSE_TERAPEUTICA || '-'}</TableList>
+													<TableList>
+														{row.values.CLASSE_TERAPEUTICA.charAt(0).toUpperCase()
+														+ row.values.CLASSE_TERAPEUTICA.slice(1).toLowerCase() || '-'}
+													</TableList>
 												</ContainerTableTitleMob>
 											</>
 											: <>
@@ -567,9 +573,10 @@ const RenderTable = ({
 													key={index}
 												>
 													{cell.column.Header === 'Validade'
-													 	? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
-													 	: cell.column.Header === 'Preço' && cell.row.values.PMC_20_PERC === undefined ? '-' : cell.render('Cell')
-													 }
+														? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
+														: cell.column.Header === 'Preço' && cell.row.values.PMC_20_PERC === undefined ? '-'
+															: cell.value && cell.value.charAt(0).toUpperCase() + cell.value.slice(1).toLowerCase()
+													}
 												</TableList>)}
 											</>
 										}
