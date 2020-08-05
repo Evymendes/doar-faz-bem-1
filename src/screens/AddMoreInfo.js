@@ -105,7 +105,7 @@ class Login extends Component {
 			const { result, medId } = this.props.location.state;
 
 			if (medId) {
-				//Edit
+				// Edit
 				this.setState({
 					med: {
 						code: result.EAN_1,
@@ -126,7 +126,7 @@ class Login extends Component {
 				return;
 			}
 
-			//Create
+			// Create
 			this.setState({
 				med: {
 					code: result.EAN_1,
@@ -313,6 +313,7 @@ class Login extends Component {
 					label='Classe Terapêutica:'
 					onChange={(ev) => this.handleChange('therapeuticClass', ev)}
 					text={med.therapeuticClass}
+					placeholder='Ex: Analgésico...'
 					isError={errors.includes('therapeuticClass')}
 					disabled={medId}
 					style={this.styledDisabled(medId)}
@@ -337,6 +338,7 @@ class Login extends Component {
 					label='Tipo do Produto:'
 					onChange={(ev) => this.handleChange('productType', ev)}
 					text={med.productType}
+					placeholder='Ex: Genérico...'
 					isError={errors.includes('productType')}
 					disabled={medId}
 					style={this.styledDisabled(medId)}
@@ -373,6 +375,7 @@ class Login extends Component {
 					label='Descrição:'
 					onChange={(ev) => this.handleChange('description', ev)}
 					text={med.description}
+					placeholder='Ex: 500 MG...'
 					isError={errors.includes('description')}
 					disabled={medId}
 					style={this.styledDisabled(medId)}

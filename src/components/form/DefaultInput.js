@@ -46,7 +46,7 @@ const DefaultInput = (props) => (
 			type={props.type}
 			value={props.text || ''}
 			onChange={props.onChange}
-			placeholder='Digite aqui...'
+			placeholder={props.placeholder || ''}
 			isError={props.isError}
 			disabled={props.disabled}
 			isData={props.text}
@@ -63,6 +63,7 @@ const DefaultInput = (props) => (
 DefaultInput.defaultProps = {
 	Label: '',
 	type: 'text',
+	placeholder: 'Digite aqui...',
 };
 
 export default DefaultInput;
