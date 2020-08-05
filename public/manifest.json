@@ -3,13 +3,18 @@
 	"name": "Doar faz Bem",
 	"lang": "pt",
 	"description": "Doar faz Bem!",
-	"start_url": "/",
+	"start_url": "/doar-faz-bem/",
 	"background_color": "#ffffff",
 	"theme_color": "#49e5d6",
 	"dir": "ltr",
 	"display": "minimal-ui",
 	"orientation": "any",
 	"icons": [
+		{
+			"src": "/android-icon-192x192-dunplab-manifest-11805.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
 	 {
 		"src": "/android-icon-192x192-dunplab-manifest-11805.png",
 		"type": "image/png",
