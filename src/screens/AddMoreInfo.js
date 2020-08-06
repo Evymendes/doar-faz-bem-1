@@ -207,13 +207,12 @@ class Login extends Component {
 		};
 
 		try {
-			if (medId) {
+			if (medId !== med.name) {
 				await editMedicament(formatData, medId);
 				return;
 			}
 
 			await createMedicament(formatData);
-
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
