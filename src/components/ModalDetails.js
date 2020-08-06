@@ -186,7 +186,10 @@ const ModalDetails = (props) => {
 					<WrapperDetails>
 						<DetailsItem>
 							<DetailsText title>Medicamento</DetailsText>
-							<DetailsText>{(medicament.PRODUTO.charAt(0).toUpperCase() + medicament.PRODUTO.slice(1).toLowerCase()) || '-'}</DetailsText>
+							<DetailsText>
+								{(medicament.PRODUTO.charAt(0).toUpperCase()
+								+ medicament.PRODUTO.slice(1).toLowerCase()) || '-'}
+							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Código</DetailsText>
@@ -213,7 +216,8 @@ const ModalDetails = (props) => {
 						<DetailsItem>
 							<DetailsText title>Laboratório</DetailsText>
 							<DetailsText>
-								{(medicament.LABORATORIO.charAt(0).toUpperCase() + medicament.LABORATORIO.slice(1).toLowerCase()) || '-'}
+								{(medicament.LABORATORIO.charAt(0).toUpperCase()
+								+ medicament.LABORATORIO.slice(1).toLowerCase()) || '-'}
 							</DetailsText>
 						</DetailsItem>
 					</WrapperDetails>
@@ -242,7 +246,7 @@ const ModalDetails = (props) => {
 							</DetailsText>
 						</DetailsItem>
 						<DetailsItem style={{ padding: 0 }}>
-							<DetailsText title>Preço Anvisa:</DetailsText>
+							<DetailsText title>Preço</DetailsText>
 							<DetailsText>
 								{(medicament.PMC_20_PERC) ? `R$ ${medicament.PMC_20_PERC}` : '-'}
 							</DetailsText>
