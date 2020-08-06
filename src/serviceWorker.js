@@ -21,10 +21,17 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
+	console.log('entrou no register')
+
+	console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+	console.log('serviceWorker', 'serviceWorker' in navigator)
+	console.log('navigator', navigator)
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+		console.log('prod e tem service worker')
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
+			console.log('PUBLIC_URL is on a different origin')
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -32,9 +39,11 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
+			console.log('caiu no load')
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
+				console.log('isLocalhost')
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
@@ -47,6 +56,7 @@ export function register(config) {
           );
         });
       } else {
+				console.log('is NOT Localhost')
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
@@ -55,16 +65,21 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
+	console.log('registerValidSW')
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
+					console.log('registerValidSW nao instalou o sw')
           return;
-        }
+				}
+				console.log('registerValidSW indo instalar hein')
+				console.log('registerValidSW indo instalar hein - installingWorker', installingWorker)
         installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
+					console.log('installingWorker.state', installingWorker.state)
+					if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
@@ -86,7 +101,8 @@ function registerValidSW(swUrl, config) {
 
               // Execute callback
               if (config && config.onSuccess) {
-                config.onSuccess(registration);
+								config.onSuccess(registration);
+								console.log('registerValidSW REGISTROUUUUU')
               }
             }
           }
