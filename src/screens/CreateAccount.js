@@ -91,11 +91,9 @@ class CreateAccount extends Component {
 
 			EmptyFields = true;
 		}
-		console.log('emptyFields --', EmptyFields);
 
 		if (!EmptyFields && !nameError && !emailError && !passwordError) {
 			// this.createUser(user);
-			console.log('validoooooo');
 		}
 	}
 
