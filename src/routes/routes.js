@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Screens
+import CreateAccount from '../screens/CreateAccount';
 import Login from '../screens/Login';
 import Scanner from '../screens/Scanner';
 import QrCode from '../screens/QrCode';
@@ -13,6 +14,7 @@ const Routes = () => (
 	<BrowserRouter>
 		<Switch>
 			<Route exact path='/' component={Login} />
+			<Route exact path="/createAccount" component={CreateAccount} />
 			<Route exact path='/doar-faz-bem' component={Login} />
 			<Route path='/scanner' component={Scanner} />
 			<Route path='/qrcode' component={QrCode} />
