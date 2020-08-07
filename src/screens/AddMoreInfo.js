@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+// /* eslint-disable class-methods-use-this */
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
@@ -397,25 +397,18 @@ class Login extends Component {
 					</div>
 					<Footer>
 						<DefaultButton
+							margin= '1rem 1rem 1rem 0'
+							borderColor= '#FFF'
+							background= 'transparent'
+							backgroundHover='#3cc5b8'
+							border= '1px solid white'
 							handleClick={() => this.handleBackScanner()}
 							text={'CANCELAR'}
-							style={{
-								margin: 0,
-								marginRight: '1rem',
-								border: '1px solid white',
-								background: 'transparent',
-								color: '#fff',
-							}}
 						/>
 						<DefaultButton
+							backgroundHover='#3cc5b8'
 							handleClick={this.validationScreen}
 							text={'SALVAR'}
-							style={{
-								margin: '0',
-								color: '#fff',
-								border: '1px solid #49E5D6',
-								background: '#49E5D6',
-							}}
 						/>
 					</Footer>
 				</Form>
