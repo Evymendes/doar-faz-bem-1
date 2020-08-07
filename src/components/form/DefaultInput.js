@@ -4,13 +4,22 @@ import styled from 'styled-components';
 
 // Styles
 const Container = styled.div`
+	width: ${(props) => (props.containerWidth)};
   margin-bottom: ${(props) => (props.isError ? '0.5rem' : '1.5rem')};
+	display: ${(props) => (props.containerDisplay && 'flex')};
+	align-items: ${(props) => (props.containerAlignItems && 'center')};
+	border-bottom: ${(props) => (props.containerBorderBottom)};
+	border-bottom: ${(props) => (props.createError && '2px solid red')};
 `;
 
 const Label = styled.label`
-	font: 700 1rem 'Overpass', serif;
-	width: 90%;
-	color: #FFF;
+	margin-right: ${(props) => (props.labelMarginRight)};
+	width: ${(props) => (props.labelWidth ? props.labelWidth : '90%')};
+	color: ${(props) => (props.labelColor ? props.labelColor : '#FFF')};
+	font-weight: 700;
+	font-size: ${(props) => (props.labelFontSize ? props.labelFontSize : '1rem')};
+	font-family: 'Overpass', serif;
+	white-space: nowrap;
 `;
 
 const Input = styled.input`
@@ -20,14 +29,14 @@ const Input = styled.input`
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
 	font: 700 1rem 'Overpass', serif;
 	text-decoration: none;
-	background: #FFF;
+	background: ${(props) => (props.inputBg ? props.inputBg : '#FFF')};
 	outline: none;
   border: ${(props) => (props.isError ? '2px solid red' : 'none')};
 	border-radius: 4px;
-	box-shadow: 2px 2px 2px #888888;
+	box-shadow: ${(props) => (props.boxShadow ? props.boxShadow : '2px 2px 2px #888888')};
 
 	::placeholder {
-		color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
+		color: ${(props) => (props.isData || props.inputColor ? '#989494' : '#38D5D5')};
 	}
 `;
 
@@ -40,8 +49,22 @@ const ErrorMessage = styled.p`
 `;
 
 const DefaultInput = (props) => (
-	<Container isError={props.isError}>
-		<Label>{props.label}</Label>
+	<Container
+		isError={props.isError}
+		containerWidth={props.containerWidth}
+		containerDisplay={props.containerDisplay}
+		containerAlignItems={props.containerAlignItems}
+		containerBorderBottom={props.containerBorderBottom}
+		createError={props.createError}
+	>
+		<Label
+			labelColor={props.labelColor}
+			labelWidth={props.labelWidth}
+			labelMarginRight={props.labelMarginRight}
+			labelFontSize={props.labelFontSize}
+		>
+			{props.label}
+		</Label>
 		<Input
 			type={props.type}
 			value={props.text || ''}
@@ -50,7 +73,10 @@ const DefaultInput = (props) => (
 			isError={props.isError}
 			disabled={props.disabled}
 			isData={props.text}
-			style={props.style}
+			// style={props.style}
+			inputColor={props.inputColor}
+			boxShadow={props.boxShadow}
+			inputBg={props.inputBg}
 		/>
 		{props.isError && (
 			<ErrorMessage>
