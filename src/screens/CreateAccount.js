@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import OnboardingHeader from '../components/OnboardingHeader';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultButton from '../components/DefaultButton';
+import EyeOnIcon from '../assets/eye.svg';
+import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Styles
 const Form = styled.form`
@@ -18,7 +20,7 @@ const Form = styled.form`
 `;
 
 const ContainerInputs = styled.div`
-	margin-top: 2rem;
+	margin-top: 3rem;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -36,6 +38,7 @@ class CreateAccount extends Component {
 		nameError: false,
 		emailError: false,
 		passwordError: false,
+		eyeShowing: false,
 	}
 
 	createUser = (user) => {
@@ -88,12 +91,18 @@ class CreateAccount extends Component {
 
 			EmptyFields = true;
 		}
-		console.log('emptyFields --', EmptyFields)
+		console.log('emptyFields --', EmptyFields);
 
 		if (!EmptyFields && !nameError && !emailError && !passwordError) {
 			// this.createUser(user);
-			console.log('hmmmmmm')
+			console.log('validoooooo');
 		}
+	}
+
+	handleEyeShow = () => {
+		this.setState({
+			eyeShowing: !this.state.eyeShowing,
+		});
 	}
 
 	render() {
@@ -153,26 +162,40 @@ class CreateAccount extends Component {
 						disabled={false}
 					/>
 					<p>{emailError && errorsMessage[1]}</p>
-					<DefaultInput
-						width='75%'
-						containerDisplay
-						containerAlignItems
-						containerBorderBottom={'1.5px solid #38D5D5'}
-						label='Senha'
-						labelMarginRight='1rem'
-						labelWidth='auto'
-						labelColor='#38D5D5'
-						labelFontSize={'0.85rem'}
-						type='password'
-						inputColor
-						boxShadow={'none'}
-						text={user.password || ''}
-						inputBg={'transparent'}
-						placeholder='000000'
-						createError={emptyFields}
-						onChange={(ev) => this.handleChange('password', ev)}
-						disabled={false}
-					/>
+					<div>
+						<DefaultInput
+							width='75%'
+							containerDisplay
+							containerAlignItems
+							containerBorderBottom={'1.5px solid #38D5D5'}
+							label='Senha'
+							labelMarginRight='1rem'
+							labelWidth='auto'
+							labelColor='#38D5D5'
+							labelFontSize={'0.85rem'}
+							type={this.state.eyeShowing ? 'text' : 'password'}
+							inputColor
+							boxShadow={'none'}
+							text={user.password || ''}
+							inputBg={'transparent'}
+							placeholder='000000'
+							createError={emptyFields}
+							onChange={(ev) => this.handleChange('password', ev)}
+							disabled={false}
+						/>
+						{this.state.eyeShowing
+							? <img
+								src={EyeOffIcon}
+								alt="escondendo"
+								onClick={this.handleEyeShow}
+							/>
+							: <img
+								src={EyeOnIcon}
+								alt="mostrando"
+								onClick={this.handleEyeShow}
+							/>
+						}
+					</div>
 					<p>{passwordError && errorsMessage[2]}</p>
 					<DefaultButton
 						handleClick={this.validateUser}
