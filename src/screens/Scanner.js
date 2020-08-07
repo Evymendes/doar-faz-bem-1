@@ -73,9 +73,6 @@ const Container = styled.div`
 const ScanMarker = styled.div`
 	flex: 1;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 
 	img {
 		width: 18rem;
@@ -89,7 +86,7 @@ const ScanMarker = styled.div`
 `;
 
 const ContainerDigitBarCode = styled.div`
-	padding: 0 1rem;
+	padding: 1rem;
 	width: 100%;
 	height: 5rem;
 	display: flex;
@@ -119,7 +116,7 @@ const ContentModalBarCode = styled.div`
 `;
 
 const WrapperModalBarCode = styled.div`
-	height: 80vh;
+	height: 85vh;
 	padding: 1rem;
 	display: flex;
 	justify-content: center;
@@ -222,6 +219,10 @@ class Scanner extends Component {
 			Quagga.onDetected(this.onDetected);
 		}
 	}
+
+	handleBackScreen = () => {
+		this.props.history.goBack();
+	};
 
 	handleOpenBarCodeModal = () => {
 		this.setState({
@@ -341,32 +342,21 @@ class Scanner extends Component {
 						</ErrorMessage>
 					)}
 					<DefaultButton
+						margin= '2rem 0'
 						handleClick={this.handleButtonBarCode}
 						text={'Verificar Código'}
-						style={{
-							margin: '0',
-							marginTop: '2rem',
-							background: '#49E5D6',
-							color: '#fff',
-						}}
 					/>
 					<DefaultButton
+						margin='0'
+						background='#D8998A'
+						backgroundHover='#ce9385'
 						handleClick={this.handleOpenBarCodeModal}
 						text={'Voltar para a Leitura de Código'}
-						style={{
-							margin: '1rem',
-							background: '#D8998A',
-							color: '#fff',
-						}}
 					/>
 				</WrapperModalBarCode>
 			</ContentModalBarCode>
 		</ContainerModalBoilerPlate>
 	)
-
-	handleBackScreen = () => {
-		this.props.history.goBack();
-	};
 
 	render() {
 		const {
@@ -390,10 +380,6 @@ class Scanner extends Component {
 						<DefaultButton
 							handleClick={this.handleOpenBarCodeModal}
 							text={'Se preferir, digite o código de barras'}
-							style={{
-								background: '#49E5D6',
-								color: '#fff',
-							}}
 						/>
 					</ContainerDigitBarCode>
 				</Container>
