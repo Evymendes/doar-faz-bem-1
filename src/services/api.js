@@ -68,7 +68,7 @@ export const deleteMedicament = (medicamentId) => axios({
 
 // User
 export const createUser = (user) => axios({
-	url: `${API_URL}/classes/usuario`,
+	url: `${API_URL}/classes/_User`,
 	method: 'post',
 	headers: {
 		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
@@ -80,7 +80,7 @@ export const createUser = (user) => axios({
 });
 
 export const login = (email, password) => axios({
-	url: `${API_URL}/classes/usuario/${email}/${password}`,
+	url: `${API_URL}/login?username=${email}&password=${password}`,
 	method: 'get',
 	headers: {
 		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,

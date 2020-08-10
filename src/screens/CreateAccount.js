@@ -32,6 +32,7 @@ const ContainerInputs = styled.div`
 `;
 
 const ContainerPasswordInput = styled.div`
+	width: 75%;
 	position: relative;
 	display: flex;
 `;
@@ -70,7 +71,7 @@ const LoginText = styled.p`
 class CreateAccount extends Component {
 	state = {
 		user: {
-			name: '',
+			username: '',
 			email: '',
 			password: '',
 		},
@@ -80,6 +81,7 @@ class CreateAccount extends Component {
 		passwordError: false,
 		eyeShowing: false,
 		isLoginScreen: false,
+		errorBack: undefined,
 	}
 
 	createAccount = async (user) => {
@@ -103,6 +105,25 @@ class CreateAccount extends Component {
 			console.log('create', create);
 		} catch (error) {
 			console.log('error', error);
+			console.log('error', error.response);
+
+			if (error.response.data.error === 'Account already exists for this username.') {
+				this.setState({
+					errorBack: 'Esta conta já existe!',
+				});
+			}
+
+			if (error.response.data.error === 'Account already exists for this email address.') {
+				this.setState({
+					errorBack: 'Este e-mail já existe!',
+				});
+			}
+
+			if (error.response.data.error === 'Account already exists for this username.') {
+				this.setState({
+					errorBack: 'Este username já existe!',
+				});
+			}
 		}
 	}
 
@@ -118,6 +139,7 @@ class CreateAccount extends Component {
 			console.log('loginAccount', loginAccount);
 		} catch (error) {
 			console.log('error', error);
+			console.log('error', error.response);
 		}
 	}
 
@@ -126,7 +148,7 @@ class CreateAccount extends Component {
 
 		user[field] = ev.target.value;
 
-		if (field === 'name') {
+		if (field === 'username') {
 			this.setState({
 				nameError: ev.target.value.length < 4,
 			});
@@ -160,13 +182,13 @@ class CreateAccount extends Component {
 
 		let EmptyFields = false;
 
-		// Login - Delete name
+		// Login - Delete username
 		if (isLoginScreen) {
-			delete user.name;
+			delete user.username;
 		}
 
 		// Create Account
-		if (!isLoginScreen && (user.name === '' || user.email === '' || user.password === '')) {
+		if (!isLoginScreen && (user.username === '' || user.email === '' || user.password === '')) {
 			this.setState({
 				emptyFields: true,
 			});
@@ -216,7 +238,7 @@ class CreateAccount extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing,
+			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack,
 		} = this.state;
 
 		return (
@@ -225,10 +247,11 @@ class CreateAccount extends Component {
 				<ContainerInputs>
 					{!isLoginScreen && (
 						<DefaultInput
+							containerWidth='75%'
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
-							label='Nome'
+							label='Username'
 							labelMarginRight='1rem'
 							labelWidth='auto'
 							labelColor='#38D5D5'
@@ -236,17 +259,18 @@ class CreateAccount extends Component {
 							type='text'
 							inputColor
 							boxShadow={'none'}
-							text={user.name || ''}
+							text={user.username || ''}
 							inputBg={'transparent'}
-							placeholder='Seu nome...'
+							placeholder='Seu username...'
 							createError={emptyFields}
 							createErrorText={nameError}
-							onChange={(ev) => this.handleChange('name', ev)}
+							onChange={(ev) => this.handleChange('username', ev)}
 							disabled={false}
 						/>
 					)}
 					<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 					<DefaultInput
+						containerWidth='75%'
 						containerDisplay
 						containerAlignItems
 						containerBorderBottom={'1.5px solid #38D5D5'}
@@ -269,6 +293,7 @@ class CreateAccount extends Component {
 					<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
 					<ContainerPasswordInput>
 						<DefaultInput
+							containerWidth='100%'
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
@@ -304,6 +329,7 @@ class CreateAccount extends Component {
 						}
 					</ContainerPasswordInput>
 					<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
+					<ErrorMessage>{errorBack}</ErrorMessage>
 					<DefaultButton
 						handleClick={this.validateUser}
 						text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
