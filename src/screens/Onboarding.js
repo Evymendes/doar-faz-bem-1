@@ -1,6 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 
 // Components
 import OnboardingHeader from '../components/OnboardingHeader';
@@ -11,7 +12,6 @@ import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
 import { createUser, login } from '../services/api';
-import DoarHash from '../services/DoarHash';
 
 // Styles
 const Form = styled.form`
@@ -68,7 +68,7 @@ const LoginText = styled.p`
 	}
 `;
 
-class CreateAccount extends Component {
+class Onboarding extends Component {
 	state = {
 		user: {
 			username: '',
@@ -82,27 +82,14 @@ class CreateAccount extends Component {
 		eyeShowing: false,
 		isLoginScreen: false,
 		errorBack: undefined,
+		redirect: false,
 	}
 
 	createAccount = async (user) => {
 		try {
 			const userData = { ...user };
 
-			console.log('userData', userData);
-
-			// const encodedPassword = DoarHash(userData.password);
-			// // const credentials = `${encodedPassword}`;
-			// const base64credentials = Buffer.from(encodedPassword, 'utf-8').toString(
-			// 	'base64',
-			// );
-
-			// userData.password = base64credentials;
-
-			// await createUser(user);
-
-			const create = await createUser(userData);
-
-			console.log('create', create);
+			await createUser(userData);
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
@@ -128,15 +115,15 @@ class CreateAccount extends Component {
 	}
 
 	loginUser = async (user) => {
-		console.log('user loginnnn ------');
-
 		const { email } = user;
 		const { password } = user;
 
 		try {
-			const loginAccount = await login(email, password);
+			await login(email, password);
 
-			console.log('loginAccount', loginAccount);
+			this.setState({
+				redirect: true,
+			});
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
@@ -356,9 +343,10 @@ class CreateAccount extends Component {
 						</>
 					)}
 				</LoginText>
+				{this.state.redirect && <Redirect exact to="/dashboard" />}
 			</Form>
 		);
 	}
 }
 
-export default CreateAccount;
+export default Onboarding;
