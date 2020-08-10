@@ -11,12 +11,13 @@ import Header from './Header';
 
 // Styles
 const ModalDetails = styled.div`
-	flex: 1;
+	width: 100vw;
 	height: 100vh;
 	background: #fff;
 `;
 
 const ContentModalDetails = styled.div`
+	padding: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -77,7 +78,6 @@ class ExtractedInf extends Component {
 			pathname: '/addmoreinfo',
 			state: {
 				result: this.state.medicament,
-				// medId: this.state.medicament.objectId,
 			},
 		});
 	}
@@ -94,21 +94,12 @@ class ExtractedInf extends Component {
 					<DefaultButton
 						handleClick={this.handleRedirectScreen}
 						text={'Adicionar mais Informações'}
-						style={{
-							margin: '1rem',
-							width: '90%',
-							background: '#49E5D6',
-							color: '#fff',
-						}}
 					/>
 					<DefaultButton
+						background= '#D8998A'
+						backgroundHover='#ce9385'
 						handleClick={this.props.handleCloseModalExactedInfo}
 						text={'Voltar para Leitura de Código'}
-						style={{
-							width: '90%',
-							background: '#D8998A',
-							color: '#fff',
-						}}
 					/>
 				</ContentModalDetails>
 			</ModalDetails>
