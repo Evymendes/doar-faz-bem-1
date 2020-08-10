@@ -9,6 +9,10 @@ import DefaultButton from '../components/DefaultButton';
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 
+// Services
+import { createUser } from '../services/api';
+import DoarHash from '../services/DoarHash';
+
 // Styles
 const Form = styled.form`
 	width: 100%;
@@ -27,6 +31,17 @@ const ContainerInputs = styled.div`
 	flex-direction: column;
 `;
 
+const ContainerPasswordInput = styled.div`
+	position: relative;
+	display: flex;
+`;
+
+const EyeIcon = styled.img`
+	position: absolute;
+	right: 1rem;
+	bottom: 2.3rem;
+`;
+
 class CreateAccount extends Component {
 	state = {
 		user: {
@@ -41,8 +56,30 @@ class CreateAccount extends Component {
 		eyeShowing: false,
 	}
 
-	createUser = (user) => {
-		console.log('chegou user no create user');
+	createAccount = async (user) => {
+		// console.log('chegou user no create user');
+		// console.log('user', user);
+		try {
+			const userData = { ...user };
+
+			console.log('userData', userData)
+
+			// const encodedPassword = DoarHash(userData.password);
+			// // const credentials = `${encodedPassword}`;
+			// const base64credentials = Buffer.from(encodedPassword, 'utf-8').toString(
+			// 	'base64',
+			// );
+
+			// userData.password = base64credentials;
+
+			// await createUser(user);
+
+			const create = await createUser(userData);
+
+			console.log('create', create);
+		} catch (error) {
+			console.log('error', error);
+		}
 	}
 
 	handleChange = (field, ev) => {
@@ -91,11 +128,9 @@ class CreateAccount extends Component {
 
 			EmptyFields = true;
 		}
-		console.log('emptyFields --', EmptyFields);
 
 		if (!EmptyFields && !nameError && !emailError && !passwordError) {
-			// this.createUser(user);
-			console.log('validoooooo');
+			this.createAccount(user);
 		}
 	}
 
@@ -121,7 +156,6 @@ class CreateAccount extends Component {
 				<OnboardingHeader />
 				<ContainerInputs>
 					<DefaultInput
-						width='75%'
 						containerDisplay
 						containerAlignItems
 						containerBorderBottom={'1.5px solid #38D5D5'}
@@ -142,7 +176,6 @@ class CreateAccount extends Component {
 					/>
 					<p>{nameError && errorsMessage[0]}</p>
 					<DefaultInput
-						width='75%'
 						containerDisplay
 						containerAlignItems
 						containerBorderBottom={'1.5px solid #38D5D5'}
@@ -151,7 +184,7 @@ class CreateAccount extends Component {
 						labelWidth='auto'
 						labelFontSize={'0.85rem'}
 						labelColor='#38D5D5'
-						type='text'
+						type='email'
 						inputColor
 						boxShadow={'none'}
 						text={user.email || ''}
@@ -162,9 +195,8 @@ class CreateAccount extends Component {
 						disabled={false}
 					/>
 					<p>{emailError && errorsMessage[1]}</p>
-					<div>
+					<ContainerPasswordInput>
 						<DefaultInput
-							width='75%'
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
@@ -184,25 +216,26 @@ class CreateAccount extends Component {
 							disabled={false}
 						/>
 						{this.state.eyeShowing
-							? <img
+							? <EyeIcon
 								src={EyeOffIcon}
 								alt="escondendo"
 								onClick={this.handleEyeShow}
 							/>
-							: <img
+							: <EyeIcon
 								src={EyeOnIcon}
 								alt="mostrando"
 								onClick={this.handleEyeShow}
 							/>
 						}
-					</div>
+					</ContainerPasswordInput>
 					<p>{passwordError && errorsMessage[2]}</p>
 					<DefaultButton
 						handleClick={this.validateUser}
 						text={'Criar Conta'}
 						style={{
 							margin: '1rem',
-							width: '90%',
+							width: '75%',
+							widthDesk: '70%',
 							background: '#49E5D6',
 							color: '#fff',
 						}}

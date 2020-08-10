@@ -65,3 +65,16 @@ export const deleteMedicament = (medicamentId) => axios({
 		'Content-Type': 'application/json',
 	},
 });
+
+// User
+export const createUser = (user) => axios({
+	url: `${API_URL}/classes/usuario`,
+	method: 'post',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'X-Parse-Revocable-Session': 1,
+		'Content-Type': 'application/json',
+	},
+	data: user,
+});

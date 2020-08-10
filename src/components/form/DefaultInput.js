@@ -74,6 +74,7 @@ const DefaultInput = (props) => (
 			disabled={props.disabled}
 			isData={props.text}
 			// style={props.style}
+			required
 			inputColor={props.inputColor}
 			boxShadow={props.boxShadow}
 			inputBg={props.inputBg}
