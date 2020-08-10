@@ -13,7 +13,7 @@ const pressAnimation = keyframes`
 const Button = styled.button`
 	margin: ${(props) => props.margin};
 	width: 100%;
-	max-width: 20rem;
+	max-width: ${(props) => (props.maxWidth ? props.maxWidth : '20rem')};
 	height: 3.5rem;
 	display: flex;
 	justify-content: center;
@@ -36,6 +36,10 @@ const Button = styled.button`
 	@media(min-width: 320px) {
 		font-size: .95rem;
 	}
+
+	@media(min-width: 768px) {
+		width: ${(props) => props.widthDesk};
+	}
 `;
 
 const DefaultButton = (props) => {
@@ -53,6 +57,8 @@ const DefaultButton = (props) => {
 	return (
 		<Button
 			margin={props.margin}
+			widthDesk={props.widthDesk}
+			maxWidth={props.maxWidth}
 			color={props.color}
 			background={props.background}
 			backgroundHover={props.backgroundHover}

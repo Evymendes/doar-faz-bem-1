@@ -5,7 +5,7 @@ import styled from 'styled-components';
 // Styles
 const Container = styled.div`
 	width: ${(props) => (props.containerWidth)};
-  margin-bottom: ${(props) => (props.isError ? '0.5rem' : '1.5rem')};
+  margin-bottom: ${(props) => (props.isError || props.createErrorText ? '0.5rem' : '1.5rem')};
 	display: ${(props) => (props.containerDisplay && 'flex')};
 	align-items: ${(props) => (props.containerAlignItems && 'center')};
 	border-bottom: ${(props) => (props.containerBorderBottom)};
@@ -56,6 +56,7 @@ const DefaultInput = (props) => (
 		containerAlignItems={props.containerAlignItems}
 		containerBorderBottom={props.containerBorderBottom}
 		createError={props.createError}
+		createErrorText={props.createErrorText}
 	>
 		<Label
 			labelColor={props.labelColor}

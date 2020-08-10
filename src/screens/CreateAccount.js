@@ -39,7 +39,16 @@ const ContainerPasswordInput = styled.div`
 const EyeIcon = styled.img`
 	position: absolute;
 	right: 1rem;
-	bottom: 2.3rem;
+	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
+	cursor: pointer;
+`;
+
+const ErrorMessage = styled.p`
+	margin-bottom: .5rem;
+  color: #f00;
+  font-size: 0.8rem;
+	font-family: 'Overpass', Regular;
+  font-weight: 400;
 `;
 
 class CreateAccount extends Component {
@@ -57,12 +66,10 @@ class CreateAccount extends Component {
 	}
 
 	createAccount = async (user) => {
-		// console.log('chegou user no create user');
-		// console.log('user', user);
 		try {
 			const userData = { ...user };
 
-			console.log('userData', userData)
+			console.log('userData', userData);
 
 			// const encodedPassword = DoarHash(userData.password);
 			// // const credentials = `${encodedPassword}`;
@@ -171,10 +178,11 @@ class CreateAccount extends Component {
 						inputBg={'transparent'}
 						placeholder='Seu nome...'
 						createError={emptyFields}
+						createErrorText={nameError}
 						onChange={(ev) => this.handleChange('name', ev)}
 						disabled={false}
 					/>
-					<p>{nameError && errorsMessage[0]}</p>
+					<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 					<DefaultInput
 						containerDisplay
 						containerAlignItems
@@ -191,10 +199,11 @@ class CreateAccount extends Component {
 						inputBg={'transparent'}
 						placeholder='exemplo@exemplo.com'
 						createError={emptyFields}
+						createErrorText={emailError}
 						onChange={(ev) => this.handleChange('email', ev)}
 						disabled={false}
 					/>
-					<p>{emailError && errorsMessage[1]}</p>
+					<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
 					<ContainerPasswordInput>
 						<DefaultInput
 							containerDisplay
@@ -212,30 +221,34 @@ class CreateAccount extends Component {
 							inputBg={'transparent'}
 							placeholder='000000'
 							createError={emptyFields}
+							createErrorText={passwordError}
 							onChange={(ev) => this.handleChange('password', ev)}
 							disabled={false}
 						/>
 						{this.state.eyeShowing
 							? <EyeIcon
 								src={EyeOffIcon}
-								alt="escondendo"
+								alt="escondendo senha"
+								error={passwordError}
 								onClick={this.handleEyeShow}
 							/>
 							: <EyeIcon
 								src={EyeOnIcon}
-								alt="mostrando"
+								alt="mostrando senha"
+								error={passwordError}
 								onClick={this.handleEyeShow}
 							/>
 						}
 					</ContainerPasswordInput>
-					<p>{passwordError && errorsMessage[2]}</p>
+					<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 					<DefaultButton
 						handleClick={this.validateUser}
 						text={'Criar Conta'}
+						maxWidth='18rem'
+						widthDesk='70%'
 						style={{
 							margin: '1rem',
 							width: '75%',
-							widthDesk: '70%',
 							background: '#49E5D6',
 							color: '#fff',
 						}}
