@@ -80,7 +80,7 @@ export const createUser = (user) => axios({
 });
 
 export const login = (email, password) => axios({
-	url: `${API_URL}/login?username=${email}&password=${password}`,
+	url: `${API_URL}/login?email=${email}&password=${password}`,
 	method: 'get',
 	headers: {
 		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
