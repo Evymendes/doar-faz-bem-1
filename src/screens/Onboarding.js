@@ -1,6 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 
 // Components
 import OnboardingHeader from '../components/OnboardingHeader';
@@ -8,13 +9,12 @@ import DefaultInput from '../components/form/DefaultInput';
 import DefaultButton from '../components/DefaultButton';
 import Loading from '../components/Loading';
 
-//Images
+// Images
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
 import { createUser, login } from '../services/api';
-import DoarHash from '../services/DoarHash';
 
 // Styles
 const Form = styled.form`
@@ -71,7 +71,7 @@ const LoginText = styled.p`
 	}
 `;
 
-class CreateAccount extends Component {
+class Onboarding extends Component {
 	state = {
 		user: {
 			username: '',
@@ -85,6 +85,7 @@ class CreateAccount extends Component {
 		eyeShowing: false,
 		isLoginScreen: false,
 		errorBack: undefined,
+		redirect: false,
 	}
 
 	createAccount = async (user) => {
@@ -140,9 +141,11 @@ class CreateAccount extends Component {
 		const { password } = user;
 
 		try {
-			const loginAccount = await login(email, password);
+			await login(email, password);
 
-			console.log('loginAccount', loginAccount);
+			this.setState({
+				redirect: true,
+			});
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
@@ -244,7 +247,7 @@ class CreateAccount extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack,
+			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack, isLoading,
 		} = this.state;
 
 		return (
@@ -320,20 +323,6 @@ class CreateAccount extends Component {
 								onChange={(ev) => this.handleChange('password', ev)}
 								disabled={false}
 							/>
-							{eyeShowing
-								? <EyeIcon
-									src={EyeOffIcon}
-									alt="escondendo senha"
-									error={passwordError}
-									onClick={this.handleEyeShow}
-								/>
-								: <EyeIcon
-									src={EyeOnIcon}
-									alt="mostrando senha"
-									error={passwordError}
-									onClick={this.handleEyeShow}
-								/>
-							}
 						</ContainerPasswordInput>
 						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 						<ErrorMessage>{errorBack}</ErrorMessage>
@@ -353,21 +342,22 @@ class CreateAccount extends Component {
 					<LoginText>
 						{!isLoginScreen ? (
 							<>
-								Você já possui uma conta? { }
+								Você já possui uma conta? {}
 								<span onClick={this.handleLoginScreen}>Faça login</span>
 							</>
 						) : (
 							<>
-								Você ainda não possui uma conta? { }
+								Você ainda não possui uma conta? {}
 								<span onClick={this.handleLoginScreen}>Crie agora</span>
 							</>
 						)}
 					</LoginText>
+					{this.state.redirect && <Redirect exact to="/dashboard" />}
 				</Form>
-				{this.state.isLoading && <Loading/>}
+				{isLoading && <Loading />}
 			</>
 		);
 	}
 }
 
-export default CreateAccount;
+export default Onboarding;
