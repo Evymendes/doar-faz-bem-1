@@ -41,7 +41,7 @@ const fadeIn = keyframes`
 const ContainerHeader = styled.div`
 	position: relative;
 	width: 115%;
-	height: 45vh;
+	height: ${(props) => (props.heightHeader ? props.heightHeader : '45vh')};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -67,7 +67,7 @@ const ContainerHeader = styled.div`
 
 const Header = styled.div`
 	flex: 1;
-	height: 45vh;
+	height: ${(props) => (props.heightHeader ? props.heightHeader : '45vh')};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -112,20 +112,16 @@ const LogoIcon = styled.img`
 	border-radius: 50%;
 `;
 
-class OnboardingHeader extends Component {
-	render () {
-		return (
-			<Container>
-				<ContainerHeader>
-					<Header>
-						<ContainerLogo>
-							<LogoIcon src={Logo} alt="Logo" />
-						</ContainerLogo>
-					</Header>
-				</ContainerHeader>
-			</Container>
-		)
-	}
-}
+const OnboardingHeader = (props) => (
+	<Container>
+		<ContainerHeader heightHeader={props.heightHeader}>
+			<Header heightHeader={props.heightHeader}>
+				<ContainerLogo>
+					<LogoIcon src={Logo} alt="Logo" />
+				</ContainerLogo>
+			</Header>
+		</ContainerHeader>
+	</Container>
+);
 
 export default OnboardingHeader;

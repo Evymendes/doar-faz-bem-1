@@ -10,7 +10,7 @@ import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
-import { createUser } from '../services/api';
+import { createUser, login } from '../services/api';
 import DoarHash from '../services/DoarHash';
 
 // Styles
@@ -24,7 +24,7 @@ const Form = styled.form`
 `;
 
 const ContainerInputs = styled.div`
-	margin-top: 3rem;
+	margin-top: 2rem;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -51,6 +51,22 @@ const ErrorMessage = styled.p`
   font-weight: 400;
 `;
 
+const LoginText = styled.p`
+	margin-top: .5rem;
+	align-self: center;
+	color: #989494;
+	font-size: .95rem;
+	font-family: 'Overpass', Regular;
+	font-weight: 600;
+
+	span {
+		font-family: 'Overpass', Bold;
+		font-weight: 900;
+		border-bottom: 2.5px solid #49E5D6;
+		cursor: pointer;
+	}
+`;
+
 class CreateAccount extends Component {
 	state = {
 		user: {
@@ -63,6 +79,7 @@ class CreateAccount extends Component {
 		emailError: false,
 		passwordError: false,
 		eyeShowing: false,
+		isLoginScreen: false,
 	}
 
 	createAccount = async (user) => {
@@ -84,6 +101,21 @@ class CreateAccount extends Component {
 			const create = await createUser(userData);
 
 			console.log('create', create);
+		} catch (error) {
+			console.log('error', error);
+		}
+	}
+
+	loginUser = async (user) => {
+		console.log('user loginnnn ------');
+
+		const { email } = user;
+		const { password } = user;
+
+		try {
+			const loginAccount = await login(email, password);
+
+			console.log('loginAccount', loginAccount);
 		} catch (error) {
 			console.log('error', error);
 		}
@@ -123,12 +155,18 @@ class CreateAccount extends Component {
 
 	validateUser = () => {
 		const {
-			user, emptyFields, nameError, emailError, passwordError,
+			user, nameError, emailError, passwordError, isLoginScreen,
 		} = this.state;
 
 		let EmptyFields = false;
 
-		if (user.name === '' || user.email === '' || user.password === '') {
+		// Login - Delete name
+		if (isLoginScreen) {
+			delete user.name;
+		}
+
+		// Create Account
+		if (!isLoginScreen && (user.name === '' || user.email === '' || user.password === '')) {
 			this.setState({
 				emptyFields: true,
 			});
@@ -136,14 +174,37 @@ class CreateAccount extends Component {
 			EmptyFields = true;
 		}
 
-		if (!EmptyFields && !nameError && !emailError && !passwordError) {
+		// Login
+		if (isLoginScreen && (user.email === '' || user.password === '')) {
+			this.setState({
+				emptyFields: true,
+			});
+
+			EmptyFields = true;
+		}
+
+		// Create Account
+		if (!isLoginScreen && !EmptyFields && !nameError && !emailError && !passwordError) {
 			this.createAccount(user);
+		}
+
+		// Login
+		if (isLoginScreen && !EmptyFields && !emailError && !passwordError) {
+			this.loginUser(user);
 		}
 	}
 
 	handleEyeShow = () => {
 		this.setState({
 			eyeShowing: !this.state.eyeShowing,
+		});
+	}
+
+	handleLoginScreen = () => {
+		console.log('isloginscreen');
+
+		this.setState({
+			isLoginScreen: !this.state.isLoginScreen,
 		});
 	}
 
@@ -155,33 +216,35 @@ class CreateAccount extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields,
+			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing,
 		} = this.state;
 
 		return (
 			<Form onSubmit={this.handleSubmit}>
-				<OnboardingHeader />
+				<OnboardingHeader heightHeader='40vh' />
 				<ContainerInputs>
-					<DefaultInput
-						containerDisplay
-						containerAlignItems
-						containerBorderBottom={'1.5px solid #38D5D5'}
-						label='Nome'
-						labelMarginRight='1rem'
-						labelWidth='auto'
-						labelColor='#38D5D5'
-						labelFontSize={'0.85rem'}
-						type='text'
-						inputColor
-						boxShadow={'none'}
-						text={user.name || ''}
-						inputBg={'transparent'}
-						placeholder='Seu nome...'
-						createError={emptyFields}
-						createErrorText={nameError}
-						onChange={(ev) => this.handleChange('name', ev)}
-						disabled={false}
-					/>
+					{!isLoginScreen && (
+						<DefaultInput
+							containerDisplay
+							containerAlignItems
+							containerBorderBottom={'1.5px solid #38D5D5'}
+							label='Nome'
+							labelMarginRight='1rem'
+							labelWidth='auto'
+							labelColor='#38D5D5'
+							labelFontSize={'0.85rem'}
+							type='text'
+							inputColor
+							boxShadow={'none'}
+							text={user.name || ''}
+							inputBg={'transparent'}
+							placeholder='Seu nome...'
+							createError={emptyFields}
+							createErrorText={nameError}
+							onChange={(ev) => this.handleChange('name', ev)}
+							disabled={false}
+						/>
+					)}
 					<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 					<DefaultInput
 						containerDisplay
@@ -214,7 +277,7 @@ class CreateAccount extends Component {
 							labelWidth='auto'
 							labelColor='#38D5D5'
 							labelFontSize={'0.85rem'}
-							type={this.state.eyeShowing ? 'text' : 'password'}
+							type={eyeShowing ? 'text' : 'password'}
 							inputColor
 							boxShadow={'none'}
 							text={user.password || ''}
@@ -225,7 +288,7 @@ class CreateAccount extends Component {
 							onChange={(ev) => this.handleChange('password', ev)}
 							disabled={false}
 						/>
-						{this.state.eyeShowing
+						{eyeShowing
 							? <EyeIcon
 								src={EyeOffIcon}
 								alt="escondendo senha"
@@ -243,7 +306,7 @@ class CreateAccount extends Component {
 					<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 					<DefaultButton
 						handleClick={this.validateUser}
-						text={'Criar Conta'}
+						text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						maxWidth='18rem'
 						widthDesk='70%'
 						style={{
@@ -254,6 +317,19 @@ class CreateAccount extends Component {
 						}}
 					/>
 				</ContainerInputs>
+				<LoginText>
+					{!isLoginScreen ? (
+						<>
+							Você já possui uma conta? { }
+							<span onClick={this.handleLoginScreen}>Faça login</span>
+						</>
+					) : (
+						<>
+							Você ainda não possui uma conta? { }
+							<span onClick={this.handleLoginScreen}>Crie agora</span>
+						</>
+					)}
+				</LoginText>
 			</Form>
 		);
 	}

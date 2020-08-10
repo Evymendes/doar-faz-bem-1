@@ -1,14 +1,11 @@
 // Libs
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
 // Components
 import Button from '../components/DefaultButton';
 import OnboardingHeader from '../components/OnboardingHeader';
-
-// Images
-// import Background from '../assets/headerbg.jpeg';
-// import Logo from '../assets/logo.jpg';
+import DefaultInput from '../components/form/DefaultInput';
 
 // Styles
 const Container = styled.div`
@@ -22,73 +19,7 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-// const borderAnimation = keyframes`
-//   0% {
-// 		border-bottom-right-radius: 0%;
-// 		border-bottom-left-radius: 0%;
-//   }
-//   100% {
-// 		border-bottom-right-radius: 50%;
-// 		border-bottom-left-radius: 50%;
-//   }
-// `;
-
-// const fadeIn = keyframes`
-//   0% {
-// 		opacity: 0;
-//   }
-//   100% {
-// 		opacity: 1;
-//   }
-// `;
-
-// const ContainerHeader = styled.div`
-// 	position: relative;
-// 	width: 115%;
-// 	height: 45vh;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	border-bottom-left-radius: 50%;
-// 	border-bottom-right-radius: 50%;
-// 	background-image: url(${Background});
-// 	background-position: center;
-//   background-size: cover;
-// 	background-repeat: no-repeat;
-// 	animation-name: ${borderAnimation};
-//   animation-duration: 2s;
-//   animation-timing-function: ease;
-//   animation-delay: 0s;
-//   animation-iteration-count: 1;
-//   animation-direction: normal;
-//   animation-fill-mode: forwards;
-// 	animation-play-state: running;
-
-// 	@media(max-width: 720px) {
-// 		width: 150%;
-// 	}
-// `;
-
-// const Header = styled.div`
-// 	flex: 1;
-// 	height: 45vh;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	border-bottom-left-radius: 50%;
-// 	border-bottom-right-radius: 50%;
-// 	background-color: #38d5d58a;
-// 	animation-name: ${borderAnimation};
-//   animation-duration: 2s;
-//   animation-timing-function: ease;
-//   animation-delay: 0s;
-//   animation-iteration-count: 1;
-//   animation-direction: normal;
-//   animation-fill-mode: forwards;
-//   animation-play-state: running;
-// `;
-
-const Content = styled.section`
+const Form = styled.form`
 	height: 55vh;
 	background: #fff;
 	display: flex;
@@ -98,65 +29,182 @@ const Content = styled.section`
 	width: 90%;
 `;
 
-// const ContainerLogo = styled.div`
-// 	width: 10rem;
-// 	height: 10rem;
-// 	border-radius: 50%;
-// 	background: #fff;
-// 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
-// 	opacity: 0;
-// 	animation-name: ${fadeIn};
-//   animation-duration: 2s;
-//   animation-timing-function: ease;
-//   animation-delay: 1s;
-//   animation-iteration-count: 1;
-//   animation-direction: normal;
-//   animation-fill-mode: forwards;
-// 	animation-play-state: running;
-// 	display: flex;
-// 	align-items: center;
-// 	justify-content: center;
-// 	padding: 2rem;
-// 	color: #fff;
-// `;
+const ErrorMessage = styled.p`
+	margin-bottom: .5rem;
+  color: #f00;
+  font-size: 0.8rem;
+	font-family: 'Overpass', Regular;
+  font-weight: 400;
+`;
 
-// const LogoIcon = styled.img`
-// 	width: 10rem;
-// 	height: 10rem;
-// 	border-radius: 50%;
-// `;
+const ContainerPasswordInput = styled.div`
+	position: relative;
+	display: flex;
+`;
 
-const Login = (props) => {
-	const handleClick = (link) => {
-		props.history.push({
-			pathname: link,
+const EyeIcon = styled.img`
+	position: absolute;
+	right: 1rem;
+	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
+	cursor: pointer;
+`;
+
+class Login extends Component {
+	state = {
+		user: {
+			email: '',
+			password: '',
+		},
+		emptyFields: false,
+		emailError: false,
+		passwordError: false,
+	}
+
+	// const handleClick = (link) => {
+	// 	props.history.push({
+	// 		pathname: link,
+	// 	});
+	// };
+
+	loginUser = async (user) => {
+		console.log('user');
+	}
+
+	handleChange = (field, ev) => {
+		const { user } = this.state;
+
+		user[field] = ev.target.value;
+
+		if (field === 'email') {
+			this.setState({
+				emailError: ev.target.value.length < 6,
+			});
+		}
+
+		if (field === 'password') {
+			this.setState({
+				passwordError: ev.target.value.length < 6,
+			});
+		}
+
+		this.setState({
+			user,
 		});
 	};
 
-	return (
-		<Container>
-			{/* <ContainerHeader>
-				<Header>
-					<ContainerLogo>
-						<LogoIcon src={Logo} alt="Logo" />
-					</ContainerLogo>
-				</Header>
-			</ContainerHeader> */}
-			<OnboardingHeader />
-			<Content>
-				<Button
-					handleClick={() => handleClick('/scanner')}
-					text={'Escanear Código de Barras'}
-				/>
-				<Button
-					background='#D8998A'
-					backgroundHover='#ce9385'
-					handleClick={() => handleClick('/dashboard')}
-					text={'Visualizar Medicamentos'}
-				/>
-			</Content>
-		</Container>
-	);
-};
+	handleSubmit = (event) => {
+		event.preventDefault();
+	}
+
+	validateUser = () => {
+		const {
+			user, emailError, passwordError,
+		} = this.state;
+
+		let EmptyFields = false;
+
+		if (user.email === '' || user.password === '') {
+			this.setState({
+				emptyFields: true,
+			});
+
+			EmptyFields = true;
+		}
+
+		if (!EmptyFields && !emailError && !passwordError) {
+			this.loginUser(user);
+
+			console.log('pronto pra criar');
+		}
+	}
+
+	render() {
+		const {
+			user, emptyFields, nameError, emailError,
+		} = this.state;
+
+		const errorsMessage = [
+			'Insira um e-mail válido.',
+			'Senha incorreta.',
+		];
+
+		return (
+			<Container>
+				<OnboardingHeader />
+				<Form onSubmit={this.handleSubmit}>
+					{/* <Button
+						handleClick={() => handleClick('/scanner')}
+						text={'Escanear Código de Barras'}
+					/> */}
+					<DefaultInput
+						containerDisplay
+						containerAlignItems
+						containerBorderBottom={'1.5px solid #38D5D5'}
+						label='E-mail'
+						labelMarginRight='1rem'
+						labelWidth='auto'
+						labelFontSize={'0.85rem'}
+						labelColor='#38D5D5'
+						type='email'
+						inputColor
+						boxShadow={'none'}
+						text={user.email || ''}
+						inputBg={'transparent'}
+						placeholder='exemplo@exemplo.com'
+						createError={emptyFields}
+						createErrorText={emailError}
+						onChange={(ev) => this.handleChange('email', ev)}
+						disabled={false}
+					/>
+					<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
+					{/* <ContainerPasswordInput>
+						<DefaultInput
+							containerDisplay
+							containerAlignItems
+							containerBorderBottom={'1.5px solid #38D5D5'}
+							label='Senha'
+							labelMarginRight='1rem'
+							labelWidth='auto'
+							labelColor='#38D5D5'
+							labelFontSize={'0.85rem'}
+							type={this.state.eyeShowing ? 'text' : 'password'}
+							inputColor
+							boxShadow={'none'}
+							text={user.password || ''}
+							inputBg={'transparent'}
+							placeholder='000000'
+							createError={emptyFields}
+							createErrorText={passwordError}
+							onChange={(ev) => this.handleChange('password', ev)}
+							disabled={false}
+						/>
+						{this.state.eyeShowing
+							? <EyeIcon
+								src={EyeOffIcon}
+								alt="escondendo senha"
+								error={passwordError}
+								onClick={this.handleEyeShow}
+							/>
+							: <EyeIcon
+								src={EyeOnIcon}
+								alt="mostrando senha"
+								error={passwordError}
+								onClick={this.handleEyeShow}
+							/>
+						}
+					</ContainerPasswordInput> */}
+					{/* <ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage> */}
+					<Button
+						// background='#D8998A'
+						// backgroundHover='#ce9385'
+						// handleClick={() => handleClick('/dashboard')}
+						handleClick={this.validateUser}
+						text={'Visualizar Medicamentos'}
+					/>
+				</Form>
+			</Container>
+		);
+	}
+}
 
 export default Login;

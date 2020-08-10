@@ -78,3 +78,13 @@ export const createUser = (user) => axios({
 	},
 	data: user,
 });
+
+export const login = (email, password) => axios({
+	url: `${API_URL}/classes/usuario/${email}/${password}`,
+	method: 'get',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'X-Parse-Revocable-Session': 1,
+	},
+});
