@@ -38,7 +38,6 @@ const ContainerLogo = styled.div`
 	border-radius: 50%;
 	background: #fff;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
-	cursor: pointer;
 `;
 
 const LogoIcon = styled.img`
