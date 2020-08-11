@@ -7,6 +7,9 @@ import { Redirect } from 'react-router-dom';
 import OnboardingHeader from '../components/OnboardingHeader';
 import DefaultInput from '../components/form/DefaultInput';
 import DefaultButton from '../components/DefaultButton';
+import Loading from '../components/Loading';
+
+// Images
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 
@@ -89,10 +92,29 @@ class Onboarding extends Component {
 		try {
 			const userData = { ...user };
 
-			await createUser(userData);
+			const response = await createUser(userData);
+
+			if (response) {
+				this.setState({
+					isLoading: true,
+					errorBack: '',
+				});
+
+				setTimeout(() => {
+					this.setState({
+						isLoading: false,
+						isLoginScreen: true,
+
+					});
+				}, 1000);
+			}
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
+
+			this.setState({
+				isLoading: false,
+			});
 
 			if (error.response.data.error === 'Account already exists for this username.') {
 				this.setState({
@@ -230,126 +252,115 @@ class Onboarding extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack,
+			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack, isLoading,
 		} = this.state;
 
 		return (
-			<Form onSubmit={this.handleSubmit}>
-				<OnboardingHeader heightHeader='40vh' />
-				<ContainerInputs>
-					{!isLoginScreen && (
+			<>
+				<Form onSubmit={this.handleSubmit}>
+					<OnboardingHeader heightHeader='40vh' />
+					<ContainerInputs>
+						{!isLoginScreen && (
+							<DefaultInput
+								containerWidth='75%'
+								containerDisplay
+								containerAlignItems
+								containerBorderBottom={'1.5px solid #38D5D5'}
+								label='Username'
+								labelMarginRight='1rem'
+								labelWidth='auto'
+								labelColor='#38D5D5'
+								labelFontSize={'0.85rem'}
+								type='text'
+								inputColor
+								boxShadow={'none'}
+								text={user.username || ''}
+								inputBg={'transparent'}
+								placeholder='Seu username...'
+								createError={emptyFields}
+								createErrorText={nameError}
+								onChange={(ev) => this.handleChange('username', ev)}
+								disabled={false}
+							/>
+						)}
+						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 						<DefaultInput
 							containerWidth='75%'
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
-							label='Username'
+							label='E-mail'
 							labelMarginRight='1rem'
 							labelWidth='auto'
-							labelColor='#38D5D5'
 							labelFontSize={'0.85rem'}
-							type='text'
+							labelColor='#38D5D5'
+							type='email'
 							inputColor
 							boxShadow={'none'}
-							text={user.username || ''}
+							text={user.email || ''}
 							inputBg={'transparent'}
-							placeholder='Seu username...'
+							placeholder='exemplo@exemplo.com'
 							createError={emptyFields}
-							createErrorText={nameError}
-							onChange={(ev) => this.handleChange('username', ev)}
+							createErrorText={emailError}
+							onChange={(ev) => this.handleChange('email', ev)}
 							disabled={false}
 						/>
-					)}
-					<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
-					<DefaultInput
-						containerWidth='75%'
-						containerDisplay
-						containerAlignItems
-						containerBorderBottom={'1.5px solid #38D5D5'}
-						label='E-mail'
-						labelMarginRight='1rem'
-						labelWidth='auto'
-						labelFontSize={'0.85rem'}
-						labelColor='#38D5D5'
-						type='email'
-						inputColor
-						boxShadow={'none'}
-						text={user.email || ''}
-						inputBg={'transparent'}
-						placeholder='exemplo@exemplo.com'
-						createError={emptyFields}
-						createErrorText={emailError}
-						onChange={(ev) => this.handleChange('email', ev)}
-						disabled={false}
-					/>
-					<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
-					<ContainerPasswordInput>
-						<DefaultInput
-							containerWidth='100%'
-							containerDisplay
-							containerAlignItems
-							containerBorderBottom={'1.5px solid #38D5D5'}
-							label='Senha'
-							labelMarginRight='1rem'
-							labelWidth='auto'
-							labelColor='#38D5D5'
-							labelFontSize={'0.85rem'}
-							type={eyeShowing ? 'text' : 'password'}
-							inputColor
-							boxShadow={'none'}
-							text={user.password || ''}
-							inputBg={'transparent'}
-							placeholder='000000'
-							createError={emptyFields}
-							createErrorText={passwordError}
-							onChange={(ev) => this.handleChange('password', ev)}
-							disabled={false}
+						<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
+						<ContainerPasswordInput>
+							<DefaultInput
+								containerWidth='100%'
+								containerDisplay
+								containerAlignItems
+								containerBorderBottom={'1.5px solid #38D5D5'}
+								label='Senha'
+								labelMarginRight='1rem'
+								labelWidth='auto'
+								labelColor='#38D5D5'
+								labelFontSize={'0.85rem'}
+								type={eyeShowing ? 'text' : 'password'}
+								inputColor
+								boxShadow={'none'}
+								text={user.password || ''}
+								inputBg={'transparent'}
+								placeholder='000000'
+								createError={emptyFields}
+								createErrorText={passwordError}
+								onChange={(ev) => this.handleChange('password', ev)}
+								disabled={false}
+							/>
+						</ContainerPasswordInput>
+						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
+						<ErrorMessage>{errorBack}</ErrorMessage>
+						<DefaultButton
+							handleClick={this.validateUser}
+							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
+							maxWidth='18rem'
+							widthDesk='70%'
+							style={{
+								margin: '1rem',
+								width: '75%',
+								background: '#49E5D6',
+								color: '#fff',
+							}}
 						/>
-						{eyeShowing
-							? <EyeIcon
-								src={EyeOffIcon}
-								alt="escondendo senha"
-								error={passwordError}
-								onClick={this.handleEyeShow}
-							/>
-							: <EyeIcon
-								src={EyeOnIcon}
-								alt="mostrando senha"
-								error={passwordError}
-								onClick={this.handleEyeShow}
-							/>
-						}
-					</ContainerPasswordInput>
-					<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
-					<ErrorMessage>{errorBack}</ErrorMessage>
-					<DefaultButton
-						handleClick={this.validateUser}
-						text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
-						maxWidth='18rem'
-						widthDesk='70%'
-						style={{
-							margin: '1rem',
-							width: '75%',
-							background: '#49E5D6',
-							color: '#fff',
-						}}
-					/>
-				</ContainerInputs>
-				<LoginText>
-					{!isLoginScreen ? (
-						<>
-							Você já possui uma conta? { }
-							<span onClick={this.handleLoginScreen}>Faça login</span>
-						</>
-					) : (
-						<>
-							Você ainda não possui uma conta? { }
-							<span onClick={this.handleLoginScreen}>Crie agora</span>
-						</>
-					)}
-				</LoginText>
-				{this.state.redirect && <Redirect exact to="/dashboard" />}
-			</Form>
+					</ContainerInputs>
+					<LoginText>
+						{!isLoginScreen ? (
+							<>
+								Você já possui uma conta? {}
+								<span onClick={this.handleLoginScreen}>Faça login</span>
+							</>
+						) : (
+							<>
+								Você ainda não possui uma conta? {}
+								<span onClick={this.handleLoginScreen}>Crie agora</span>
+							</>
+						)}
+					</LoginText>
+					{this.state.redirect && <Redirect exact to="/dashboard" />}
+				</Form>
+				{isLoading && <Loading />}
+			</>
 		);
 	}
 }
