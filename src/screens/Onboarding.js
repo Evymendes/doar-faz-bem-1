@@ -106,7 +106,6 @@ class Onboarding extends Component {
 					this.setState({
 						isLoading: false,
 						isLoginScreen: true,
-
 					});
 				}, 1000);
 			}

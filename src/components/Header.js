@@ -48,18 +48,18 @@ const LogoIcon = styled.img`
 `;
 
 const DashboardText = styled.p`
-	padding-left: ${(props) => (props.logout && '1rem')};
-	width: ${(props) => (props.logout && '100%')};
-	display: ${(props) => (props.logout && 'flex')};;
-	justify-content: ${(props) => (props.logout && 'flex-start')};
-	align-items: ${(props) => (props.logout && 'center')};
+	padding-left: ${(props) => (props.username && '1rem')};
+	width: ${(props) => (props.username && '100%')};
+	display: ${(props) => (props.username && 'flex')};;
+	justify-content: ${(props) => (props.username && 'flex-start')};
+	align-items: ${(props) => (props.username && 'center')};
 	color: #D8998A;
-	font-size: ${(props) => (props.logout ? '.90rem' : '1rem')};
+	font-size: ${(props) => (props.username ? '.90rem' : '1rem')};
 	font-family: 'Overpass', Bold;
 	text-decoration: none;
 	font-weight: 800;
-	cursor: ${(props) => (props.logout && 'pointer')};
-	white-space:  ${(props) => (!props.logout && 'nowrap')};
+	cursor: ${(props) => (props.username && 'pointer')};
+	white-space:  ${(props) => (!props.username && 'nowrap')};
 
 	@media(min-width: 1024px) {
 		margin-right: 2.5rem;
@@ -119,16 +119,14 @@ class Header extends Component {
 				{withoutClose
 				&& (
 					<>
+						<DashboardText username>
+							Olá, { }
+							{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
+						</DashboardText>
 						<DashboardText
-							logout
 							onClick={this.handleLogout}
 						>
 						Sair
-						</DashboardText>
-
-						<DashboardText>
-							Olá, { }
-							{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
 						</DashboardText>
 					</>
 				)
