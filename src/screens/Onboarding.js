@@ -250,7 +250,8 @@ class Onboarding extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack, isLoading,
+			user, nameError, emailError, passwordError, emptyFields,
+			isLoginScreen, eyeShowing, errorBack, isLoading, redirect,
 		} = this.state;
 
 		return (
@@ -326,6 +327,20 @@ class Onboarding extends Component {
 								onChange={(ev) => this.handleChange('password', ev)}
 								disabled={false}
 							/>
+							{eyeShowing
+								? <EyeIcon
+									src={EyeOffIcon}
+									alt="escondendo senha"
+									error={passwordError}
+									onClick={this.handleEyeShow}
+								/>
+								: <EyeIcon
+									src={EyeOnIcon}
+									alt="mostrando senha"
+									error={passwordError}
+									onClick={this.handleEyeShow}
+								/>
+							}
 						</ContainerPasswordInput>
 						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 						<ErrorMessage>{errorBack}</ErrorMessage>
@@ -355,7 +370,7 @@ class Onboarding extends Component {
 							</>
 						)}
 					</LoginText>
-					{this.state.redirect && <Redirect exact to="/dashboard" />}
+					{redirect && <Redirect exact to="/dashboard" />}
 				</Form>
 				{isLoading && <Loading />}
 			</>
