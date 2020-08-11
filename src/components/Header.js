@@ -57,7 +57,7 @@ const DashboardText = styled.p`
 	font-family: 'Overpass', Bold;
 	text-decoration: none;
 	font-weight: 800;
-	cursor: ${(props) => (props.username && 'pointer')};
+	cursor: ${(props) => (!props.username && 'pointer')};
 	white-space:  ${(props) => (!props.username && 'nowrap')};
 
 	@media(min-width: 1024px) {
