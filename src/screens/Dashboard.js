@@ -403,18 +403,6 @@ const handleHistory = (props) => {
 		pathname: '/scanner',
 	});
 };
-// const renderRow = ({cell}) => {
-// 	const formatExpirationDate = (date) => date
-// 		.substr(0, 10)
-// 		.split('-')
-// 		.reverse()
-// 		.join('/');
-
-// 		cell.column.Header === 'Validade'
-// 		? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
-// 		: cell.column.Header === 'Preço'  ?  'eira' : cell.render('Cell')
-
-// }
 
 const GlobalFilter = ({
 	globalFilter,
@@ -438,7 +426,7 @@ const GlobalFilter = ({
 	</ContainerSearch>
 );
 const RenderTable = ({
-	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails,
+	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails, isError,
 }) => {
 	const filterTypes = React.useMemo(
 		() => ({
@@ -521,7 +509,7 @@ const RenderTable = ({
 						))}
 					</Thead>
 					{rows && rows.length === 0 ? (
-						<TextNoMedicament>Não há Medicamentos no Momento.</TextNoMedicament>
+						<TextNoMedicament>{isError ? 'Algo errado' : 'Não há Medicamentos no Momento.'}</TextNoMedicament>
 					) : (
 						<tbody {...getTableBodyProps()}>
 							{rows.map((row, index) => {
@@ -604,19 +592,23 @@ function Dashboard(props) {
 
 	const [medList, setMedList] = useState([]);
 	const [isFetching, setIsFetching] = useState(null);
+	const [isError, setIsError] = useState(null);
 
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
 				setIsFetching(true);
+				const userId = localStorage.getItem('objectId');
 
-				const response = await getAllMedicaments();
+				const response = await getAllMedicaments(userId);
 
 				setMedList(response.data.results);
 
 				setIsFetching(false);
 			} catch (error) {
 				console.log('error', error.response);
+				setIsFetching(false);
+				setIsError(true);
 			}
 		};
 		getAllData();
@@ -633,6 +625,7 @@ function Dashboard(props) {
 				<>
 					<WrapperTable>
 						<RenderTable
+							isError={isError}
 							columns={columns}
 							data={medList}
 							isOpenedMedDetails={isOpenedMedDetails}

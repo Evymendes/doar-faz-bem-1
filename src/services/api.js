@@ -46,8 +46,8 @@ export const editMedicament = (data, medicamentId) => axios({
 	data,
 });
 
-export const getAllMedicaments = () => axios({
-	url: `${API_URL}/classes/medicamento`,
+export const getAllMedicaments = (userId) => axios({
+	url: `${API_URL}/classes/medicamento?where={ "userId": { "__type": "Pointer", "className": "_User", "objectId": "${userId}" }}`,
 	method: 'get',
 	headers: {
 		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
