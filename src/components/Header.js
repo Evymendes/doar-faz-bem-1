@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 
 // Images
 import Logo from '../assets/logo.jpg';
+// import Logo from '../assets/logo-doar-faz-bem.svg';
 
 // Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
@@ -47,21 +48,24 @@ const LogoIcon = styled.img`
 `;
 
 const DashboardText = styled.p`
-	padding-left: 1rem;
-	width: 100%;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
+	padding-left: ${(props) => (props.logout && '1rem')};
+	width: ${(props) => (props.logout && '100%')};
+	display: ${(props) => (props.logout && 'flex')};;
+	justify-content: ${(props) => (props.logout && 'flex-start')};
+	align-items: ${(props) => (props.logout && 'center')};
 	color: #D8998A;
-	font-size: .90rem;
+	font-size: ${(props) => (props.logout ? '.90rem' : '1rem')};
 	font-family: 'Overpass', Bold;
 	text-decoration: none;
 	font-weight: 800;
+	cursor: ${(props) => (props.logout && 'pointer')};
+	white-space:  ${(props) => (!props.logout && 'nowrap')};
 `;
 
 class Header extends Component {
 	state = {
 		isRedirect: false,
+		user: '',
 	}
 
 	// handleClick = (history) => {
@@ -70,10 +74,26 @@ class Header extends Component {
 	// 	});
 	// }
 
-	handleLogout = () => {
-		const remove = localStorage.removeItem('sessionToken');
+	componentDidMount() {
+		this.getUser();
+	}
 
-		console.log('remove', remove);
+	getUser = async () => {
+		try {
+			let user = await localStorage.getItem('username');
+
+			this.setState({
+				user,
+			});
+
+			// console.log(this.state.user);
+		} catch (error) {
+			console.log('error', error.response);
+		}
+	}
+
+	handleLogout = () => {
+		localStorage.removeItem('sessionToken');
 
 		this.setState({
 			isRedirect: true,
@@ -101,11 +121,16 @@ class Header extends Component {
 				}
 				{withoutClose
 				&& <DashboardText
+					logout
 					onClick={this.handleLogout}
 				>
 					Sair
 				</DashboardText>
 				}
+				<DashboardText>
+					Olá, { }
+					{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
+				</DashboardText>
 				{this.state.isRedirect && <Redirect exact to="/" />}
 			</Container>
 		);
