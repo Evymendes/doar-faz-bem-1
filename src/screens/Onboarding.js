@@ -142,8 +142,6 @@ class Onboarding extends Component {
 		try {
 			const response = await login(email, password);
 
-			console.log('response', response.data.sessionToken);
-
 			if (response) {
 				localStorage.setItem('sessionToken', response.data.sessionToken);
 			}
