@@ -145,7 +145,7 @@ class Onboarding extends Component {
 
 			if (response) {
 				localStorage.setItem('sessionToken', response.data.sessionToken);
-
+				localStorage.setItem('objectId', response.data.objectId);
 				localStorage.setItem('username', response.data.username);
 			}
 

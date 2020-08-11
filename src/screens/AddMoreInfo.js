@@ -190,8 +190,10 @@ class Login extends Component {
 	createMedic = async () => {
 		const { med, medId } = this.state;
 		const date = new Date(med.expirationDate);
+		const userId = localStorage.getItem('objectId');
 
 		const formatData = {
+			userId: { "__type": "Pointer", "className": "_User", "objectId": userId },
 			EAN_1: (med.code && med.code.toString()),
 			PRODUTO: med.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
