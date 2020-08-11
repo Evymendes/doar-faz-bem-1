@@ -27,7 +27,7 @@ const Input = styled.input`
   width: 100%;
 	height: 2.7rem;
 	color: ${(props) => (props.isData ? '#989494' : '#38D5D5')};
-	font: 700 1.275rem 'Overpass', serif;
+	font: 700 1rem 'Overpass', serif;
 	text-decoration: none;
 	background: ${(props) => (props.inputBg ? props.inputBg : '#FFF')};
 	outline: none;
@@ -38,10 +38,6 @@ const Input = styled.input`
 	::placeholder {
 		color: ${(props) => (props.isData || props.inputColor ? '#989494' : '#38D5D5')};
 	}
-
-	@media(max-width: 375px) {
-			font-size: 1rem;
-		}
 `;
 
 const ErrorMessage = styled.p`
