@@ -76,12 +76,6 @@ class Header extends Component {
 		user: '',
 	}
 
-	// handleClick = (history) => {
-	// 	history.push({
-	// 		pathname: '/',
-	// 	});
-	// }
-
 	componentDidMount() {
 		this.getUser();
 	}
@@ -93,8 +87,6 @@ class Header extends Component {
 			this.setState({
 				user,
 			});
-
-			// console.log(this.state.user);
 		} catch (error) {
 			console.log('error', error.response);
 		}
@@ -112,9 +104,6 @@ class Header extends Component {
 		const { withoutClose, strokeColor, openModal } = this.props;
 		return (
 			<Container>
-				{/* <ContainerLogo onClick={() => this.handleClick(this.props.history)}>
-					<LogoIcon src={Logo} alt="Logo" />
-				</ContainerLogo> */}
 				<ContainerLogo>
 					<LogoIcon src={Logo} alt="Logo" />
 				</ContainerLogo>
