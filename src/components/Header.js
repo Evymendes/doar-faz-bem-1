@@ -60,6 +60,14 @@ const DashboardText = styled.p`
 	font-weight: 800;
 	cursor: ${(props) => (props.logout && 'pointer')};
 	white-space:  ${(props) => (!props.logout && 'nowrap')};
+
+	@media(min-width: 1024px) {
+		margin-right: 2.5rem;
+	}
+
+	@media(min-width: 1440px) {
+		margin-right: 5.5rem;
+	}
 `;
 
 class Header extends Component {
@@ -80,7 +88,7 @@ class Header extends Component {
 
 	getUser = async () => {
 		try {
-			let user = await localStorage.getItem('username');
+			const user = await localStorage.getItem('username');
 
 			this.setState({
 				user,
@@ -120,17 +128,22 @@ class Header extends Component {
 				/>
 				}
 				{withoutClose
-				&& <DashboardText
-					logout
-					onClick={this.handleLogout}
-				>
-					Sair
-				</DashboardText>
+				&& (
+					<>
+						<DashboardText
+							logout
+							onClick={this.handleLogout}
+						>
+						Sair
+						</DashboardText>
+
+						<DashboardText>
+							Olá, { }
+							{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
+						</DashboardText>
+					</>
+				)
 				}
-				<DashboardText>
-					Olá, { }
-					{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
-				</DashboardText>
 				{this.state.isRedirect && <Redirect exact to="/" />}
 			</Container>
 		);
