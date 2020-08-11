@@ -84,7 +84,7 @@ class Onboarding extends Component {
 		emailError: false,
 		passwordError: false,
 		eyeShowing: false,
-		isLoginScreen: false,
+		isLoginScreen: true,
 		errorBack: undefined,
 		redirect: false,
 	}
@@ -268,7 +268,7 @@ class Onboarding extends Component {
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
-								label='Nome'
+								label='Username'
 								labelMarginRight='1rem'
 								labelWidth='auto'
 								labelColor='#38D5D5'
@@ -277,7 +277,7 @@ class Onboarding extends Component {
 								boxShadow={'none'}
 								text={user.username || ''}
 								inputBg={'transparent'}
-								placeholder='Seu nome...'
+								placeholder='Seu username'
 								createError={emptyFields}
 								createErrorText={nameError}
 								onChange={(ev) => this.handleChange('username', ev)}
@@ -321,7 +321,7 @@ class Onboarding extends Component {
 								boxShadow={'none'}
 								text={user.password || ''}
 								inputBg={'transparent'}
-								placeholder='000000'
+								placeholder='Digite sua senha'
 								createError={emptyFields}
 								createErrorText={passwordError}
 								onChange={(ev) => this.handleChange('password', ev)}
