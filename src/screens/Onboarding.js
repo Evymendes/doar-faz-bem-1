@@ -115,11 +115,16 @@ class Onboarding extends Component {
 	}
 
 	loginUser = async (user) => {
-		const { email } = user;
-		const { password } = user;
+		const { email, password } = user;
 
 		try {
-			await login(email, password);
+			const response = await login(email, password);
+
+			console.log('response', response.data.sessionToken);
+
+			if (response) {
+				localStorage.setItem('sessionToken', response.data.sessionToken);
+			}
 
 			this.setState({
 				redirect: true,
