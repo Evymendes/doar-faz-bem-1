@@ -1,7 +1,6 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 // Components
 import OnboardingHeader from '../components/OnboardingHeader';
@@ -9,12 +8,13 @@ import DefaultInput from '../components/form/DefaultInput';
 import DefaultButton from '../components/DefaultButton';
 import Loading from '../components/Loading';
 
-// Images
+//Images
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
 import { createUser, login } from '../services/api';
+import DoarHash from '../services/DoarHash';
 
 // Styles
 const Form = styled.form`
@@ -29,14 +29,17 @@ const Form = styled.form`
 const ContainerInputs = styled.div`
 	margin-top: 2rem;
 	/* width: 100%; */
+	width: 18rem;
+	background: red;
 
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	justify-content: center;
 `;
 
 const ContainerPasswordInput = styled.div`
-	/* width: 75%; */
+	width: 75%;
 	position: relative;
 	display: flex;
 `;
@@ -72,7 +75,7 @@ const LoginText = styled.p`
 	}
 `;
 
-class Onboarding extends Component {
+class CreateAccount extends Component {
 	state = {
 		user: {
 			username: '',
@@ -86,7 +89,6 @@ class Onboarding extends Component {
 		eyeShowing: false,
 		isLoginScreen: false,
 		errorBack: undefined,
-		redirect: false,
 	}
 
 	createAccount = async (user) => {
@@ -99,7 +101,6 @@ class Onboarding extends Component {
 				this.setState({
 					isLoading: true,
 					errorBack: '',
-					emptyFields: false,
 				});
 
 				setTimeout(() => {
@@ -132,25 +133,20 @@ class Onboarding extends Component {
 
 			if (error.response.data.error === 'Account already exists for this username.') {
 				this.setState({
-					errorBack: 'Este nome já existe!',
+					errorBack: 'Este username já existe!',
 				});
 			}
 		}
 	}
 
 	loginUser = async (user) => {
-		const { email, password } = user;
+		const { email } = user;
+		const { password } = user;
 
 		try {
-			const response = await login(email, password);
+			const loginAccount = await login(email, password);
 
-			if (response) {
-				localStorage.setItem('sessionToken', response.data.sessionToken);
-			}
-
-			this.setState({
-				redirect: true,
-			});
+			console.log('loginAccount', loginAccount);
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
@@ -252,8 +248,7 @@ class Onboarding extends Component {
 		];
 
 		const {
-			user, nameError, emailError, passwordError, emptyFields,
-			isLoginScreen, eyeShowing, errorBack, isLoading, redirect,
+			user, nameError, emailError, passwordError, emptyFields, isLoginScreen, eyeShowing, errorBack,
 		} = this.state;
 
 		return (
@@ -263,7 +258,7 @@ class Onboarding extends Component {
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='75%'
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -271,6 +266,7 @@ class Onboarding extends Component {
 								labelMarginRight='1rem'
 								labelWidth='auto'
 								labelColor='#38D5D5'
+								labelFontSize={'0.85rem'}
 								type='text'
 								inputColor
 								boxShadow={'none'}
@@ -285,13 +281,14 @@ class Onboarding extends Component {
 						)}
 						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 						<DefaultInput
-							containerWidth='20rem'
+							containerWidth='75%'
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
 							label='E-mail'
 							labelMarginRight='1rem'
 							labelWidth='auto'
+							labelFontSize={'0.85rem'}
 							labelColor='#38D5D5'
 							type='email'
 							inputColor
@@ -307,7 +304,7 @@ class Onboarding extends Component {
 						<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
 						<ContainerPasswordInput>
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='100%'
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -315,6 +312,7 @@ class Onboarding extends Component {
 								labelMarginRight='1rem'
 								labelWidth='auto'
 								labelColor='#38D5D5'
+								labelFontSize={'0.85rem'}
 								type={eyeShowing ? 'text' : 'password'}
 								inputColor
 								boxShadow={'none'}
@@ -344,30 +342,36 @@ class Onboarding extends Component {
 						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 						<ErrorMessage>{errorBack}</ErrorMessage>
 						<DefaultButton
-							margin='0 0 1rem 0'
 							handleClick={this.validateUser}
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
+							maxWidth='18rem'
+							widthDesk='70%'
+							style={{
+								margin: '1rem',
+								width: '75%',
+								background: '#49E5D6',
+								color: '#fff',
+							}}
 						/>
 					</ContainerInputs>
 					<LoginText>
 						{!isLoginScreen ? (
 							<>
-								Você já possui uma conta? {}
+								Você já possui uma conta? { }
 								<span onClick={this.handleLoginScreen}>Faça login</span>
 							</>
 						) : (
 							<>
-								Você ainda não possui uma conta? {}
+								Você ainda não possui uma conta? { }
 								<span onClick={this.handleLoginScreen}>Crie agora</span>
 							</>
 						)}
 					</LoginText>
-					{redirect && <Redirect exact to="/dashboard" />}
 				</Form>
-				{isLoading && <Loading />}
+				{this.state.isLoading && <Loading/>}
 			</>
 		);
 	}
 }
 
-export default Onboarding;
+export default CreateAccount;
