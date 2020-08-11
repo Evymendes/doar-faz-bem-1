@@ -126,7 +126,8 @@ const ModalDelete = (props) => (
 			<DelModalText>Após ser excluido, o medicamento não pode ser recuperado.</DelModalText>
 			<DelModalText>Você deseja excluir o medicamento {}
 				<span>
-					{props.medicament.PRODUTO}
+					{/* {props.medicament.PRODUTO} */}
+					{props.medicament.PRODUTO.charAt(0).toUpperCase() + props.medicament.PRODUTO.slice(1).toLowerCase()}
 				</span>?
 			</DelModalText>
 			<ContainerDelModalButtons>
