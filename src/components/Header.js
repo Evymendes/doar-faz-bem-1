@@ -1,7 +1,8 @@
+/* eslint-disable class-methods-use-this */
 // Libs
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 // Images
 import Logo from '../assets/logo.jpg';
@@ -45,7 +46,7 @@ const LogoIcon = styled.img`
 	border-radius: 50%;
 `;
 
-const DashboardText = styled(NavLink)`
+const DashboardText = styled.p`
 	padding-left: 1rem;
 	width: 100%;
 	display: flex;
@@ -58,30 +59,58 @@ const DashboardText = styled(NavLink)`
 	font-weight: 800;
 `;
 
-function handleClick(history) {
-	history.push({
-		pathname: '/',
-	});
-}
+class Header extends Component {
+	state = {
+		isRedirect: false,
+	}
 
-const Header = (props) => (
-	<Container>
-		<ContainerLogo onClick={() => handleClick(props.history)}>
-			{/* DOAR FAZ BEM */}
-			<LogoIcon src={Logo} alt="Logo" />
-		</ContainerLogo>
-		{!props.withoutClose && <CloseIcon
-			strokeWidth={'2'}
-			style={{
-				stroke: props.strokeColor,
-				cursor: 'pointer',
-			}}
-			onClick={props.openModal}
-		/>
-		}
-		{props.withoutClose && <DashboardText exact to="/">Voltar Para o Início</DashboardText>}
-	</Container>
-);
+	// handleClick = (history) => {
+	// 	history.push({
+	// 		pathname: '/',
+	// 	});
+	// }
+
+	handleLogout = () => {
+		const remove = localStorage.removeItem('sessionToken');
+
+		console.log('remove', remove);
+
+		this.setState({
+			isRedirect: true,
+		});
+	}
+
+	render() {
+		const { withoutClose, strokeColor, openModal } = this.props;
+		return (
+			<Container>
+				{/* <ContainerLogo onClick={() => this.handleClick(this.props.history)}>
+					<LogoIcon src={Logo} alt="Logo" />
+				</ContainerLogo> */}
+				<ContainerLogo>
+					<LogoIcon src={Logo} alt="Logo" />
+				</ContainerLogo>
+				{!withoutClose && <CloseIcon
+					strokeWidth={'2'}
+					style={{
+						stroke: strokeColor,
+						cursor: 'pointer',
+					}}
+					onClick={openModal}
+				/>
+				}
+				{withoutClose
+				&& <DashboardText
+					onClick={this.handleLogout}
+				>
+					Sair
+				</DashboardText>
+				}
+				{this.state.isRedirect && <Redirect exact to="/" />}
+			</Container>
+		);
+	}
+}
 
 Header.defaultProps = {
 	strokeColor: '#d8998a',

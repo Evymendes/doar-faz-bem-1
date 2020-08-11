@@ -1,11 +1,10 @@
 export const isAuthenticated = () => {
-	// const token = localStorage.getItem('token');
+	const sessionToken = localStorage.getItem('sessionToken');
 
-	// if (token) {
-	// 	return true;
-	// }
-	// return false;
-	return true;
+	if (sessionToken) {
+		return true;
+	}
+	return false;
 };
 
 export default isAuthenticated;
