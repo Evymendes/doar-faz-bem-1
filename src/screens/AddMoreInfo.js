@@ -210,11 +210,16 @@ class Login extends Component {
 
 		try {
 			if (medId !== med.name) {
+				console.log('entrei no edit')
 				await editMedicament(formatData, medId);
 				return;
 			}
 
-			await createMedicament(formatData);
+			const responseCreate = await createMedicament(formatData);
+			console.log('entrei no create')
+
+
+			console.log('responseCreate', responseCreate)
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
@@ -301,7 +306,7 @@ class Login extends Component {
 					text={med.name}
 					isError={errors.includes('name')}
 					disabled={medId}
-					style={this.styledDisabled(medId)}
+					style={this.styledDisabled(true)}
 				/>
 				<DefaultInput
 					label='Data de Validade:'
@@ -317,7 +322,7 @@ class Login extends Component {
 					placeholder='Ex: Analgésico...'
 					isError={errors.includes('therapeuticClass')}
 					disabled={medId}
-					style={this.styledDisabled(medId)}
+					style={this.styledDisabled(true)}
 				/>
 				<DefaultInput
 					label='Substância:'
@@ -325,7 +330,7 @@ class Login extends Component {
 					text={med.substance}
 					isError={errors.includes('substance')}
 					disabled={medId}
-					style={this.styledDisabled(medId)}
+					style={this.styledDisabled(true)}
 				/>
 				<DefaultInput
 					label='Laboratório:'
