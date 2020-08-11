@@ -268,7 +268,7 @@ class Onboarding extends Component {
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
-								label='Nome'
+								label='Username'
 								labelMarginRight='1rem'
 								labelWidth='auto'
 								labelColor='#38D5D5'
@@ -277,7 +277,7 @@ class Onboarding extends Component {
 								boxShadow={'none'}
 								text={user.username || ''}
 								inputBg={'transparent'}
-								placeholder='Seu nome...'
+								placeholder='Seu username...'
 								createError={emptyFields}
 								createErrorText={nameError}
 								onChange={(ev) => this.handleChange('username', ev)}
