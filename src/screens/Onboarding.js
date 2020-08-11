@@ -99,6 +99,7 @@ class Onboarding extends Component {
 				this.setState({
 					isLoading: true,
 					errorBack: '',
+					emptyFields: false,
 				});
 
 				setTimeout(() => {
@@ -131,7 +132,7 @@ class Onboarding extends Component {
 
 			if (error.response.data.error === 'Account already exists for this username.') {
 				this.setState({
-					errorBack: 'Este username já existe!',
+					errorBack: 'Este nome já existe!',
 				});
 			}
 		}
@@ -343,13 +344,9 @@ class Onboarding extends Component {
 						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
 						<ErrorMessage>{errorBack}</ErrorMessage>
 						<DefaultButton
+							margin='0 0 1rem 0'
 							handleClick={this.validateUser}
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
-							style={{
-								margin: '1rem',
-								background: '#49E5D6',
-								color: '#fff',
-							}}
 						/>
 					</ContainerInputs>
 					<LoginText>
