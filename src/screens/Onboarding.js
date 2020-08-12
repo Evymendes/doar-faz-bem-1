@@ -68,7 +68,7 @@ const ErrorMessage = styled.p`
 `;
 
 const LoginText = styled.p`
-	margin-top: .5rem;
+	margin-top: ${(props) => (props.isLogin && '.5rem')};
 	align-self: center;
 	color: #989494;
 	font-size: .95rem;
@@ -402,7 +402,7 @@ class Onboarding extends Component {
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						/>
 					</ContainerInputs>
-					<LoginText>
+					<LoginText isLogin={isLoginScreen}>
 						{!isLoginScreen ? (
 							<>
 								Você já possui uma conta? {}

@@ -118,9 +118,9 @@ const LogoIcon = styled.img`
   animation-fill-mode: forwards;
 	animation-play-state: running;
 
-	@media(max-width: 320px) {
-		width: 7.5rem;
-    height: 7.5rem;
+	@media(max-width: 425px) {
+		width: 8rem;
+    height: 8rem;
 	}
 `;
 
