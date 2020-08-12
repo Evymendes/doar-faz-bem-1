@@ -122,6 +122,16 @@ const LogoIcon = styled.img`
 		width: 8rem;
     height: 8rem;
 	}
+
+	@media(max-width: 667px) and (orientation: landscape) {
+		width: 6.5rem;
+    height: 6.5rem;
+	}
+
+	@media(max-width: 568px) and (orientation: landscape) {
+		width: 5.5rem;
+    height: 5.5rem;
+	}
 `;
 
 const OnboardingHeader = (props) => (
