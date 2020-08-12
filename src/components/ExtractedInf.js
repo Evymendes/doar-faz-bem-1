@@ -14,6 +14,23 @@ const ModalDetails = styled.div`
 	width: 100vw;
 	height: 100vh;
 	background: #fff;
+
+	@media (orientation: landscape) {
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			width: 4px;
+		}
+		::-webkit-scrollbar-track {
+			background: #FFF;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #FFF;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #FFF;
+		}
+	}
 `;
 
 const ContentModalDetails = styled.div`
@@ -22,7 +39,11 @@ const ContentModalDetails = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	height: 75vh;
+	height: calc(100vh - 96px);
+
+	@media (orientation: landscape) {
+		height: auto;
+	}
 `;
 
 const ContainerIbsnCode = styled.div`

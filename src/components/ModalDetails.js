@@ -22,6 +22,7 @@ const Overlay = styled.div`
 	align-items: flex-end;
 	background: rgba(196, 196, 196, 0.3);
 	z-index: 5;
+	overflow-y: hidden;
 
 	@media(min-width: 1024px) {
 		justify-content: center;
@@ -37,9 +38,38 @@ const ContainerDetails = styled.div`
 	background-color: #fff;
 	font-family: 'Overpass', Regular;
 
+	@media (max-width: 768px) and (orientation: landscape) {
+		height: 100%;
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			width: 4px;
+		}
+		::-webkit-scrollbar-track {
+			background: #fff;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #fff;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #fff;
+		}
+	}
+
+
 	@media(min-width: 1024px) {
 		border-radius: 10px;
 		min-width: 50%;
+		width: 35%;
+	}
+
+	@media(min-width: 1440px) {
+		min-width: 35%;
+		width: 35%;
+	}
+
+	@media(min-width: 1440px) {
+		min-width: 35%;
 		width: 35%;
 	}
 
@@ -55,6 +85,7 @@ const WrapperDetails = styled.div`
 	height: ${(props) => (props.main && '100%')};
 	display:  ${(props) => (!props.main && 'flex')};
 	align-items: baseline;
+	background: #FFF;
 
 	@media(min-width: 1024px) {
 		padding-left: ${(props) => (!props.main && '1rem')};
@@ -107,6 +138,7 @@ const DetailsText = styled.p`
 `;
 
 const ContainerButton = styled.div`
+	margin-top: 1rem;
 	position: ${(props) => (!props.medDetails && 'fixed')};;
 	bottom: ${(props) => (!props.medDetails && '0')};
 	width: 100%;
