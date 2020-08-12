@@ -1,5 +1,4 @@
 // Libs
-// Libs
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -101,33 +100,6 @@ const Header = styled.div`
 
 	@media(min-width: 768px) {
 		height: ${(props) => (props.heightHeader && '40vh')};
-	}
-`;
-
-const ContainerLogo = styled.div`
-	width: 10rem;
-	height: 10rem;
-	border-radius: 50%;
-	background: #fff;
-	${'' /* box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
-	opacity: 0;
-	animation-name: ${fadeIn};
-  animation-duration: 2s;
-  animation-timing-function: ease;
-  animation-delay: 1s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: forwards;
-	animation-play-state: running; */}
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2rem;
-	color: #fff;
-
-	@media(max-width: 320px) {
-		width: 8.5rem;
-    height: 8.5rem;
 	}
 `;
 

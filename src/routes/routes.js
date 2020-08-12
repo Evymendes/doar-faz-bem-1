@@ -5,12 +5,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Screens
 import Onboarding from '../screens/Onboarding';
 import Scanner from '../screens/Scanner';
-// import QrCode from '../screens/QrCode';
 import AddMoreInfo from '../screens/AddMoreInfo';
 import Dashboard from '../screens/Dashboard';
 
 import PrivateRoute from './PrivateRoute';
-import { isAuthenticated } from '../auth';
+
 const Routes = () => (
 	<BrowserRouter>
 		<Switch>
