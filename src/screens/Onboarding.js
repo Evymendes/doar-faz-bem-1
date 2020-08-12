@@ -22,7 +22,8 @@ const Form = styled.form`
 	width: 100%;
 	height: 100vh;
 	font-family: 'Overpass', Regular;
-	overflow: hidden;
+	${'' /* overflow: hidden; */}
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 `;
@@ -47,6 +48,10 @@ const EyeIcon = styled.img`
 	right: 1rem;
 	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
 	cursor: pointer;
+
+	@media(max-width: 320px) {
+		bottom: ${(props) => (props.error ? '1.9rem' : '2rem')};
+	}
 `;
 
 const ErrorMessage = styled.p`
@@ -300,6 +305,7 @@ class Onboarding extends Component {
 								containerLittleWidth='17rem'
 								containerWidthDesk='20rem'
 								onboardingMarginBottom
+								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -325,6 +331,7 @@ class Onboarding extends Component {
 							containerLittleWidth='17rem'
 							containerWidthDesk='20rem'
 							onboardingMarginBottom
+							onboardingMarginBottomLittle
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
@@ -350,6 +357,7 @@ class Onboarding extends Component {
 								containerLittleWidth='17rem'
 								containerWidthDesk='20rem'
 								onboardingMarginBottom
+								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}

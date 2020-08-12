@@ -18,7 +18,7 @@ const Container = styled.div`
 	flex-direction: column;
 
 	@media(max-width: 320px) {
-		min-height: auto;
+		min-height: fit-content;
 	}
 `;
 

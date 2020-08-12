@@ -6,13 +6,14 @@ import styled from 'styled-components';
 const Container = styled.div`
 	width: ${(props) => (props.containerWidth)};
   margin-bottom: ${(props) => (props.isError || props.createErrorText ? '0.5rem' : '1.5rem')};
+	margin-bottom: ${(props) => (props.onboardingMarginBottom && '1.25rem')};
 	display: ${(props) => (props.containerDisplay && 'flex')};
 	align-items: ${(props) => (props.containerAlignItems && 'center')};
 	border-bottom: ${(props) => (props.containerBorderBottom)};
 	border-bottom: ${(props) => (props.createError && '2px solid red')};
 
 	@media(max-width: 320px) {
-		margin-bottom: ${(props) => (props.onboardingMarginBottom && '1rem')};
+		margin-bottom: ${(props) => (props.onboardingMarginBottomLittle && '1rem')};
 		width: ${(props) => (props.containerLittleWidth)};
 	}
 
@@ -69,6 +70,7 @@ const DefaultInput = (props) => (
 		createError={props.createError}
 		createErrorText={props.createErrorText}
 		onboardingMarginBottom={props.onboardingMarginBottom}
+		onboardingMarginBottomLittle={props.onboardingMarginBottomLittle}
 	>
 		<Label
 			labelColor={props.labelColor}
