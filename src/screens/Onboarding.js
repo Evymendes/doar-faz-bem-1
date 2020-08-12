@@ -50,11 +50,11 @@ const ContainerPasswordInput = styled.div`
 const EyeIcon = styled.img`
 	position: absolute;
 	right: 1rem;
-	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
+	bottom: 2rem;
 	cursor: pointer;
 
 	@media(max-width: 320px) {
-		bottom: ${(props) => (props.error ? '1.9rem' : '2rem')};
+		bottom: 1.5rem;
 	}
 `;
 
@@ -77,7 +77,7 @@ const LoginText = styled.p`
 	text-align: center;
 
 	@media(max-width: 320px) {
-		margin-bottom: .5rem;
+		${'' /* margin-bottom: .5rem; */}
 		width: 80%;
 	}
 
@@ -301,7 +301,7 @@ class Onboarding extends Component {
 		return (
 			<>
 				<Form onSubmit={this.handleSubmit}>
-					<OnboardingHeader heightHeader='35vh' />
+					<OnboardingHeader heightHeader='32vh' />
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput
@@ -384,13 +384,11 @@ class Onboarding extends Component {
 								? <EyeIcon
 									src={EyeOffIcon}
 									alt="escondendo senha"
-									error={passwordError}
 									onClick={this.handleEyeShow}
 								/>
 								: <EyeIcon
 									src={EyeOnIcon}
 									alt="mostrando senha"
-									error={passwordError}
 									onClick={this.handleEyeShow}
 								/>
 							}

@@ -104,8 +104,8 @@ const Header = styled.div`
 `;
 
 const LogoIcon = styled.img`
-	width: 10rem;
-	height: 10rem;
+	width: 9.5rem;
+	height: 9.5rem;
 	border-radius: 50%;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
 	opacity: 0;
