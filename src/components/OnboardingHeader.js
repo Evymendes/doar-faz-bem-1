@@ -104,8 +104,8 @@ const Header = styled.div`
 `;
 
 const LogoIcon = styled.img`
-	width: 10rem;
-	height: 10rem;
+	width: 9.5rem;
+	height: 9.5rem;
 	border-radius: 50%;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
 	opacity: 0;
@@ -118,9 +118,19 @@ const LogoIcon = styled.img`
   animation-fill-mode: forwards;
 	animation-play-state: running;
 
-	@media(max-width: 320px) {
-		width: 7.5rem;
-    height: 7.5rem;
+	@media(max-width: 425px) {
+		width: 8rem;
+    height: 8rem;
+	}
+
+	@media(max-width: 667px) and (orientation: landscape) {
+		width: 6.5rem;
+    height: 6.5rem;
+	}
+
+	@media(max-width: 568px) and (orientation: landscape) {
+		width: 5.5rem;
+    height: 5.5rem;
 	}
 `;
 

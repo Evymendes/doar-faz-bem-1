@@ -23,10 +23,14 @@ const Form = styled.form`
 	width: 100%;
 	/* height: 100vh; */
 	font-family: 'Overpass', Regular;
-	${'' /* overflow: hidden; */}
-	overflow-y: scroll;
+	overflow: hidden;
+
 	display: flex;
 	flex-direction: column;
+
+	@media(max-width: 320px) {
+		overflow-y: scroll;
+	}
 `;
 
 const ContainerInputs = styled.div`
@@ -47,11 +51,11 @@ const ContainerPasswordInput = styled.div`
 const EyeIcon = styled.img`
 	position: absolute;
 	right: 1rem;
-	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
+	bottom: 2rem;
 	cursor: pointer;
 
 	@media(max-width: 320px) {
-		bottom: ${(props) => (props.error ? '1.9rem' : '2rem')};
+		bottom: 1.5rem;
 	}
 `;
 
@@ -64,7 +68,7 @@ const ErrorMessage = styled.p`
 `;
 
 const LoginText = styled.p`
-	margin-top: .5rem;
+	margin-top: ${(props) => (props.isLogin && '.5rem')};
 	align-self: center;
 	color: #989494;
 	font-size: .95rem;
@@ -74,7 +78,7 @@ const LoginText = styled.p`
 	text-align: center;
 
 	@media(max-width: 320px) {
-		margin-bottom: .5rem;
+		${'' /* margin-bottom: .5rem; */}
 		width: 80%;
 	}
 
@@ -295,7 +299,7 @@ class Onboarding extends Component {
 
 		return (
 			<>
-				<OnboardingHeader heightHeader='35vh' />
+				<OnboardingHeader heightHeader='32vh' />
 				<Form onSubmit={this.handleSubmit}>
 					<ContainerInputs>
 						{!isLoginScreen && (
@@ -379,13 +383,11 @@ class Onboarding extends Component {
 								? <EyeIcon
 									src={EyeOffIcon}
 									alt="escondendo senha"
-									error={passwordError}
 									onClick={this.handleEyeShow}
 								/>
 								: <EyeIcon
 									src={EyeOnIcon}
 									alt="mostrando senha"
-									error={passwordError}
 									onClick={this.handleEyeShow}
 								/>
 							}
@@ -400,7 +402,7 @@ class Onboarding extends Component {
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						/>
 					</ContainerInputs>
-					<LoginText>
+					<LoginText isLogin={isLoginScreen}>
 						{!isLoginScreen ? (
 							<>
 								Você já possui uma conta? {}

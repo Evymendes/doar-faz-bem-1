@@ -13,7 +13,7 @@ const Container = styled.div`
 	border-bottom: ${(props) => (props.createError && '2px solid red')};
 
 	@media(max-width: 320px) {
-		margin-bottom: ${(props) => (props.onboardingMarginBottomLittle && '1rem')};
+		margin-bottom: ${(props) => (props.onboardingMarginBottomLittle && '.8rem')};
 		width: ${(props) => (props.containerLittleWidth)};
 	}
 
