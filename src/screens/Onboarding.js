@@ -35,15 +35,12 @@ const Form = styled.form`
 
 const ContainerInputs = styled.div`
 	margin-top: 2rem;
-	/* width: 100%; */
-
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 `;
 
 const ContainerPasswordInput = styled.div`
-	/* width: 75%; */
 	position: relative;
 	display: flex;
 `;
@@ -78,7 +75,6 @@ const LoginText = styled.p`
 	text-align: center;
 
 	@media(max-width: 320px) {
-		${'' /* margin-bottom: .5rem; */}
 		width: 80%;
 	}
 
@@ -189,7 +185,7 @@ class Onboarding extends Component {
 
 			if (error.response.data.code === 101) {
 				this.setState({
-					errorBack: 'Email ou senha inválidos'
+					errorBack: 'Email ou senha inválidos',
 				});
 			} else {
 				this.setState({
@@ -282,6 +278,13 @@ class Onboarding extends Component {
 	handleLoginScreen = () => {
 		this.setState({
 			isLoginScreen: !this.state.isLoginScreen,
+		});
+
+		this.setState({
+			emptyFields: false,
+			nameError: false,
+			emailError: false,
+			passwordError: false,
 		});
 	}
 
@@ -397,7 +400,6 @@ class Onboarding extends Component {
 						<DefaultButton
 							margin='0 0 1rem 0'
 							maxWidth='18rem'
-							maxLittleWidth='17.5rem'
 							handleClick={this.validateUser}
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						/>

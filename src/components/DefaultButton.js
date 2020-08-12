@@ -36,7 +36,6 @@ const Button = styled.button`
 
 	@media(min-width: 320px) {
 		font-size: .95rem;
-		max-width: ${(props) => (props.maxLittleWidth ? props.maxLittleWidth : '20rem')};
 	}
 
 	@media(min-width: 768px) {
