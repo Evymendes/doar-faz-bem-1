@@ -22,10 +22,14 @@ const Form = styled.form`
 	width: 100%;
 	height: 100vh;
 	font-family: 'Overpass', Regular;
-	${'' /* overflow: hidden; */}
-	overflow-y: scroll;
+	overflow: hidden;
+
 	display: flex;
 	flex-direction: column;
+
+	@media(max-width: 320px) {
+		overflow-y: scroll;
+	}
 `;
 
 const ContainerInputs = styled.div`
