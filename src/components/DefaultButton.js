@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 
 // Styles
 const pressAnimation = keyframes`
-  100% {
+  50% {
 		transform: translateY(2px);
     box-shadow: none;
   }
@@ -27,6 +27,7 @@ const Button = styled.button`
 	border-radius: 50px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
+	outline: none;
 	animation: ${(props) => (props.pressed ? pressAnimation : '')} 0.5s ease forwards;
 
 	&:hover {
@@ -35,9 +36,11 @@ const Button = styled.button`
 
 	@media(min-width: 320px) {
 		font-size: .95rem;
+		max-width: ${(props) => (props.maxLittleWidth ? props.maxLittleWidth : '20rem')};
 	}
 
 	@media(min-width: 768px) {
+		max-width: 20rem;
 		width: ${(props) => props.widthDesk};
 	}
 `;
@@ -50,7 +53,7 @@ const DefaultButton = (props) => {
 		if (!pressed) {
 			setTimeout(() => {
 				props.handleClick();
-			}, 550);
+			}, 450);
 		}
 	};
 
@@ -59,6 +62,7 @@ const DefaultButton = (props) => {
 			margin={props.margin}
 			widthDesk={props.widthDesk}
 			maxWidth={props.maxWidth}
+			maxLittleWidth={props.maxLittleWidth}
 			color={props.color}
 			background={props.background}
 			backgroundHover={props.backgroundHover}

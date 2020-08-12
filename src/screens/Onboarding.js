@@ -15,6 +15,7 @@ import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
 import { createUser, login } from '../services/api';
+import { isAuthenticated } from '../auth';
 
 // Styles
 const Form = styled.form`
@@ -22,7 +23,8 @@ const Form = styled.form`
 	width: 100%;
 	/* height: 100vh; */
 	font-family: 'Overpass', Regular;
-	overflow: hidden;
+	${'' /* overflow: hidden; */}
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 `;
@@ -47,6 +49,10 @@ const EyeIcon = styled.img`
 	right: 1rem;
 	bottom: ${(props) => (props.error ? '1.3rem' : '2.3rem')};
 	cursor: pointer;
+
+	@media(max-width: 320px) {
+		bottom: ${(props) => (props.error ? '1.9rem' : '2rem')};
+	}
 `;
 
 const ErrorMessage = styled.p`
@@ -64,6 +70,17 @@ const LoginText = styled.p`
 	font-size: .95rem;
 	font-family: 'Overpass', Regular;
 	font-weight: 600;
+
+	text-align: center;
+
+	@media(max-width: 320px) {
+		margin-bottom: .5rem;
+		width: 80%;
+	}
+
+	@media(min-width: 375px) {
+		margin-top: .8rem;
+	}
 
 	span {
 		font-family: 'Overpass', Bold;
@@ -88,6 +105,15 @@ class Onboarding extends Component {
 		isLoginScreen: true,
 		errorBack: undefined,
 		redirect: false,
+	}
+
+	componentDidMount() {
+		const istAuth = isAuthenticated();
+		if (istAuth) {
+			this.setState({
+				redirect: true,
+			});
+		}
 	}
 
 	createAccount = async (user) => {
@@ -156,6 +182,16 @@ class Onboarding extends Component {
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
+
+			if (error.response.data.code === 101) {
+				this.setState({
+					errorBack: 'Email ou senha inválidos'
+				});
+			} else {
+				this.setState({
+					errorBack: 'Erro desconhecido.',
+				});
+			}
 		}
 	}
 
@@ -184,6 +220,7 @@ class Onboarding extends Component {
 
 		this.setState({
 			user,
+			errorBack: undefined,
 		});
 	};
 
@@ -258,12 +295,16 @@ class Onboarding extends Component {
 
 		return (
 			<>
-				<OnboardingHeader heightHeader='40vh' />
+				<OnboardingHeader heightHeader='35vh' />
 				<Form onSubmit={this.handleSubmit}>
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='18rem'
+								containerLittleWidth='17rem'
+								containerWidthDesk='20rem'
+								onboardingMarginBottom
+								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -285,7 +326,11 @@ class Onboarding extends Component {
 						)}
 						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 						<DefaultInput
-							containerWidth='20rem'
+							containerWidth='18rem'
+							containerLittleWidth='17rem'
+							containerWidthDesk='20rem'
+							onboardingMarginBottom
+							onboardingMarginBottomLittle
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
@@ -307,7 +352,11 @@ class Onboarding extends Component {
 						<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
 						<ContainerPasswordInput>
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='18rem'
+								containerLittleWidth='17rem'
+								containerWidthDesk='20rem'
+								onboardingMarginBottom
+								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -345,6 +394,8 @@ class Onboarding extends Component {
 						<ErrorMessage>{errorBack}</ErrorMessage>
 						<DefaultButton
 							margin='0 0 1rem 0'
+							maxWidth='18rem'
+							maxLittleWidth='17.5rem'
 							handleClick={this.validateUser}
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						/>
