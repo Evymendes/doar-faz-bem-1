@@ -21,10 +21,8 @@ import { isAuthenticated } from '../auth';
 const Form = styled.form`
   padding-bottom: 1rem;
 	width: 100%;
-	/* height: 100vh; */
 	font-family: 'Overpass', Regular;
 	overflow: hidden;
-
 	display: flex;
 	flex-direction: column;
 
