@@ -113,6 +113,23 @@ const ContentModalBarCode = styled.div`
 	width: 100%;
 	height: 100vh;
 	background: #fff;
+
+	@media (orientation: landscape) {
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			width: 4px;
+		}
+		::-webkit-scrollbar-track {
+			background: #FFF;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #FFF;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #FFF;
+		}
+	}
 `;
 
 const WrapperModalBarCode = styled.div`
@@ -333,7 +350,7 @@ class Scanner extends Component {
 				<WrapperModalBarCode>
 					<InputBarCode
 						type='number'
-						placeholder='Digite o codigo de barras...'
+						placeholder='Digite o código de barras...'
 						onChange={this.handleInputBarCode}
 					/>
 					{this.state.error && (
@@ -342,7 +359,7 @@ class Scanner extends Component {
 						</ErrorMessage>
 					)}
 					<DefaultButton
-						margin= '2rem 0'
+						margin= '1rem 0'
 						handleClick={this.handleButtonBarCode}
 						text={'Verificar Código'}
 					/>

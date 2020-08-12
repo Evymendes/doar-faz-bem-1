@@ -19,8 +19,9 @@ import { isAuthenticated } from '../auth';
 
 // Styles
 const Form = styled.form`
+  padding-bottom: 1rem;
 	width: 100%;
-	height: 100vh;
+	/* height: 100vh; */
 	font-family: 'Overpass', Regular;
 	${'' /* overflow: hidden; */}
 	overflow-y: scroll;
@@ -275,8 +276,6 @@ class Onboarding extends Component {
 	}
 
 	handleLoginScreen = () => {
-		console.log('isloginscreen');
-
 		this.setState({
 			isLoginScreen: !this.state.isLoginScreen,
 		});
@@ -296,8 +295,8 @@ class Onboarding extends Component {
 
 		return (
 			<>
+				<OnboardingHeader heightHeader='35vh' />
 				<Form onSubmit={this.handleSubmit}>
-					<OnboardingHeader heightHeader='35vh' />
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput
