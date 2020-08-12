@@ -72,6 +72,10 @@ const LoginText = styled.p`
 		width: 80%;
 	}
 
+	@media(min-width: 375px) {
+		margin-top: .8rem;
+	}
+
 	span {
 		font-family: 'Overpass', Bold;
 		font-weight: 900;
@@ -277,7 +281,7 @@ class Onboarding extends Component {
 		return (
 			<>
 				<Form onSubmit={this.handleSubmit}>
-					<OnboardingHeader heightHeader='40vh' />
+					<OnboardingHeader heightHeader='35vh' />
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput

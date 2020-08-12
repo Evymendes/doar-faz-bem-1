@@ -71,6 +71,10 @@ const ContainerHeader = styled.div`
 	@media(max-width: 720px) {
 		width: 150%;
 	}
+
+	@media(min-width: 768px) {
+		height: ${(props) => (props.heightHeader && '40vh')};
+	}
 `;
 
 const Header = styled.div`
@@ -93,6 +97,10 @@ const Header = styled.div`
 
 	@media(max-width: 320px) {
 		height: 30vh;
+	}
+
+	@media(min-width: 768px) {
+		height: ${(props) => (props.heightHeader && '40vh')};
 	}
 `;
 
