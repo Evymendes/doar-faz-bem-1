@@ -10,6 +10,15 @@ const Container = styled.div`
 	align-items: ${(props) => (props.containerAlignItems && 'center')};
 	border-bottom: ${(props) => (props.containerBorderBottom)};
 	border-bottom: ${(props) => (props.createError && '2px solid red')};
+
+	@media(max-width: 320px) {
+		margin-bottom: ${(props) => (props.onboardingMarginBottom && '1rem')};
+		width: ${(props) => (props.containerLittleWidth)};
+	}
+
+	@media(min-width: 768px) {
+		width: ${(props) => (props.containerWidthDesk)};
+	}
 `;
 
 const Label = styled.label`
@@ -52,11 +61,14 @@ const DefaultInput = (props) => (
 	<Container
 		isError={props.isError}
 		containerWidth={props.containerWidth}
+		containerLittleWidth={props.containerLittleWidth}
+		containerWidthDesk={props.containerWidthDesk}
 		containerDisplay={props.containerDisplay}
 		containerAlignItems={props.containerAlignItems}
 		containerBorderBottom={props.containerBorderBottom}
 		createError={props.createError}
 		createErrorText={props.createErrorText}
+		onboardingMarginBottom={props.onboardingMarginBottom}
 	>
 		<Label
 			labelColor={props.labelColor}

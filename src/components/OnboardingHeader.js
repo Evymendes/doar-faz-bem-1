@@ -1,5 +1,6 @@
 // Libs
-import React, { Component } from 'react';
+// Libs
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 // Images
@@ -9,13 +10,16 @@ import Background from '../assets/headerbg.jpeg';
 // Styles
 const Container = styled.div`
 	width: 100%;
-	${'' /* height: 100vh; */}
 	font-family: 'Overpass', Regular;
 	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+
+	@media(max-width: 320px) {
+		min-height: auto;
+	}
 `;
 
 const borderAnimation = keyframes`
@@ -60,6 +64,10 @@ const ContainerHeader = styled.div`
   animation-fill-mode: forwards;
 	animation-play-state: running;
 
+	@media(max-width: 320px) {
+		height: 30vh;
+	}
+
 	@media(max-width: 720px) {
 		width: 150%;
 	}
@@ -82,6 +90,10 @@ const Header = styled.div`
   animation-direction: normal;
   animation-fill-mode: forwards;
   animation-play-state: running;
+
+	@media(max-width: 320px) {
+		height: 30vh;
+	}
 `;
 
 const ContainerLogo = styled.div`
@@ -89,6 +101,32 @@ const ContainerLogo = styled.div`
 	height: 10rem;
 	border-radius: 50%;
 	background: #fff;
+	${'' /* box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
+	opacity: 0;
+	animation-name: ${fadeIn};
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-delay: 1s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+	animation-play-state: running; */}
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	color: #fff;
+
+	@media(max-width: 320px) {
+		width: 8.5rem;
+    height: 8.5rem;
+	}
+`;
+
+const LogoIcon = styled.img`
+	width: 10rem;
+	height: 10rem;
+	border-radius: 50%;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
 	opacity: 0;
 	animation-name: ${fadeIn};
@@ -99,26 +137,18 @@ const ContainerLogo = styled.div`
   animation-direction: normal;
   animation-fill-mode: forwards;
 	animation-play-state: running;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2rem;
-	color: #fff;
-`;
 
-const LogoIcon = styled.img`
-	width: 10rem;
-	height: 10rem;
-	border-radius: 50%;
+	@media(max-width: 320px) {
+		width: 7.5rem;
+    height: 7.5rem;
+	}
 `;
 
 const OnboardingHeader = (props) => (
 	<Container>
 		<ContainerHeader heightHeader={props.heightHeader}>
 			<Header heightHeader={props.heightHeader}>
-				<ContainerLogo>
-					<LogoIcon src={Logo} alt="Logo" />
-				</ContainerLogo>
+				<LogoIcon src={Logo} alt="Logo" />
 			</Header>
 		</ContainerHeader>
 	</Container>

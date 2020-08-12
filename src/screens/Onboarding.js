@@ -64,6 +64,13 @@ const LoginText = styled.p`
 	font-family: 'Overpass', Regular;
 	font-weight: 600;
 
+	text-align: center;
+
+	@media(max-width: 320px) {
+		margin-bottom: .5rem;
+		width: 80%;
+	}
+
 	span {
 		font-family: 'Overpass', Bold;
 		font-weight: 900;
@@ -264,7 +271,10 @@ class Onboarding extends Component {
 					<ContainerInputs>
 						{!isLoginScreen && (
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='18rem'
+								containerLittleWidth='17rem'
+								containerWidthDesk='20rem'
+								onboardingMarginBottom
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -286,7 +296,10 @@ class Onboarding extends Component {
 						)}
 						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 						<DefaultInput
-							containerWidth='20rem'
+							containerWidth='18rem'
+							containerLittleWidth='17rem'
+							containerWidthDesk='20rem'
+							onboardingMarginBottom
 							containerDisplay
 							containerAlignItems
 							containerBorderBottom={'1.5px solid #38D5D5'}
@@ -308,7 +321,10 @@ class Onboarding extends Component {
 						<ErrorMessage>{emailError && errorsMessage[1]}</ErrorMessage>
 						<ContainerPasswordInput>
 							<DefaultInput
-								containerWidth='20rem'
+								containerWidth='18rem'
+								containerLittleWidth='17rem'
+								containerWidthDesk='20rem'
+								onboardingMarginBottom
 								containerDisplay
 								containerAlignItems
 								containerBorderBottom={'1.5px solid #38D5D5'}
@@ -346,6 +362,8 @@ class Onboarding extends Component {
 						<ErrorMessage>{errorBack}</ErrorMessage>
 						<DefaultButton
 							margin='0 0 1rem 0'
+							maxWidth='18rem'
+							maxLittleWidth='17.5rem'
 							handleClick={this.validateUser}
 							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
 						/>

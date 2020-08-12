@@ -35,9 +35,11 @@ const Button = styled.button`
 
 	@media(min-width: 320px) {
 		font-size: .95rem;
+		max-width: ${(props) => (props.maxLittleWidth ? props.maxLittleWidth : '20rem')};
 	}
 
 	@media(min-width: 768px) {
+		max-width: 20rem;
 		width: ${(props) => props.widthDesk};
 	}
 `;
@@ -59,6 +61,7 @@ const DefaultButton = (props) => {
 			margin={props.margin}
 			widthDesk={props.widthDesk}
 			maxWidth={props.maxWidth}
+			maxLittleWidth={props.maxLittleWidth}
 			color={props.color}
 			background={props.background}
 			backgroundHover={props.backgroundHover}
