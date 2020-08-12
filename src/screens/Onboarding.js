@@ -15,6 +15,7 @@ import EyeOffIcon from '../assets/eyeOff.svg';
 
 // Services
 import { createUser, login } from '../services/api';
+import { isAuthenticated } from '../auth';
 
 // Styles
 const Form = styled.form`
@@ -94,6 +95,15 @@ class Onboarding extends Component {
 		isLoginScreen: true,
 		errorBack: undefined,
 		redirect: false,
+	}
+
+	componentDidMount() {
+		const istAuth = isAuthenticated();
+		if (istAuth) {
+			this.setState({
+				redirect: true,
+			});
+		}
 	}
 
 	createAccount = async (user) => {

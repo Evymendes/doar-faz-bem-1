@@ -10,7 +10,7 @@ import AddMoreInfo from '../screens/AddMoreInfo';
 import Dashboard from '../screens/Dashboard';
 
 import PrivateRoute from './PrivateRoute';
-
+import { isAuthenticated } from '../auth';
 const Routes = () => (
 	<BrowserRouter>
 		<Switch>
