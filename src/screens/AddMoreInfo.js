@@ -210,16 +210,12 @@ class Login extends Component {
 
 		try {
 			if (medId !== med.name) {
-				console.log('entrei no edit')
 				await editMedicament(formatData, medId);
 				return;
 			}
 
-			const responseCreate = await createMedicament(formatData);
-			console.log('entrei no create')
+			await createMedicament(formatData);
 
-
-			console.log('responseCreate', responseCreate)
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
