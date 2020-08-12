@@ -302,11 +302,12 @@ class Login extends Component {
 					text={med.name}
 					isError={errors.includes('name')}
 					disabled={medId}
-					style={this.styledDisabled(true)}
+					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
 					label='Data de Validade:'
-					type="date"
+					labelWidth='auto'
+					type="month"
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={this.formatDate(med.expirationDate)}
 					isError={errors.includes('expirationDate')}
@@ -318,7 +319,7 @@ class Login extends Component {
 					placeholder='Ex: Analgésico...'
 					isError={errors.includes('therapeuticClass')}
 					disabled={medId}
-					style={this.styledDisabled(true)}
+					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
 					label='Substância:'
@@ -326,7 +327,7 @@ class Login extends Component {
 					text={med.substance}
 					isError={errors.includes('substance')}
 					disabled={medId}
-					style={this.styledDisabled(true)}
+					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
 					label='Laboratório:'
