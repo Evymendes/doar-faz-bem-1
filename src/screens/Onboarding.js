@@ -176,6 +176,16 @@ class Onboarding extends Component {
 		} catch (error) {
 			console.log('error', error);
 			console.log('error', error.response);
+
+			if (error.response.data.code === 101) {
+				this.setState({
+					errorBack: 'Email ou senha inválidos'
+				});
+			} else {
+				this.setState({
+					errorBack: 'Erro desconhecido.',
+				});
+			}
 		}
 	}
 
@@ -204,6 +214,7 @@ class Onboarding extends Component {
 
 		this.setState({
 			user,
+			errorBack: undefined,
 		});
 	};
 
