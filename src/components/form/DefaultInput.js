@@ -87,7 +87,6 @@ const Icon = styled.img`
 		margin-bottom: ${(props) => (props.onboardingMarginBottomLittle && '1rem')};
 		width: ${(props) => (props.containerLittleWidth)};
 	}
-
 `;
 
 const Input = styled.input`

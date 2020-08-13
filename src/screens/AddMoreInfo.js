@@ -94,7 +94,6 @@ class Login extends Component {
 	}
 
 	formatDate = (date) => {
-		console.log('date-------', date);
 		if (date) {
 			return date.substr(0, 7);
 		}
@@ -168,12 +167,6 @@ class Login extends Component {
 
 		const errors = [];
 
-		console.log('errors', errors)
-		console.log('med', med)
-		console.log('fields', fields)
-
-
-
 		fields.map((field) => {
 			if (!med[field]) {
 				errors.push(field);
@@ -215,19 +208,14 @@ class Login extends Component {
 			DESCRICAO: med.description,
 			PMC_20_PERC: med.price,
 		};
-		console.log('cheguei aqui')
-		console.log('cheguei medId, ', medId)
-		console.log('cheguei med', med)
-
 
 		try {
-			if (medId !== med.name) {
+			if (medId && (medId !== med.name)) {
 				await editMedicament(formatData, medId);
 				return;
 			}
 
-			const response = await createMedicament(formatData);
-			console.log ('response create', response)
+			await createMedicament(formatData);
 
 		} catch (error) {
 			console.log('error', error);
