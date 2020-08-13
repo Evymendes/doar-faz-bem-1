@@ -77,7 +77,7 @@ const LoginText = styled.p`
 	}
 
 	@media(min-width: 375px) {
-		margin-top: .8rem;
+		margin-top: ${(props) => (props.isLogin && '.8rem')};
 	}
 
 	span {
