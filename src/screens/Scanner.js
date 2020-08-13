@@ -382,7 +382,7 @@ class Scanner extends Component {
 
 		const mobLandscape = (window.matchMedia('(max-width: 667px) and (orientation: landscape)').matches);
 
-		mobLandscape && (
+		!modalOpenBarCode && mobLandscape && (
 			alert('Não é possível efetuar a leitura do código de barras com a tela na horizontal. Vire-a, e tente novamente!')
 		);
 
