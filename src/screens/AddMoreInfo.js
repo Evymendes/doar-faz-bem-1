@@ -305,6 +305,7 @@ class Login extends Component {
 					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
+					data
 					label='Data de Validade:'
 					labelWidth='auto'
 					type="month"

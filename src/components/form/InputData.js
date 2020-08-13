@@ -79,7 +79,7 @@ const ErrorMessage = styled.p`
 	justify-content: flex-end;
 `;
 
-const DefaultInput = (props) => (
+const InputData = (props) => (
 	<Container
 		isError={props.isError}
 		containerWidth={props.containerWidth}
@@ -126,10 +126,10 @@ const DefaultInput = (props) => (
 	</Container>
 );
 
-DefaultInput.defaultProps = {
+InputData.defaultProps = {
 	Label: '',
 	type: 'text',
 	placeholder: 'Digite aqui...',
 };
 
-export default DefaultInput;
+export default InputData;
