@@ -602,8 +602,6 @@ function Dashboard(props) {
 
 				const response = await getAllMedicaments(userId);
 
-				console.log('response med', response)
-
 				setMedList(response.data.results);
 
 				setIsFetching(false);

@@ -95,7 +95,7 @@ class Login extends Component {
 
 	formatDate = (date) => {
 		if (date) {
-			return date.substr(0, 10);
+			return date.substr(0, 7);
 		}
 	}
 
@@ -210,7 +210,7 @@ class Login extends Component {
 		};
 
 		try {
-			if (medId !== med.name) {
+			if (medId && (medId !== med.name)) {
 				await editMedicament(formatData, medId);
 				return;
 			}
@@ -219,7 +219,7 @@ class Login extends Component {
 
 		} catch (error) {
 			console.log('error', error);
-			console.log('error.response', error.response);
+			console.log('error.response create', error.response);
 		}
 	}
 
@@ -319,11 +319,12 @@ class Login extends Component {
 					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
-					data
+					date
 					label='Data de Validade:'
 					labelWidth='auto'
 					type="month"
 					handleModalDate={this.handleModalDate}
+					isModal={this.state.isModalDate}
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={this.formatDate(med.expirationDate)}
 					isError={errors.includes('expirationDate')}
