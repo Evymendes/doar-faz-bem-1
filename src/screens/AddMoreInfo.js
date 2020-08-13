@@ -94,8 +94,9 @@ class Login extends Component {
 	}
 
 	formatDate = (date) => {
+		console.log('date-------', date);
 		if (date) {
-			return date.substr(0, 10);
+			return date.substr(0, 7);
 		}
 	}
 
@@ -104,10 +105,6 @@ class Login extends Component {
 
 		if (state && state.result && state.result.EAN_1) {
 			const { result, medId } = this.props.location.state;
-
-			console.log('medid ',medId )
-			console.log('result ',result )
-
 
 			if (medId) {
 				// Edit
@@ -171,6 +168,12 @@ class Login extends Component {
 
 		const errors = [];
 
+		console.log('errors', errors)
+		console.log('med', med)
+		console.log('fields', fields)
+
+
+
 		fields.map((field) => {
 			if (!med[field]) {
 				errors.push(field);
@@ -219,8 +222,6 @@ class Login extends Component {
 
 		try {
 			if (medId !== med.name) {
-
-
 				await editMedicament(formatData, medId);
 				return;
 			}
