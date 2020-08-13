@@ -2,6 +2,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+//Images
+import IconClose from '../../assets/closeBlue.svg';
+
 // Styles
 const Container = styled.div`
 	width: ${(props) => (props.containerWidth)};
@@ -22,6 +25,11 @@ const Container = styled.div`
 	}
 `;
 
+const ContenteLabel = styled.div`
+	display: flex;
+	align-items: flex-end;
+`;
+
 const Label = styled.label`
 	margin-right: ${(props) => (props.labelMarginRight)};
 	width: ${(props) => (props.labelWidth ? props.labelWidth : '90%')};
@@ -30,6 +38,56 @@ const Label = styled.label`
 	font-size: ${(props) => (props.labelFontSize ? props.labelFontSize : '1rem')};
 	font-family: 'Overpass', serif;
 	white-space: nowrap;
+`;
+
+const Info = styled.p`
+	margin: 0 0 .3rem .5rem;
+	width: 1.3rem;
+	height: 1.3rem;
+	color: #38D5D5;
+	font: 700 1rem 'Overpass', serif;
+	background: #FFF;
+	border-radius: 50%;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
+
+const ContentInfo = styled.div`
+	position: relative;
+`;
+
+const ContentModal = styled.div`
+	position: absolute;
+	top: 21px;
+	left: -5rem;
+	padding-left: 0.5rem;
+	min-width: 200px;
+	background: #FFF;
+	box-shadow: 0 0 4px #888888;
+	border: 1px solid #3cc5b8;
+	border-radius: 3px;
+
+	p {
+		font: 400 0.85rem 'Overpass', serif;
+		margin: .5rem 0;
+	}
+
+`;
+
+const Icon = styled.img`
+	display: none;
+
+	@media(max-width: 768px) {
+		display: flex;
+		position: absolute;
+		top: 2px;
+		right: 0;
+		margin-bottom: ${(props) => (props.onboardingMarginBottomLittle && '1rem')};
+		width: ${(props) => (props.containerLittleWidth)};
+	}
+
 `;
 
 const Input = styled.input`
@@ -72,14 +130,30 @@ const DefaultInput = (props) => (
 		onboardingMarginBottom={props.onboardingMarginBottom}
 		onboardingMarginBottomLittle={props.onboardingMarginBottomLittle}
 	>
-		<Label
-			labelColor={props.labelColor}
-			labelWidth={props.labelWidth}
-			labelMarginRight={props.labelMarginRight}
-			labelFontSize={props.labelFontSize}
-		>
-			{props.label}
-		</Label>
+		<ContenteLabel>
+			<Label
+				labelColor={props.labelColor}
+				labelWidth={props.labelWidth}
+				labelMarginRight={props.labelMarginRight}
+				labelFontSize={props.labelFontSize}
+			>
+				{props.label}
+			</Label>
+			{props.date && (
+				<ContentInfo>
+					<Info onCLick={props.handleModalDate} onMouseEnter={props.handleModalDate} onMouseLeave={props.handleModalDate}>?</Info>
+					{props.isModal && (
+						<ContentModal>
+							<Icon src={IconClose} onCLick={props.handleModalDate} />
+							<p>Selecione o mês e o ano de vencimento.</p>
+							<p>
+								clique no icone do calendário para selecionar o mês e use a barra de rolagem para selecionar o ano.
+							</p>
+						</ContentModal>
+					)}
+				</ContentInfo>
+			)}
+		</ContenteLabel>
 		<Input
 			type={props.type}
 			value={props.text || ''}

@@ -105,6 +105,10 @@ class Login extends Component {
 		if (state && state.result && state.result.EAN_1) {
 			const { result, medId } = this.props.location.state;
 
+			console.log('medid ',medId )
+			console.log('result ',result )
+
+
 			if (medId) {
 				// Edit
 				this.setState({
@@ -208,18 +212,25 @@ class Login extends Component {
 			DESCRICAO: med.description,
 			PMC_20_PERC: med.price,
 		};
+		console.log('cheguei aqui')
+		console.log('cheguei medId, ', medId)
+		console.log('cheguei med', med)
+
 
 		try {
 			if (medId !== med.name) {
+
+
 				await editMedicament(formatData, medId);
 				return;
 			}
 
-			await createMedicament(formatData);
+			const response = await createMedicament(formatData);
+			console.log ('response create', response)
 
 		} catch (error) {
 			console.log('error', error);
-			console.log('error.response', error.response);
+			console.log('error.response create', error.response);
 		}
 	}
 
@@ -319,11 +330,12 @@ class Login extends Component {
 					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
-					data
+					date
 					label='Data de Validade:'
 					labelWidth='auto'
 					type="month"
 					handleModalDate={this.handleModalDate}
+					isModal={this.state.isModalDate}
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={this.formatDate(med.expirationDate)}
 					isError={errors.includes('expirationDate')}
