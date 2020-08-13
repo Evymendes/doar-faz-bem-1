@@ -466,7 +466,7 @@ const RenderTable = ({
 	const widthMob = (window.matchMedia('(max-width: 1023px)').matches);
 
 	const formatExpirationDate = (date) => date
-		.substr(0, 10)
+		.substr(0, 7)
 		.split('-')
 		.reverse()
 		.join('/');
@@ -601,6 +601,8 @@ function Dashboard(props) {
 				const userId = localStorage.getItem('objectId');
 
 				const response = await getAllMedicaments(userId);
+
+				console.log('response med', response)
 
 				setMedList(response.data.results);
 

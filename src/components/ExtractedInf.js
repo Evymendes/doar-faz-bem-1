@@ -41,6 +41,7 @@ const ContentModalDetails = styled.div`
 	flex-direction: column;
 	height: calc(100vh - 96px);
 
+
 	@media (orientation: landscape) {
 		height: auto;
 	}
