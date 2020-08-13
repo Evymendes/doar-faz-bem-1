@@ -22,13 +22,6 @@ const Container = styled.div`
 	}
 `;
 
-const ContentLabel = styled.div`
-	display: flex;
-	width: 100%;
-	height: 2rem;
-	align-items: flex-end;
-`;
-
 const Label = styled.label`
 	margin-right: ${(props) => (props.labelMarginRight)};
 	width: ${(props) => (props.labelWidth ? props.labelWidth : '90%')};
@@ -37,20 +30,6 @@ const Label = styled.label`
 	font-size: ${(props) => (props.labelFontSize ? props.labelFontSize : '1rem')};
 	font-family: 'Overpass', serif;
 	white-space: nowrap;
-`;
-
-const Icon = styled.span`
-	margin: 0 0 0.3rem 0.5rem;
-	width: 1.3rem;
-	height: 1.2rem;
-	font-size: 1rem;
-	font-weight: bold;
-	border-radius: 2rem;
-	background: red;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	font-weight: 600;
 `;
 
 const Input = styled.input`
@@ -93,17 +72,14 @@ const DefaultInput = (props) => (
 		onboardingMarginBottom={props.onboardingMarginBottom}
 		onboardingMarginBottomLittle={props.onboardingMarginBottomLittle}
 	>
-		<ContentLabel>
-			<Label
-				labelColor={props.labelColor}
-				labelWidth={props.labelWidth}
-				labelMarginRight={props.labelMarginRight}
-				labelFontSize={props.labelFontSize}
-			>
-				{props.label}
-			</Label>
-			{props.data && <Icon isModal={props.isModal}>!</Icon>}
-		</ContentLabel>
+		<Label
+			labelColor={props.labelColor}
+			labelWidth={props.labelWidth}
+			labelMarginRight={props.labelMarginRight}
+			labelFontSize={props.labelFontSize}
+		>
+			{props.label}
+		</Label>
 		<Input
 			type={props.type}
 			value={props.text || ''}

@@ -40,6 +40,7 @@ const Footer = styled.div`
 
 class Login extends Component {
 	state = {
+		isModalDate: undefined,
 		isModalOpenPackaging: undefined,
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
@@ -222,6 +223,12 @@ class Login extends Component {
 		}
 	}
 
+	handleModalDate = () => {
+		this.setState({
+			isModalDate: !this.state.isModalDate,
+		});
+	}
+
 	handleModalOpenPackaging = () => {
 		const { isModalOpenPackaging, isRotationOpenPackaging } = this.state;
 
@@ -232,9 +239,11 @@ class Login extends Component {
 	}
 
 	handleSelectedPackaging = (item) => {
+		const { isRotationOpenPackaging } = this.state;
 		this.setState({
 			selectedPackaging: item,
 			isModalOpenPackaging: false,
+			isRotationOpenPackaging: !isRotationOpenPackaging,
 			med: {
 				...this.state.med,
 				openPacking: item,
@@ -244,9 +253,12 @@ class Login extends Component {
 	}
 
 	handleSelectedType = (item) => {
+		const { isRotationType } = this.state;
+
 		this.setState({
 			selectedType: item,
 			isModalType: false,
+			isRotationType: !isRotationType,
 			med: {
 				...this.state.med,
 				type: item,
@@ -256,9 +268,11 @@ class Login extends Component {
 	}
 
 	handleModalType = () => {
+		const { isModalType, isRotationType } = this.state;
+
 		this.setState({
-			isModalType: !this.state.isModalType,
-			isRotationType: !this.state.isRotationType,
+			isModalType: !isModalType,
+			isRotationType: !isRotationType,
 		});
 	}
 
@@ -309,6 +323,7 @@ class Login extends Component {
 					label='Data de Validade:'
 					labelWidth='auto'
 					type="month"
+					handleModalDate={this.handleModalDate}
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={this.formatDate(med.expirationDate)}
 					isError={errors.includes('expirationDate')}
