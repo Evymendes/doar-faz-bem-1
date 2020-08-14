@@ -242,13 +242,13 @@ const ModalDetails = (props) => {
 						<DetailsItem>
 							<DetailsText title>Substância</DetailsText>
 							<DetailsText>
-								{(medicament.SUBSTANCIA.charAt(0).toUpperCase() + medicament.SUBSTANCIA.slice(1).toLowerCase()) || '-'}
+								{(medicament.SUBSTANCIA && medicament.SUBSTANCIA.charAt(0).toUpperCase() + medicament.SUBSTANCIA.slice(1).toLowerCase()) || '-'}
 							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Laboratório</DetailsText>
 							<DetailsText>
-								{(medicament.LABORATORIO.charAt(0).toUpperCase()
+								{(medicament.LABORATORIO && medicament.LABORATORIO.charAt(0).toUpperCase()
 								+ medicament.LABORATORIO.slice(1).toLowerCase()) || '-'}
 							</DetailsText>
 						</DetailsItem>

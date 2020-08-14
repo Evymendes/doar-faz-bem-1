@@ -166,12 +166,16 @@ class Login extends Component {
 		} = this.state;
 
 		const errors = [];
+		const removeItems = (item) => {
+			return 	item !== 'substance' && item !== 'laboratory';
+		};
 
-		fields.map((field) => {
+		fields.filter((item) => removeItems(item)).map((field) => {
 			if (!med[field]) {
 				errors.push(field);
 			}
 		});
+
 		this.setState({
 			errors,
 		});
@@ -219,7 +223,7 @@ class Login extends Component {
 
 		} catch (error) {
 			console.log('error', error);
-			console.log('error.response create', error.response);
+			console.log('error.response', error.response);
 		}
 	}
 
@@ -342,7 +346,8 @@ class Login extends Component {
 					label='Substância:'
 					onChange={(ev) => this.handleChange('substance', ev)}
 					text={med.substance}
-					isError={errors.includes('substance')}
+					// isError={errors.includes('substance')}
+					required={false}
 					disabled={medId}
 					style={this.styledDisabled(medId)}
 				/>
@@ -350,8 +355,9 @@ class Login extends Component {
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
 					text={med.laboratory}
-					isError={errors.includes('laboratory')}
+					// isError={errors.includes('laboratory')}
 					disabled={medId}
+					required={false}
 					style={this.styledDisabled(medId)}
 				/>
 				<DefaultInput
