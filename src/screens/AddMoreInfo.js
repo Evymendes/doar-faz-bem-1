@@ -102,6 +102,8 @@ class Login extends Component {
 	treatingDataautoCompleted = () => {
 		const { state } = this.props.location;
 
+		console.log('result', state.result);
+
 		if (state && state.result && state.result.EAN_1) {
 			const { result, medId } = this.props.location.state;
 

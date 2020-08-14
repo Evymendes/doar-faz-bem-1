@@ -1,5 +1,5 @@
 export const validateIsbn = isbn => {
-	if (isbn.length !== 13 || isbn.substring(0, 3) !== '789') return false;
+	if (isbn.length !== 13) return false;
 
 	const isbnDigit = parseInt(isbn[isbn.length - 1]);
 	let multiplier = 0;
