@@ -194,7 +194,7 @@ const formatDate = (props) => {
 };
 
 const formatExpirationDate = (date) => date
-	.substr(0, 10)
+	.substr(0, 7)
 	.split('-')
 	.reverse()
 	.join('/');

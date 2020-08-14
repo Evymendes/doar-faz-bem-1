@@ -539,10 +539,14 @@ const RenderTable = ({
 													<TableList>{formatExpirationDate(row.values['DATA_EXPIRACAO.iso']) || '-'}</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
+													<TableTitleMob>Preço</TableTitleMob>
+													<TableList>{row.values.PMC_20_PERC || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>
 													<TableList>
-														{row.values.CLASSE_TERAPEUTICA.charAt(0).toUpperCase() || `-${
-														 row.values.CLASSE_TERAPEUTICA.slice(1).toLowerCase()}` || '-'}
+														{row.values.CLASSE_TERAPEUTICA.charAt(0).toUpperCase()
+															+ row.values.CLASSE_TERAPEUTICA.slice(1).toLowerCase() || '-'}
 													</TableList>
 												</ContainerTableTitleMob>
 											</>
