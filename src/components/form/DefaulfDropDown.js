@@ -46,11 +46,11 @@ const Icon = styled.img`
 
 const DropDown = styled.div`
 	background: #FFF;
-	height: ${(props) => (props.apresentation ? '7.5rem' : null)};
+	height: ${(props) => (props.presentation ? '7.5rem' : null)};
 	display: flex;
 	flex-direction: column;
 	box-shadow: rgb(136, 136, 136) 1px 1px 2px 1px;
-	overflow-y: ${(props) => (props.apresentation ? 'scroll' : null)};
+	overflow-y: ${(props) => (props.presentation ? 'scroll' : null)};
 
 	::-webkit-scrollbar {
   width: 4px;
@@ -95,9 +95,9 @@ const DefaultDropDown = (props) => (
 			<Icon isRotation={props.isRotation} src={ChevronDown} alt="DropDown" />
 		</Content>
 		{props.isModal
-			&& <DropDown apresentation={props.type}>
+			&& <DropDown presentation={props.type}>
 				{props.item.map((item, index) => (
-					<Text key={index} apresentation={props.type} onClick={() => props.inClickSelected(item)}>{item}</Text>
+					<Text key={index} presentation={props.type} onClick={() => props.inClickSelected(item)}>{item}</Text>
 				))}
 			</DropDown>
 		}
