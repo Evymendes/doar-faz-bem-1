@@ -541,8 +541,8 @@ const RenderTable = ({
 												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>
 													<TableList>
-														{row.values.CLASSE_TERAPEUTICA.charAt(0).toUpperCase()
-														+ row.values.CLASSE_TERAPEUTICA.slice(1).toLowerCase() || '-'}
+														{row.values.CLASSE_TERAPEUTICA.charAt(0).toUpperCase() || `-${
+														 row.values.CLASSE_TERAPEUTICA.slice(1).toLowerCase()}` || '-'}
 													</TableList>
 												</ContainerTableTitleMob>
 											</>
@@ -562,7 +562,7 @@ const RenderTable = ({
 												>
 													{cell.column.Header === 'Validade'
 														? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
-														: cell.column.Header === 'Preço' && cell.row.values.PMC_20_PERC === undefined ? '-'
+														: cell.value === undefined ? '-'
 															: cell.value && cell.value.charAt(0).toUpperCase() + cell.value.slice(1).toLowerCase()
 													}
 												</TableList>)}

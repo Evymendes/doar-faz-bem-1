@@ -40,18 +40,18 @@ const Label = styled.label`
 	white-space: nowrap;
 `;
 
-const Info = styled.p`
-	margin: 0 0 .3rem .5rem;
+const Info = styled.span`
+	margin: 0 0 .2rem .3rem;
+	color: #000;
 	width: 1.3rem;
 	height: 1.3rem;
-	color: #38D5D5;
-	font: 700 1rem 'Overpass', serif;
-	background: #FFF;
-	border-radius: 50%;
-	font-weight: 700;
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	font-size: 16px;
+	/* font-family: 'Overpass', serif; */
+	background: #fff;
+	border-radius: 50%;
 `;
 
 const ContentInfo = styled.div`
@@ -162,7 +162,7 @@ const DefaultInput = (props) => (
 			disabled={props.disabled}
 			isData={props.text}
 			style={props.style}
-			required
+			required={props.required}
 			inputColor={props.inputColor}
 			boxShadow={props.boxShadow}
 			inputBg={props.inputBg}
@@ -179,6 +179,7 @@ DefaultInput.defaultProps = {
 	Label: '',
 	type: 'text',
 	placeholder: 'Digite aqui...',
+	required: true,
 };
 
 export default DefaultInput;
