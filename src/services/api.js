@@ -15,7 +15,7 @@ export const getAll = () => axios({
 
 // Get By Id From Anvisa
 export const getById = (isbn) => axios({
-	url: `${API_URL}/classes/anvisa?where={"EAN_1": ${isbn}}`,
+	url: `${API_URL}/classes/anvisa?where={"EAN_1": "${isbn}"}`,
 	method: 'get',
 	headers: {
 		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
