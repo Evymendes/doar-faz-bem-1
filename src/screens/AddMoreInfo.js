@@ -38,16 +38,16 @@ const Footer = styled.div`
 	justify-content: space-between;
 `;
 
-class Login extends Component {
+class AddMoreInfo extends Component {
 	state = {
 		isModalDate: undefined,
 		isModalOpenPackaging: undefined,
 		typePackaging: ['sim', 'não'],
 		selectedPackaging: undefined,
-		isModalType: undefined,
+		isModalPresentation: undefined,
 		isRotationOpenPackaging: undefined,
 		isRotationType: undefined,
-		type: [
+		presentation: [
 			'Comprimidos',
 			'Pomada',
 			'Xarope',
@@ -68,7 +68,7 @@ class Login extends Component {
 			'laboratory',
 			'productType',
 			'openPacking',
-			'type',
+			'presentation',
 			'quantity',
 			'description',
 		],
@@ -81,16 +81,16 @@ class Login extends Component {
 			laboratory: undefined,
 			productType: undefined,
 			openPacking: undefined,
-			type: undefined,
+			presentation: undefined,
 			quantity: undefined,
 			description: undefined,
 			price: undefined,
 		},
-		medId: false,
+		medIdToEdit: false,
 	}
 
 	componentDidMount() {
-		this.treatingDataautoCompleted();
+		this.formatMedData();
 	}
 
 	formatDate = (date) => {
@@ -99,16 +99,13 @@ class Login extends Component {
 		}
 	}
 
-	treatingDataautoCompleted = () => {
+	formatMedData = () => {
 		const { state } = this.props.location;
 
-		console.log('result', state.result);
-
 		if (state && state.result && state.result.EAN_1) {
-			const { result, medId } = this.props.location.state;
+			const { result, medIdToEdit } = state;
 
-			if (medId) {
-				// Edit
+			if (medIdToEdit) {
 				this.setState({
 					med: {
 						code: result.EAN_1,
@@ -118,31 +115,28 @@ class Login extends Component {
 						laboratory: result.LABORATORIO,
 						therapeuticClass: result.CLASSE_TERAPEUTICA,
 						productType: result.TIPO_DE_PRODUTO,
-						type: result.APRESENTACAO,
+						presentation: result.APRESENTACAO,
 						description: result.DESCRICAO,
 						openPacking: result.EMBALAGEM_ABERTA === true ? 'sim' : 'não',
 						quantity: result.QUANTIDADE,
 						price: result.PMC_20_PERC,
 					},
-					medId,
 				});
 				return;
 			}
 
-			// Create
 			this.setState({
 				med: {
-					code: result.EAN_1,
-					name: result.PRODUTO,
+					productType: result.APRESENTACAO,
 					therapeuticClass: result.CLASSE_TERAPEUTICA,
-					substance: result.SUBSTANCIA,
+					description: result.DESCRICAO,
+					code: result.EAN_1,
 					laboratory: result.LABORATORIO,
-					productType: result.TIPO_DE_PRODUTO,
-					description: result.APRESENTACAO,
 					price: result.PMC_20_PERC,
+					name: result.PRODUTO,
+					substance: result.SUBSTANCIA,
 				},
 				onlyCode: !result.PRODUTO,
-				medId: result.PRODUTO,
 			});
 		}
 	}
@@ -183,7 +177,7 @@ class Login extends Component {
 		});
 
 		if (errors.length === 0) {
-			await this.createMedic();
+			await this.persistMedicament();
 			this.props.history.push({
 				pathname: '/dashboard',
 			});
@@ -194,35 +188,34 @@ class Login extends Component {
 		e.preventDefault();
 	}
 
-	createMedic = async () => {
-		const { med, medId } = this.state;
+	persistMedicament = async () => {
+		const { med } = this.state;
+		const { medIdToEdit } = this.props.location.state;
 		const date = new Date(med.expirationDate);
 		const userId = localStorage.getItem('objectId');
 
 		const formatData = {
-			userId: { "__type": "Pointer", "className": "_User", "objectId": userId },
-			EAN_1: (med.code && med.code.toString()),
-			PRODUTO: med.name,
 			DATA_EXPIRACAO: { __type: 'Date', iso: date },
 			CLASSE_TERAPEUTICA: med.therapeuticClass,
-			SUBSTANCIA: med.substance,
-			LABORATORIO: med.laboratory,
+			userId: { "__type": "Pointer", "className": "_User", "objectId": userId },
+			EAN_1: (med.code && med.code.toString()),
 			TIPO_DE_PRODUTO: med.productType,
-			QUANTIDADE: med.quantity,
 			EMBALAGEM_ABERTA: med.openPacking === 'sim',
-			APRESENTACAO: med.type,
 			DESCRICAO: med.description,
+			APRESENTACAO: med.presentation,
+			LABORATORIO: med.laboratory,
+			SUBSTANCIA: med.substance,
 			PMC_20_PERC: med.price,
+			PRODUTO: med.name,
+			QUANTIDADE: med.quantity,
 		};
 
 		try {
-			if (medId && (medId !== med.name)) {
-				await editMedicament(formatData, medId);
+			if (medIdToEdit) {
+				await editMedicament(formatData, medIdToEdit);
 				return;
 			}
-
 			await createMedicament(formatData);
-
 		} catch (error) {
 			console.log('error', error);
 			console.log('error.response', error.response);
@@ -263,21 +256,21 @@ class Login extends Component {
 
 		this.setState({
 			selectedType: item,
-			isModalType: false,
+			isModalPresentation: false,
 			isRotationType: !isRotationType,
 			med: {
 				...this.state.med,
-				type: item,
+				presentation: item,
 			},
-			errors: this.state.errors.filter((erro) => erro !== 'type'),
+			errors: this.state.errors.filter((erro) => erro !== 'presentation'),
 		});
 	}
 
-	handleModalType = () => {
-		const { isModalType, isRotationType } = this.state;
+	handleModalPresentation = () => {
+		const { isModalPresentation, isRotationType } = this.state;
 
 		this.setState({
-			isModalType: !isModalType,
+			isModalPresentation: !isModalPresentation,
 			isRotationType: !isRotationType,
 		});
 	}
@@ -295,13 +288,12 @@ class Login extends Component {
 		const {
 			isModalOpenPackaging,
 			typePackaging,
-			isModalType,
-			type,
+			isModalPresentation,
+			presentation,
 			med,
 			isRotationOpenPackaging,
 			isRotationType,
 			errors,
-			medId,
 			onlyCode,
 		} = this.state;
 
@@ -313,16 +305,16 @@ class Login extends Component {
 					onChange={(ev) => this.handleChange('code', ev)}
 					text={med.code}
 					isError={errors.includes('code')}
-					disabled={onlyCode || medId}
-					style={this.styledDisabled(onlyCode || medId)}
+					disabled={med.code}
+					style={this.styledDisabled(med.code)}
 				/>
 				<DefaultInput
 					label='Medicamento:'
 					onChange={(ev) => this.handleChange('name', ev)}
 					text={med.name}
 					isError={errors.includes('name')}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 				<DefaultInput
 					date
@@ -341,26 +333,24 @@ class Login extends Component {
 					text={med.therapeuticClass}
 					placeholder='Ex: Analgésico...'
 					isError={errors.includes('therapeuticClass')}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 				<DefaultInput
 					label='Substância:'
 					onChange={(ev) => this.handleChange('substance', ev)}
 					text={med.substance}
-					// isError={errors.includes('substance')}
 					required={false}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 				<DefaultInput
 					label='Laboratório:'
 					onChange={(ev) => this.handleChange('laboratory', ev)}
 					text={med.laboratory}
-					// isError={errors.includes('laboratory')}
-					disabled={medId}
 					required={false}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 				<DefaultInput
 					label='Tipo do Produto:'
@@ -368,8 +358,8 @@ class Login extends Component {
 					text={med.productType}
 					placeholder='Ex: Genérico...'
 					isError={errors.includes('productType')}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 				<DefaultDropDown
 					title='Embalagem Aberta?'
@@ -383,14 +373,14 @@ class Login extends Component {
 				/>
 				<DefaultDropDown
 					title='Apresentação:'
-					isModal={isModalType}
-					isError={errors.includes('type')}
-					onClick={this.handleModalType}
+					isModal={isModalPresentation}
+					isError={errors.includes('presentation')}
+					onClick={this.handleModalPresentation}
 					inClickSelected={this.handleSelectedType}
-					selectedText={med.type}
-					item={type}
+					selectedText={med.presentation}
+					item={presentation}
 					isRotation={isRotationType}
-					type='apresentation'
+					type='presentation'
 				/>
 				<DefaultInput
 					label='Quantidade:'
@@ -405,8 +395,8 @@ class Login extends Component {
 					text={med.description}
 					placeholder='Ex: 500 MG...'
 					isError={errors.includes('description')}
-					disabled={medId}
-					style={this.styledDisabled(medId)}
+					disabled={!onlyCode}
+					style={this.styledDisabled(!onlyCode)}
 				/>
 			</>
 		);
@@ -446,4 +436,4 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+export default AddMoreInfo;

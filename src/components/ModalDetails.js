@@ -182,7 +182,7 @@ const handleRedirectScreen = (props) => {
 		pathname: '/addmoreinfo',
 		state: {
 			result: props.medicament.original,
-			medId: props.medicament.original.objectId,
+			medIdToEdit: props.medicament.original.objectId,
 		},
 	});
 };
