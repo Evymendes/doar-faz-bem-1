@@ -5,7 +5,7 @@ import {
 	useTable, useFilters, useGlobalFilter, useSortBy,
 } from 'react-table';
 import styled from 'styled-components';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import 'moment/locale/pt-br';
 
 // Components
@@ -601,6 +601,8 @@ function Dashboard(props) {
 	const [isOpenNotification, setIsOpenNotification] = useState(false);
 	const [isNotification, setIsNotification] = useState(false);
 
+	const [isVanquished, setIsVanquished] = useState([]);
+
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
@@ -609,7 +611,24 @@ function Dashboard(props) {
 
 				const response = await getAllMedicaments(userId);
 
-				setMedList(response.data.results);
+				const data = response.data.results;
+
+				const formatExpirationDate = (date) => date
+					.substr(0, 7)
+					.split('-')
+					.reverse()
+					.join('/');
+
+				setMedList(data);
+
+				const date = new Date();
+				const month = date.getMonth();
+				const year = date.getFullYear();
+				const formartMonth = `${month < 10 ? `0${month + 1}` : month + 1}`;
+
+				const atualDate = `${formartMonth}/${year}`;
+
+				const filterDates = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === atualDate);
 
 				setIsFetching(false);
 			} catch (error) {
@@ -631,6 +650,7 @@ function Dashboard(props) {
 
 	return (
 		<Container>
+			{/* {console.log("medList render", medList)} */}
 			<Header
 				withoutClose={showCloseButton}
 				history={props.history}
