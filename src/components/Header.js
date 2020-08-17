@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
 // Images
-import Logo from '../assets/logo.jpg';
+import Logo from '../assets/logo-doar-faz-bem.svg';
 // import Logo from '../assets/logo-doar-faz-bem.svg';
-import NotificationIcon from '../assets/bell.svg';
+import NotificationIconOff from '../assets/bell.svg';
+import NotificationIconOn from '../assets/bell-2.svg';
 
 // Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
@@ -123,18 +124,6 @@ const ContainerNotificationsArrow = styled.div`
 	}
 `;
 
-const ContainerIsNotification = styled.div`
-	@media(min-width: 768px) {
-		position: absolute;
-		left: 13.7rem;
-		width: .6rem;
-		height: .6rem;
-		border-radius: 50%;
-		background: red;
-		cursor: pointer;
-	}
-`;
-
 class Header extends Component {
 	state = {
 		isRedirect: false,
@@ -192,12 +181,19 @@ class Header extends Component {
 									Olá, { }
 									{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
 								</DashboardText>
-								<UserNotificationIcon
-									src={NotificationIcon}
-									alt="notifications"
-									onClick={handleOpenNotifications}
-								/>
-								{isNotification && <ContainerIsNotification onClick={handleOpenNotifications} />}
+								{isNotification ? (
+									<UserNotificationIcon
+										src={NotificationIconOn}
+										alt="notifications"
+										onClick={handleOpenNotifications}
+									/>
+								) : (
+									<UserNotificationIcon
+										src={NotificationIconOff}
+										alt="notifications"
+										onClick={handleOpenNotifications}
+									/>
+								)}
 							</WrapperUser>
 							{withoutClose && isOpenNotification && (
 								<ContainerNotifications>
