@@ -91,6 +91,49 @@ const UserNotificationIcon = styled.img`
 	}
 `;
 
+const ContainerNotifications = styled.div`
+
+	@media(min-width: 768px) {
+		position: absolute;
+		margin-top: 1rem;
+		width: 12rem;
+		height: 5rem;
+		background: #B4E4E6;
+		border-radius: 13px;
+
+		p {
+			padding: 1rem;
+			font-size: .88rem;
+			font-family: 'Overpass',Regular;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+	}
+`;
+
+const ContainerNotificationsArrow = styled.div`
+	@media(min-width: 768px) {
+		position: absolute;
+		right: 3.7rem;
+		bottom: 5rem;
+		border-left: 10px solid transparent;
+		border-right: 10px solid transparent;
+		border-bottom: 13px solid #B4E4E6;
+	}
+`;
+
+const ContainerIsNotification = styled.div`
+	@media(min-width: 768px) {
+		position: absolute;
+		left: 13.7rem;
+		width: .6rem;
+		height: .6rem;
+		border-radius: 50%;
+		background: red;
+		cursor: pointer;
+	}
+`;
+
 class Header extends Component {
 	state = {
 		isRedirect: false,
@@ -122,7 +165,9 @@ class Header extends Component {
 	}
 
 	render() {
-		const { withoutClose, strokeColor, openModal } = this.props;
+		const {
+			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
+		} = this.props;
 		return (
 			<Container>
 				<ContainerLogo>
@@ -146,8 +191,19 @@ class Header extends Component {
 									Olá, { }
 									{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
 								</DashboardText>
-								<UserNotificationIcon src={NotificationIcon} alt="notifications" />
+								<UserNotificationIcon
+									src={NotificationIcon}
+									alt="notifications"
+									onClick={handleOpenNotifications}
+								/>
+								{isNotification && <ContainerIsNotification onClick={handleOpenNotifications} />}
 							</WrapperUser>
+							{withoutClose && isOpenNotification && (
+								<ContainerNotifications>
+									<ContainerNotificationsArrow />
+									<p>Você possui medicamentos próximos do vencimento.</p>
+								</ContainerNotifications>
+							)}
 						</ContainerUser>
 						<DashboardText
 							onClick={this.handleLogout}

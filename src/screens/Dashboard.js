@@ -598,6 +598,9 @@ function Dashboard(props) {
 	const [isFetching, setIsFetching] = useState(null);
 	const [isError, setIsError] = useState(null);
 
+	const [isOpenNotification, setIsOpenNotification] = useState(false);
+	const [isNotification, setIsNotification] = useState(false);
+
 	useEffect(() => {
 		const getAllData = async () => {
 			try {
@@ -618,9 +621,23 @@ function Dashboard(props) {
 		getAllData();
 	}, []);
 
+	const handleIsNotification = () => {
+		setIsNotification(true);
+	};
+
+	const handleOpenNotifications = () => {
+		setIsOpenNotification(!isOpenNotification);
+	};
+
 	return (
 		<Container>
-			<Header withoutClose={showCloseButton} history={props.history} />
+			<Header
+				withoutClose={showCloseButton}
+				history={props.history}
+				handleOpenNotifications={handleOpenNotifications}
+				isOpenNotification={isOpenNotification}
+				isNotification={handleIsNotification}
+			/>
 			{isFetching ? <Loading
 				backgroundColor='transparent'
 				textColor='#B4E4E6'
