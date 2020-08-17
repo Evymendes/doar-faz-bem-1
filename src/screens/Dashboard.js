@@ -203,7 +203,7 @@ const Tr = styled.tr`
 
 	@media(min-width: 768px) {
 		margin: ${(props) => (props.lastOneMob && '0 0 6rem 0')};
-		padding: 1rem 1rem 9rem 1rem;
+		padding: 1rem 1rem 11rem 1rem;
 	}
 
 	@media(min-width: 1024px) {

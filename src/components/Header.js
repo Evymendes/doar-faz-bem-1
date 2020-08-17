@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 // Images
 import Logo from '../assets/logo.jpg';
 // import Logo from '../assets/logo-doar-faz-bem.svg';
+import NotificationIcon from '../assets/bell.svg';
 
 // Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
@@ -38,25 +39,55 @@ const LogoIcon = styled.img`
 `;
 
 const DashboardText = styled.p`
-	padding-left: ${(props) => (props.username && '1rem')};
-	width: ${(props) => (props.username && '100%')};
-	display: ${(props) => (props.username && 'flex')};;
-	justify-content: ${(props) => (props.username && 'flex-start')};
-	align-items: ${(props) => (props.username && 'center')};
 	color: #D8998A;
 	font-size: ${(props) => (props.username ? '.90rem' : '1rem')};
 	font-family: 'Overpass', Bold;
 	text-decoration: none;
 	font-weight: 800;
-	cursor: ${(props) => (!props.username && 'pointer')};
-	white-space:  ${(props) => (!props.username && 'nowrap')};
+	white-space: nowrap;
 
-	@media(min-width: 1024px) {
-		margin-right: 2.5rem;
+	@media(min-width: 768px) {
+		margin: ${(props) => props.username && '1rem'};
+		width: ${(props) => (!props.username && '4.5rem')};
 	}
 
 	@media(min-width: 1440px) {
-		margin-right: 5.5rem;
+		margin: ${(props) => props.username && '1rem'};
+		width: ${(props) => (!props.username && '6.5rem')};
+	}
+`;
+
+const ContainerUser = styled.div`
+	margin-left: 1rem;
+	width: 90%;
+`;
+
+const WrapperUser = styled.div`
+	@media(min-width: 768px) {
+		width: max-content;
+		max-width: 27%;
+		display: flex;
+		background: #c4c4c426;
+		align-items: center;
+		justify-content: flex-end;
+		height: 3rem;
+		padding: 1rem;
+		border-radius: 6px;
+		box-shadow: 5px 4px 9px 0px #c4c4c44
+	}
+
+	@media(min-width: 1440px) {
+		max-width: 15%;
+	}
+`;
+
+const UserNotificationIcon = styled.img`
+	display: none;
+
+	@media(min-width: 768px) {
+		margin-right: 1rem;
+		display: flex;
+		cursor: pointer;
 	}
 `;
 
@@ -109,10 +140,15 @@ class Header extends Component {
 				{withoutClose
 				&& (
 					<>
-						<DashboardText username>
-							Olá, { }
-							{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
-						</DashboardText>
+						<ContainerUser>
+							<WrapperUser>
+								<DashboardText username>
+									Olá, { }
+									{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
+								</DashboardText>
+								<UserNotificationIcon src={NotificationIcon} alt="notifications" />
+							</WrapperUser>
+						</ContainerUser>
 						<DashboardText
 							onClick={this.handleLogout}
 						>
