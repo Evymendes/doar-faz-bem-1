@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-//Images
+// Images
 import IconClose from '../../assets/closeBlue.svg';
 
 // Styles
@@ -48,10 +48,12 @@ const Info = styled.span`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 16px;
-	/* font-family: 'Overpass', serif; */
+	font-size: 1rem;
+	font-family: 'Overpass', serif;
+	font-weight: 400;
 	background: #fff;
 	border-radius: 50%;
+	cursor: pointer;
 `;
 
 const ContentInfo = styled.div`
@@ -68,10 +70,18 @@ const ContentModal = styled.div`
 	box-shadow: 0 0 4px #888888;
 	border: 1px solid #3cc5b8;
 	border-radius: 3px;
+	z-index: 5;
 
 	p {
 		font: 400 0.85rem 'Overpass', serif;
-		margin: .5rem 0;
+		margin-top: .8rem;
+    margin-bottom: .8rem;
+	}
+
+	@media(min-width: 768px) {
+		p {
+			margin: .5rem 0;
+		}
 	}
 
 `;
@@ -140,14 +150,17 @@ const DefaultInput = (props) => (
 			</Label>
 			{props.date && (
 				<ContentInfo>
-					<Info onCLick={props.handleModalDate} onMouseEnter={props.handleModalDate} onMouseLeave={props.handleModalDate}>?</Info>
+					<Info
+						onClick={props.handleModalDate}
+						onMouseEnter={props.handleModalDate}
+						onMouseLeave={props.handleModalDate}
+					>
+						?
+					</Info>
 					{props.isModal && (
 						<ContentModal>
-							<Icon src={IconClose} onCLick={props.handleModalDate} />
+							<Icon src={IconClose} onClick={props.handleModalDate} />
 							<p>Selecione o mês e o ano de vencimento.</p>
-							<p>
-								clique no icone do calendário para selecionar o mês e use a barra de rolagem para selecionar o ano.
-							</p>
 						</ContentModal>
 					)}
 				</ContentInfo>
