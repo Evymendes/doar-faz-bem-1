@@ -45,6 +45,7 @@ const DashboardText = styled.p`
 	text-decoration: none;
 	font-weight: 800;
 	white-space: nowrap;
+	cursor: ${(props) => (!props.username && 'pointer')};
 
 	@media(min-width: 768px) {
 		margin: ${(props) => props.username && '1rem'};
