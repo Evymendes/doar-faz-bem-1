@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 // Images
 import IconClose from '../../assets/closeBlue.svg';
+import InfoIcon from '../../assets/info.svg';
 
 // Styles
 const Container = styled.div`
@@ -41,7 +42,7 @@ const Label = styled.label`
 `;
 
 const Info = styled.span`
-	margin: 0 0 .2rem .3rem;
+	margin: 0 0 .25rem .5rem;
 	color: #000;
 	width: 1.3rem;
 	height: 1.3rem;
@@ -155,7 +156,7 @@ const DefaultInput = (props) => (
 						onMouseEnter={props.handleModalDate}
 						onMouseLeave={props.handleModalDate}
 					>
-						?
+						<img src={InfoIcon} alt="info" />
 					</Info>
 					{props.isModal && (
 						<ContentModal>
