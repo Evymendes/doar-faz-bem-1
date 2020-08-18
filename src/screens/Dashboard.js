@@ -389,12 +389,13 @@ const columns = [
 	},
 ];
 
-const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails) => {
+const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails, setIsOpenNotification) => {
 	setItemMedDetails(row);
 	setOpenMedDetails(!isOpenedMedDetails);
 
 	if (isOpenedMedDetails) {
 		setItemMedDetails(null);
+		setIsOpenNotification(false);
 	}
 };
 
@@ -426,7 +427,7 @@ const GlobalFilter = ({
 	</ContainerSearch>
 );
 const RenderTable = ({
-	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails, isError,
+	columns, data, isOpenedMedDetails, setOpenMedDetails, medicament, setItemMedDetails, isError, setIsOpenNotification,
 }) => {
 	const filterTypes = React.useMemo(
 		() => ({
@@ -517,7 +518,7 @@ const RenderTable = ({
 								return (
 									<Tr
 										{...row.getRowProps()}
-										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails, setIsOpenNotification)}
 										key={index}
 										lastOneMob={index === rows.length - 1}
 									>
@@ -575,7 +576,7 @@ const RenderTable = ({
 										<ButtonMoreMob
 											src={(medicament && medicament.id) === row.id
 													&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
-											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails)}
+											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails, setIsOpenNotification)}
 										/>
 									</Tr>
 								);
@@ -592,6 +593,8 @@ function Dashboard(props) {
 	const [showCloseButton] = useState(true);
 	const [isOpenedMedDetails, setOpenMedDetails] = useState(false);
 	const [medicament, setItemMedDetails] = useState(null);
+	const [expiredMedicine, setExpiredMedicine] = useState([]);
+
 	const [isModalDelOpened, setOpenDelModal] = useState(false);
 
 	const [medList, setMedList] = useState([]);
@@ -601,7 +604,10 @@ function Dashboard(props) {
 	const [isOpenNotification, setIsOpenNotification] = useState(false);
 	const [isNotification, setIsNotification] = useState(false);
 
-	const [isVanquished, setIsVanquished] = useState([]);
+
+	const handleIsNotification = () => {
+		setIsNotification(true);
+	};
 
 	useEffect(() => {
 		const getAllData = async () => {
@@ -621,16 +627,39 @@ function Dashboard(props) {
 					.reverse()
 					.join('/');
 
-				const date = new Date();
-				const month = date.getMonth();
-				const year = date.getFullYear();
-				const formartMonth = `${month < 10 ? `0${month + 1}` : month + 1}`;
+				const renderDate = (number) => {
+					const date = new Date();
+					const month = date.getMonth();
+					const year = date.getFullYear();
+					const formartMonth = `${month + number < 10 ? `0${month + number}` : month + number}`;
 
-				const currentDate = `${formartMonth}/${year}`;
+					return `${formartMonth}/${year}`;
+				};
 
-				const filterDatesEqualCurrentDate = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === currentDate);
+				const isExpired = {
+					vanquished: [],
+					expirationThirtyDays: [],
+					expirationTwoMonths: [],
+				};
 
-				console.log('filterDatesEqualCurrentDate', filterDatesEqualCurrentDate)
+				const dueDatesFilter = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(1));
+				isExpired.vanquished = dueDatesFilter;
+
+				const dueInThirtDays = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(2));
+				// dueInThirtDays.vencimento = '1'
+
+				isExpired.expirationThirtyDays = dueInThirtDays;
+
+				const dueInTwoMonths = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(3));
+				// dueInTwoMonths.vencimento = '2'
+
+				isExpired.expirationTwoMonths = dueInTwoMonths;
+
+				setExpiredMedicine(isExpired);
+
+				if (dueDatesFilter.length > 0 || dueInThirtDays.length > 0 || dueInTwoMonths.length > 0 ) {
+					handleIsNotification();
+				}
 
 				setIsFetching(false);
 			} catch (error) {
@@ -641,10 +670,6 @@ function Dashboard(props) {
 		};
 		getAllData();
 	}, []);
-
-	const handleIsNotification = () => {
-		setIsNotification(true);
-	};
 
 	const handleOpenNotifications = () => {
 		setIsOpenNotification(!isOpenNotification);
@@ -657,7 +682,8 @@ function Dashboard(props) {
 				history={props.history}
 				handleOpenNotifications={handleOpenNotifications}
 				isOpenNotification={isOpenNotification}
-				isNotification={handleIsNotification}
+				isNotification={isNotification}
+				isExpiredMedicine={expiredMedicine}
 			/>
 			{isFetching ? <Loading
 				backgroundColor='transparent'
@@ -674,6 +700,7 @@ function Dashboard(props) {
 							setOpenMedDetails={setOpenMedDetails}
 							medicament={medicament}
 							setItemMedDetails={setItemMedDetails}
+							setIsOpenNotification={setIsOpenNotification}
 						/>
 					</WrapperTable>
 					{!isOpenedMedDetails ? (

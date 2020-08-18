@@ -75,7 +75,7 @@ const WrapperUser = styled.div`
 		height: 3rem;
 		padding: 1rem;
 		border-radius: 6px;
-		box-shadow: 5px 4px 9px 0px #c4c4c44
+		box-shadow: 5px 4px 9px 0px #c4c4c44;
 	}
 
 	@media(min-width: 1440px) {
@@ -94,21 +94,49 @@ const UserNotificationIcon = styled.img`
 `;
 
 const ContainerNotifications = styled.div`
+	position: relative;
+`;
+
+const ContainerText = styled.div`
 
 	@media(min-width: 768px) {
 		position: absolute;
-		margin-top: 1rem;
-		width: 12rem;
-		height: 5rem;
+		margin-top: .8rem;
+    width: 12rem;
+		max-height: 10rem;
 		background: #B4E4E6;
 		border-radius: 13px;
+		z-index: 6;
+		overflow-y: scroll;
 
-		p {
-			padding: 1rem;
-			font-size: .88rem;
-			font-family: 'Overpass',Regular;
-			width: 100%;
-			flex-wrap: wrap;
+		::-webkit-scrollbar {
+			width: 4px;
+			height: 2px;
+		}
+		::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		::-webkit-scrollbar-thumb {
+			background: transparent;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: transparent;
+		}
+
+	}
+`;
+
+const TextNotification = styled.p`
+	@media(min-width: 768px) {
+		padding: .8rem;
+		font-size: .88rem;
+		font-family: 'Overpass',Regular;
+		width: 100%;
+		flex-wrap: wrap;
+		border-bottom: ${(props) => props.isNotification && '0.1px solid #fff'} ;
+
+		span {
+			font-weight: bold;
 		}
 	}
 `;
@@ -116,8 +144,8 @@ const ContainerNotifications = styled.div`
 const ContainerNotificationsArrow = styled.div`
 	@media(min-width: 768px) {
 		position: absolute;
-		right: 3.7rem;
-		bottom: 5rem;
+		left: 6.6rem;
+    top: 0rem;
 		border-left: 10px solid transparent;
 		border-right: 10px solid transparent;
 		border-bottom: 13px solid #B4E4E6;
@@ -154,10 +182,37 @@ class Header extends Component {
 		});
 	}
 
+	renderNotifications = (item) => {
+		const expiredMedicine = [];
+
+		item.vanquished.map((item) => {
+			expiredMedicine.push({ ...item, expirationTime: 0 });
+		});
+		item.expirationTwoMonths.map((item) => {
+			expiredMedicine.push({ ...item, expirationTime: 1 });
+		});
+		item.expirationThirtyDays.map((item) => {
+			expiredMedicine.push({ ...item, expirationTime: 2 });
+		});
+
+		return expiredMedicine.map((med, index) => {
+			const isLast = index !== expiredMedicine.length - 1;
+			const isSingular = med.expirationTime === 1 ? 'mês' : 'meses';
+			const phrase = med.expirationTime === 0 ? 'esta vencido' : `vai vencer daqui a  ${med.expirationTime} ${isSingular}`;
+
+			return (
+				<TextNotification key={item.objectId} isNotification={isLast}>
+					O medicamento <span expirationDate={med.expirationTime === 0}>{med.PRODUTO} {phrase}</span>
+				</TextNotification>
+			);
+		});
+	}
+
 	render() {
 		const {
-			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
+			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification, isExpiredMedicine,
 		} = this.props;
+
 		return (
 			<Container>
 				<ContainerLogo>
@@ -173,42 +228,44 @@ class Header extends Component {
 				/>
 				}
 				{withoutClose
-				&& (
-					<>
-						<ContainerUser>
-							<WrapperUser>
-								<DashboardText username>
-									Olá, { }
-									{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
-								</DashboardText>
-								{isNotification ? (
-									<UserNotificationIcon
-										src={NotificationIconOn}
-										alt="notifications"
-										onClick={handleOpenNotifications}
-									/>
-								) : (
-									<UserNotificationIcon
-										src={NotificationIconOff}
-										alt="notifications"
-										onClick={handleOpenNotifications}
-									/>
+					&& (
+						<>
+							<ContainerUser>
+								<WrapperUser>
+									<DashboardText username>
+										Olá, {}
+										{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
+									</DashboardText>
+									{isNotification ? (
+										<UserNotificationIcon
+											src={NotificationIconOn}
+											alt="notifications"
+											onClick={handleOpenNotifications}
+										/>
+									) : (
+										<UserNotificationIcon
+											src={NotificationIconOff}
+											alt="notifications"
+											onClick={handleOpenNotifications}
+										/>
+									)}
+								</WrapperUser>
+								{withoutClose && isOpenNotification && (
+									<ContainerNotifications>
+										<ContainerNotificationsArrow />
+										<ContainerText>
+											{isNotification ? isExpiredMedicine && this.renderNotifications(isExpiredMedicine) : <TextNotification>Você não possui medicamentos à vencer.</TextNotification>}
+										</ContainerText>
+									</ContainerNotifications>
 								)}
-							</WrapperUser>
-							{withoutClose && isOpenNotification && (
-								<ContainerNotifications>
-									<ContainerNotificationsArrow />
-									<p>Você possui medicamentos próximos do vencimento.</p>
-								</ContainerNotifications>
-							)}
-						</ContainerUser>
-						<DashboardText
-							onClick={this.handleLogout}
-						>
-						Sair
-						</DashboardText>
-					</>
-				)
+							</ContainerUser>
+							<DashboardText
+								onClick={this.handleLogout}
+							>
+								Sair
+							</DashboardText>
+						</>
+					)
 				}
 				{this.state.isRedirect && <Redirect exact to="/" />}
 			</Container>
