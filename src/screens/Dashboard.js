@@ -613,22 +613,24 @@ function Dashboard(props) {
 
 				const data = response.data.results;
 
+				setMedList(data);
+
 				const formatExpirationDate = (date) => date
 					.substr(0, 7)
 					.split('-')
 					.reverse()
 					.join('/');
 
-				setMedList(data);
-
 				const date = new Date();
 				const month = date.getMonth();
 				const year = date.getFullYear();
 				const formartMonth = `${month < 10 ? `0${month + 1}` : month + 1}`;
 
-				const atualDate = `${formartMonth}/${year}`;
+				const currentDate = `${formartMonth}/${year}`;
 
-				const filterDates = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === atualDate);
+				const filterDatesEqualCurrentDate = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === currentDate);
+
+				console.log('filterDatesEqualCurrentDate', filterDatesEqualCurrentDate)
 
 				setIsFetching(false);
 			} catch (error) {
@@ -650,7 +652,6 @@ function Dashboard(props) {
 
 	return (
 		<Container>
-			{/* {console.log("medList render", medList)} */}
 			<Header
 				withoutClose={showCloseButton}
 				history={props.history}
