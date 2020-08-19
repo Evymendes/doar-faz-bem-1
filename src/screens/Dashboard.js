@@ -518,7 +518,8 @@ const RenderTable = ({
 								return (
 									<Tr
 										{...row.getRowProps()}
-										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails, setIsOpenNotification)}
+										onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails,
+											setIsOpenNotification)}
 										key={index}
 										lastOneMob={index === rows.length - 1}
 									>
@@ -576,7 +577,8 @@ const RenderTable = ({
 										<ButtonMoreMob
 											src={(medicament && medicament.id) === row.id
 													&& isOpenedMedDetails ? SelectMinusIcon : SelectMoreIcon}
-											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails, setIsOpenNotification)}
+											onClick={() => handleOptionChange(row, isOpenedMedDetails, setOpenMedDetails, setItemMedDetails,
+												setIsOpenNotification)}
 										/>
 									</Tr>
 								);
@@ -603,7 +605,6 @@ function Dashboard(props) {
 
 	const [isOpenNotification, setIsOpenNotification] = useState(false);
 	const [isNotification, setIsNotification] = useState(false);
-
 
 	const handleIsNotification = () => {
 		setIsNotification(true);
@@ -646,18 +647,14 @@ function Dashboard(props) {
 				isExpired.vanquished = dueDatesFilter;
 
 				const dueInThirtDays = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(2));
-				// dueInThirtDays.vencimento = '1'
-
 				isExpired.expirationThirtyDays = dueInThirtDays;
 
 				const dueInTwoMonths = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(3));
-				// dueInTwoMonths.vencimento = '2'
-
 				isExpired.expirationTwoMonths = dueInTwoMonths;
 
 				setExpiredMedicine(isExpired);
 
-				if (dueDatesFilter.length > 0 || dueInThirtDays.length > 0 || dueInTwoMonths.length > 0 ) {
+				if (dueDatesFilter.length > 0 || dueInThirtDays.length > 0 || dueInTwoMonths.length > 0) {
 					handleIsNotification();
 				}
 
@@ -676,7 +673,7 @@ function Dashboard(props) {
 	};
 
 	return (
-		<Container>
+		<Container onClick={() => isOpenNotification && setIsOpenNotification(false)}>
 			<Header
 				withoutClose={showCloseButton}
 				history={props.history}

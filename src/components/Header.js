@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom';
 
 // Images
 import Logo from '../assets/logo-doar-faz-bem.svg';
-// import Logo from '../assets/logo-doar-faz-bem.svg';
 import NotificationIconOff from '../assets/bell.svg';
 import NotificationIconOn from '../assets/bell-2.svg';
 
@@ -97,7 +96,7 @@ const ContainerNotifications = styled.div`
 	position: relative;
 `;
 
-const ContainerText = styled.div`
+const WrapperNotifications = styled.div`
 
 	@media(min-width: 768px) {
 		position: absolute;
@@ -108,6 +107,7 @@ const ContainerText = styled.div`
 		border-radius: 13px;
 		z-index: 6;
 		overflow-y: scroll;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 
 		::-webkit-scrollbar {
 			width: 4px;
@@ -137,6 +137,14 @@ const TextNotification = styled.p`
 
 		span {
 			font-weight: bold;
+
+			p {
+				font-weight: normal;
+
+				span {
+					color: red;
+				}
+			}
 		}
 	}
 `;
@@ -144,7 +152,7 @@ const TextNotification = styled.p`
 const ContainerNotificationsArrow = styled.div`
 	@media(min-width: 768px) {
 		position: absolute;
-		left: 6.6rem;
+		left: 6.9rem;
     top: 0rem;
 		border-left: 10px solid transparent;
 		border-right: 10px solid transparent;
@@ -198,11 +206,18 @@ class Header extends Component {
 		return expiredMedicine.map((med, index) => {
 			const isLast = index !== expiredMedicine.length - 1;
 			const isSingular = med.expirationTime === 1 ? 'mês' : 'meses';
-			const phrase = med.expirationTime === 0 ? 'esta vencido' : `vai vencer daqui a  ${med.expirationTime} ${isSingular}`;
 
 			return (
 				<TextNotification key={item.objectId} isNotification={isLast}>
-					O medicamento <span expirationDate={med.expirationTime === 0}>{med.PRODUTO} {phrase}</span>
+					O medicamento { }
+					<span expirationDate={med.expirationTime === 0}>
+						{(med.PRODUTO.charAt(0).toUpperCase() + med.PRODUTO.slice(1).toLowerCase()) || '-'} { }
+						{med.expirationTime === 0 ? (
+							<p>está <span>vencido</span></p>
+						) : (
+							<p><span>vencerá</span> daqui a {med.expirationTime} {isSingular}.</p>
+						)}
+					</span>
 				</TextNotification>
 			);
 		});
@@ -210,7 +225,8 @@ class Header extends Component {
 
 	render() {
 		const {
-			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification, isExpiredMedicine,
+			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
+			isExpiredMedicine,
 		} = this.props;
 
 		return (
@@ -239,13 +255,13 @@ class Header extends Component {
 									{isNotification ? (
 										<UserNotificationIcon
 											src={NotificationIconOn}
-											alt="notifications"
+											alt="com notificação"
 											onClick={handleOpenNotifications}
 										/>
 									) : (
 										<UserNotificationIcon
 											src={NotificationIconOff}
-											alt="notifications"
+											alt="sem notificação"
 											onClick={handleOpenNotifications}
 										/>
 									)}
@@ -253,9 +269,12 @@ class Header extends Component {
 								{withoutClose && isOpenNotification && (
 									<ContainerNotifications>
 										<ContainerNotificationsArrow />
-										<ContainerText>
-											{isNotification ? isExpiredMedicine && this.renderNotifications(isExpiredMedicine) : <TextNotification>Você não possui medicamentos à vencer.</TextNotification>}
-										</ContainerText>
+										<WrapperNotifications>
+											{isNotification
+												? isExpiredMedicine && this.renderNotifications(isExpiredMedicine)
+												: <TextNotification>Você não possui medicamentos à vencer.</TextNotification>
+											}
+										</WrapperNotifications>
 									</ContainerNotifications>
 								)}
 							</ContainerUser>
