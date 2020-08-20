@@ -129,7 +129,7 @@ const DetailsItem = styled.span`
 const DetailsText = styled.p`
 	padding-top:  ${(props) => (!props.title && '.2rem')};
 	color: ${(props) => (props.title ? '#D8998A' : '#404040')};
-	font-size: ${(props) => (props.title ? '.9rem' : '.85rem')};
+	font-size: ${(props) => (props.title ? '1rem' : '.85rem')};
 	font-weight: ${(props) => (props.title ? '600' : '400')};
 
 	@media(min-width: 1024px) {
@@ -225,7 +225,7 @@ const ModalDetails = (props) => {
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Código</DetailsText>
-							<DetailsText>{(medicament.EAN_1) || '-'}</DetailsText>
+							<DetailsText>{(props.medicament.original.EAN_1) || '-'}</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Validade</DetailsText>
@@ -236,13 +236,15 @@ const ModalDetails = (props) => {
 						<DetailsItem>
 							<DetailsText title>Tipo de Produto</DetailsText>
 							<DetailsText>
-								{(medicament.TIPO_DE_PRODUTO.charAt(0).toUpperCase() + medicament.TIPO_DE_PRODUTO.slice(1)) || '-'}
+								{(props.medicament.original.TIPO_DE_PRODUTO.charAt(0).toUpperCase()
+								+ props.medicament.original.TIPO_DE_PRODUTO.slice(1)) || '-'}
 							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>
 							<DetailsText title>Substância</DetailsText>
 							<DetailsText>
-								{(medicament.SUBSTANCIA && medicament.SUBSTANCIA.charAt(0).toUpperCase() + medicament.SUBSTANCIA.slice(1).toLowerCase()) || '-'}
+								{(medicament.SUBSTANCIA && medicament.SUBSTANCIA.charAt(0).toUpperCase()
+								+ medicament.SUBSTANCIA.slice(1).toLowerCase()) || '-'}
 							</DetailsText>
 						</DetailsItem>
 						<DetailsItem>

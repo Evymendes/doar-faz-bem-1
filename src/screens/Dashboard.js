@@ -250,7 +250,7 @@ const ContainerTableTitleMob = styled.span`
 const TableTitleMob = styled.th`
 	display: flex;
 	color: #D8998A;
-	font-size: 1rem;
+	font-size: 1.1rem;
 	font-family: 'Overpass', Regular;
 
 	@media(min-width: 1024px) {
@@ -263,7 +263,7 @@ const TableList = styled.td`
 	display: flex;
 	width: 100%;
 	color: #404040;
-	font-size: 0.85rem;
+	font-size: 0.95rem;
 	font-family: "Overpass", Light;
 
 	@media (min-width: 768px) {
@@ -338,10 +338,10 @@ const columns = [
 		Header: 'Medicamento',
 		accessor: 'PRODUTO',
 	},
-	{
-		Header: 'Código',
-		accessor: 'EAN_1',
-	},
+	// {
+	// 	Header: 'Código',
+	// 	accessor: 'EAN_1',
+	// },
 	{
 		Header: 'Validade',
 		accessor: 'DATA_EXPIRACAO.iso',
@@ -374,10 +374,10 @@ const columns = [
 		Header: 'Cadastrado Em',
 		accessor: (d) => formatDate(d.createdAt),
 	},
-	{
-		Header: 'Tipo de Produto',
-		accessor: 'TIPO_DE_PRODUTO',
-	},
+	// {
+	// 	Header: 'Tipo de Produto',
+	// 	accessor: 'TIPO_DE_PRODUTO',
+	// },
 	{
 		Header: 'Descrição',
 		accessor: 'DESCRICAO',
@@ -531,10 +531,10 @@ const RenderTable = ({
 														+ row.values.PRODUTO.slice(1).toLowerCase() || '-'}
 													</TableList>
 												</ContainerTableTitleMob>
-												<ContainerTableTitleMob>
+												{/* <ContainerTableTitleMob>
 													<TableTitleMob>Código</TableTitleMob>
 													<TableList>{row.values.EAN_1 || '-'}</TableList>
-												</ContainerTableTitleMob>
+												</ContainerTableTitleMob> */}
 												<ContainerTableTitleMob>
 													<TableTitleMob>Validade</TableTitleMob>
 													<TableList>{formatExpirationDate(row.values['DATA_EXPIRACAO.iso']) || '-'}</TableList>
