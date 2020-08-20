@@ -233,9 +233,17 @@ class Onboarding extends Component {
 
 		let EmptyFields = false;
 
-		// Login - Delete username
+		// Login
 		if (isLoginScreen) {
 			delete user.username;
+
+			if (user.email === '' || user.password === '') {
+				this.setState({
+					emptyFields: true,
+				});
+
+				EmptyFields = true;
+			}
 		}
 
 		// Create Account
@@ -248,13 +256,13 @@ class Onboarding extends Component {
 		}
 
 		// Login
-		if (isLoginScreen && (user.email === '' || user.password === '')) {
-			this.setState({
-				emptyFields: true,
-			});
+		// if (isLoginScreen && (user.email === '' || user.password === '')) {
+		// 	this.setState({
+		// 		emptyFields: true,
+		// 	});
 
-			EmptyFields = true;
-		}
+		// 	EmptyFields = true;
+		// }
 
 		// Create Account
 		if (!isLoginScreen && !EmptyFields && !nameError && !emailError && !passwordError) {

@@ -18,6 +18,8 @@ import ModalDetails from '../components/ModalDetails';
 import SelectMoreIcon from '../assets/plus.svg';
 import SelectMinusIcon from '../assets/minus.svg';
 import searchIcon from '../assets/search.svg';
+import NotificationIconOff from '../assets/bell.svg';
+import NotificationIconOn from '../assets/bell-2.svg';
 
 // Services
 import { getAllMedicaments } from '../services/api';
@@ -304,7 +306,7 @@ const ButtonMoreMob = styled.img`
 `;
 
 const ContainerButton = styled.div`
-	padding: 0 1rem;
+	${'' /* padding: 0 1rem; */}
 	position: ${(props) => (!props.medDetails && 'fixed')};;
 	bottom: ${(props) => (!props.medDetails && '0')};
 	width: 100%;
@@ -317,6 +319,9 @@ const ContainerButton = styled.div`
 
 const ButtonAddMed = styled.button`
 	width: 20rem;
+	${'' /* margin-left: 1.5rem; */}
+
+	${'' /* width: 16rem; */}
 	height: 3.5rem;
 	display: flex;
 	justify-content: center;

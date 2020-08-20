@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
@@ -21,7 +20,6 @@ const Container = styled.div`
 `;
 
 const ContainerLogo = styled.div`
-	padding: 1rem;
 	width: 4rem;
 	height: 4rem;
 	display: flex;
@@ -64,17 +62,23 @@ const ContainerUser = styled.div`
 `;
 
 const WrapperUser = styled.div`
+	padding: 1rem;
+	width: max-content;
+	max-width: 60%;
+	height: 3rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	border-radius: 6px;
+	box-shadow: 5px 4px 9px 0px #c4c4c44;
+	background: #c4c4c426;
+
+	@media(min-width: 320px) {
+		max-width: 75%;
+	}
+
 	@media(min-width: 768px) {
-		width: max-content;
 		max-width: 27%;
-		display: flex;
-		background: #c4c4c426;
-		align-items: center;
-		justify-content: flex-end;
-		height: 3rem;
-		padding: 1rem;
-		border-radius: 6px;
-		box-shadow: 5px 4px 9px 0px #c4c4c44;
 	}
 
 	@media(min-width: 1440px) {
@@ -83,12 +87,13 @@ const WrapperUser = styled.div`
 `;
 
 const UserNotificationIcon = styled.img`
-	display: none;
+	margin-left: 1rem;
+	display: flex;
+	cursor: pointer;
 
 	@media(min-width: 768px) {
+		margin-left: 0;
 		margin-right: 1rem;
-		display: flex;
-		cursor: pointer;
 	}
 `;
 
@@ -97,66 +102,64 @@ const ContainerNotifications = styled.div`
 `;
 
 const WrapperNotifications = styled.div`
+	position: absolute;
+	margin-top: .8rem;
+	width: 12rem;
+	max-height: 10rem;
+	background: #B4E4E6;
+	border-radius: 8px;
+	z-index: 6;
+	overflow-y: scroll;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 
-	@media(min-width: 768px) {
-		position: absolute;
-		margin-top: .8rem;
-    width: 12rem;
-		max-height: 10rem;
-		background: #B4E4E6;
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+		border-radius: 20px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: #91bec0;
 		border-radius: 13px;
-		z-index: 6;
-		overflow-y: scroll;
-		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-
-		::-webkit-scrollbar {
-			width: 4px;
-			height: 2px;
-		}
-		::-webkit-scrollbar-track {
-			background: transparent;
-		}
-		::-webkit-scrollbar-thumb {
-			background: transparent;
-		}
-		::-webkit-scrollbar-thumb:hover {
-			background: transparent;
-		}
-
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: #B4E4E6;
 	}
 `;
 
 const TextNotification = styled.p`
-	@media(min-width: 768px) {
-		padding: .8rem;
-		font-size: .88rem;
-		font-family: 'Overpass',Regular;
-		width: 100%;
-		flex-wrap: wrap;
-		border-bottom: ${(props) => props.isNotification && '0.1px solid #fff'} ;
+	padding: .8rem;
+	font-size: .88rem;
+	font-family: 'Overpass',Regular;
+	width: 100%;
+	flex-wrap: wrap;
+	border-bottom: ${(props) => props.isNotification && '0.1px solid #fff'} ;
 
-		span {
-			font-weight: bold;
+	span {
+		font-weight: bold;
 
-			p {
-				font-weight: normal;
+		p {
+			font-weight: normal;
 
-				span {
-					color: red;
-				}
+			span {
+				color: red;
 			}
 		}
 	}
 `;
 
 const ContainerNotificationsArrow = styled.div`
+	position: absolute;
+	left: 5.9rem;
+	top: 0rem;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 13px solid #B4E4E6;
+
 	@media(min-width: 768px) {
-		position: absolute;
 		left: 6.9rem;
-    top: 0rem;
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-		border-bottom: 13px solid #B4E4E6;
 	}
 `;
 
