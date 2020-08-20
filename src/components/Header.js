@@ -197,13 +197,13 @@ class Header extends Component {
 		const expiredMedicine = [];
 
 		item.vanquished.map((item) => {
-			expiredMedicine.push({ ...item, expirationTime: 0 });
+			return expiredMedicine.push({ ...item, expirationTime: 0 });
 		});
 		item.expirationTwoMonths.map((item) => {
-			expiredMedicine.push({ ...item, expirationTime: 1 });
+			return expiredMedicine.push({ ...item, expirationTime: 1 });
 		});
 		item.expirationThirtyDays.map((item) => {
-			expiredMedicine.push({ ...item, expirationTime: 2 });
+			return expiredMedicine.push({ ...item, expirationTime: 2 });
 		});
 
 		return expiredMedicine.map((med, index) => {
