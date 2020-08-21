@@ -91,6 +91,10 @@ class SearchMedicament extends Component {
 
 			const response = await getByMedicament(medicament);
 
+			this.props.history.push({
+				pathname: '/medicamentInfo',
+			});
+
 			console.log('response', response);
 		} catch (error) {
 			console.log('error', error);
