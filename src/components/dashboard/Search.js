@@ -89,7 +89,7 @@ class SearchMedicament extends Component {
 					/>
 				</Content>
 			</Container>
-		)
+		);
 	}
 }
 
