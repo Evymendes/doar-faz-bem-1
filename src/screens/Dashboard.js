@@ -399,8 +399,11 @@ const handleOptionChange = (row, isOpenedMedDetails, setOpenMedDetails, setItemM
 };
 
 const handleHistory = (props) => {
+	// props.history.push({
+	// 	pathname: '/scanner',
+	// });
 	props.history.push({
-		pathname: '/scanner',
+		pathname: '/search',
 	});
 };
 

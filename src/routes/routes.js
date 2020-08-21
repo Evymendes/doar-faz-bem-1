@@ -7,6 +7,7 @@ import Onboarding from '../screens/Onboarding';
 import Scanner from '../screens/Scanner';
 import AddMoreInfo from '../screens/AddMoreInfo';
 import Dashboard from '../screens/Dashboard';
+import Search from '../components/dashboard/Search';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -18,6 +19,7 @@ const Routes = () => (
 			<PrivateRoute path='/scanner' component={Scanner} />
 			<PrivateRoute path='/addmoreinfo' component={AddMoreInfo} />
 			<PrivateRoute path='/dashboard' component={Dashboard} />
+			<PrivateRoute path='/search' component={Search} />
 		</Switch>
 	</BrowserRouter>
 );
