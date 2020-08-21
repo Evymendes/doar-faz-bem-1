@@ -531,13 +531,13 @@ const RenderTable = ({
 														+ row.values.PRODUTO.slice(1).toLowerCase() || '-'}
 													</TableList>
 												</ContainerTableTitleMob>
-												{/* <ContainerTableTitleMob>
-													<TableTitleMob>Código</TableTitleMob>
-													<TableList>{row.values.EAN_1 || '-'}</TableList>
-												</ContainerTableTitleMob> */}
 												<ContainerTableTitleMob>
 													<TableTitleMob>Validade</TableTitleMob>
 													<TableList>{formatExpirationDate(row.values['DATA_EXPIRACAO.iso']) || '-'}</TableList>
+												</ContainerTableTitleMob>
+												<ContainerTableTitleMob>
+													<TableTitleMob>Quantidade</TableTitleMob>
+													<TableList>{row.values.QUANTIDADE || '-'}</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Preço</TableTitleMob>
