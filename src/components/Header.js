@@ -1,7 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 // Images
 import Logo from '../assets/logo-doar-faz-bem.svg';
@@ -17,6 +17,13 @@ const Container = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 1rem;
+	background: ${(props) => (props.isWhite ? '#fff' : 'transparent')};
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 2;
+	height: 5rem;
+	box-shadow: 0 0 6px -1px rgba(0,0,0,.15), 0 2px 4px -1px rgba(0,0,0,.25);	
 `;
 
 const ContainerLogo = styled.div`
@@ -229,11 +236,11 @@ class Header extends Component {
 	render() {
 		const {
 			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
-			isExpiredMedicine,
+			isExpiredMedicine, isWhite
 		} = this.props;
 
 		return (
-			<Container>
+			<Container isWhite={isWhite}>
 				<ContainerLogo>
 					<LogoIcon src={Logo} alt="Logo" />
 				</ContainerLogo>
@@ -297,6 +304,7 @@ class Header extends Component {
 
 Header.defaultProps = {
 	strokeColor: '#d8998a',
+	isWhite: false,
 };
 
 export default Header;

@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Onboarding from '../screens/Onboarding';
 import Scanner from '../screens/Scanner';
 import AddMoreInfo from '../screens/AddMoreInfo';
+import Medicaments from '../screens/Medicaments';
 import Dashboard from '../screens/Dashboard';
 
 import PrivateRoute from './PrivateRoute';
@@ -17,6 +18,7 @@ const Routes = () => (
 			<Route exact path='/doar-faz-bem' component={Onboarding} />
 			<PrivateRoute path='/scanner' component={Scanner} />
 			<PrivateRoute path='/addmoreinfo' component={AddMoreInfo} />
+			<PrivateRoute path='/medicaments' component={Medicaments} />
 			<PrivateRoute path='/dashboard' component={Dashboard} />
 		</Switch>
 	</BrowserRouter>
