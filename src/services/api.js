@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const API_URL = process.env.REACT_APP_API_URL;
 
-// Get All From Anvisa
+// Anvisa
 export const getAll = () => axios({
 	url: `${API_URL}/classes/anvisa`,
 	method: 'get',
@@ -13,7 +13,6 @@ export const getAll = () => axios({
 	},
 });
 
-// Get By Id From Anvisa
 export const getById = (isbn) => axios({
 	url: `${API_URL}/classes/anvisa?where={"EAN_1": "${isbn}"}`,
 	method: 'get',
@@ -24,6 +23,19 @@ export const getById = (isbn) => axios({
 	},
 });
 
+export const getByMedicament = (medicament) => axios({
+	url: `${API_URL}/classes/anvisa?where={"PRODUTO": "${medicament}"}`,
+	method: 'get',
+	headers: {
+		'X-Parse-Application-Id': process.env.REACT_APP_APPLICATION_ID,
+		'X-Parse-REST-API-Key': process.env.REACT_APP_REST_API_KEY,
+		'Content-Type': 'application/json',
+	},
+});
+
+// Anvisa
+
+// Medicament
 export const createMedicament = (data) => axios({
 	url: `${API_URL}/classes/medicamento`,
 	method: 'post',
@@ -65,6 +77,7 @@ export const deleteMedicament = (medicamentId) => axios({
 		'Content-Type': 'application/json',
 	},
 });
+// Medicament
 
 // User
 export const createUser = (user) => axios({
