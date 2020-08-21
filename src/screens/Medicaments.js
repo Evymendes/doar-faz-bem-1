@@ -24,8 +24,9 @@ import { getAllMedicaments } from '../services/api';
 
 // Styles
 const Container = styled.div`
+	min-height: calc(100vh - 5rem);
+	margin-top: 5rem;
 	width: 100%;
-	max-height: 100%;
 
 	@media(min-width: 768px) {
 		max-height: 75vh;
