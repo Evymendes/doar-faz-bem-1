@@ -204,8 +204,6 @@ class Scanner extends Component {
 		valueCode: '',
 		error: null,
 		pressed: false,
-		// mobLandscape: (window.matchMedia('(max-width: 667px) and (orientation: landscape)').matches),
-		// widthDesk: (window.matchMedia('(min-width: 1023px)').matches),
 		modalCloseWarring: false,
 	}
 
@@ -352,6 +350,13 @@ class Scanner extends Component {
 		});
 	}
 
+	handleRedirectWarringModal = () => {
+		this.setState({
+			modalCloseWarring: true,
+			modalOpenBarCode: true,
+		});
+	}
+
 	renderModalBarCode = () => (
 		<ContainerModalBoilerPlate
 			display={this.state.modalOpenBarCode}
@@ -400,7 +405,8 @@ class Scanner extends Component {
 				{widthDesk && !modalCloseWarring && <WarringModal
 					firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
 					secText='Utilize um smartphone, e tente novamente.'
-					modalCloseWarring={this.handleCloseWarringModal}
+					modalCloseWarring={this.handleRedirectWarringModal}
+					desk='Digitar Codigo de Barras'
 				/>
 				}
 				{!modalOpenBarCode && !modalCloseWarring && mobLandscape && <WarringModal
