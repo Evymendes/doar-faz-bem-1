@@ -8,6 +8,7 @@ import Scanner from '../screens/Scanner';
 import AddMoreInfo from '../screens/AddMoreInfo';
 import Medicaments from '../screens/Medicaments';
 import Dashboard from '../screens/Dashboard';
+import SearchMedicament from '../components/dashboard/SearchMedicament';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -20,6 +21,7 @@ const Routes = () => (
 			<PrivateRoute path='/addmoreinfo' component={AddMoreInfo} />
 			<PrivateRoute path='/medicaments' component={Medicaments} />
 			<PrivateRoute path='/dashboard' component={Dashboard} />
+			<PrivateRoute path='/searchMedicament' component={SearchMedicament} />
 		</Switch>
 	</BrowserRouter>
 );
