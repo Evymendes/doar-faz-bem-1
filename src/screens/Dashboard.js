@@ -102,9 +102,9 @@ function Dashboard(props) {
 						<img src={Med}></img>
 						<span>Adicionar Medicamentos</span>
 					</Button>
-					<Button onClick={() => Redirect(props.history, '/scanner')}>
+					<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
 						<img src={Search}></img>
-					<span>Pesquisar por preço</span>
+						<span>Pesquisar por preço</span>
 					</Button>
 				</Buttons>
 		</Container>

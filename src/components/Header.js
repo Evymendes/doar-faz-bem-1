@@ -1,7 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 // Images
 import Logo from '../assets/logo-doar-faz-bem.svg';
@@ -192,11 +192,16 @@ class Header extends Component {
 		}
 	}
 
+	handleRedirect = (link) => {
+		this.setState({
+			isRedirect: link,
+		});
+	}
+
 	handleLogout = () => {
 		localStorage.removeItem('sessionToken');
-
 		this.setState({
-			isRedirect: true,
+			isRedirect: '/',
 		});
 	}
 
@@ -241,7 +246,7 @@ class Header extends Component {
 
 		return (
 			<Container isWhite={isWhite}>
-				<ContainerLogo>
+				<ContainerLogo onClick={() => this.handleRedirect('/dashboard')}>
 					<LogoIcon src={Logo} alt="Logo" />
 				</ContainerLogo>
 				{!withoutClose && <CloseIcon
@@ -296,7 +301,7 @@ class Header extends Component {
 						</>
 					)
 				}
-				{this.state.isRedirect && <Redirect exact to="/" />}
+				{this.state.isRedirect && <Redirect exact to={this.state.isRedirect} />}
 			</Container>
 		);
 	}
