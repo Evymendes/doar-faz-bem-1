@@ -204,41 +204,43 @@ class Scanner extends Component {
 		valueCode: '',
 		error: null,
 		pressed: false,
-		// mobLandscape: (window.matchMedia('(max-width: 667px) and (orientation: landscape)').matches),
-		// widthDesk: (window.matchMedia('(min-width: 1023px)').matches),
 		modalCloseWarring: false,
 	}
 
 	componentDidMount() {
-		if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia) {
-			Quagga.init({
-				inputStream: {
-					name: 'Live',
-					type: 'LiveStream',
-					target: document.querySelector('#video'),
-					constraints: {
-						facingMode: 'environment',
+		const isDesktop = (window.matchMedia('(min-width: 1023px)').matches);
+
+		if (!isDesktop) {
+			if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia) {
+				Quagga.init({
+					inputStream: {
+						name: 'Live',
+						type: 'LiveStream',
+						target: document.querySelector('#video'),
+						constraints: {
+							facingMode: 'environment',
+						},
 					},
-				},
-				numOfWorkers: 1,
-				locate: true,
-				decoder: {
-					// readers: ['code_128_reader', 'ean_reader', 'ean_8_reader',
-					// 	'code_39_reader', 'code_39_vin_reader', 'codabar_reader',
-					// 	'upc_reader', 'upc_e_reader', 'i2of5_reader',
-					// 	'2of5_reader', 'code_93_reader',
-					// ],
-					readers: ['ean_reader', 'ean_8_reader'],
-				},
-			}, (error) => {
-				if (error) {
-					console.log(error);
-					alert('Erro ao tentar abrir a câmera do dispositivo.');
-					return;
-				}
-				Quagga.start();
-			});
-			Quagga.onDetected(this.onDetected);
+					numOfWorkers: 1,
+					locate: true,
+					decoder: {
+						// readers: ['code_128_reader', 'ean_reader', 'ean_8_reader',
+						// 	'code_39_reader', 'code_39_vin_reader', 'codabar_reader',
+						// 	'upc_reader', 'upc_e_reader', 'i2of5_reader',
+						// 	'2of5_reader', 'code_93_reader',
+						// ],
+						readers: ['ean_reader', 'ean_8_reader'],
+					},
+				}, (error) => {
+					if (error) {
+						console.log(error);
+						alert('Erro ao tentar abrir a câmera do dispositivo.');
+						return;
+					}
+					Quagga.start();
+				});
+				Quagga.onDetected(this.onDetected);
+			}
 		}
 	}
 
@@ -352,6 +354,13 @@ class Scanner extends Component {
 		});
 	}
 
+	handleRedirectWarringModal = () => {
+		this.setState({
+			modalCloseWarring: true,
+			modalOpenBarCode: true,
+		});
+	}
+
 	renderModalBarCode = () => (
 		<ContainerModalBoilerPlate
 			display={this.state.modalOpenBarCode}
@@ -392,52 +401,56 @@ class Scanner extends Component {
 		} = this.state;
 
 		const mobLandscape = (window.matchMedia('(max-width: 667px) and (orientation: landscape)').matches);
-		const widthDesk = (window.matchMedia('(min-width: 1023px)').matches);
+		const isDesktop = (window.matchMedia('(min-width: 1023px)').matches);
 
 		return (
 			<>
-				<Video id="video" />
-				{widthDesk && !modalCloseWarring && <WarringModal
-					firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
-					secText='Utilize um smartphone, e tente novamente.'
-					modalCloseWarring={this.handleCloseWarringModal}
-				/>
-				}
-				{!modalOpenBarCode && !modalCloseWarring && mobLandscape && <WarringModal
-					firsText='Não é possível efetuar a leitura do código de barras com a tela na horizontal.'
-					secText='Vire-a, e tente novamente.'
-					modalCloseWarring={this.handleCloseWarringModal}
-				/>
-				}
-				<ButtonBack onClick={this.handleBackScreen}>
-					<img src={BackIcon} alt="Voltar" />
-				</ButtonBack>
-				<Container>
-					<ScanMarker>
-						<img
-							src={MarkerIcon}
-							alt="marker space"
-						/>
-					</ScanMarker>
-					<ContainerDigitBarCode>
-						<DefaultButton
-							handleClick={this.handleOpenBarCodeModal}
-							text={'Se preferir, digite o código de barras'}
-						/>
-					</ContainerDigitBarCode>
-				</Container>
-				<ContainerModalBoilerPlate display={modalOpenDetails}>
-					{modalOpenDetails && (
-						<ExtractedInf
-							history={this.props.history}
-							openModal={this.handleModalOpenDetails}
-							code={this.state.isbnCode}
-							handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
-						/>
-					)}
-				</ContainerModalBoilerPlate>
+				{isDesktop && !modalCloseWarring && (
+					<WarringModal
+						firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
+						modalCloseWarring={this.handleRedirectWarringModal}
+						desk='Digite o código de barras'
+					/>
+				)}
+				{!isDesktop && (
+					<>
+						<Video id="video" />
+						{!modalOpenBarCode && !modalCloseWarring && mobLandscape && <WarringModal
+							firsText='Não é possível efetuar a leitura do código de barras com a tela na horizontal.'
+							secText='Vire-a, e tente novamente.'
+							modalCloseWarring={this.handleCloseWarringModal}
+						/>}
+						<ButtonBack onClick={this.handleBackScreen}>
+							<img src={BackIcon} alt="Voltar" />
+						</ButtonBack>
+						<Container>
+							<ScanMarker>
+								<img
+									src={MarkerIcon}
+									alt="marker space"
+								/>
+							</ScanMarker>
+							<ContainerDigitBarCode>
+								<DefaultButton
+									handleClick={this.handleOpenBarCodeModal}
+									text={'Se preferir, digite o código de barras'}
+								/>
+							</ContainerDigitBarCode>
+						</Container>
+						<ContainerModalBoilerPlate display={modalOpenDetails}>
+							{modalOpenDetails && (
+								<ExtractedInf
+									history={this.props.history}
+									openModal={this.handleModalOpenDetails}
+									code={this.state.isbnCode}
+									handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
+								/>
+							)}
+						</ContainerModalBoilerPlate>
+						{modalOpenLoading && this.renderModalLoading()}
+					</>
+				)}
 				{modalOpenBarCode && this.renderModalBarCode()}
-				{modalOpenLoading && this.renderModalLoading()}
 			</>
 		);
 	}

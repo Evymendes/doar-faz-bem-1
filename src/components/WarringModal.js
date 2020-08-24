@@ -59,7 +59,7 @@ const WarringModal = (props) => (
 					background= '#D8998A'
 					backgroundHover='#ce9385'
 					handleClick={props.modalCloseWarring}
-					text={'Ok'}
+					text={props.desk || 'Ok'}
 				/>
 			</ContainerButton>
 		</Container>
@@ -67,7 +67,6 @@ const WarringModal = (props) => (
 );
 
 WarringModal.defaultProps = {
-	text: 'Hello World',
 	margin: '1rem 0',
 	color: '#c7c7c7',
 	background: '#fff',

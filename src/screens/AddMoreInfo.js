@@ -142,7 +142,9 @@ class AddMoreInfo extends Component {
 	}
 
 	handleBackScanner = () => {
-		this.props.history.goBack();
+		this.props.history.push({
+			pathname: '/dashboard',
+		});
 	}
 
 	handleChange = (field, ev) => {

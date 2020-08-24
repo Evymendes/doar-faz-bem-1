@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useTable } from 'react-table';
 
@@ -18,13 +18,13 @@ const ContainerTable = styled.div`
 	overflow-x: hidden;
 
 	::-webkit-scrollbar {
-		width: 5px;
+		width: 3px;
 	}
 	::-webkit-scrollbar-track {
-		background: transparent;
+		background: #D8998A;
 	}
 	::-webkit-scrollbar-thumb {
-		background: transparent;
+		background: #D8998A;
 	}
 
 	@media(max-width: 768px) {
@@ -109,6 +109,13 @@ const Td = styled.td`
 `;
 
 function MedicamentInfo(props) {
+	const [medList, setMedLIst] = useState([]);
+
+	useEffect(() => {
+		const { result } = props.history.location.state;
+		setMedLIst(result);
+	}, [medList]);
+
 	const data = React.useMemo(
 		() => [
 			{
@@ -170,9 +177,9 @@ function MedicamentInfo(props) {
 						{headerGroup.headers.map((column) => (
 							<Th
 								{...column.getHeaderProps()}
-								width={column.Header === 'Nome' && '12%'
-									|| column.Header === 'Preço Máximo' && '12%'
-									|| column.Header === 'Categoria' && '12%'
+								width={(column.Header === 'Nome' && '12%')
+									|| (column.Header === 'Preço Máximo' && '12%')
+									|| (column.Header === 'Categoria' && '12%')
 								}
 							>
 								{column.render('Header')}
@@ -222,7 +229,8 @@ function MedicamentInfo(props) {
 		rows,
 		prepareRow,
 	} = useTable({ columns, data });
-
+	// PRODUTO, PMC_20_PERC, CLASSE_TERAPEUTICA, SUBSTANCIA,DESCRICAO
+	console.log('olaaaaa medList',medList);
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
