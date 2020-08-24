@@ -228,9 +228,6 @@ const TableTitle = styled.th`
 	display: none;
 
 	@media(min-width: 1024px) {
-		${'' /* position: sticky;
-		top: 0; */}
-		${'' /* z-index: 5; */}
 		padding: .25rem;
 		padding-left: 0.7rem;
 		width: 25%;
@@ -347,10 +344,6 @@ const columns = [
 		Header: 'Medicamento',
 		accessor: 'PRODUTO',
 	},
-	// {
-	// 	Header: 'Código',
-	// 	accessor: 'EAN_1',
-	// },
 	{
 		Header: 'Validade',
 		accessor: 'DATA_EXPIRACAO.iso',
@@ -383,10 +376,6 @@ const columns = [
 		Header: 'Cadastrado Em',
 		accessor: (d) => formatDate(d.createdAt),
 	},
-	// {
-	// 	Header: 'Tipo de Produto',
-	// 	accessor: 'TIPO_DE_PRODUTO',
-	// },
 	{
 		Header: 'Descrição',
 		accessor: 'DESCRICAO',
