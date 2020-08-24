@@ -362,6 +362,12 @@ class Scanner extends Component {
 		});
 	}
 
+	handleGoBack = () => {
+		this.props.history.push({
+			pathname: '/medicaments',
+		});
+	}
+
 	renderModalBarCode = () => (
 		<ContainerModalBoilerPlate
 			display={this.state.modalOpenBarCode}
@@ -411,6 +417,7 @@ class Scanner extends Component {
 						firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
 						modalCloseWarring={this.handleRedirectWarringModal}
 						desk='Digite o código de barras'
+						handleClick={this.handleGoBack}
 					/>
 				)}
 				{!isDesktop && (

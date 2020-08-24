@@ -11,11 +11,14 @@ import Header from './Header';
 
 // Styles
 const ModalDetails = styled.div`
-	margin-top: 5rem;
-	height: 95vh;
+	height: 100vh;
 	width: 100vw;
 	padding-top: 1rem;
 	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 
 	@media (orientation: landscape) {
 		overflow-y: scroll;
