@@ -7,9 +7,8 @@ import { Redirect } from 'react-router-dom';
 import Logo from '../assets/logo-doar-faz-bem.svg';
 import NotificationIconOff from '../assets/bell.svg';
 import NotificationIconOn from '../assets/bell-2.svg';
-
-// Components
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
+import ToolBox from '../assets/home.svg';
 
 // Styles
 const Container = styled.div`
@@ -27,20 +26,31 @@ const Container = styled.div`
 `;
 
 const ContainerLogo = styled.div`
-	width: 4rem;
-	height: 4rem;
+	width: 3rem;
+	height: 3rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 50%;
 	background: #fff;
 	box-shadow: 0px 2px 2px rgba(0,0,0,0.25);
+	cursor: pointer;
+
+	@media(min-width: 768px) {
+		width: 4rem;
+		height: 4rem;
+	}
 `;
 
 const LogoIcon = styled.img`
-	width: 4rem;
-	height: 4rem;
+	width: 3rem;
+	height: 3rem;
 	border-radius: 50%;
+
+	@media(min-width: 768px) {
+		width: 4rem;
+		height: 4rem;
+	}
 `;
 
 const DashboardText = styled.p`
@@ -64,8 +74,9 @@ const DashboardText = styled.p`
 `;
 
 const ContainerUser = styled.div`
-	margin-left: 1rem;
+	margin-left: 0.55rem;
 	width: 90%;
+	display: flex;
 `;
 
 const WrapperUser = styled.div`
@@ -170,6 +181,40 @@ const ContainerNotificationsArrow = styled.div`
 	}
 `;
 
+const Button = styled.div`
+	margin: 0 0.25rem;
+	padding: 0.15rem 0.45rem;
+	background: #c4c4c426;
+	cursor: pointer;
+	// height: 3rem;
+
+	border-radius: 10px;
+	font: 800 0.9rem 'Overpass', serif;
+	color: #D8998A;
+	text-align: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	& img {
+		padding-bottom: 0.25rem;
+		width: 2rem;
+		height: 2rem;
+	}
+
+	& span {
+		margin-right: 0.45rem;
+		display: none;
+	}
+
+	@media(min-width: 768px) {
+		& span {
+			display: block;
+		}
+	}
+`;
+
 class Header extends Component {
 	state = {
 		isRedirect: false,
@@ -241,7 +286,7 @@ class Header extends Component {
 	render() {
 		const {
 			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
-			isExpiredMedicine, isWhite
+			isExpiredMedicine, isWhite, hiddenHome
 		} = this.props;
 
 		return (
@@ -281,6 +326,12 @@ class Header extends Component {
 										/>
 									)}
 								</WrapperUser>
+								{!hiddenHome && (
+									<Button onClick={() => this.handleRedirect('/dashboard')}>
+										<span>Voltar para o início</span>
+										<img src={ToolBox} alt="ícone de ínicio"></img>
+									</Button>
+								)}
 								{withoutClose && isOpenNotification && (
 									<ContainerNotifications>
 										<ContainerNotificationsArrow />
