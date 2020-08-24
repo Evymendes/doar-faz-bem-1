@@ -682,6 +682,7 @@ function Dashboard(props) {
 				isOpenNotification={isOpenNotification}
 				isNotification={isNotification}
 				isExpiredMedicine={expiredMedicine}
+				isWhite
 			/>
 			{isFetching ? <Loading
 				backgroundColor='transparent'
