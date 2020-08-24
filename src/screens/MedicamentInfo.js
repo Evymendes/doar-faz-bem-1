@@ -14,6 +14,17 @@ const Content = styled.div`
 	margin-top: 8rem;
 	margin-left: 5rem;
 	margin-right: 5rem;
+
+	@media(max-width: 768px) {
+		margin-left: 2rem;
+		margin-right: 2rem;
+	}
+
+	@media(max-width: 648px) {
+		margin-top: 6rem;
+    margin-left: 0;
+    margin-right: 0;
+	}
 `;
 
 const Title = styled.h2`
@@ -21,6 +32,11 @@ const Title = styled.h2`
 	font-size: 1.5rem;
 	color: #D8998A;
 	font-family: "Overpass", Bold;
+
+	@media(max-width: 648px) {
+		font-size: 1.2rem;
+    text-align: center;
+	}
 `;
 
 const ContainerTable = styled.div`
@@ -41,6 +57,20 @@ const ContainerTable = styled.div`
 	@media(max-width: 768px) {
 		width: 100%;
 	}
+
+	@media(max-width: 648px) {
+		height: 80vh;
+
+		::-webkit-scrollbar {
+			width: 5px;
+		}
+		::-webkit-scrollbar-track {
+			background: #D8998A;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #D8998A;
+		}
+	}
 `;
 
 const Table = styled.table`
@@ -56,17 +86,19 @@ const Thead = styled.thead`
 `;
 
 const Th = styled.th`
-	width: ${(props) => props.width && '12%'};
+	position: sticky;
+	top: 0;
 	padding: 1rem 0 1rem 0.875rem;
+	width: ${(props) => props.width && '12%'};
 	text-align: left;
-	background-color: #D8998A;
 	color: white;
 	font-family: "Overpass", Bold;
-	font-size: 0.95rem;
+	font-size: 1rem;
+	background-color: #D8998A;
 
 	@media(max-width: 768px) {
-		font-size: 0.875rem;
 		width: ${(props) => props.width && '20%'};
+		font-size: 0.875rem;
 	}
 `;
 
@@ -111,12 +143,13 @@ const Td = styled.td`
 	border: none;
 	word-wrap: break-word;
 	color: #404040;
-	font-size: 0.85rem;
+	font-size: 0.95rem;
 	font-family: "Overpass", Light;
 	text-align: left;
 
 	@media(max-width: 768px) {
 		width: ${(props) => ((props.width) ? props.width : '50%')};
+		font-size: 0.85rem;
 	}
 `;
 
@@ -203,7 +236,7 @@ function MedicamentInfo(props) {
 									}
 								>
 									<ThMob width={cell.column.Header}>{cell.column.Header}</ThMob>
-									{cell.render('Cell')}
+									{cell.value ? cell.value.charAt(0).toUpperCase() + cell.value.slice(1).toLowerCase() : '-'}
 								</Td>
 							))}
 						</Tr>
@@ -219,7 +252,6 @@ function MedicamentInfo(props) {
 		});
 	};
 
-	console.log('olaaaaa medList', medList);
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
