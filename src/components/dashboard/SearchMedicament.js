@@ -120,7 +120,7 @@ class SearchMedicament extends Component {
 		return (
 			<Container>
 				<Content>
-					<Header />
+					<Header isWhite/>
 					<ContentWrapper>
 						<InputBarCode
 							type='text'
