@@ -129,6 +129,7 @@ const Table = styled.table`
 const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
 		width: 90%;
+		z-index: 1;
 	}
 `;
 
