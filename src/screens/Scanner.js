@@ -250,8 +250,10 @@ class Scanner extends Component {
 	};
 
 	handleOpenBarCodeModal = () => {
+		//aquiiiii
 		this.setState({
 			modalOpenBarCode: !this.state.modalOpenBarCode,
+			modalCloseWarring: false,
 			error: '',
 		});
 	}
