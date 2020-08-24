@@ -181,7 +181,7 @@ class AddMoreInfo extends Component {
 		if (errors.length === 0) {
 			await this.persistMedicament();
 			this.props.history.push({
-				pathname: '/dashboard',
+				pathname: '/medicaments',
 			});
 		}
 	}
