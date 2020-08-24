@@ -126,7 +126,7 @@ class ExtractedInf extends Component {
 					<DefaultButton
 						background= '#D8998A'
 						backgroundHover='#ce9385'
-						handleClick={this.props.handleCloseModalExactedInfo}
+						handleClick={() => this.props.history.goBack()}
 						text={'Voltar para Leitura de Código'}
 					/>
 				</ContentModalDetails>
