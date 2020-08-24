@@ -10,15 +10,26 @@ const Container = styled.div`
 	height: 100%;
 `;
 
-const ContainerTable = styled.div`
-	margin: 0 auto;
+const Content = styled.div`
 	margin-top: 8rem;
-	width: 90%;
+	margin-left: 5rem;
+	margin-right: 5rem;
+`;
+
+const Title = styled.h2`
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
+	color: #D8998A;
+	font-family: "Overpass", Bold;
+`;
+
+const ContainerTable = styled.div`
+	max-height: 80vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 
 	::-webkit-scrollbar {
-		width: 3px;
+		width: 10px;
 	}
 	::-webkit-scrollbar-track {
 		background: #D8998A;
@@ -46,14 +57,15 @@ const Thead = styled.thead`
 
 const Th = styled.th`
 	width: ${(props) => props.width && '12%'};
-	padding: 1rem 0 1rem 0.875rem ;
+	padding: 1rem 0 1rem 0.875rem;
 	text-align: left;
 	background-color: #D8998A;
 	color: white;
-	font-weight: bold;
-	font-size: 0.875rem;
+	font-family: "Overpass", Bold;
+	font-size: 0.95rem;
 
 	@media(max-width: 768px) {
+		font-size: 0.875rem;
 		width: ${(props) => props.width && '20%'};
 	}
 `;
@@ -146,6 +158,14 @@ function MedicamentInfo(props) {
 		[],
 	);
 
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+	} = useTable({ columns, data });
+
 	const renderTable = () => (
 		<Table {...getTableProps()}>
 			<Thead>
@@ -199,20 +219,16 @@ function MedicamentInfo(props) {
 		});
 	};
 
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		rows,
-		prepareRow,
-	} = useTable({ columns, data });
 	console.log('olaaaaa medList', medList);
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
-			<ContainerTable>
-				{renderTable()}
-			</ContainerTable>
+			<Content>
+				<Title>Há {medList.length} resultados para essa pesquisa</Title>
+				<ContainerTable>
+					{renderTable()}
+				</ContainerTable>
+			</Content>
 		</Container>
 	);
 }

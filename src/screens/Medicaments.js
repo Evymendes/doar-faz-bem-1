@@ -508,7 +508,7 @@ const RenderTable = ({
 						))}
 					</Thead>
 					{rows && rows.length === 0 ? (
-						<TextNoMedicament>{isError ? 'Algo errado' : 'Não há Medicamentos no Momento.'}</TextNoMedicament>
+						<TextNoMedicament>{isError ? 'Algo deu errado.' : 'Não há Medicamentos no Momento.'}</TextNoMedicament>
 					) : (
 						<tbody {...getTableBodyProps()}>
 							{rows.map((row, index) => {
