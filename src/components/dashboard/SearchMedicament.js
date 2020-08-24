@@ -106,7 +106,6 @@ class SearchMedicament extends Component {
 				},
 			});
 
-			console.log('response', response);
 		} catch (error) {
 			console.log('error', error);
 			console.log('error response', error.response);
@@ -130,9 +129,9 @@ class SearchMedicament extends Component {
 	}
 
 	handleGoBack = () => {
-		console.log('ol´aaaaa', this.props)
-		this.props.history.goBack();
-
+		this.props.history.push({
+			pathname: '/dashboard',
+		});
 	}
 
 	render() {

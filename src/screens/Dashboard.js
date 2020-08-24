@@ -91,11 +91,11 @@ function Dashboard(props) {
 					<span>Adicionar Medicamentos</span>
 				</Button>
 				<Button onClick={() => Redirect(props.history, '/medicaments')}>
-					<img src={ToolBox} alt="Icone caixa de medicamentos" />
+					<img src={ToolBox} alt="Icone caixa de medicamentos"/>
 					<span>Visualizar Medicamentos</span>
 				</Button>
 				<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
-					<img src={Search} alt="Icone lupa" />
+					<img src={Search} alt="Icone lupa"/>
 					<span>Pesquisar preços</span>
 				</Button>
 			</Buttons>

@@ -15,6 +15,8 @@ import { createMedicament, editMedicament } from '../services/api';
 
 // Styled
 const Container = styled.div`
+	margin-top: 5rem;
+	height: 95vh;
 	width: 100%;
 	height: 100%;
 	background: #38D5D5;
@@ -181,7 +183,7 @@ class AddMoreInfo extends Component {
 		if (errors.length === 0) {
 			await this.persistMedicament();
 			this.props.history.push({
-				pathname: '/dashboard',
+				pathname: '/medicaments',
 			});
 		}
 	}

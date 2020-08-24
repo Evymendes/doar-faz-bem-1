@@ -101,7 +101,7 @@ const Td = styled.td`
 	color: #404040;
 	font-size: 0.85rem;
 	font-family: "Overpass", Light;
-
+	text-align: left;
 
 	@media(max-width: 768px) {
 		width: ${(props) => ((props.width) ? props.width : '50%')};
@@ -117,53 +117,30 @@ function MedicamentInfo(props) {
 	}, [medList]);
 
 	const data = React.useMemo(
-		() => [
-			{
-				col1: 'Gaballon',
-				col2: 'R$ 38,00',
-				col3: 'Antialérgicos',
-				col4: 'Cloridrato de tiamina;pantotenato de cálcio;ácido gamaminobutírico;cloridrato de piridoxina;cloridrato de lisina',
-				col5: '50 MG + 50 MG + 2 MG + 4 MG + 4 MG COM CT BL AL PLAS OPC X 20',
-			},
-			{
-				col1: 'Gaballon Gaballon',
-				col2: 'R$ 138,00',
-				col3: 'Antialérgicos',
-				col4: 'Cloridrato de tiamina;pantotenato de cálcio;ácido gamaminobutírico;cloridrato de piridoxina;cloridrato de lisina',
-				col5: '50 MG + 50 MG + 2 MG + 4 MG + 4 MG COM CT BL AL PLAS OPC X 20',
-			},
-			{
-				col1: '1sti',
-				col2: 'R$ 938,00',
-				col3: 'Antialérgicos',
-				col4: 'Cloridrato de tiamina;pantotenato de cálcio;ácido gamaminobutírico;cloridrato de piridoxina;cloridrato de lisina',
-				col5: '50 MG + 50 MG + 2 MG + 4 MG + 4 MG COM CT BL AL PLAS OPC X 20',
-			},
-		],
-		[],
+		() => medList,
 	);
 
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: 'Nome',
-				accessor: 'col1',
+				Header: 'Produto',
+				accessor: 'PRODUTO',
 			},
 			{
 				Header: 'Preço Máximo',
-				accessor: 'col2',
+				accessor: 'PMC_20_PERC',
 			},
 			{
-				Header: 'Categoria',
-				accessor: 'col3',
+				Header: 'Classe Terapêutica',
+				accessor: 'CLASSE_TERAPEUTICA',
 			},
 			{
 				Header: 'Substância',
-				accessor: 'col4',
+				accessor: 'SUBSTANCIA',
 			},
 			{
 				Header: 'Descrição',
-				accessor: 'col5',
+				accessor: 'DESCRICAO',
 			},
 		],
 		[],
@@ -177,9 +154,9 @@ function MedicamentInfo(props) {
 						{headerGroup.headers.map((column) => (
 							<Th
 								{...column.getHeaderProps()}
-								width={(column.Header === 'Nome' && '12%')
+								width={(column.Header === 'Produto' && '12%')
 									|| (column.Header === 'Preço Máximo' && '12%')
-									|| (column.Header === 'Categoria' && '12%')
+									|| (column.Header === 'Classe Terapêutica' && '12%')
 								}
 							>
 								{column.render('Header')}
@@ -196,13 +173,13 @@ function MedicamentInfo(props) {
 							{row.cells.map((cell) => (
 								<Td
 									{...cell.getCellProps()}
-									width={cell.column.Header === 'Nome' && '30%'
+									width={cell.column.Header === 'Produto' && '30%'
 										|| cell.column.Header === 'Preço Máximo' && '35%'
-										|| cell.column.Header === 'Categoria' && '35%'
+										|| cell.column.Header === 'Classe Terapêutica' && '35%'
 									}
 									background={cell.column.Header === 'Nome' && 'red'
 										|| cell.column.Header === 'Preço Máximo' && 'pink'
-										|| cell.column.Header === 'Categoria' && 'yellow'
+										|| cell.column.Header === 'Classe Terapêutica' && 'yellow'
 									}
 								>
 									<ThMob width={cell.column.Header}>{cell.column.Header}</ThMob>
@@ -229,8 +206,7 @@ function MedicamentInfo(props) {
 		rows,
 		prepareRow,
 	} = useTable({ columns, data });
-	// PRODUTO, PMC_20_PERC, CLASSE_TERAPEUTICA, SUBSTANCIA,DESCRICAO
-	console.log('olaaaaa medList',medList);
+	console.log('olaaaaa medList', medList);
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
