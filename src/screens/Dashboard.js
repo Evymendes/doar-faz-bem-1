@@ -85,20 +85,20 @@ function Dashboard(props) {
 	return (
 		<Container>
 			<Header withoutClose isWhite hiddenHome />
-				<Buttons>
-					<Button onClick={() => Redirect(props.history, '/scanner')}>
-						<img src={Med} alt="Icone medicamento" />
-						<span>Adicionar Medicamentos</span>
-					</Button>
-					<Button onClick={() => Redirect(props.history, '/medicaments')}>
-						<img src={ToolBox} alt="Icone caixa de medicamentos"/>
-						<span>Visualizar Medicamentos</span>
-					</Button>
-					<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
-						<img src={Search} alt="Icone lupa"/>
-						<span>Pesquisar preços</span>
-					</Button>
-				</Buttons>
+			<Buttons>
+				<Button onClick={() => Redirect(props.history, '/scanner')}>
+					<img src={Med} alt="Icone medicamento" />
+					<span>Adicionar Medicamentos</span>
+				</Button>
+				<Button onClick={() => Redirect(props.history, '/medicaments')}>
+					<img src={ToolBox} alt="Icone caixa de medicamentos"/>
+					<span>Visualizar Medicamentos</span>
+				</Button>
+				<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
+					<img src={Search} alt="Icone lupa"/>
+					<span>Pesquisar preços</span>
+				</Button>
+			</Buttons>
 		</Container>
 	);
 }
