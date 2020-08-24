@@ -568,7 +568,7 @@ const RenderTable = ({
 												>
 													{cell.column.Header === 'Validade'
 														? formatExpirationDate(cell.row.values['DATA_EXPIRACAO.iso'])
-														: cell.column.Header === 'Preço' ? `R$ ${cell.value}`
+														: cell.column.Header === 'Preço' && cell.value !== undefined ? `R$ ${cell.value}`
 															: cell.value === undefined ? '-'
 																: cell.value && cell.value.charAt(0).toUpperCase() + cell.value.slice(1).toLowerCase()
 													}
