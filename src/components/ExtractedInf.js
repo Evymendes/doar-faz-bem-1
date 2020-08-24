@@ -47,6 +47,10 @@ const ContentModalDetails = styled.div`
 	@media (orientation: landscape) {
 		height: auto;
 	}
+
+	@media(min-width: 1024px) {
+		padding: 4rem 0 0 0;
+	}
 `;
 
 const ContainerIbsnCode = styled.div`

@@ -181,6 +181,10 @@ const Thead = styled.thead`
 	display: none;
 
 	@media (min-width: 1024px) {
+		position: sticky;
+		position: -webkit-sticky;
+		top: 0;
+		z-index: 5;
 		display: flex;
 		text-align: left;
 	}
@@ -189,7 +193,7 @@ const Thead = styled.thead`
 const Tr = styled.tr`
 	margin: ${(props) => (props.lastOneMob && '0 0 8rem 0')};
 	padding: 1rem 1rem 13rem 1rem;
-	position: relative;
+	position: ${(props) => !props.tHeader && 'relative'};
 	height: 2.3rem;
 	display: flex;
 	flex-wrap: wrap;
@@ -220,9 +224,9 @@ const TableTitle = styled.th`
 	display: none;
 
 	@media(min-width: 1024px) {
-		position: sticky;
-		top: 0;
-		z-index: 5;
+		${'' /* position: sticky;
+		top: 0; */}
+		${'' /* z-index: 5; */}
 		padding: .25rem;
 		padding-left: 0.7rem;
 		width: 25%;
@@ -490,6 +494,7 @@ const RenderTable = ({
 								{...headerGroup.getHeaderGroupProps()}
 								key={index}
 								style={{ width: '100%' }}
+								tHeader
 							>
 								{headerGroup.headers.map((column, index) => (
 									<TableTitle

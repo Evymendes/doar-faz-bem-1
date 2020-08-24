@@ -88,7 +88,7 @@ function Dashboard(props) {
 			<Buttons>
 				<Button onClick={() => Redirect(props.history, '/scanner')}>
 					<img src={Med} alt="Icone medicamento" />
-					<span>Adicionar Medicamentos</span>
+					<span>Adicionar Medicamento</span>
 				</Button>
 				<Button onClick={() => Redirect(props.history, '/medicaments')}>
 					<img src={ToolBox} alt="Icone caixa de medicamentos"/>
@@ -96,7 +96,7 @@ function Dashboard(props) {
 				</Button>
 				<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
 					<img src={Search} alt="Icone lupa"/>
-					<span>Pesquisar preços</span>
+					<span>Pesquisar Preços</span>
 				</Button>
 			</Buttons>
 		</Container>
