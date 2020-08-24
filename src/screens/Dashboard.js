@@ -1,18 +1,10 @@
 /* eslint-disable no-nested-ternary */
 // Libs
-import React, { useState, useEffect } from 'react';
-import {
-	useTable, useFilters, useGlobalFilter, useSortBy,
-} from 'react-table';
+import React from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
-import 'moment/locale/pt-br';
 
 // Components
 import Header from '../components/Header';
-import Loading from '../components/Loading';
-import ModalDelete from '../components/ModalDelete';
-import ModalDetails from '../components/ModalDetails';
 
 // Images
 import Med from '../assets/med-colors.svg';
@@ -92,19 +84,19 @@ const Redirect = (history, link) => {
 function Dashboard(props) {
 	return (
 		<Container>
-			<Header withoutClose={true} isWhite={true}/>
+			<Header withoutClose isWhite hiddenHome />
 				<Buttons>
-					<Button onClick={() => Redirect(props.history, '/medicaments')}>
-						<img src={ToolBox}></img>
-						<span>Visualizar Medicamentos</span>
-					</Button>
 					<Button onClick={() => Redirect(props.history, '/scanner')}>
-						<img src={Med}></img>
+						<img src={Med} alt="Icone medicamento" />
 						<span>Adicionar Medicamentos</span>
 					</Button>
+					<Button onClick={() => Redirect(props.history, '/medicaments')}>
+						<img src={ToolBox} alt="Icone caixa de medicamentos"/>
+						<span>Visualizar Medicamentos</span>
+					</Button>
 					<Button onClick={() => Redirect(props.history, '/searchMedicament')}>
-						<img src={Search}></img>
-						<span>Pesquisar por preço</span>
+						<img src={Search} alt="Icone lupa"/>
+						<span>Pesquisar preços</span>
 					</Button>
 				</Buttons>
 		</Container>
