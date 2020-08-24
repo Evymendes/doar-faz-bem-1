@@ -46,6 +46,8 @@ const ContainerSearch = styled.div`
 	align-items: center;
 
 	@media(min-width: 1024px) {
+		padding-bottom: 0;
+    padding-top: 0;
 		width: 45%;
 	}
 
@@ -128,7 +130,9 @@ const Table = styled.table`
 
 const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
+		margin-top: 3rem;
 		width: 90%;
+		z-index: 1;
 	}
 `;
 
@@ -157,7 +161,7 @@ const ContainerTableHeader = styled.div`
 	display: flex;
 
 	@media(min-width: 1024px) {
-		padding-bottom: 1rem;
+		padding-bottom: 2rem;
 		align-items: center;
     justify-content: space-between;
 	}
@@ -181,6 +185,10 @@ const Thead = styled.thead`
 	display: none;
 
 	@media (min-width: 1024px) {
+		position: sticky;
+		position: -webkit-sticky;
+		top: 0;
+		z-index: 5;
 		display: flex;
 		text-align: left;
 	}
@@ -189,7 +197,7 @@ const Thead = styled.thead`
 const Tr = styled.tr`
 	margin: ${(props) => (props.lastOneMob && '0 0 8rem 0')};
 	padding: 1rem 1rem 13rem 1rem;
-	position: relative;
+	position: ${(props) => !props.tHeader && 'relative'};
 	height: 2.3rem;
 	display: flex;
 	flex-wrap: wrap;
@@ -220,9 +228,6 @@ const TableTitle = styled.th`
 	display: none;
 
 	@media(min-width: 1024px) {
-		position: sticky;
-		top: 0;
-		z-index: 5;
 		padding: .25rem;
 		padding-left: 0.7rem;
 		width: 25%;
@@ -339,10 +344,6 @@ const columns = [
 		Header: 'Medicamento',
 		accessor: 'PRODUTO',
 	},
-	// {
-	// 	Header: 'Código',
-	// 	accessor: 'EAN_1',
-	// },
 	{
 		Header: 'Validade',
 		accessor: 'DATA_EXPIRACAO.iso',
@@ -375,10 +376,6 @@ const columns = [
 		Header: 'Cadastrado Em',
 		accessor: (d) => formatDate(d.createdAt),
 	},
-	// {
-	// 	Header: 'Tipo de Produto',
-	// 	accessor: 'TIPO_DE_PRODUTO',
-	// },
 	{
 		Header: 'Descrição',
 		accessor: 'DESCRICAO',
@@ -490,6 +487,7 @@ const RenderTable = ({
 								{...headerGroup.getHeaderGroupProps()}
 								key={index}
 								style={{ width: '100%' }}
+								tHeader
 							>
 								{headerGroup.headers.map((column, index) => (
 									<TableTitle
@@ -542,7 +540,7 @@ const RenderTable = ({
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Preço</TableTitleMob>
-													<TableList>{`R$ ${row.values.PMC_20_PERC}` || '-'}</TableList>
+													<TableList>{`${row.values.PMC_20_PERC ? `R$ ${row.values.PMC_20_PERC}` : '-'}`}</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>

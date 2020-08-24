@@ -47,6 +47,10 @@ const ContentModalDetails = styled.div`
 	@media (orientation: landscape) {
 		height: auto;
 	}
+
+	@media(min-width: 1024px) {
+		padding: 4rem 0 0 0;
+	}
 `;
 
 const ContainerIbsnCode = styled.div`
@@ -122,7 +126,7 @@ class ExtractedInf extends Component {
 					<DefaultButton
 						background= '#D8998A'
 						backgroundHover='#ce9385'
-						handleClick={this.props.handleCloseModalExactedInfo}
+						handleClick={() => this.props.history.goBack()}
 						text={'Voltar para Leitura de Código'}
 					/>
 				</ContentModalDetails>

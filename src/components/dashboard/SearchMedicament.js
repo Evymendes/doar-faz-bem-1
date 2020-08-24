@@ -140,7 +140,7 @@ class SearchMedicament extends Component {
 		return (
 			<Container>
 				<Content>
-					<Header openModal={this.handleGoBack} />
+					<Header isWhite openModal={this.handleGoBack}/>
 					<ContentWrapper>
 						<InputBarCode
 							type='text'
