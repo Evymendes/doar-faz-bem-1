@@ -23,7 +23,7 @@ const Container = styled.div`
 	width: 100%;
 	z-index: 2;
 	height: 5rem;
-	box-shadow: 0 0 6px -1px rgba(0,0,0,.15), 0 2px 4px -1px rgba(0,0,0,.25);	
+	box-shadow: 0 0 6px -1px rgba(0,0,0,.15), 0 2px 4px -1px rgba(0,0,0,.25);
 `;
 
 const ContainerLogo = styled.div`
