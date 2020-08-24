@@ -128,6 +128,7 @@ const Table = styled.table`
 
 const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
+		margin-top: 1.5rem;
 		width: 90%;
 	}
 `;
@@ -547,7 +548,7 @@ const RenderTable = ({
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Preço</TableTitleMob>
-													<TableList>{`R$ ${row.values.PMC_20_PERC}` || '-'}</TableList>
+													<TableList>{`${row.values.PMC_20_PERC ? `R$ ${row.values.PMC_20_PERC}` : '-'}`}</TableList>
 												</ContainerTableTitleMob>
 												<ContainerTableTitleMob>
 													<TableTitleMob>Classe Terapêutica</TableTitleMob>
