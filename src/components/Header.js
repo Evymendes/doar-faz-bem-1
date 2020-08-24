@@ -16,7 +16,7 @@ const Container = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 1rem;
-	background: ${(props) => (props.isWhite ? '#fff' : 'transparent')};
+	background: ${(props) => (props.isWhite ? '#fff' : '#38D5D5')};
 	position: fixed;
 	top: 0;
 	width: 100%;

@@ -134,7 +134,8 @@ const ContentModalBarCode = styled.div`
 `;
 
 const WrapperModalBarCode = styled.div`
-	height: 85vh;
+	margin-top: 5rem;
+	height: 95vh;
 	padding: 1rem;
 	display: flex;
 	justify-content: center;
@@ -366,7 +367,7 @@ class Scanner extends Component {
 			display={this.state.modalOpenBarCode}
 		>
 			<ContentModalBarCode>
-				<Header openModal={this.handleOpenBarCodeModal} history={this.props.history} />
+				<Header openModal={this.handleOpenBarCodeModal} history={this.props.history} isWhite />
 				<WrapperModalBarCode>
 					<InputBarCode
 						type='number'
@@ -437,19 +438,19 @@ class Scanner extends Component {
 								/>
 							</ContainerDigitBarCode>
 						</Container>
-						<ContainerModalBoilerPlate display={modalOpenDetails}>
-							{modalOpenDetails && (
-								<ExtractedInf
-									history={this.props.history}
-									openModal={this.handleModalOpenDetails}
-									code={this.state.isbnCode}
-									handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
-								/>
-							)}
-						</ContainerModalBoilerPlate>
-						{modalOpenLoading && this.renderModalLoading()}
 					</>
 				)}
+				<ContainerModalBoilerPlate display={modalOpenDetails}>
+					{modalOpenDetails && (
+						<ExtractedInf
+							history={this.props.history}
+							openModal={this.handleModalOpenDetails}
+							code={this.state.isbnCode}
+							handleCloseModalExactedInfo={this.handleCloseModalExactedInfo}
+						/>
+					)}
+				</ContainerModalBoilerPlate>
+				{modalOpenLoading && this.renderModalLoading()}
 				{modalOpenBarCode && this.renderModalBarCode()}
 			</>
 		);

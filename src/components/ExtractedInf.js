@@ -11,8 +11,10 @@ import Header from './Header';
 
 // Styles
 const ModalDetails = styled.div`
+	margin-top: 5rem;
+	height: 95vh;
 	width: 100vw;
-	height: 100vh;
+	padding-top: 1rem;
 	background: #fff;
 
 	@media (orientation: landscape) {
@@ -107,7 +109,7 @@ class ExtractedInf extends Component {
 	render() {
 		return (
 			<ModalDetails>
-				<Header openModal={this.props.openModal} history={this.props.history} />
+				<Header openModal={this.props.openModal} history={this.props.history} isWhite/>
 				<ContentModalDetails>
 					<TextModalDetails title>Informação Extraída:</TextModalDetails>
 					<ContainerIbsnCode>
