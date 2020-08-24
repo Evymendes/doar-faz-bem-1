@@ -9,6 +9,7 @@ import AddMoreInfo from '../screens/AddMoreInfo';
 import Medicaments from '../screens/Medicaments';
 import Dashboard from '../screens/Dashboard';
 import SearchMedicament from '../components/dashboard/SearchMedicament';
+import MedicamentInfo from '../screens/MedicamentInfo';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -22,6 +23,7 @@ const Routes = () => (
 			<PrivateRoute path='/medicaments' component={Medicaments} />
 			<PrivateRoute path='/dashboard' component={Dashboard} />
 			<PrivateRoute path='/searchMedicament' component={SearchMedicament} />
+			<PrivateRoute path='/medicamentInfo' component={MedicamentInfo} />
 		</Switch>
 	</BrowserRouter>
 );

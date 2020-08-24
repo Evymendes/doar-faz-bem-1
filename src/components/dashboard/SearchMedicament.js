@@ -90,8 +90,22 @@ class SearchMedicament extends Component {
 			const medicament = this.state.searchValue.toUpperCase();
 
 			const response = await getByMedicament(medicament);
+			const responseData = response.data.results;
 
-			console.log('response', response);
+			if (responseData.length === 0) {
+				this.setState({
+					error: 'Medicamento não encontrado na tabela da Anvisa.',
+				});
+				return;
+			}
+
+			this.props.history.push({
+				pathname: '/medicamentInfo',
+				state: {
+					result: responseData,
+				},
+			});
+
 		} catch (error) {
 			console.log('error', error);
 			console.log('error response', error.response);
@@ -114,13 +128,19 @@ class SearchMedicament extends Component {
 		});
 	}
 
+	handleGoBack = () => {
+		this.props.history.push({
+			pathname: '/dashboard',
+		});
+	}
+
 	render() {
 		const { error } = this.state;
 
 		return (
 			<Container>
 				<Content>
-					<Header isWhite/>
+					<Header isWhite openModal={this.handleGoBack}/>
 					<ContentWrapper>
 						<InputBarCode
 							type='text'
