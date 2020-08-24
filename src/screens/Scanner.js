@@ -388,7 +388,7 @@ class Scanner extends Component {
 						margin='0'
 						background='#D8998A'
 						backgroundHover='#ce9385'
-						handleClick={this.handleOpenBarCodeModal}
+						handleClick={this.handleBackScreen}
 						text={'Voltar para a Leitura de Código'}
 					/>
 				</WrapperModalBarCode>
