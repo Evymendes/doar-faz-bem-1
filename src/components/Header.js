@@ -116,7 +116,8 @@ const UserNotificationIcon = styled.img`
 `;
 
 const ContainerNotifications = styled.div`
-	position: relative;
+	position: absolute;
+	bottom: 1rem;
 `;
 
 const WrapperNotifications = styled.div`
@@ -126,7 +127,6 @@ const WrapperNotifications = styled.div`
 	max-height: 10rem;
 	background: #B4E4E6;
 	border-radius: 8px;
-	z-index: 6;
 	overflow-y: scroll;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 

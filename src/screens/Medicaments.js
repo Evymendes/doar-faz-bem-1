@@ -130,6 +130,7 @@ const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
 		margin-top: 1.5rem;
 		width: 90%;
+		z-index: 1;
 	}
 `;
 
