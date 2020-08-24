@@ -46,6 +46,8 @@ const ContainerSearch = styled.div`
 	align-items: center;
 
 	@media(min-width: 1024px) {
+		padding-bottom: 0;
+    padding-top: 0;
 		width: 45%;
 	}
 
@@ -128,7 +130,7 @@ const Table = styled.table`
 
 const ContainerTable = styled.div`
 	@media(min-width: 1024px) {
-		margin-top: 1.5rem;
+		margin-top: 3rem;
 		width: 90%;
 		z-index: 1;
 	}
@@ -159,7 +161,7 @@ const ContainerTableHeader = styled.div`
 	display: flex;
 
 	@media(min-width: 1024px) {
-		padding-bottom: 1rem;
+		padding-bottom: 2rem;
 		align-items: center;
     justify-content: space-between;
 	}
