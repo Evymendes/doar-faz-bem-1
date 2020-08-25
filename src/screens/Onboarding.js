@@ -12,6 +12,7 @@ import Loading from '../components/Loading';
 // Images
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
+import InstallIcon from '../assets/install.svg';
 
 // Services
 import { createUser, login } from '../services/api';
@@ -86,7 +87,23 @@ const LoginText = styled.p`
 		border-bottom: 2.5px solid #49E5D6;
 		cursor: pointer;
 	}
+
 `;
+
+const ModalInstall =styled.div`
+	margin: 0.55rem;
+	padding: 0.55rem;
+	font: 400 1rem 'Overpass', serif;
+	background: #dff8fc;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color: #006CFF;
+
+	img {
+		width: 16px;
+	}
+`
 
 class Onboarding extends Component {
 	state = {
@@ -103,6 +120,7 @@ class Onboarding extends Component {
 		isLoginScreen: true,
 		errorBack: undefined,
 		redirect: false,
+		showInstallMessage: undefined,
 	}
 
 	componentDidMount() {
@@ -112,7 +130,25 @@ class Onboarding extends Component {
 				redirect: true,
 			});
 		}
+
+		// Detecta se o dispositivo está no iOS
+		const isIos = () => {
+			const userAgent = window.navigator.userAgent.toLowerCase();
+
+			return /iphone|ipad|ipod/.test(userAgent);
+		}
+		// Detects if device is in standalone mode
+		const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+		// Verifica se deve exibir notificação popup de instalação:
+		
+		if (isIos() && !isInStandaloneMode()) {
+			this.setState({ showInstallMessage: true });
+		}
 	}
+
+	renderModalInstallIphone = () => (
+		<ModalInstall>Instale esse webapp no seu iPhone: pressione <img src={InstallIcon} alt="install icon"/> e depois selecione adicionar à tela de ínicio</ModalInstall>
+	)
 
 	createAccount = async (user) => {
 		try {
@@ -228,7 +264,7 @@ class Onboarding extends Component {
 
 	validateUser = () => {
 		const {
-			user, nameError, emailError, passwordError, isLoginScreen,
+			user, nameError, emailError, passwordError, isLoginScreen
 		} = this.state;
 
 		let EmptyFields = false;
@@ -303,7 +339,7 @@ class Onboarding extends Component {
 
 		const {
 			user, nameError, emailError, passwordError, emptyFields,
-			isLoginScreen, eyeShowing, errorBack, isLoading, redirect,
+			isLoginScreen, eyeShowing, errorBack, isLoading, redirect, showInstallMessage
 		} = this.state;
 
 		return (
@@ -426,6 +462,7 @@ class Onboarding extends Component {
 					{redirect && <Redirect exact to="/dashboard" />}
 				</Form>
 				{isLoading && <Loading />}
+				{showInstallMessage && this.renderModalInstallIphone()}
 			</>
 		);
 	}

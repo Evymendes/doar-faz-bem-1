@@ -63,16 +63,16 @@ const ContainerHeader = styled.div`
   animation-fill-mode: forwards;
 	animation-play-state: running;
 
-	@media(max-width: 320px) {
-		height: 30vh;
+	@media(min-width: 768px) {
+		height: ${(props) => (props.heightHeader && '40vh')};
 	}
 
 	@media(max-width: 720px) {
 		width: 150%;
 	}
 
-	@media(min-width: 768px) {
-		height: ${(props) => (props.heightHeader && '40vh')};
+	@media(max-width: 320px) {
+		height: 17vh;
 	}
 `;
 
@@ -94,12 +94,12 @@ const Header = styled.div`
   animation-fill-mode: forwards;
   animation-play-state: running;
 
-	@media(max-width: 320px) {
-		height: 30vh;
-	}
-
 	@media(min-width: 768px) {
 		height: ${(props) => (props.heightHeader && '40vh')};
+	}
+
+	@media(max-width: 320px) {
+		height: 17vh;
 	}
 `;
 
@@ -118,11 +118,6 @@ const LogoIcon = styled.img`
   animation-fill-mode: forwards;
 	animation-play-state: running;
 
-	@media(max-width: 425px) {
-		width: 8rem;
-    height: 8rem;
-	}
-
 	@media(max-width: 667px) and (orientation: landscape) {
 		width: 6.5rem;
     height: 6.5rem;
@@ -131,6 +126,17 @@ const LogoIcon = styled.img`
 	@media(max-width: 568px) and (orientation: landscape) {
 		width: 5.5rem;
     height: 5.5rem;
+	}
+
+
+	@media(max-width: 425px) {
+		width: 8rem;
+    height: 8rem;
+	}
+
+	@media(max-width: 360px) {
+		width: 4.55rem;
+    height: 4.55rem;
 	}
 `;
 

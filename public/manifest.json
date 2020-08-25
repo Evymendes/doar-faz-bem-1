@@ -7,7 +7,7 @@
 	"background_color": "#ffffff",
 	"theme_color": "#49e5d6",
 	"dir": "ltr",
-	"display": "minimal-ui",
+	"display": "standalone",
 	"orientation": "any",
 
 	"icons": [
