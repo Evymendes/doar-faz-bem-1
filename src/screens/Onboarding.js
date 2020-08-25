@@ -13,6 +13,7 @@ import Loading from '../components/Loading';
 import EyeOnIcon from '../assets/eye.svg';
 import EyeOffIcon from '../assets/eyeOff.svg';
 import InstallIcon from '../assets/install.svg';
+import Close from '../assets/closeBrown.png';
 
 // Services
 import { createUser, login } from '../services/api';
@@ -90,9 +91,10 @@ const LoginText = styled.p`
 
 `;
 
-const ModalInstall =styled.div`
+const ModalInstall = styled.div`
 	margin: 0.55rem;
-	padding: 0.55rem;
+	${'' /* padding: 0.55rem; */}
+	padding: 0.95rem;
 	position: absolute;
 	bottom: 0;
 	right: 0;
@@ -100,11 +102,14 @@ const ModalInstall =styled.div`
 	font: 400 1rem 'Overpass', serif;
 	border-radius: 8px;
 	background: #dff8fc;
+`;
 
-	img {
-		width: 16px;
-	}
-`
+
+const ModalInstallIcon = styled.img`
+	position: ${(props) => props.close && 'absolute'};
+	right: ${(props) => props.close && '.5rem'};
+	width: ${(props) => props.close ? '12px' : '16px'};
+`;
 
 class Onboarding extends Component {
 	state = {
@@ -122,6 +127,7 @@ class Onboarding extends Component {
 		errorBack: undefined,
 		redirect: false,
 		showInstallMessage: undefined,
+		isInstallModalOpen: false,
 	}
 
 	componentDidMount() {
@@ -144,13 +150,21 @@ class Onboarding extends Component {
 
 		// Verifica se deve exibir notificação popup de instalação:
 		if (isIos() && !isInStandaloneMode()) {
-			this.setState({ showInstallMessage: true });
+			this.setState({ showInstallMessage: true, isInstallModalOpen: true });
+
+			console.log('this.state.showInstallMessage', this.state.showInstallMessage)
 		}
 	}
 
 	renderModalInstallIphone = () => (
 		<ModalInstall>
-			Instale esse WebApp no seu iPhone: Pressione <img src={InstallIcon} alt="install icon"/> e depois selecione <b>Adicionar à Tela de Início</b>.
+			<ModalInstallIcon
+				src={Close}
+				alt="fechar"
+				close
+				onClick={() => this.setState({ isInstallModalOpen: false })}
+			/>
+			Instale esse WebApp no seu iPhone: Pressione <ModalInstallIcon src={InstallIcon} alt="install icon"/> e depois selecione <b>Adicionar à Tela de Início</b>.
 		</ModalInstall>
 	)
 
@@ -334,7 +348,7 @@ class Onboarding extends Component {
 
 		const {
 			user, nameError, emailError, passwordError, emptyFields,
-			isLoginScreen, eyeShowing, errorBack, isLoading, redirect, showInstallMessage
+			isLoginScreen, eyeShowing, errorBack, isLoading, redirect, showInstallMessage, isInstallModalOpen,
 		} = this.state;
 
 		return (
@@ -457,7 +471,7 @@ class Onboarding extends Component {
 					{redirect && <Redirect exact to="/dashboard" />}
 				</Form>
 				{isLoading && <Loading />}
-				{showInstallMessage && this.renderModalInstallIphone()}
+				{showInstallMessage && isInstallModalOpen && this.renderModalInstallIphone()}
 			</>
 		);
 	}
