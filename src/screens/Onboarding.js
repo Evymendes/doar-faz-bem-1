@@ -150,7 +150,7 @@ class Onboarding extends Component {
 
 	renderModalInstallIphone = () => (
 		<ModalInstall>
-			Instale esse WebApp no seu iPhone: Pressione <img src={InstallIcon} alt="install icon"/> e depois selecione Adicionar à Tela de Início.
+			Instale esse WebApp no seu iPhone: Pressione <img src={InstallIcon} alt="install icon"/> e depois selecione <b>Adicionar à Tela de Início</b>.
 		</ModalInstall>
 	)
 
