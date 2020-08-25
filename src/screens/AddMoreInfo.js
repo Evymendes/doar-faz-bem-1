@@ -16,13 +16,19 @@ import { createMedicament, editMedicament } from '../services/api';
 // Styled
 const Container = styled.div`
 	width: 100%;
-	height: 100%;
+	height: 100vh;
+	background: #38D5D5;
+`;
+
+const Content = styled.div`
+	padding-top: 7rem;
+	width: 100%;
 	background: #38D5D5;
 `;
 
 const Form = styled.form`
 	margin: 0 auto;
-	padding-top: 2rem;
+	/* padding-top: 2rem; */
 	width: 86%;
 	display: flex;
 	flex-direction: column;
@@ -163,7 +169,7 @@ class AddMoreInfo extends Component {
 
 		const errors = [];
 		const removeItems = (item) => {
-			return 	item !== 'substance' && item !== 'laboratory';
+			return item !== 'substance' && item !== 'laboratory';
 		};
 
 		fields.filter((item) => removeItems(item)).map((field) => {
@@ -179,7 +185,7 @@ class AddMoreInfo extends Component {
 		if (errors.length === 0) {
 			await this.persistMedicament();
 			this.props.history.push({
-				pathname: '/dashboard',
+				pathname: '/medicaments',
 			});
 		}
 	}
@@ -410,27 +416,28 @@ class AddMoreInfo extends Component {
 					history={this.props.history}
 					strokeColor={'#FFFFFF'}
 				/>
-				<Form onSubmit={this.handleSubmit}>
-					<div>
+				<Content>
+					<Form onSubmit={this.handleSubmit}>
 						{this.renderForm()}
-					</div>
-					<Footer>
-						<DefaultButton
-							margin= '1rem 1rem 1rem 0'
-							borderColor= '#FFF'
-							background= 'transparent'
-							backgroundHover='#3cc5b8'
-							border= '1px solid white'
-							handleClick={() => this.handleBackScanner()}
-							text={'CANCELAR'}
-						/>
-						<DefaultButton
-							backgroundHover='#3cc5b8'
-							handleClick={this.validationScreen}
-							text={'SALVAR'}
-						/>
-					</Footer>
-				</Form>
+						<Footer>
+							<DefaultButton
+								margin='1rem 1rem 1rem 0'
+								borderColor='#FFF'
+								background='transparent'
+								backgroundHover='#3cc5b8'
+								border='1px solid white'
+								handleClick={() => this.handleBackScanner()}
+								text={'CANCELAR'}
+							/>
+							<DefaultButton
+								backgroundHover='#3cc5b8'
+								handleClick={this.validationScreen}
+								text={'SALVAR'}
+							/>
+						</Footer>
+					</Form>
+
+				</Content>
 			</Container>
 		);
 	}

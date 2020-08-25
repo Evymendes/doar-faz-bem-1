@@ -206,7 +206,7 @@ function MedicamentInfo(props) {
 		rows,
 		prepareRow,
 	} = useTable({ columns, data });
-	console.log('olaaaaa medList', medList);
+
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
