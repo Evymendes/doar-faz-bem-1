@@ -93,12 +93,13 @@ const LoginText = styled.p`
 const ModalInstall =styled.div`
 	margin: 0.55rem;
 	padding: 0.55rem;
-	font: 400 1rem 'Overpass', serif;
-	background: #dff8fc;
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	color: #006CFF;
+	color: #828587;
+	font: 400 1rem 'Overpass', serif;
+	border-radius: 8px;
+	background: #dff8fc;
 
 	img {
 		width: 16px;
@@ -131,23 +132,26 @@ class Onboarding extends Component {
 			});
 		}
 
-		// Detecta se o dispositivo está no iOS
+		// Verifica se o dispositivo está no iOS:
 		const isIos = () => {
 			const userAgent = window.navigator.userAgent.toLowerCase();
 
 			return /iphone|ipad|ipod/.test(userAgent);
-		}
-		// Detects if device is in standalone mode
+		};
+
+		// Verifica se o dispositivo está no modo standalone
 		const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
 		// Verifica se deve exibir notificação popup de instalação:
-		
 		if (isIos() && !isInStandaloneMode()) {
 			this.setState({ showInstallMessage: true });
 		}
 	}
 
 	renderModalInstallIphone = () => (
-		<ModalInstall>Instale esse webapp no seu iPhone: pressione <img src={InstallIcon} alt="install icon"/> e depois selecione adicionar à tela de ínicio</ModalInstall>
+		<ModalInstall>
+			Instale esse WebApp no seu iPhone: Pressione <img src={InstallIcon} alt="install icon"/> e depois selecione Adicionar à Tela de Início.
+		</ModalInstall>
 	)
 
 	createAccount = async (user) => {
@@ -290,15 +294,6 @@ class Onboarding extends Component {
 
 			EmptyFields = true;
 		}
-
-		// Login
-		// if (isLoginScreen && (user.email === '' || user.password === '')) {
-		// 	this.setState({
-		// 		emptyFields: true,
-		// 	});
-
-		// 	EmptyFields = true;
-		// }
 
 		// Create Account
 		if (!isLoginScreen && !EmptyFields && !nameError && !emailError && !passwordError) {
