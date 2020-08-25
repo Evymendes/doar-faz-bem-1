@@ -622,7 +622,7 @@ function Dashboard(props) {
 				setMedList(data);
 
 				const formatExpirationDate = (date) => date
-					.substr(0, 7)
+					.substr(0, 10)
 					.split('-')
 					.reverse()
 					.join('/');
@@ -633,7 +633,7 @@ function Dashboard(props) {
 					const year = date.getFullYear();
 					const formartMonth = `${month + number < 10 ? `0${month + number}` : month + number}`;
 
-					return `${formartMonth}/${year}`;
+					return `01/${formartMonth}/${year}`;
 				};
 
 				const isExpired = {
@@ -642,7 +642,7 @@ function Dashboard(props) {
 					expirationTwoMonths: [],
 				};
 
-				const dueDatesFilter = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(1));
+				const dueDatesFilter = data.filter((item) => new Date(formatExpirationDate(item.DATA_EXPIRACAO.iso)) <= new Date(renderDate(1)));
 				isExpired.vanquished = dueDatesFilter;
 
 				const dueInThirtDays = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(2));

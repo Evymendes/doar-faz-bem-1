@@ -5,6 +5,11 @@ import styled from 'styled-components';
 // Components
 import DefaultButton from './DefaultButton';
 
+// Assets
+import CloseIcontest from '../assets/closeBrown.png';
+import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
+
+
 // Styles
 const Overlay = styled.div`
 	position: fixed;
@@ -20,6 +25,7 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
+	position: relative;
 	padding: 2rem;
 	max-width: 33%;
 	border-radius: 6px;
@@ -29,6 +35,15 @@ const Container = styled.div`
 		padding: 1rem;
 		max-width: 75%;
 	}
+`;
+
+const Icon = styled(CloseIcon)`
+	stroke: red;
+	cursor: pointer;
+	position: absolute;
+	top: 3%;
+	right: 2%;
+	width: 1rem;
 `;
 
 const Text = styled.p`
@@ -47,24 +62,41 @@ const ContainerButton = styled.div`
 	align-items: center;
 `;
 
-const WarringModal = (props) => (
-	<Overlay>
-		<Container>
-			<Text title>Mensagem de Incompatibilidade</Text>
-			<Text>{props.firsText}</Text>
-			<Text>{props.secText}</Text>
-			<ContainerButton>
-				<DefaultButton
-					margin='0'
-					background= '#D8998A'
-					backgroundHover='#ce9385'
-					handleClick={props.modalCloseWarring}
-					text={props.desk || 'Ok'}
+const WarringModal = (props) => {
+	const handleClick = () => {
+		props.handleClick();
+	};
+
+	return (
+		<Overlay>
+			<Container>
+				<Icon strokeWidth={'3'}
+					style={{
+						stroke: '#d8998a',
+						cursor: 'pointer',
+						position: 'absolute',
+						top: '3%',
+						right: '2%',
+						width: '1rem',
+					}}
+					onClick={handleClick}
 				/>
-			</ContainerButton>
-		</Container>
-	</Overlay>
-);
+				<Text title>Mensagem de Incompatibilidade</Text>
+				<Text>{props.firsText}</Text>
+				<Text>{props.secText}</Text>
+				<ContainerButton>
+					<DefaultButton
+						margin='0'
+						background='#D8998A'
+						backgroundHover='#ce9385'
+						handleClick={props.modalCloseWarring}
+						text={props.desk || 'Ok'}
+					/>
+				</ContainerButton>
+			</Container>
+		</Overlay>
+	);
+};
 
 WarringModal.defaultProps = {
 	margin: '1rem 0',
