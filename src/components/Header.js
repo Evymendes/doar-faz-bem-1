@@ -253,15 +253,9 @@ class Header extends Component {
 	renderNotifications = (item) => {
 		const expiredMedicine = [];
 
-		item.vanquished.map((item) => {
-			return expiredMedicine.push({ ...item, expirationTime: 0 });
-		});
-		item.expirationTwoMonths.map((item) => {
-			return expiredMedicine.push({ ...item, expirationTime: 1 });
-		});
-		item.expirationThirtyDays.map((item) => {
-			return expiredMedicine.push({ ...item, expirationTime: 2 });
-		});
+		item.vanquished.map((item) => expiredMedicine.push({ ...item, expirationTime: 0 }));
+		item.expirationThirtyDays.map((item) => expiredMedicine.push({ ...item, expirationTime: 1 }));
+		item.expirationTwoMonths.map((item) => expiredMedicine.push({ ...item, expirationTime: 2 }));
 
 		return expiredMedicine.map((med, index) => {
 			const isLast = index !== expiredMedicine.length - 1;
@@ -286,7 +280,7 @@ class Header extends Component {
 	render() {
 		const {
 			withoutClose, strokeColor, openModal, handleOpenNotifications, isOpenNotification, isNotification,
-			isExpiredMedicine, isWhite, hiddenHome
+			isExpiredMedicine, isWhite, hiddenHome,
 		} = this.props;
 
 		return (

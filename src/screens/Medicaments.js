@@ -508,7 +508,7 @@ const RenderTable = ({
 						))}
 					</Thead>
 					{rows && rows.length === 0 ? (
-						<TextNoMedicament>{isError ? 'Algo errado' : 'Não há Medicamentos no Momento.'}</TextNoMedicament>
+						<TextNoMedicament>{isError ? 'Algo deu errado.' : 'Não há Medicamentos no Momento.'}</TextNoMedicament>
 					) : (
 						<tbody {...getTableBodyProps()}>
 							{rows.map((row, index) => {
@@ -644,8 +644,6 @@ function Dashboard(props) {
 
 				const dueDatesFilter = data.filter((item) => new Date(formatExpirationDate(item.DATA_EXPIRACAO.iso)) <= new Date(renderDate(1)));
 				isExpired.vanquished = dueDatesFilter;
-
-				console.log('dueDatesFilter', dueDatesFilter)
 
 				const dueInThirtDays = data.filter((item) => formatExpirationDate(item.DATA_EXPIRACAO.iso) === renderDate(2));
 				isExpired.expirationThirtyDays = dueInThirtDays;

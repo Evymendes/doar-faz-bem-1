@@ -10,15 +10,42 @@ const Container = styled.div`
 	height: 100%;
 `;
 
-const ContainerTable = styled.div`
-	margin: 0 auto;
+const Content = styled.div`
 	margin-top: 8rem;
-	width: 90%;
+	margin-left: 5rem;
+	margin-right: 5rem;
+
+	@media(max-width: 768px) {
+		margin-left: 2rem;
+		margin-right: 2rem;
+	}
+
+	@media(max-width: 648px) {
+		margin-top: 6rem;
+    margin-left: 0;
+    margin-right: 0;
+	}
+`;
+
+const Title = styled.h2`
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
+	color: #D8998A;
+	font-family: "Overpass", Bold;
+
+	@media(max-width: 648px) {
+		font-size: 1.2rem;
+    text-align: center;
+	}
+`;
+
+const ContainerTable = styled.div`
+	max-height: 80vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 
 	::-webkit-scrollbar {
-		width: 3px;
+		width: 10px;
 	}
 	::-webkit-scrollbar-track {
 		background: #D8998A;
@@ -29,6 +56,20 @@ const ContainerTable = styled.div`
 
 	@media(max-width: 768px) {
 		width: 100%;
+	}
+
+	@media(max-width: 648px) {
+		height: 80vh;
+
+		::-webkit-scrollbar {
+			width: 5px;
+		}
+		::-webkit-scrollbar-track {
+			background: #D8998A;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #D8998A;
+		}
 	}
 `;
 
@@ -45,16 +86,19 @@ const Thead = styled.thead`
 `;
 
 const Th = styled.th`
+	position: sticky;
+	top: 0;
+	padding: 1rem 0 1rem 0.875rem;
 	width: ${(props) => props.width && '12%'};
-	padding: 1rem 0 1rem 0.875rem ;
 	text-align: left;
-	background-color: #D8998A;
 	color: white;
-	font-weight: bold;
-	font-size: 0.875rem;
+	font-family: "Overpass", Bold;
+	font-size: 1rem;
+	background-color: #D8998A;
 
 	@media(max-width: 768px) {
 		width: ${(props) => props.width && '20%'};
+		font-size: 0.875rem;
 	}
 `;
 
@@ -99,12 +143,13 @@ const Td = styled.td`
 	border: none;
 	word-wrap: break-word;
 	color: #404040;
-	font-size: 0.85rem;
+	font-size: 0.95rem;
 	font-family: "Overpass", Light;
 	text-align: left;
 
 	@media(max-width: 768px) {
 		width: ${(props) => ((props.width) ? props.width : '50%')};
+		font-size: 0.85rem;
 	}
 `;
 
@@ -146,6 +191,14 @@ function MedicamentInfo(props) {
 		[],
 	);
 
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+	} = useTable({ columns, data });
+
 	const renderTable = () => (
 		<Table {...getTableProps()}>
 			<Thead>
@@ -183,7 +236,7 @@ function MedicamentInfo(props) {
 									}
 								>
 									<ThMob width={cell.column.Header}>{cell.column.Header}</ThMob>
-									{cell.render('Cell')}
+									{cell.value ? cell.value.charAt(0).toUpperCase() + cell.value.slice(1).toLowerCase() : '-'}
 								</Td>
 							))}
 						</Tr>
@@ -199,20 +252,15 @@ function MedicamentInfo(props) {
 		});
 	};
 
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		rows,
-		prepareRow,
-	} = useTable({ columns, data });
-
 	return (
 		<Container>
 			<Header openModal={handleBack} isWhite />
-			<ContainerTable>
-				{renderTable()}
-			</ContainerTable>
+			<Content>
+				<Title>Há {medList.length} resultados para essa pesquisa</Title>
+				<ContainerTable>
+					{renderTable()}
+				</ContainerTable>
+			</Content>
 		</Container>
 	);
 }
