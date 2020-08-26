@@ -57,7 +57,7 @@ const EyeIcon = styled.img`
 `;
 
 const ErrorMessage = styled.p`
-	margin-bottom: .5rem;
+	/* margin-bottom: .5rem; */
   color: #f00;
   font-size: 0.8rem;
 	font-family: 'Overpass', Regular;
@@ -151,8 +151,6 @@ class Onboarding extends Component {
 		// Verifica se deve exibir notificação popup de instalação:
 		if (isIos() && !isInStandaloneMode()) {
 			this.setState({ showInstallMessage: true, isInstallModalOpen: true });
-
-			console.log('this.state.showInstallMessage', this.state.showInstallMessage)
 		}
 	}
 
@@ -380,9 +378,10 @@ class Onboarding extends Component {
 								createErrorText={nameError}
 								onChange={(ev) => this.handleChange('username', ev)}
 								disabled={false}
+								isError={nameError}
 							/>
 						)}
-						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
+						{/* <ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage> */}
 						<DefaultInput
 							containerWidth='18rem'
 							containerLittleWidth='17rem'
