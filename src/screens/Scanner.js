@@ -216,6 +216,10 @@ const ButtonHome = styled.button`
 	z-index: 20;
 	position: fixed;
 
+	&:hover {
+		background: #c4c4c426;
+	}
+
 	& img {
 		padding-bottom: 0.25rem;
 		width: 2rem;

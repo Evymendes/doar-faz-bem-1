@@ -332,6 +332,7 @@ class AddMoreInfo extends Component {
 					onChange={(ev) => this.handleChange('expirationDate', ev)}
 					text={this.formatDate(med.expirationDate)}
 					isError={errors.includes('expirationDate')}
+					style={{cursor: 'pointer'}}
 				/>
 				<DefaultInput
 					label='Classe Terapêutica:'

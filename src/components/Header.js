@@ -91,6 +91,10 @@ const WrapperUser = styled.div`
 	box-shadow: 5px 4px 9px 0px #c4c4c44;
 	background: #c4c4c426;
 
+	&:hover {
+		background: #c4c4c46e;
+	}
+
 	@media(min-width: 320px) {
 		max-width: 75%;
 	}
@@ -186,7 +190,6 @@ const Button = styled.div`
 	padding: 0.15rem 0.45rem;
 	background: #c4c4c426;
 	cursor: pointer;
-	// height: 3rem;
 
 	border-radius: 10px;
 	font: 800 0.9rem 'Overpass', serif;
@@ -196,6 +199,10 @@ const Button = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	&:hover {
+		background: #c4c4c46e;
+	}
 
 	& img {
 		padding-bottom: 0.25rem;

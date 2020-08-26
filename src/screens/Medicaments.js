@@ -78,6 +78,10 @@ const ContainerInputSearch = styled.div`
 	border-radius: 50px;
 	background-color: #EDEDED;
 
+	img {
+		cursor: pointer;
+	}
+
 	@media(min-width: 320px) {
 		margin: 0 1rem;
 	}
@@ -196,12 +200,14 @@ const Thead = styled.thead`
 
 const Tr = styled.tr`
 	margin: ${(props) => (props.lastOneMob && '0 0 8rem 0')};
-	padding: 1rem 1rem 13.5rem 1rem;
+	padding: 1rem 1rem;
 	position: ${(props) => !props.tHeader && 'relative'};
-	height: 2.3rem;
+	min-height: 2.3rem;
+	height: auto;
 	display: flex;
 	flex-wrap: wrap;
 	cursor: pointer;
+
 
 	&:nth-child(even) {
     background-color: #fff;
@@ -210,17 +216,18 @@ const Tr = styled.tr`
     background-color: #B4E4E6;
 	}
 
+	&:hover {
+		background: #d8998a63;
+	}
+
 	@media(min-width: 768px) {
 		margin: ${(props) => (props.lastOneMob && '0 0 6rem 0')};
-		padding: 1rem 1rem 11rem 1rem;
 	}
 
 	@media(min-width: 1024px) {
 		margin: ${(props) => (props.lastOneMob && '0 0 1rem 0')};
 		padding: 0;
 		flex-wrap: initial;
-		height: 2.8rem;
-		min-height: 2.8rem;
 	}
 `;
 
