@@ -1,6 +1,7 @@
 // Libs
 import React, { Component } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Redirect } from 'react-router-dom';
 import Quagga from 'quagga';
 
 // Services
@@ -15,6 +16,7 @@ import WarringModal from '../components/WarringModal';
 // Images
 import MarkerIcon from '../assets/markerIcon.svg';
 import BackIcon from '../assets/backWhite.svg';
+import HomeIcon from '../assets/home.svg';
 
 // Styles
 const Video = styled.div`
@@ -197,6 +199,41 @@ const Loading = styled.span`
 	overflow: hidden;
 `;
 
+const ButtonHome = styled.button`
+	margin: 1rem;
+	padding: 0.15rem 0.45rem;
+	background: #fff;
+	cursor: pointer;
+
+	border-radius: 10px;
+	font: 800 0.9rem 'Overpass', serif;
+	color: #D8998A;
+	text-align: center;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 20;
+	position: fixed;
+
+	& img {
+		padding-bottom: 0.25rem;
+		width: 2rem;
+		height: 2rem;
+	}
+
+	& span {
+		margin-right: 0.45rem;
+		display: none;
+	}
+
+	@media(min-width: 768px) {
+		& span {
+			display: block;
+		}
+	}
+`;
+
 class Scanner extends Component {
 	state = {
 		modalOpenDetails: false,
@@ -206,6 +243,7 @@ class Scanner extends Component {
 		error: null,
 		pressed: false,
 		modalCloseWarring: false,
+		isHomeRedirect: false,
 	}
 
 	componentDidMount() {
@@ -405,7 +443,7 @@ class Scanner extends Component {
 
 	render() {
 		const {
-			modalOpenDetails, modalOpenBarCode, modalOpenLoading, modalCloseWarring,
+			modalOpenDetails, modalOpenBarCode, modalOpenLoading, modalCloseWarring, isHomeRedirect
 		} = this.state;
 
 		const mobLandscape = (window.matchMedia('(max-width: 667px) and (orientation: landscape)').matches);
@@ -414,12 +452,19 @@ class Scanner extends Component {
 		return (
 			<>
 				{isDesktop && !modalCloseWarring && (
-					<WarringModal
-						firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
-						modalCloseWarring={this.handleRedirectWarringModal}
-						desk='Digite o código de barras'
-						handleClick={this.handleGoBack}
-					/>
+					<>
+						<WarringModal
+							firsText='Não é possível efetuar a leitura do código de barras pelo desktop.'
+							modalCloseWarring={this.handleRedirectWarringModal}
+							desk='Digite o Código de Barras'
+							handleClick={this.handleGoBack}
+						/>
+						<ButtonHome onClick={() => this.setState({ isHomeRedirect: '/dashboard' })}>
+							<span>Voltar para o Início</span>
+							<img src={HomeIcon} alt="ícone de ínicio" />
+						</ButtonHome>
+					</>
+
 				)}
 				{!isDesktop && (
 					<>
@@ -460,6 +505,7 @@ class Scanner extends Component {
 				</ContainerModalBoilerPlate>
 				{modalOpenLoading && this.renderModalLoading()}
 				{modalOpenBarCode && this.renderModalBarCode()}
+				{isHomeRedirect && <Redirect exact to={isHomeRedirect} />}
 			</>
 		);
 	}

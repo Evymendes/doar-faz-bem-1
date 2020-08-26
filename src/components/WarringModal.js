@@ -6,9 +6,7 @@ import styled from 'styled-components';
 import DefaultButton from './DefaultButton';
 
 // Assets
-import CloseIcontest from '../assets/closeBrown.png';
 import { ReactComponent as CloseIcon } from '../assets/fechar.svg';
-
 
 // Styles
 const Overlay = styled.div`

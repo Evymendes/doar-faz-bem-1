@@ -322,8 +322,8 @@ class Header extends Component {
 								</WrapperUser>
 								{!hiddenHome && (
 									<Button onClick={() => this.handleRedirect('/dashboard')}>
-										<span>Voltar para o início</span>
-										<img src={ToolBox} alt="ícone de ínicio"></img>
+										<span>Voltar para o Início</span>
+										<img src={ToolBox} alt="ícone de ínicio" />
 									</Button>
 								)}
 								{withoutClose && isOpenNotification && (

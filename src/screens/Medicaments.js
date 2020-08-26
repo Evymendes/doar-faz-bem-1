@@ -196,7 +196,7 @@ const Thead = styled.thead`
 
 const Tr = styled.tr`
 	margin: ${(props) => (props.lastOneMob && '0 0 8rem 0')};
-	padding: 1rem 1rem 13rem 1rem;
+	padding: 1rem 1rem 13.5rem 1rem;
 	position: ${(props) => !props.tHeader && 'relative'};
 	height: 2.3rem;
 	display: flex;
