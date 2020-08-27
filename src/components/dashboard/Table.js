@@ -128,6 +128,7 @@ const Td = styled.td`
 	text-align: left;
 
 	@media(max-width: 768px) {
+		padding-bottom: 0.5rem;
 		width: ${(props) => ((props.width) ? props.width : '50%')};
 		font-size: 0.85rem;
 	}
