@@ -216,10 +216,6 @@ const Tr = styled.tr`
     background-color: #B4E4E6;
 	}
 
-	&:hover {
-		background: #d8998a63;
-	}
-
 	@media(min-width: 768px) {
 		margin: ${(props) => (props.lastOneMob && '0 0 6rem 0')};
 	}
@@ -228,6 +224,10 @@ const Tr = styled.tr`
 		margin: ${(props) => (props.lastOneMob && '0 0 1rem 0')};
 		padding: 0;
 		flex-wrap: initial;
+
+		&:hover {
+			background: #d8998a63;
+		}
 	}
 `;
 
