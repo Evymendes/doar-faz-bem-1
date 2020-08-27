@@ -280,7 +280,6 @@ class Header extends Component {
 					O medicamento { }
 					<span expirationDate={med.expirationTime === 0}>
 						{medicamentName}
-						com data de vencimento
 						{med.expirationTime === 0 ? (
 							<p>com data de vencimento <b>{formatExpirationDate(med.DATA_EXPIRACAO.iso)}</b> está <span>vencido</span>.</p>
 						) : (
