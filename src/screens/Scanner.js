@@ -202,19 +202,20 @@ const Loading = styled.span`
 const ButtonHome = styled.button`
 	margin: 1rem;
 	padding: 0.15rem 0.45rem;
+	position: fixed;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: #D8998A;
+	font: 800 0.9rem 'Overpass', serif;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px 1px;
 	background: #fff;
 	cursor: pointer;
-
-	border-radius: 10px;
-	font: 800 0.9rem 'Overpass', serif;
-	color: #D8998A;
-	text-align: center;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	z-index: 20;
-	position: fixed;
 
 	&:hover {
 		background: #c4c4c426;
@@ -485,7 +486,7 @@ class Scanner extends Component {
 							<ScanMarker>
 								<img
 									src={MarkerIcon}
-									alt="marker space"
+									alt="espaço do marcador"
 								/>
 							</ScanMarker>
 							<ContainerDigitBarCode>

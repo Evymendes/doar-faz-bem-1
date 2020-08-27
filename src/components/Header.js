@@ -313,19 +313,22 @@ class Header extends Component {
 										Olá, {}
 										{this.state.user.charAt(0).toUpperCase() + this.state.user.slice(1).toLowerCase()}
 									</DashboardText>
-									{isNotification ? (
-										<UserNotificationIcon
-											src={NotificationIconOn}
-											alt="com notificação"
-											onClick={handleOpenNotifications}
-										/>
-									) : (
-										<UserNotificationIcon
-											src={NotificationIconOff}
-											alt="sem notificação"
-											onClick={handleOpenNotifications}
-										/>
-									)}
+									{!hiddenHome && (
+										isNotification ? (
+											<UserNotificationIcon
+												src={NotificationIconOn}
+												alt="com notificação"
+												onClick={handleOpenNotifications}
+											/>
+										) : (
+											<UserNotificationIcon
+												src={NotificationIconOff}
+												alt="sem notificação"
+												onClick={handleOpenNotifications}
+											/>
+										)
+									)
+									}
 								</WrapperUser>
 								{!hiddenHome && (
 									<Button onClick={() => this.handleRedirect('/dashboard')}>
