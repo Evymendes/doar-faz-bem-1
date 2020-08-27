@@ -49,12 +49,16 @@ const Content = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-	height: 85vh;
+	height: 100vh;
 	padding: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+
+	@media(min-width: 768px) {
+		height: 85vh;
+	}
 `;
 
 const InputBarCode = styled.input`
@@ -105,7 +109,6 @@ class SearchMedicament extends Component {
 					result: responseData,
 				},
 			});
-
 		} catch (error) {
 			console.log('error', error);
 			console.log('error response', error.response);

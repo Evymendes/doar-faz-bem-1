@@ -264,19 +264,27 @@ class Header extends Component {
 		item.expirationThirtyDays.map((item) => expiredMedicine.push({ ...item, expirationTime: 1 }));
 		item.expirationTwoMonths.map((item) => expiredMedicine.push({ ...item, expirationTime: 2 }));
 
+		const formatExpirationDate = (date) => date
+			.substr(0, 7)
+			.split('-')
+			.reverse()
+			.join('/');
+
 		return expiredMedicine.map((med, index) => {
 			const isLast = index !== expiredMedicine.length - 1;
 			const isSingular = med.expirationTime === 1 ? 'mês' : 'meses';
+			const medicamentName = med.PRODUTO.charAt(0).toUpperCase() + med.PRODUTO.slice(1).toLowerCase() || '-';
 
 			return (
 				<TextNotification key={item.objectId} isNotification={isLast}>
 					O medicamento { }
 					<span expirationDate={med.expirationTime === 0}>
-						{(med.PRODUTO.charAt(0).toUpperCase() + med.PRODUTO.slice(1).toLowerCase()) || '-'} { }
+						{medicamentName}
+						com data de vencimento
 						{med.expirationTime === 0 ? (
-							<p>está <span>vencido</span></p>
+							<p>com data de vencimento <b>{formatExpirationDate(med.DATA_EXPIRACAO.iso)}</b> está <span>vencido</span>.</p>
 						) : (
-							<p><span>vencerá</span> daqui a {med.expirationTime} {isSingular}.</p>
+							<p>com data de vencimento <b>{formatExpirationDate(med.DATA_EXPIRACAO.iso)}</b> <span>vencerá</span> daqui a {med.expirationTime} {isSingular}.</p>
 						)}
 					</span>
 				</TextNotification>

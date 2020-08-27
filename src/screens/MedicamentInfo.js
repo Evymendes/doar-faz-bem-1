@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-//Components
+// Components
 import Header from '../components/Header';
 import Table from '../components/dashboard/Table';
 
@@ -22,7 +22,7 @@ const Content = styled.div`
 	}
 
 	@media(max-width: 648px) {
-		margin-top: 6rem;
+		margin-top: 6.2rem;
     margin-left: 0;
     margin-right: 0;
 	}

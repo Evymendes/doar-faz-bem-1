@@ -25,7 +25,7 @@ const ContainerTable = styled.div`
 	overflow-x: hidden;
 
 	::-webkit-scrollbar {
-		width: 5px;
+		width: 10px;
 	}
 	::-webkit-scrollbar-track {
 		background: #D8998A;
@@ -149,7 +149,7 @@ function Table(props) {
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: 'Produto',
+				Header: 'Medicamento',
 				accessor: 'PRODUTO',
 			},
 			{
@@ -229,7 +229,7 @@ function Table(props) {
 
 	return (
 		<Container>
-			<Title>Há {medList.length} resultados para essa pesquisa</Title>
+			<Title>Há {medList.length} {medList.length === 1 ? 'resultado' : 'resultados'} para essa pesquisa</Title>
 			<ContainerTable>
 				{renderTable()}
 			</ContainerTable>
