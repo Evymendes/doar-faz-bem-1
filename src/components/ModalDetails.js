@@ -32,11 +32,13 @@ const Overlay = styled.div`
 
 const ContainerDetails = styled.div`
 	width: 100%;
+	height: 100vh;
 	min-height: auto;
 	display: flex;
 	flex-direction: column;
 	background-color: #fff;
 	font-family: 'Overpass', Regular;
+	overflow-y: scroll;
 
 	@media (max-width: 768px) and (orientation: landscape) {
 		height: 100%;

@@ -263,7 +263,7 @@ const ContainerTableTitleMob = styled.span`
 const TableTitleMob = styled.th`
 	display: flex;
 	color: #D8998A;
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	font-family: 'Overpass', Regular;
 
 	@media(min-width: 1024px) {
