@@ -283,7 +283,7 @@ class Header extends Component {
 						{med.expirationTime === 0 ? (
 							<p>com data de vencimento <b>{formatExpirationDate(med.DATA_EXPIRACAO.iso)}</b> está <span>vencido</span>.</p>
 						) : (
-							<p>com data de vencimento <b>{formatExpirationDate(med.DATA_EXPIRACAO.iso)}</b> <span>vencerá</span> daqui a {med.expirationTime} {isSingular}.</p>
+							<p><span>vencerá</span> daqui a {med.expirationTime} {isSingular}.</p>
 						)}
 					</span>
 				</TextNotification>
