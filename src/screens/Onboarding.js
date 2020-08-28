@@ -21,7 +21,7 @@ import { isAuthenticated } from '../auth';
 
 // Styles
 const Form = styled.form`
-  padding-bottom: 1rem;
+	margin-top: 3rem;
 	width: 100%;
 	font-family: 'Overpass', Regular;
 	overflow: hidden;
@@ -29,7 +29,12 @@ const Form = styled.form`
 	flex-direction: column;
 
 	@media(max-width: 320px) {
+		margin-top: 0;
 		overflow-y: scroll;
+	}
+
+	@media(max-width: 768px) {
+		margin-top: 2rem;
 	}
 `;
 
@@ -45,23 +50,44 @@ const ContainerPasswordInput = styled.div`
 	display: flex;
 `;
 
-const EyeIcon = styled.img`
-	position: absolute;
-	right: 1rem;
-	bottom: 2rem;
-	cursor: pointer;
-
-	@media(max-width: 320px) {
-		bottom: 1.5rem;
-	}
-`;
-
 const ErrorMessage = styled.p`
-	/* margin-bottom: .5rem; */
+	padding-bottom: .5rem;
   color: #f00;
   font-size: 0.8rem;
 	font-family: 'Overpass', Regular;
   font-weight: 400;
+	width: 18rem;
+	text-align: end;
+
+	@media(max-width: 320px) {
+		width: 17rem;
+	}
+
+	@media(min-width: 768px) {
+		width: 20rem;
+	}
+`;
+
+const ContainerButton = styled.div`
+	margin-top: 1rem;
+	width: 18rem;
+
+	@media(max-width: 320px) {
+		width: 17rem;
+	}
+
+	@media(min-width: 768px) {
+		width: 20rem;
+	}
+`;
+
+const ErrorMessageBack = styled.p`
+	padding-bottom: .5rem;
+  color: #f00;
+  font-size: 0.8rem;
+	font-family: 'Overpass', Regular;
+  font-weight: 400;
+	text-align: center;
 `;
 
 const LoginText = styled.p`
@@ -93,7 +119,7 @@ const LoginText = styled.p`
 
 const ModalInstall = styled.div`
 	margin: 0.55rem;
-	${'' /* padding: 0.55rem; */}
+	${''}
 	padding: 0.95rem;
 	position: absolute;
 	bottom: 0;
@@ -104,11 +130,10 @@ const ModalInstall = styled.div`
 	background: #dff8fc;
 `;
 
-
 const ModalInstallIcon = styled.img`
 	position: ${(props) => props.close && 'absolute'};
 	right: ${(props) => props.close && '.5rem'};
-	width: ${(props) => props.close ? '12px' : '16px'};
+	width: ${(props) => (props.close ? '12px' : '16px')};
 `;
 
 class Onboarding extends Component {
@@ -162,7 +187,7 @@ class Onboarding extends Component {
 				close
 				onClick={() => this.setState({ isInstallModalOpen: false })}
 			/>
-			Instale esse WebApp no seu iPhone: Pressione <ModalInstallIcon src={InstallIcon} alt="install icon"/> e depois selecione <b>Adicionar à Tela de Início</b>.
+			Instale esse WebApp no seu iPhone: Pressione <ModalInstallIcon src={InstallIcon} alt="install icon" /> e depois selecione <b>Adicionar à Tela de Início</b>.
 		</ModalInstall>
 	)
 
@@ -280,7 +305,7 @@ class Onboarding extends Component {
 
 	validateUser = () => {
 		const {
-			user, nameError, emailError, passwordError, isLoginScreen
+			user, nameError, emailError, passwordError, isLoginScreen,
 		} = this.state;
 
 		let EmptyFields = false;
@@ -334,6 +359,7 @@ class Onboarding extends Component {
 			nameError: false,
 			emailError: false,
 			passwordError: false,
+			errorBack: '',
 		});
 	}
 
@@ -359,7 +385,7 @@ class Onboarding extends Component {
 								containerWidth='18rem'
 								containerLittleWidth='17rem'
 								containerWidthDesk='20rem'
-								onboardingMarginBottom
+								// onboardingMarginBottom
 								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
@@ -378,15 +404,14 @@ class Onboarding extends Component {
 								createErrorText={nameError}
 								onChange={(ev) => this.handleChange('username', ev)}
 								disabled={false}
-								isError={nameError}
+							// isError={nameError}
 							/>
 						)}
-						{/* <ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage> */}
+						<ErrorMessage>{nameError && errorsMessage[0]}</ErrorMessage>
 						<DefaultInput
 							containerWidth='18rem'
 							containerLittleWidth='17rem'
 							containerWidthDesk='20rem'
-							onboardingMarginBottom
 							onboardingMarginBottomLittle
 							containerDisplay
 							containerAlignItems
@@ -412,7 +437,6 @@ class Onboarding extends Component {
 								containerWidth='18rem'
 								containerLittleWidth='17rem'
 								containerWidthDesk='20rem'
-								onboardingMarginBottom
 								onboardingMarginBottomLittle
 								containerDisplay
 								containerAlignItems
@@ -431,42 +455,35 @@ class Onboarding extends Component {
 								createErrorText={passwordError}
 								onChange={(ev) => this.handleChange('password', ev)}
 								disabled={false}
+								isEyeIcon
+								eyeShowing={eyeShowing}
+								onClickEyeIcon={this.handleEyeShow}
 							/>
-							{eyeShowing
-								? <EyeIcon
-									src={EyeOffIcon}
-									alt="escondendo senha"
-									onClick={this.handleEyeShow}
-								/>
-								: <EyeIcon
-									src={EyeOnIcon}
-									alt="mostrando senha"
-									onClick={this.handleEyeShow}
-								/>
-							}
 						</ContainerPasswordInput>
 						<ErrorMessage>{passwordError && errorsMessage[2]}</ErrorMessage>
-						<ErrorMessage>{errorBack}</ErrorMessage>
-						<DefaultButton
-							margin='0 0 1rem 0'
-							maxWidth='18rem'
-							handleClick={this.validateUser}
-							text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
-						/>
+						<ContainerButton>
+							<ErrorMessageBack>{errorBack}</ErrorMessageBack>
+							<DefaultButton
+								margin='0 0 1rem 0'
+								maxWidth='18rem'
+								handleClick={this.validateUser}
+								text={!isLoginScreen ? 'Criar Conta' : 'Entrar'}
+							/>
+						</ContainerButton>
+						<LoginText isLogin={isLoginScreen}>
+							{!isLoginScreen ? (
+								<>
+									Você já possui uma conta? {}
+									<span onClick={this.handleLoginScreen}>Faça login</span>
+								</>
+							) : (
+								<>
+										Você ainda não possui uma conta? {}
+									<span onClick={this.handleLoginScreen}>Crie agora</span>
+								</>
+							)}
+						</LoginText>
 					</ContainerInputs>
-					<LoginText isLogin={isLoginScreen}>
-						{!isLoginScreen ? (
-							<>
-								Você já possui uma conta? {}
-								<span onClick={this.handleLoginScreen}>Faça login</span>
-							</>
-						) : (
-							<>
-								Você ainda não possui uma conta? {}
-								<span onClick={this.handleLoginScreen}>Crie agora</span>
-							</>
-						)}
-					</LoginText>
 					{redirect && <Redirect exact to="/dashboard" />}
 				</Form>
 				{isLoading && <Loading />}

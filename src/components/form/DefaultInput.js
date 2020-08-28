@@ -5,11 +5,15 @@ import styled from 'styled-components';
 // Images
 import IconClose from '../../assets/closeBlue.svg';
 import InfoIcon from '../../assets/info.svg';
+import EyeOnIcon from '../../assets/eye.svg';
+import EyeOffIcon from '../../assets/eyeOff.svg';
 
 // Styles
 const Container = styled.div`
 	width: ${(props) => (props.containerWidth)};
-  margin-bottom: ${(props) => (props.isError || props.createErrorText ? '0.5rem' : '1.5rem')};
+  margin-bottom: ${(props) => (props.isError || props.createErrorText ? '.2rem' : '1.5rem')};
+  /* margin-bottom: ${(props) => (props.isError || props.createErrorText ? '0.5rem' : '1.5rem')}; */
+
 	margin-bottom: ${(props) => (props.onboardingMarginBottom && '1.25rem')};
 	display: ${(props) => (props.containerDisplay && 'flex')};
 	align-items: ${(props) => (props.containerAlignItems && 'center')};
@@ -118,6 +122,17 @@ const Input = styled.input`
 	}
 `;
 
+const EyeIcon = styled.img`
+	/* position: absolute;
+	right: 1rem;
+	bottom: 2rem;
+	cursor: pointer;
+
+	@media(max-width: 320px) {
+		bottom: 1.5rem;
+	} */
+`;
+
 const ErrorMessage = styled.p`
 	margin-top: .3rem;
   color: red;
@@ -167,20 +182,34 @@ const DefaultInput = (props) => (
 				</ContentInfo>
 			)}
 		</ContenteLabel>
-		<Input
-			type={props.type}
-			value={props.text || ''}
-			onChange={props.onChange}
-			placeholder={props.placeholder || ''}
-			isError={props.isError}
-			disabled={props.disabled}
-			isData={props.text}
-			style={props.style}
-			required={props.required}
-			inputColor={props.inputColor}
-			boxShadow={props.boxShadow}
-			inputBg={props.inputBg}
-		/>
+		<>
+			<Input
+				type={props.type}
+				value={props.text || ''}
+				onChange={props.onChange}
+				placeholder={props.placeholder || ''}
+				isError={props.isError}
+				disabled={props.disabled}
+				isData={props.text}
+				style={props.style}
+				required={props.required}
+				inputColor={props.inputColor}
+				boxShadow={props.boxShadow}
+				inputBg={props.inputBg}
+			/>
+			{props.isEyeIcon && (props.eyeShowing
+				? <EyeIcon
+					src={EyeOffIcon}
+					alt="escondendo senha"
+					onClick={props.onClickEyeIcon}
+				/>
+				: <EyeIcon
+					src={EyeOnIcon}
+					alt="mostrando senha"
+					onClick={props.onClickEyeIcon}
+				/>
+			)}
+		</>
 		{props.isError && (
 			<ErrorMessage>
 				*Campo obrigatório.
@@ -194,6 +223,7 @@ DefaultInput.defaultProps = {
 	type: 'text',
 	placeholder: 'Digite aqui...',
 	required: true,
+	marginBottom: '1.5rem',
 };
 
 export default DefaultInput;

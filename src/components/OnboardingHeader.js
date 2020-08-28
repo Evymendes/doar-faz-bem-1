@@ -72,7 +72,7 @@ const ContainerHeader = styled.div`
 	}
 
 	@media(max-width: 320px) {
-		height: 17vh;
+		height: 30vh;
 	}
 `;
 
@@ -99,7 +99,7 @@ const Header = styled.div`
 	}
 
 	@media(max-width: 320px) {
-		height: 17vh;
+		height: 30vh;
 	}
 `;
 
@@ -135,8 +135,8 @@ const LogoIcon = styled.img`
 	}
 
 	@media(max-width: 360px) {
-		width: 4.55rem;
-    height: 4.55rem;
+		width: 6rem;
+    height: 6rem;
 	}
 `;
 
